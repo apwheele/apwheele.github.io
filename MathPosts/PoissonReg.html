@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler" />
+  <title>Notes on Poisson Regression</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Notes on Poisson Regression</h1>
+<h2 class="author">By Andrew Wheeler</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-poisson-distribution">The Poisson Distribution</a></li>
+<li><a href="#poisson-regression">Poisson Regression</a></li>
+<li><a href="#beware-of-explosive-effects">Beware of Explosive Effects</a></li>
+<li><a href="#negative-binomial-when-the-poisson-does-not-fit">Negative Binomial When the Poisson Does Not Fit</a></li>
+<li><a href="#using-offsets-to-interpret-poisson-regression-as-rates">Using Offsets to Interpret Poisson Regression as Rates</a></li>
+<li><a href="#comparing-error-distributions-of-poisson-negative-binomial-and-regression-on-logged-outcomes">Comparing Error Distributions of Poisson, Negative Binomial, and Regression on Logged Outcomes</a></li>
+<li><a href="#do-i-need-a-hurdle-or-zero-inflated-model">Do I Need a Hurdle or Zero-Inflated Model?</a></li>
+<li><a href="#further-notes-on-more-complicated-designs">Further Notes on More Complicated Designs</a><ul>
+<li><a href="#problems-with-poisson-regression-for-time-series-data">Problems with Poisson Regression for Time Series Data</a></li>
+<li><a href="#poisson-regression-with-spatial-data">Poisson Regression With Spatial Data</a></li>
+<li><a href="#poisson-regression-with-panel-data">Poisson Regression With Panel Data</a></li>
+<li><a href="#a-note-on-differences-in-differences-with-poisson-regression">A Note on Differences in Differences with Poisson Regression</a></li>
+<li><a href="#are-your-effects-really-exponential">Are Your Effects Really Exponential?</a></li>
+</ul></li>
+<li><a href="#other-interesting-applications-of-the-poisson-distribution">Other Interesting Applications of the Poisson Distribution</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<h1 id="introduction">Introduction</h1>
+<p>These are lecture notes on Poisson regression. It goes through how to interpret the Poisson distribution, fitting Poisson regression, and choosing whether you should use Negative Binomial instead of Poisson regression through some simple statistics. For a general book reference I would recommend <span class="citation">Long (1997)</span>, but hopefully this is enough to get you started.</p>
+<h1 id="the-poisson-distribution">The Poisson Distribution</h1>
+<p>The Poisson distribution was originally formulated to describe the number of events that occur in a particular time period. Poisson was a French mathematician - not a fish. Many French mathematicians took as motivation criminal justice proceedings (see also Guerry or Quetelet), and this is true for Poisson as well. The Wikipedia page on the Poisson distribution lists he <a href="https://en.wikipedia.org/wiki/Poisson_distribution#History">estimates the number of false convictions per country</a> using the distribution.</p>
+<p>So a few things to note about the Poisson distribution. It only has <em>support</em> on zero and all positive integers. This means the Poisson distribution could never predict a non-integer value, such as 2.5. It also means it will never predict a negative value, such as -3. Finally, it means that 0 needs to be a valid potential outcome, and there is no upper limit. If you have data that a zero cannot occur, say a dataset of the number of arrests individuals have, and they only show up if arrested (so there are not people with zero arrests in the dataset) then that is not Poisson distributed (but is a truncated Poisson distribution, see some of the notes at the end for using this information to estimate the number of zero's using capture-recapture models). If you have a dataset of delinquency items, and the number of items cannot go above the total number of questions (e.g. you ask 8 questions about delinquency and add them up, so values can only be integers from 0 to 8), then you have a <em>binomial</em> distribution (not to be later confused with the <em>negative binomial</em> distribution). See <span class="citation">Britt, Rocque, and Zimmerman (2017)</span> for example discussion of the delinquency items, and see <span class="citation">(Andrew P Wheeler and Kovandzic 2017)</span> for an example of modeling homicide rates using binomial models.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>Real life data pretty much never perfectly conforms to theoretical distributions. For Poisson data, the inter-arrival times of events should be random. One way with crime data this is clearly violated is that crimes are sometimes reciprocal - one gang shooting may prompts a retaliation gang shooting. Another is that one offender may commit a spree of crimes in a short time period. Either of these will make the data not Poisson distribution, but <em>overdispersed</em>. I will take a bit more about that though when I bring up the negative binomial distribution.</p>
+<p>For a few mathematical notes on the Poisson distribution. We often refer to the mean of the Poisson distribution using the Greek letter lambda, <span class="math inline">\(\lambda\)</span>. The Poisson has a special property that its variance equals its mean. So if you know the mean, you know all there is to know about how a Poisson distribution behaves. Since the Poisson distribution only has <em>support</em> on integer values, we describe it as having a probability mass function, instead of a probability density function (a PMF instead of a PDF). That probability mass function can be written as below, where <span class="math inline">\(\lambda\)</span> is the mean of the distribution, and <span class="math inline">\(k\)</span> is the particular integer value we are examining.</p>
+<p><span class="math display">\[\frac{\lambda^k e^{-\lambda}}{k!}\]</span></p>
+<p>So say we have a Poisson distribution with a mean of 2 (i.e. <span class="math inline">\(\lambda = 2\)</span>), and we want to know the probability mass at the integer value of 1. This is how you would calculate it.</p>
+<p><span class="math display">\[ \frac{\lambda^k e^{-\lambda}}{k!} = \frac{2^1 e^{-2}}{1!} \approx 0.27\]</span></p>
+<p>What this means in plain English is that if we have a large sample (say the number of crimes per day over a year), if it is Poisson distributed we would expect about 27% of the days to have 1 crime. Doing the same for zero we would expect it to have under 14% zeroes. If you do this for all integer values, from 0 to some really high integer, you will eventually reach 100%.</p>
+<p>Understanding this is important, as we will later on assess the fit of a Poisson regression equation by performing this operation on the predicted values. If say your model only predicts that 30% of the sample should have zero, and in reality you have 60%, you then need to use a different model. Probably a negative binomial regression model, which is very similar to the Poisson and I will go over in a following section.</p>
+<p><span class="citation">Park and Eck (2013)</span> also have several useful formula to understand how much random repeat victimization you would expect by chance due to the Poisson distribution.</p>
+<h1 id="poisson-regression">Poisson Regression</h1>
+<p>Poisson regression is popular to predict crime counts for macro level data. A canonical citation in our field is <span class="citation">Osgood (2000)</span>. The equation for Poisson regression can be written as (in the case of one independent variable <span class="math inline">\(X\)</span>):</p>
+<p><span class="math display">\[\log ( \mathbb{E}[Y] )= \beta_0 + \beta_1X \]</span></p>
+<p>Note that one often swaps out lambda for the expectation of the outcome variable, e.g. <span class="math inline">\(\lambda = \mathbb{E}[Y]\)</span>. Writing it in terms of expected values shows its relationship to other generalized linear models though.</p>
+<p>So lets go through a simple example. I will be using the data from my dissertation I have disseminated in class. If you are following along from elsewhere you can download data from my dissertation <a href="https://www.dropbox.com/s/7bm4lg6fa9klfus/Disseminate_311_CrimeDataCode.zip?dl=0">here</a>.</p>
+<p>So first I will be fitting a simple Poisson model predicting the number of Part 1 crimes on street units (either street midpoints or intersections) during one year as a function of the number of alcohol outlets on those street units (this includes both on-premise bars, as well as off-premise locations that can sell alcohol, like liquor stores or convenience stores that sell beer). So we fit a Poisson regression equation:</p>
+<p><span class="math display">\[\log ( \mathbb{E}[\text{Crime}] )= \beta_0 + \beta_1\cdot(\text{Alcohol Lic.}) \]</span></p>
+<p>And for this equation I subsequently get:</p>
+<p><span class="math display">\[\log ( \mathbb{E}[\text{Crime}] )= 0.37 + 0.27\cdot(\text{Alcohol Lic.}) \]</span></p>
+<p>Interpreting these coefficients are more tricky than with OLS models. So if you say wanted to compare a street with 0 alcohol outlets to a street with one outlet, you would have:</p>
+<p><span class="math display">\[
+\begin{matrix}
+\exp (0.37 + 0.27\cdot 0 ) \approx 1.4 \\ 
+\exp (0.37 + 0.27\cdot 1 ) \approx 1.9
+\end{matrix}
+\]</span></p>
+<p>So that adding one alcohol outlet increases the number of Part 1 crimes on the street by about 0.5 crimes. This is more complicated though if you include additional independent variables in the equation. Say we also included the number of 311 calls for service on the street as a control variable, and we get an equation that is:</p>
+<p><span class="math display">\[\log ( \mathbb{E}[\text{Crime}] )= 0.15 + 0.25\cdot(\text{Alcohol Lic.}) + 0.03\cdot(\text{311 Calls})\]</span></p>
+<p>So now what happens if we want to predict the number of crimes adding one alcohol outlet increases crimes?</p>
+<p><span class="math display">\[
+\begin{matrix}
+\exp (0.15 + 0.25\cdot 0 + 0.03\cdot\text{311 Calls} ) = ? \\ 
+\exp (0.15 + 0.25\cdot 1 + 0.03\cdot\text{311 Calls} ) = ?
+\end{matrix}
+\]</span></p>
+<p>We have an unknown in the equation that will affect the outcome - we need to fill in some value for calls for service. To make reasonable predictions, you have to set the number of calls for service to some reasonable value. Here the mean number of 311 calls for service in the same is just over 5, so I will set it to 5 and see what happens to our predictions for adding one alcohol outlet on the street unit.</p>
+<p><span class="math display">\[
+\begin{matrix}
+\exp (0.15 + 0.25\cdot 0 + 0.03\cdot 5 ) \approx 1.3 \\ 
+\exp (0.15 + 0.25\cdot 1 + 0.03\cdot 5 ) \approx 1.7
+\end{matrix}
+\]</span></p>
+<p>If we fill in a higher value you will see larger predictions and subsequently larger differences. Say we include 40 calls for service instead of 5.</p>
+<p><span class="math display">\[
+\begin{matrix}
+\exp (0.15 + 0.25\cdot 0 + 0.03\cdot 40 ) \approx 3.9 \\ 
+\exp (0.15 + 0.25\cdot 1 + 0.03\cdot 40 ) \approx 5.0
+\end{matrix}
+\]</span></p>
+<p>Look at the ratio between those two for a second, in the first we have <code>1.7/1.3</code>, and in the second we have <code>5.0/3.9</code>. In each case that ratio equals approximately 1.3. You will see that if you take the exponent of the original linear coefficient for alcohol outlets, <code>exp(0.25) ~ 1.3</code>. Subsequently you can interpret the exponentiated coefficients in a Poisson regression as incident rate ratios. I typically don't like to interpret them though - as I will give some examples in the next section. You can have really tiny incident rate ratios that still imply big effects if you figure out what the expected number of crimes will likely be.</p>
+<p>Note that this model gives fractional predictions. The value it gives is the <em>expected</em> value of the Poisson distribution, not an actual integer itself. If you have an expected value of 1.3 that does not exactly mean that your best guess should be the integer value of 1. Remember the PMF calculations we discussed earlier? A Poisson distribution with a mean of 1.3 would be expected to have a 1 only 35% of the time. It is expected to have a value of 2 23% of the time, and a value of zero 27% of the time. This is actually true of most regression equations - we interpret a single output, but the equation actually implies an entire distribution for that outcome. We will use those entire distributions later to see how well our model fits our actual data.</p>
+<h1 id="beware-of-explosive-effects">Beware of Explosive Effects</h1>
+<p>A problem I've frequently seen in Poisson regression (and this applies the same to negative binomial models I will introduce later) is that with the exponential effects, very tiny effects can still imply implausibly large effects at the tails of the independent variables. Lets go back to our original Poisson regression only included alcohol licenses.</p>
+<p><span class="math display">\[\log ( \mathbb{E}[\text{Crime}] )= 0.37 + 0.27\cdot(\text{Alcohol Lic.}) \]</span></p>
+<p>Now there is one outlier street unit in my sample that has 20 alcohol licenses. Lets see how many crimes we would predict to be on that street:</p>
+<p><span class="math display">\[\exp (0.37 + 0.27\cdot 20 ) \approx 321 \]</span></p>
+<p>Oh my - we have a street that has an expected mean of over 300 crimes. The maximum number of crimes on a street unit in the sample is 249, and that particular street ended up only having 63 crimes. A Pearson residual in this case is simply <span class="math inline">\((\text{Observed Crimes} - \hat{\lambda})/\sqrt{\hat{\lambda}}\)</span>, which equals <code>(63 - 321)/sqrt(321) ~= -14</code> (remember that the mean of a Poisson distribution equals its variance - hence Pearson residuals are pretty simple to calculate).</p>
+<p>In the end this outlier does not have any effect on my estimates - I can eliminate this street and I still get the same estimate of the effect of alcohol outlets on crime. This is partly because I have a very large sample, but still the exponential function is still probably not quite right, and I should not use that to predict such extreme crime increases.</p>
+<p>Such explosive predictions can easily happen even with what appears on their face very tiny incident rate ratios. I give another example in a <a href="https://andrewpwheeler.wordpress.com/2014/06/17/poisson-regression-and-crazy-predictions/">blog post</a>. In that post I also give recommendations as to how to address the fact if you have explosive predictions.</p>
+<h1 id="negative-binomial-when-the-poisson-does-not-fit">Negative Binomial When the Poisson Does Not Fit</h1>
+<p>So now we can interpret our Poisson regression equation, we want to know if it does a good job of modeling our actual dataset. There are two common things that occur to often make Poisson regression not a great fit to actual data. The first is that the Poisson distribution assumes the mean is equal to the variance. In practice it is often the case that the variance is greater than the mean - what is referred to as overdispersion. The second - which is related to the first - is that with low count crime data you often have more zeroes than you would expect by chance. For example, our original crime data has a mean of 1.5 crimes per street unit. If the data were Poisson distributed, you would expect the sample to only have around 22% of the street units (remember our PMF formula from earlier, this is <span class="math inline">\(1.5^0 e^{-1.5}/0! \approx 0.22\)</span>). The sample actually contains around 64% zeroes, much more than you would expect in a Poisson distribution. The variance of the distribution is also over 19, so this data does not on its face appear to be Poisson distributed.</p>
+<p>When examining the results of a regression equation though, what we care about is whether the conditional distribution appears to be Poisson or not. I will walk through a simplified example of doing this. Imagine we had the data below, where <code>C</code> are our original crime counts, and <code>l</code> is the predicted mean from our regression equation.</p>
+<pre><code>C   l 
+0 0.5
+0 1.0
+2 3.0
+3 2.0
+5 1.0 </code></pre>
+<p>Now we end up having 40% of our sample are zeroes (2 out of 5) - how many zeroes would our model predict though? For every row in our dataset, we want to calculate the PMF for zero. So in the first row we calculate our PMF equation, <span class="math inline">\((\lambda^k e^{-\lambda})/k!\)</span>, which filling in the values for Lambda we have 0.5, and for k we have 0. So we get <span class="math inline">\((0.5^0 e^{-0.5})/0! \approx 0.61\)</span> for that row. Do this same exercise for each row, where k is always set to zero, but lambda is changed to whatever the predicted value is in that row. Doing this for each row we then have:</p>
+<pre><code>C   l   P0 
+0 0.5 0.61
+0 1.0 0.37
+2 3.0 0.05
+3 2.0 0.14
+5 4.0 0.02</code></pre>
+<p>Now we want to add up the values in P0 for each row. Here these add up to 1.18. Divide that value by the total sample size (5), and we then get 0.24. Our model only predicts that 24% of the observations should be zero, but our sample is 40%. That shows not a very good fit.</p>
+<p>You then do this for not only the number of predicted zeroes, but the number for each regular integer value. That is you would do the same exercise for the number of 1's, the number of 2's, etc. Then you can make a graph of the observed number of whatever integer versus the predicted number. Here is an example graph with our original model using only the total number of alcohol outlets to predict the number of crimes on a street unit. You can see that the model under predicts the number of zeroes, and over predicts the number of higher integers. Here I just bin the integers that are 10 or more in the graph. In this chart the black line is the observed percentages in the data, and the red line is what our Poisson model predicts. You can see that the model predicts too few 0's and too many 1's, 2's and 3's. Also the number of 10+ appears to be too few.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/G8ru3x3Zz7_oUEKbkY93KTqFHfirER00ulMcBiqwqw5V-bqoilituITb7YKHTpw_Q3Vl-omzV5SiRnVwF8XVr-0ImeyT1-dG9U3gnjTHkgj2IGpLPq8E3ncG0sOOy9peNXYxwqfjvABRwmDhf4L0cTHsHsmlBu28YulzpQ86dxtfQ66ce7Lgr3CCK0FzSzgE2D5mHQiNzyfRmEL-H-8KhfH1W17Bms75GuJhUZ4URgTL23E5CXAk22G6iyuWW2jCotKWYYBTXb45XDGW-fnfGaqmqL5iMcBNhasi5T0uD1ZsNTVfmrTlfupaIXUOJcm-vQFqrWibh8uYNiXatmj-YUgvtYo8vHHjdVJccFadwPsegKBHEij-yp1Nzf7FPZaYrFO4k2ef4l70sWs6B8Jxtmb7tA9vVhaZvY_zUiK9IW5Oymo7TaB69sT_hP1OIPeC-ZThWuGSV4Yv2g_ndP4wBQykOolTiTDDUflfGFiUPU9-lUz0fq5zlsPhm3B-HBdZ7l4UsEfTXWj9Uve50C9OyQyytZCeBcmq59bAvGxesNE5ECPKG-JYN1-ntg8f6HdrRBKFaJKfnE60QZv66PN6kpwmWS5nMEAcAqA7GNXBHA=w625-h500-no" />
+
+</div>
+<p>To address this poor fit, the negative binomial model is the simplest extension of Poisson regression. It allows the variance to not be a function of the mean, but to vary with the mean. The most common form of negative binomial regression models set the mean to:</p>
+<p><span class="math display">\[\mathbb{V}[Y_j] = \lambda_j \cdot (1 + \alpha \lambda_j)\]</span></p>
+<p>Where <span class="math inline">\(\lambda_j\)</span> is the predicted mean for the <span class="math inline">\(j\)</span>th observation obtained from the usual Poisson regression equation, e.g. <span class="math inline">\(\lambda = \exp(\beta_0 + \beta_1X)\)</span>. For the negative binomial model the mean equation is exactly the same as Poisson regression (an exponential function of the inputs) but the variance is a function of both that mean plus a dispersion term, <span class="math inline">\(a\)</span>. Note that in the case that <span class="math inline">\(a = 0\)</span>, you get the usual relationship for the Poisson distribution that <span class="math inline">\(\mathbb{V}[Y_j] = \lambda_j\)</span> - that is the variance equals the mean. So higher values of <span class="math inline">\(a\)</span> mean the distribution is more overdispersed.</p>
+<p>This is frequently referred to as the NB2 model, and is the default in most statistical software.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> The mean equation is still the same in negative binomial models, so they tend to produce very similar coefficient estimates compared to Poisson <span class="citation">(Berk and MacDonald 2008)</span>, but they will make the standard errors larger. I've only ever come across one example of crime data that was underdispersed. In that case negative binomial models are not applicable - they can only model overdispersion. See <span class="citation">Sellers and Shmueli (2010)</span> for an example of modeling underdispersed count data.</p>
+<p>Now we need to do the same exercise with our overdispersed data as with our Poisson data. The formula for the PMF for the negative binomial distribution is much more complicated than that for the Poisson distribution. This formula is listed in <span class="citation">Long (1997)</span> and is below (here <span class="math inline">\(\hat{\lambda}\)</span> is the predicted mean from your equation, and <span class="math inline">\(\hat{\alpha}\)</span> is the overall dispersion term estimated for every observation):</p>
+<p><span class="math display">\[\frac{ \Gamma(k + \hat{a}^{-1}) }{ k!\cdot \Gamma(\hat{a}^{-1}) } \left( \frac{\hat{a}^{-1}}{\hat{a}^{-1}+\hat{\lambda}}\right)^{\hat{a}^{-1}} \left( \frac{\hat{\lambda}}{\hat{a}^{-1}+\hat{\lambda}} \right)^k\]</span></p>
+<p>Where <span class="math inline">\(\Gamma\)</span> is the gamma function. Pretend we estimated a negative binomial regression model, and then had a dispersion estimate of 0.8, but the predicted means were exactly the same as the Poisson regression. Then for our first row, we would predict the probability mass for the number of zeroes as:</p>
+<p><span class="math display">\[\frac{ \Gamma(0 + 0.8^{-1}) }{ 0!\cdot \Gamma(0.8^{-1}) } \left( \frac{0.8^{-1}}{0.8^{-1}+0.5}\right)^{0.8^{-1}} \left( \frac{0.5}{0.8^{-1}+0.5} \right)^0\]</span></p>
+<p>Which in this case the first part with the Gamma functions and the last parentheses turn into one when examining k=0, so we are just left with the middle part (note that <span class="math inline">\(0.8^{-1}=1.25\)</span> ), so we then have:</p>
+<p><span class="math display">\[ \left ( \frac{1.25}{1.75} \right ) ^{1.25} \]</span></p>
+<p>which equals about 0.66.</p>
+<p>So going through the same motions for each row in our dataset,</p>
+<pre><code>C   l   P0   N0
+0 0.5 0.61 0.66
+0 1.0 0.37 0.48
+2 3.0 0.05 0.22
+3 2.0 0.14 0.30
+5 4.0 0.02 0.17</code></pre>
+<p>Which adding up those five rows for N0 you then end up with 1.83, which divided by 5 equals 37%. So in this case having an overdispersion term of 0.8 gets us close to the same number of 0's in this very small example.</p>
+<p>Extending this to our data, again with just using the number of alcohol licenses to predict the number of crimes on a street unit, we negative binomial regression we end up with the equation:</p>
+<p><span class="math display">\[\log ( \mathbb{E}[\text{Crime}] )= 0.30 + 0.67\cdot(\text{Alcohol Lic.}) \]</span></p>
+<p>And we have an estimate of the dispersion term as 4.5. Displaying our same chart of the observed proportion of integers versus that observed, we can see that the negative binomial model, with only one covariate in this case, fits the data near perfectly. The lines overlap so much I do not even know where to put my labels!</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iLX-l2qqjaLhwlCktauVqXKMHcMJ2BCpcTXBmPYBIrQ_4WkMLA4h8VZkClnbAXig_SLI0XoFIswxvsb1hEmODWjIkc8DJduVNGZ3Nn_GbkdVSvIdQ0mxpmIKodyvbpEckRQbXuZ-J8gV2jPm-8jVi5szjDGKQMPbLho6iR7J85pj2m55RJnQlHLg6YmCenvWfdopDQ3uVuxDVjQHWxxT0oXevV0RtVOPIoO-C5fVK0PjOvaKmxcOHGCIZD5eTcSsEViIxpRg7p51m9K4hv4aNvcIQg4ysTF7Q-b7lntokL7iePDap9KCd-lNRJWNAw96zU8HXWQU215gzxoTfjlt0884w8NvRJkPRmSOlHGw1WZkhzA--ywVDh3m-IIr6wGi8wOAxJiAaxQ0_-xhqJFIzcFh1CcFMhrMOo-bh-xGQ7d7F5zFhgWHzbiDf8zw_B1X1uUvKp9ZR7gbNQdy0eUxdfM_zAQpq2IOY5r6jpdeT2udghzdirxAhdWADxIHfvnsH2J30E-8BmVTlxo5PIUOX730SJZSE7I_-c2ic0SE-SMLQ0qwxc5WxyINbkdB6LWXJKotMtYsnl2plpTCo_nfR9bRlzLV6KS-U4OwkJC1pw=w625-h500-no" />
+
+</div>
+<p>This is my experience - that the negative binomial tends to fit most crime count datasets quite well. Often people suggest to use zero-inflated (or other related models, like hurdle models) just because they see a high proportion of zeroes in the dataset. In this data even modeling burglaries on street units, which have nearly 90% zeroes, the negative binomial model fits quite well. Because of this I don't recommend zero-inflated models unless you have a strong theoretical reason - and I will go over some of those models in a later section.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<h1 id="using-offsets-to-interpret-poisson-regression-as-rates">Using Offsets to Interpret Poisson Regression as Rates</h1>
+<p>When one is predicting crime counts, it is often the case that one wants to interpret the outcome in terms of rates per population, instead of just simply the counts. For instance, say one had counts of robberies at the city level, and one wanted to compare robbery rates per population between cities. This is easiest to accomplish in Poisson regression through an <em>offset</em> term (or sometimes in statistical software called an <em>exposure</em> term when dealing with Poisson data). An offset is just a term in a regression equation set to a specific value.</p>
+<p>So starting with our original model, we will include a term that is the <strong>logarithm</strong> of the population. Imagine this as another coefficient, but its value is fixed to 1, instead of estimated via the data. So here is the regression predicting the expected number of crimes as an exponential function of some input variables, including the population of the area.</p>
+<p><span class="math display">\[ \mathbb{E}[\text{Crime}] = \exp [ \beta_0 + \beta_1X + 1 \cdot \log ( \text{Population} ) ]\]</span></p>
+<p>Note that you can rewrite the right hand side of this expression to be:</p>
+<p><span class="math display">\[\exp [\beta_0 + \beta_1X] \cdot \exp [\log ( \text{Population} )]\]</span></p>
+<p>And now divide each side of the equation by <span class="math inline">\(\exp [\log ( \text{Population} )]\)</span> to then have:</p>
+<p><span class="math display">\[ \frac{ \mathbb{E}[\text{Crime}] }{\exp [\log ( \text{Population} )]} = \exp [ \beta_0 + \beta_1X ]\]</span></p>
+<p>Further note that <span class="math inline">\(\exp [\log ( \text{Population} )] = \text{Population}\)</span>, because the exponential and logarithmic functions are inverses of each other. So this means that by including an offset of the logged population, you can interpret the remaining coefficients as affecting crime rates per population.</p>
+<p><span class="math display">\[ \frac{ \mathbb{E}[\text{Crime}] }{\text{Population}} = \exp [ \beta_0 + \beta_1X ]\]</span></p>
+<p>Because the mean equations of Poisson and Negative Binomial models are the same, this interpretation holds for both.</p>
+<p>So this shows <em>why</em> including an offset results in an interpretation in terms of rates, but then there are some practical questions that need to be addressed. One is that crime may not scale proportionally with the population size. It is often the case that rural areas have very low rates of violence compared to urban areas. This would suggest that the coefficient for the population should not be set to 1, but should be estimated via the data. Another is that the denominator for the rate can sometimes be arbitrary. For instance, if we are examining rapes should the denominator be the entire population - or should it be only the female population? For examples of non-traditional population denominators, you have cars for motor vehicle theft <span class="citation">(Boggs 1965)</span>, the day-time population for cities <span class="citation">(Stults and Hasbrouck 2015)</span>, or the number of potential pair-wise interactions for intra-racial violence <span class="citation">(Hipp, Tita, and Boggess 2011)</span>. This choice is not trivial - choosing different denominators can impact the effect estimates for all of the other coefficients.</p>
+<p>Often times there is no empirical way to say whether some denominator is more appropriate than others <span class="citation">(Firebaugh and Gibbs 1985)</span>. Sometimes a more parsimonious model is to make all variables as rates per population, but you often cannot look at the numbers and say this model beats that model. It needs to be driven by how you theoretically expect the process to operate.</p>
+<p>Additional notes are that <a href="https://stats.stackexchange.com/a/250629/1036">you can incorporate multiple variables</a> into one offset. Say you were examining the number of fights among different prison blocks, and you have measures of the number of inmates and the number of hours they served on a block. You would then use <code>log(#inmates*hours on block)</code> as the offset term. (Pretty much all rates have an implicit time component.)</p>
+<p>Also it is the case that <a href="https://stats.stackexchange.com/a/300765/1036">a linear transformation of the rates does not impact the coefficient estimates</a>. So if you include <code>log(Population)</code> or <code>log(Population/100,000)</code> it does not make a difference for any covariates in the model besides the intercept term.</p>
+<h1 id="comparing-error-distributions-of-poisson-negative-binomial-and-regression-on-logged-outcomes">Comparing Error Distributions of Poisson, Negative Binomial, and Regression on Logged Outcomes</h1>
+<p>ToDo <a href="http://blogs.sas.com/content/iml/2015/09/16/plot-distrib-exp.html">Wicklin blog post</a></p>
+<h1 id="do-i-need-a-hurdle-or-zero-inflated-model">Do I Need a Hurdle or Zero-Inflated Model?</h1>
+<p>ToDo - <a href="https://statisticalhorizons.com/zero-inflated-models">probably not</a></p>
+<h1 id="further-notes-on-more-complicated-designs">Further Notes on More Complicated Designs</h1>
+<p>There are several complications with extended Poisson regression to more interesting designs that take advantage of temporal or spatial aspects of the data. One is that endogenous lags are typically very bad for Poisson equations, and should be avoided. For a simple example, lets take the time series case and imagine a linear regression of the form:</p>
+<h2 id="problems-with-poisson-regression-for-time-series-data">Problems with Poisson Regression for Time Series Data</h2>
+<p>So start with a simple auto-regressive linear model:</p>
+<p><span class="math display">\[Y_t = 0.5\cdot(Y_{t-1}) + \epsilon \]</span></p>
+<p>So if you put a shock at time t=0 of 4, you will then have the subsequent predictions of:</p>
+<p><span class="math display">\[
+\begin{align*}
+Y_0 &amp;= 4 \\
+Y_1 &amp;= 0.5\cdot 4 = 2 \\
+Y_2 &amp;= 0.5\cdot 2 = 1 \\
+Y_3 &amp;= 0.5 \cdot 1 = 0.5 \\ 
+\end{align*}
+\]</span></p>
+<p>Eventually that initial shock of 4 wears off. For linear equations, as long as the absolute value of the regression coefficient is less than 1, the shock will eventually die out, and hence the auto-regressive equation is not explosive.</p>
+<p>This less than the absolute value of 1 rule does not work with Poisson regression though. Lets go through the same example, except with the exponential function for Poison regression:</p>
+<p><span class="math display">\[Y_t = \exp( 0.5 \cdot (Y_{t-1}) + \epsilon )\]</span></p>
+<p>We then have for our predictions by seeding the initial time period at 4:</p>
+<p><span class="math display">\[
+\begin{align*}
+Y_0 &amp;= 4 \\
+Y_1 &amp;= \exp(0.5\cdot 4) \approx 7 \\
+Y_2 &amp;= \exp(0.5\cdot 7) \approx  40 \\
+Y_3 &amp;= \exp(0.5\cdot 40) \approx 485,165,195 
+\end{align*}
+\]</span></p>
+<p>So you can see that a shock of 4 never wears off, and grows quite dramatically in only a few time periods. This is not a realistic time series model of how a Poisson process might go.</p>
+<p>Unlike in linear regression, there is not a fixed coefficient at which a shock is not explosive. If you have <span class="math inline">\(a\)</span> as the auto-regressive coefficient, then you basically need <span class="math inline">\(\exp(a\cdot y_{t-1}) &lt; y_t\)</span> for the endogenous lag to not be explosive. So this tends to need to be a really small auto-regressive effect. I give an example in <span class="citation">Andrew P. Wheeler (2017)</span>, where I estimated an effect with this data of 0.08, and that was still explosive with this dataset. Because of this I suggest in that same article if you must, to include the logarithm of the endogenous crime counts. Which makes the equation much less likely to be explosive.</p>
+<p>In the limit the shock will tend to never wear off (see <a href="https://stats.stackexchange.com/a/135172/1036">here</a> for an example). What this means is that auto-regressive Poisson processes are also non-stationary, even if they are not explosive.</p>
+<p>Because of this you typically cannot estimate auto-regressive processes with Poisson data, either for univariate time series analysis or for panel data analysis. Although it is common in the field, it is almost always a mistake. See <span class="citation">Brandt and Williams (2001)</span> for applying time series models to Poisson regression equations. But some of those models are still not regularly implemented in statistical software. Also <span class="citation">White, Porter, and Mazerolle (2013)</span> have an example applying self-exciting point processes to terrorist data, which are Poisson models with a continuous auto-regressive parameter.</p>
+<h2 id="poisson-regression-with-spatial-data">Poisson Regression With Spatial Data</h2>
+<p>ToDo spatial data <span class="citation">(Bhati 2008; Lambert, Brown, and Florax 2010)</span></p>
+<p>See <a href="https://stats.stackexchange.com/a/135172/1036">this post for notes</a></p>
+<p>See also self-exciting point-process models, e.g. <span class="citation">Mohler et al. (2011)</span> and <span class="citation">Loeffler and Flaxman (2017)</span>. These are essentially auto-regressive Poisson processes (with AR in space and time). These are the models used in the PredPol predictive policing algorithm.</p>
+<h2 id="poisson-regression-with-panel-data">Poisson Regression With Panel Data</h2>
+<p>ToDo panel data - read <span class="citation">Allison and Waterman (2002)</span></p>
+<h2 id="a-note-on-differences-in-differences-with-poisson-regression">A Note on Differences in Differences with Poisson Regression</h2>
+<p>ToDo - see <a href="https://andrewpwheeler.wordpress.com/2016/05/12/some-stata-notes-difference-in-difference-models-and-postestimation-commands/">this blog post for now</a></p>
+<h2 id="are-your-effects-really-exponential">Are Your Effects Really Exponential?</h2>
+<p>ToDo - <a href="https://www.dropbox.com/s/0goftnx2u8tgb2z/AndyW_Dissertation.pdf?dl=0">See my dissertation</a> for examples where effects are pretty linear. In particular Figure 15 (pg. 121), Fig. 16 (pg 122), and Figure 29 on pg 164.</p>
+<h1 id="other-interesting-applications-of-the-poisson-distribution">Other Interesting Applications of the Poisson Distribution</h1>
+<ul>
+<li>Capture/Recapture <span class="citation">(Bouchard 2007; Rossmo and Routledge 1990)</span>, see also an attempt to measure the number of <a href="https://granta.com/violence-in-blue/">civilians killed by police using this method</a></li>
+<li>control charts with Poisson data <span class="citation">(Andrew P Wheeler 2016)</span></li>
+<li>other operations research applications of Poisson data <span class="citation">(Maltz 1996)</span></li>
+</ul>
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-PR1247">
+<p>Allison, Paul D., and Richard P. Waterman. 2002. “Fixed-Effects Negative Binomial Regression Models.” <em>Sociological Methodology</em> 32 (1): 247-65.</p>
+</div>
+<div id="ref-PR311">
+<p>Berk, Richard A., and John MacDonald. 2008. “Overdispersion and Poisson Regression.” <em>Journal of Quantitative Criminology</em> 24 (3): 269-84.</p>
+</div>
+<div id="ref-bhati2008generalized">
+<p>Bhati, Avinash Singh. 2008. “A Generalized Cross-Entropy Approach for Modeling Spatially Correlated Counts.” <em>Econometric Reviews</em> 27 (4-6): 574-95.</p>
+</div>
+<div id="ref-PR17">
+<p>Boggs, Sarah L. 1965. “Urban Crime Patterns.” <em>American Sociological Review</em> 30 (6): 899-908.</p>
+</div>
+<div id="ref-PR1232">
+<p>Bouchard, Martin. 2007. “A Capture-Recapture Model to Estimate the Size of Criminal Populations and the Risks of Detection in a Marijuana Cultivation Industry.” <em>Journal of Quantitative Criminology</em> 23 (3): 221-41.</p>
+</div>
+<div id="ref-PR1162">
+<p>Brandt, Patrick T., and John T. Williams. 2001. “A Linear Poisson Autoregressive Model: The Poisson AR(p) Model.” <em>Political Analysis</em> 9 (2): 164-84.</p>
+</div>
+<div id="ref-britt2017analysis">
+<p>Britt, Chester L, Michael Rocque, and Gregory M Zimmerman. 2017. “The Analysis of Bounded Count Data in Criminology.” <em>Journal of Quantitative Criminology</em>. Springer, 1-17.</p>
+</div>
+<div id="ref-PR360">
+<p>Firebaugh, Glenn, and Jack P. Gibbs. 1985. “User's Guide to Ratio Variables.” <em>American Sociological Review</em> 50 (5): 713-22.</p>
+</div>
+<div id="ref-PR392">
+<p>Hipp, John R., George E. Tita, and Lyndsay N. Boggess. 2011. “A New Twist on an Old Approach: A Random-Interaction Approach for Estimating Rates or Inter-Group Interaction.” <em>Journal of Quantitative Criminology</em> 27 (1): 27-51.</p>
+</div>
+<div id="ref-lambert2010two">
+<p>Lambert, Dayton M, Jason P Brown, and Raymond JGM Florax. 2010. “A Two-Step Estimator for a Spatial Lag Model of Counts: Theory, Small Sample Performance and an Application.” <em>Regional Science and Urban Economics</em> 40 (4): 241-52.</p>
+</div>
+<div id="ref-loeffler2017gun">
+<p>Loeffler, Charles, and Seth Flaxman. 2017. “Is Gun Violence Contagious? A Spatiotemporal Test.” <em>Journal of Quantitative Criminology</em>. Springer, 1-19.</p>
+</div>
+<div id="ref-B26">
+<p>Long, J. Scott. 1997. <em>Regression Models for Categorical and Limited Dependent Variables</em>. Thousand Oaks, CA: Sage Publications.</p>
+</div>
+<div id="ref-B60">
+<p>Long, J. Scott, and Jeremy Freese. 2006. <em>Regression Models for Categorical Dependent Variables Using Stata</em>. College Station, TX: Stata Press.</p>
+</div>
+<div id="ref-PR895">
+<p>Maltz, Michael D. 1996. “From Poisson to the Present: Applying Operations Research to Problems of Crime and Justice.” <em>Journal of Quantitative Criminology</em> 12 (1): 3-61.</p>
+</div>
+<div id="ref-mohler2011self">
+<p>Mohler, George O, Martin B Short, P Jeffrey Brantingham, Frederic Paik Schoenberg, and George E Tita. 2011. “Self-Exciting Point Process Modeling of Crime.” <em>Journal of the American Statistical Association</em> 106 (493). Taylor &amp; Francis: 100-108.</p>
+</div>
+<div id="ref-PR426">
+<p>Osgood, D. Wayne. 2000. “Poisson-Based Regression Analysis of Aggregate Crime Rates.” <em>Journal of Quantitative Criminology</em> 16 (1): 21-43.</p>
+</div>
+<div id="ref-park2013understanding">
+<p>Park, Seong min, and John E Eck. 2013. “Understanding the Random Effect on Victimization Distributions: A Statistical Analysis of Random Repeat Victimizations.” <em>Victims &amp; Offenders</em> 8 (4). Taylor &amp; Francis: 399-415.</p>
+</div>
+<div id="ref-PR894">
+<p>Rossmo, D. Kim, and Rick Routledge. 1990. “Estimating the Size of Criminal Populations.” <em>Journal of Quantitative Criminology</em> 6 (3): 293-314.</p>
+</div>
+<div id="ref-PR1013">
+<p>Sellers, Kimberly F., and Galit Shmueli. 2010. “A Flexible Regression Model for Count Data.” <em>The Annals of Applied Statistics</em> 4 (2): 943-61.</p>
+</div>
+<div id="ref-PR1746">
+<p>Stults, Brian J., and Matthew Hasbrouck. 2015. “The Effect of Commuting on City-Level Crime Rates.” <em>Journal of Quantitative Criminology</em> 31 (2): 331-50.</p>
+</div>
+<div id="ref-wheeler2016tables">
+<p>Wheeler, Andrew P. 2016. “Tables and Graphs for Monitoring Temporal Crime Trends: Translating Theory into Practical Crime Analysis Advice.” <em>International Journal of Police Science &amp; Management</em> 18 (3): 159-72.</p>
+</div>
+<div id="ref-wheeler2017monitoring">
+<p>Wheeler, Andrew P, and Tomislav V Kovandzic. 2017. “Monitoring Volatile Homicide Trends Across Us Cities.” <em>Homicide Studies</em>. SAGE Publications Sage CA: Los Angeles, CA, 1088767917740171.</p>
+</div>
+<div id="ref-wheeler311">
+<p>Wheeler, Andrew P. 2017. “The Effect of 311 Calls for Service on Crime in d.C. at Microplaces.” <em>Crime &amp; Delinquency</em> Online First.</p>
+</div>
+<div id="ref-white2013terrorism">
+<p>White, Gentry, Michael D Porter, and Lorraine Mazerolle. 2013. “Terrorism Risk, Resilience and Volatility: A Comparison of Terrorism Patterns in Three Southeast Asian Countries.” <em>Journal of Quantitative Criminology</em> 29 (2). Springer: 295-320.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Although in the case with multiple delinquency items <a href="https://andrewpwheeler.wordpress.com/2017/12/21/pooling-multiple-outcomes-into-one-regression-equation/">I often don't recommend modeling the overall count, but the individual items</a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>One exception is R. I have <a href="https://andrewpwheeler.wordpress.com/2015/01/03/translating-between-the-dispersion-term-in-a-negative-binomial-regression-and-random-variables-in-spss/">a blog post</a> detailing how to go from the different forms of the dispersion term in R to this formulation.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>I have code snippets demonstrating making these charts in <a href="https://andrewpwheeler.wordpress.com/2014/02/17/negative-binomial-regression-and-predicted-probabilities-in-spss/">SPSS</a> and in <a href="https://dl.dropbox.com/s/y3ljasqpngyoxqi/Predicted_PMF_Poisson.R?dl=0">R</a>. For Stata see <span class="citation">Long and Freese (2006)</span>, who have add on packages to make this quite easy.<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>
