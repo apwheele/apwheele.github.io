@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Lab 1: Intro to Excel</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Lab 1: Intro to Excel</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#understanding-cell-references-and-formulas">Understanding cell references and formulas</a></li>
+<li><a href="#copy-paste-tricks">Copy-Paste Tricks</a></li>
+<li><a href="#cell-formatting">Cell Formatting</a></li>
+<li><a href="#making-a-graph">Making a Graph</a></li>
+<li><a href="#inserting-excel-tables-and-graphs-into-another-document">Inserting Excel tables and graphs into another document</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This lesson will be an introduction to Excel. I imagine most of you will have had some introduction to spreadsheets in your schooling, so this should be pretty easy to start. You will be Excel whizzes by the end of this course though. (As well as have some introduction to databases in Access, as well as SQL to query databases.)</p>
+<p>Why are we using Excel for the course? It is easily the most widely used tool among crime analysts (and analysts in the private sector as well). To do more advance statistical analysis, a statistical program is likely necessary (like R, Stata, SAS, SPSS, etc.). You can do alot though with Excel, so I think it has the most value-added to teach to undergrads.</p>
+<p>Here I will walk through making a table and a graph of some Uniform Crime Reporting Data. On ELearning, download the <code>LocalCrimeJurisbyJuris.xlsx</code> file to your local computer. (Or download it <a href="https://www.dropbox.com/s/goy0czxceiwsoj1/Lab01_LocalCrimeJurisbyJuris.xlsx?dl=0">from this web link</a>.) If you have a laptop, I suggest bringing it in so you can use two computers, one to view the walkthrough and another to do the actual operations.</p>
+<p>I downloaded these Dallas PD stats from the <a href="https://www.ucrdatatool.gov/index.cfm">UCR data tool</a>. For another good UCR crime trend resource, check out this <a href="http://crimedatatool.com/crime.html">web-app as well</a>.</p>
+<p>In the end, we will be making a table and a chart that looks like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/99T6RUlWeZhE0XUbQsLhsJr9NvdhtfMUijzlqvevKUK4NvyqbMfUaWFI11A-mvjXZbQ_gbCGaTfn7gIWT1kbKJoF5m0ykPo5eQtM4l4mIdy_x-Aj40xkb5CSW07bw_-A8uu17i1MfQ7xsaOG84FmF5u9sp7cBTqyUXM8q7ncpZhrFQEcCYt4ik31QySCKmfYnaM9kq6sMoq-ffnBAygDbhkc9FE0CxIaSZhKWcxPK13WdUW7YF9dez899W_lysEWh-rCLXp9WKPbXYSIZRxcQ_OgfrzO6BBguy-BlZlYvyid3CMUV_k2xoxcMa7L2FHBZw_RUL9RrPhCy35RGKaHWLHNPc1CSTi4eDTKukXGvUpHF5uTytAEpCQFkXSlpGAhl0t6m-ioXOQS-_eHroLHyoewehX7VqcuqlD38xEgD7vrxsK3N_ENeS-jQ0IdI8aps0WXZVScoJG-4mfFcXggoolDcTFbXAaJS76wY0f2f7F-ngtA8GaAkk1gyutWDZArphxhs7PUbjTzO0lqG0FGPjT-7p_Ecu_x-Pw39vgJHkXv2EnjwrrYiUNeTTWogXIbXxa9J-uGKq8yVgqhb76wO9_pbyVn6amdr_Avv8nUErHZcDbZNoZtAlBA1x9GgC13VsuCKdj5DLqa-A3Ix2Q0Qy8PwNrk8I0=w598-h848-no" />
+
+</div>
+<p>Very similar to typical CompStat like reports many crime analysts make.</p>
+<h1 id="understanding-cell-references-and-formulas">Understanding cell references and formulas</h1>
+<p>First, find where you saved your Excel file. Then double click the <code>xlsx</code> file, and it should open up in Excel.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JvIDDtKvjp7NDcXdf2uricQsgVB_sZ9cDm-R6PGl0XKg3M9vPIubOucQPLEZjQCe8T13r_F0Eva6zsbL-d5PfTYHmRWWvfXUG0FO4L9poymsksDguDBqYNeowhlYT2FTq8GXZtx_7Ot1iC0_nEO1d0IDHzobl74iYPUNi3fs3oHZf7usVziACd4vf4VXwRVDMZzhXacvKrbwtQneGIosjjaDZR_O883_hyAEPr-SR8BfGwtxA_Aus7mRubO_qXDFavu1sfoV2FIBdW8IGLXDtW-l4M-DPzsHibVSWsnmBDmaBTjgraAEgCTgnNlY-PRAVKJBaDummOBYc6axGDJg7QHKJZuL6t-wdG-wNMuOMqhAXQjh3nufMRIhIvTiWp9Y1LCayAcGZGeYCveVaRIlYb8FoEhYsHd34l-ww4t5RgFm54-s71iWlZ7ACVO7uxbgjAbzLyYu4ws-5x8ZcVdJIAtkg6VVdu5zSJe965XtJ6hMbAgduJDP-qH1ruGOWH5--uTBKxrkvfTk5db2RtuJwZffuFLeFqp4cIwXDuqTMfW-EYFI_26LYuAxsGnAtQBkyo-wmfBHbOMc8X6oYrhUVad9nk0RkrY1zOATp2a6o-nGLxxQ6gfZJwLSCILEUmDNcNDa2GtVyeKVoWKEY37EWgzCV2IsBwE=w917-h367-no" />
+
+</div>
+<p>Then you should see a sheet that looks something like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qyZST0UQUPumlF61d9lEFUyCqG7noKzu9IiHa5_eyritKrFGokQa675tVjY8VJ1PzX0P9KQpCnbHLwq9BfsLwIsBfbJ-PXLvCk885Di197ir2dW4lw1wOWGXyCPwU9tVpifgKnN1bd-LcPvWyCaA5KV2suoaXdxd4V2PqslldWpUVjAZxMQy62aNIWTO6Xi7iw40Cu1n33kp1s_IGshg6L8AxfWSZ4arp0gPSN1_e_X9zrBdkPyN4bPcHf3F5EHWE244DdmQKfy58l_pEwoW_fJ9eM-boX4gcVYnbrTwTxgqcM3w7PGYXtiQrun-PtRcAiyCq_Jk0qbfU9TO2OCrpodRVc54H7Vx8PmHuOX1ttdvolMvYOAgv6gMN4xt9BsCibfvNk3fbKqCJUyjZU7l6uC99B60533uPWiHdoBU5kIYA2YI1FuxTVTWdQ3JtqwcoFmsCUqFNZ-PWgXZjBnFxq-AxGKk2P774wgYWV_YNETcsXFG05uUtIomZebAhdBtla2Y0xbgjLQX_aesfLTV3VWGJPDu5yfxZNB-jBJRo6ICLKQl_aBJkfoUJ2fIXlR-SvlGl5JdVO6wlk_lCuGwbTNGQvoiGhO6rdH1N2hOWFdcps81jaMlc40tvQaJavkE1BVLcsWvDLopOIkJs0fPtA_vrC6nZc8=w980-h818-no" />
+
+</div>
+<p>For a quick walkthrough of the components of an Excel spreadsheet. First, the cells are designated by a letter for the column, and a number for the row. Cell H12 is the robbery rate per 100,000 population in 1985 in Dallas, which was 913.8.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZufpqxiFz3BQZ6MMtH0xn9WUbAd-MEyaiiZFxHYPWHuooAPxclFkDHgkUNBo5MCHFPD5yaJVuw_k0uB2G1zpRPy_0E0q9aJ7jyRSGj6xG8Fn6RUZYZlswvshC3OUS49pHS6dVh2wcKy6aUdLbogMWc_Eo9nY9Gyia4BzBe-IK_fKwdlU1bT-PovO_L0qvxF3sLuW4QDL1iYWxW7CmbGaFnlZxMSSTkGktgG4dOMz-CFCPHNJSThf7sGrErKaIz2XvHM3lrvAFf1Rvxt1up4rRpaf7l4kl6jBcUs9f7XOgiYvwKZC7USfuP5oS7LhwR6Zf47MjmWRDBBPj9KkA9nW8oyiF31ndBJtIsChv1H1GIUF6teg3X4Teb8ZLtAcDHSc_lQpg5w2Efl6WTIluCGKWOlBKvzlTbzwSivSzR2t6iC59DpIGVFsuOsxAIP-SAbDrdNsp1MbzkaJEv_fV3tSmfAUZu1DOsYrm0rotGVLmr1Kh9LO5RFVJwuq7lOjMwQII6HqAPDrPkZ40hNIdkyLpNBeSBwxCRd0eCZofma44W4KTLu53-Rpm24tG7f6JAYv4RJZJuki7fYbRN_44W6SjXem5MtpsM44FMOB_8hPqEFRnABNmcp4fpON2lxXbrv6wAtOpwnG2kBuu3ICn67cAWvUwyCWHWQ=w596-h424-no" />
+
+</div>
+<p>Select cell P11, next we are going to use a formula. After selecting cell P11, type an equal sign. When you type an equal sign, Excel knows you are entering in a formula. Then type in the formula <code>=(H11/100000)*C11</code>, and hit enter. Once you are done, it should equal <code>6050</code> and change in the P11 cell. You can see the formula you typed-in in the formula bar on top as well, although now the cell only shows the final calculation.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9NKWChXH8j2v9tZMQDYI9gDa5I3HWT-mIgzg_oRaT3DCOKafJgqmZC4tNA08FYUnuw6r6-AGBlrbKSNMiw9DtafvNVP79qK2dCARfEKxj2WptHXv4KVsYLsNm5GcBCKpcrHTrQ3Inowez7Q8GkhHMW10zuSm8ViMIcx3_tUAnGUiOnKoslGNEEVSFMh0fECXs9Jxxa-3_qLnggwaNkPNTQGnZwuScNE08J44-ZQbwg2SfApD6aoG9hvqy3mP7VqqujXYjCJfLaKAlNbE9erPnQhjwjfQy-KvbJxxx-vvvjspPE2ZKg5aUfaMrvIZXVhFkqtRdMc89yzj1eAkRye1GZulsyiWISuXjPIK9E1z_afd4romouKkq60kfCh5nf5giZPs-Yiz18_GgucUqEj4PKnDYtiPkjcL5TNLMBk-cMjF0GCHqwyP6u6wsKzXRNZFzjasahnXJm1eelcAKcOZjPbkpMS5fexkJyd1YquWcz6_q8L7QaIFhRw1oQtsw9M21n4u6Ner-OAPdgD4DVQBHG2REXU2nGq7IGHAQPGah9UpUWXvlbGx0bJL5J5eoz3L2bIOEnsWKzec4kFZEZqFDI2XAOCglx1gnHhN90mwKCf0N7yhNE0gscFiRNBiGAIVod8uU7464KAeEQAtP6ZIwhUi5rmxnqM=w1086-h389-no" />
+
+</div>
+<p>What this calculation does it turns the crime rate into a crime count. That should not be an integer value, so lets round it to the nearest integer using the <code>ROUND</code> function. Select the formula bar, and update our formula to be <code>=ROUND( (H11/100000)*C11, 0 )</code> and hit enter.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/igbURP9oGyA1ewg5PyB-bKLI8yau4LLXHHEKRcgCqpRqbCW23hCoM31y3Jbjdfm7fT2BbeCDmiuhVpE1WqGQcKdr0EFDaMXBWRjMcw2uIcDR-0kPp3T60l-wtGUPtOvQli0sFCx5dGh-Nj4lAHiw7qiiiFWTA-nurrL8iObsrkPJzJzLMvjB_xOt45W3cEBV5G06c4WEiBl4rbo0oixSXBcqojRlEP8O7Zk63uIdftQqftODaB85YNgFgppOybFug7IHfGb5IZiLUN-v6a83FXP3Ht2JjD6dKYVpAfqaNkrC6hsojeROHv_KHIiRRMMn7g-yZ5TWFQtW0ryH-YKu3SSM0o_heG34KOuAbBjpT6GwJV0dgyp77qKu3GCjQFJKbSPBrSdM6huWctzm0YbWE6vM_PkjkhVxigZkl2Hw8bgFV9w3gEdiWVfsqUPeQcsnZKFhXDMHblrgJxW1J1K0grRmjFWSIA-XJ2a9QlzMs0PtHqbWfiRH3BGmxc2HYaO4HsEwREQVnyUpwaW3TgrcKRQ7D7VnfdV01KLEXfBO9ZVMMNBWZsVTFoD49KoCwEzgDC8nUlGhTLQX6LVRBs7qt8ycY79fEaL7ybWcJHbU9AHOxGXGTqR0khpXXlmKfzP4hBOW0jfIe8yGfJP0LEagvR_50P-UQGA=w1093-h396-no" />
+
+</div>
+<p>In the bottom right corner of P11, you will see a little square green box when you have selected the cell. Click that box, and drag it down to P40. You see it filled in the formula. If you select P12, and check out the formula, instead of referencing the cells H11 and C11, it now references H12 and C12.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/k7LU03jinFgRtRMyzR-fo7GZHSYXpxWeCU5lSi4A-iPS6tjF172JcC0w1g_4zvvWas7TmZTPHhK_GfQbHLws6DCV5-6g7efLGZbxlfCRSWkA7_yzEreAvWPstKACmirJ22S6rE-qNxzXn7eCUqNVZ97N02NeIhdlRKic2dOZqJVkSlw8NtWOptyLql_cBlh1DtQVjuTopIkm00rd8Cn4hFqs4-atsq1fSg9IHR_gAVangu23b8XFvE9Tn2DAemxpT7hZk3tui_ehGWuXKb-CUcV3myr2C3dnI3t8em9Ge54t7AC6IOlJJD8JfbofF7-ephpQ1b7EMeI6S3QVxB4mDwxyzfjdh_uGntePNIIShKrkRvoMtl2vVnG1b5c-qiFdepl6XJFapFe5kDzqTFeWqF0BCikYqoIo8pCQUmxcZRJgdYMJVpqSgJPaH6z50n_6lI50fvR7bP3e3azbsSaaZvu9QAoj2EowlwRQIcehcWU6mz5-dP1vM8c5Mfa7caeBvWEEMce6ESlaOOYYHUwBPTHyFfSOplauArcARwVNj-leN4bjs1uQUMaMcCfwaCFPXR_er_MST081YksCrYCWpN8iG5I4ePaAaQOHPw9HNK1aQvgj72X0oTlVPM1CYdoe2Ii9EwUHWMxRDXKtqw2HqYZ9Br84WHI=w1092-h277-no" />
+
+</div>
+<p>Select P11 again, and this time when selecting the lower right corner drag it to the right, into cell Q11. That does not look right, only 10 aggravated assaults?</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IPfMXXxcF-o9QEqpMM7veNQLjirFKpm06ul4oUNQXRNFrrtCbrXTb-rQdeUcqZ15fFJIFNHd8DKPhDAtjHV8xv0Jgrlic1Iav3-qf9VaoDBNQKRu-XSk5Azv9buksxPEOyVu7FY1BVNs-67bWbRxrQAEwGpw28OSinsnW5O0iGsxyyB-IY5x2wwdlgQuy3Ip43Xe4xhX-ZIVNb0pUc_VpZX3gv6A_z1KBBkjb_g3Fq0Q-Jcdqil9dRZav7VTXbfqqDaCZ7yjP7XxMKJwc3MMIOhctlOnhRnicY-xIvp2M43MNTR1xmvEkTwtUklNQZGG83RsoikvIUnlV5HYd10ICvDUA3nwX6E0p04JLfDGw-ILD-iEIsckdrbqtuoqcJpUge60fbNjNCBAU5L1OeAGoUbPhBKTURJkVieBBfHUz0mg6F_nzBuf70qrjjKg3inwMYvx5fr6Uw8mWrjmlldUXyIwhImKoA0Grb73nlRy4bPRd0y-RSTx_RrBk72aNZ7CV--OeYOwqpzLIkocYZz3vDNwKQUizsoNwa3asBom_REsq_z0ltQmOrQFkTCG2WOlx5Ye58HjuQSsqO8HTjO6YEbcI-hYE1RDUbAiQieHUQ1TtQXJlFKQ96xZdLSGAaywB2DhS8oPq8NtUFJ4_WNXbq7wZKqHJK0=w1156-h290-no" />
+
+</div>
+<p>This is because it is not referencing the population estimate column anymore, C11, but instead went to the right by 1, and is now referencing D11. Delete Q11, and then go back to P11. To stop that going right behavior, we always want it to reference the C column (but still go down the rows), we are going to change the P11 formula to <code>=ROUND( (H11/100000)*$C11, 0 )</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/v3tHh7XOtFndIqmTYPAdCWY5EyiEXwpLA7Ev0thfZd-qE8ovBwxciOMAVrqI43kJzO9dsikzVcStFZmHnD-C5h7C050zcrfWNfKeHzriSkan_tOcSGrBVQ9RSAxTJwLh6QeCdgoUPq9BKLGS_dVO9J9yb9mYatighbraoZl82iG9WDHurUH6poSYMvZZQOieYW8HUn-f_cZNK-yFU6qgl8D4rFC2D30WPsaj7wwE5V1H1_rcHSFN-hUbCblgwoVI4xctaJ3BKKdLS9YQGHy6MldDdirDmVOkmoGF9pIDj_TMH7E3_2787Saq8poTpx-CfI6CyuJUSeQMhegXGYdoblCzwOysUdQp5w_yz5O8pMrteVgAX9T4qhlCEaKkwF4LsS6oNDR-DwS_FAXMsX_snZnukuXVNad5wQkUttByS_mQfu0-webGerXm-tFYPe_728S7pV4ZpsW8U9xi04LKxvN9KGB9MII831LBU_hZfrUmCZNc8tvGODmCapebjWHGPztio7uwS8poM-JKDQTfOCS_eyBkqCkVDeyC76-OiLQMl1aG3PG59BmdpJcjzu72Czjn0Os-xqTmP6a7rc_XKvyr0YMhsldS0-GamNWZ0bLNoOefS7w10-6pGMnd4g8YteRnFKaO1gL8QnV_huGE1R7qjHOq9WE=w1175-h290-no" />
+
+</div>
+<p>Now drag P11 right again, and you will see the calculation is as it should be now. (Note if you typed it as $C$11 the formula will always reference that exact cell and never move, if you did C$11 it would move columns, but never move the row.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DguHOxvtAbUKuMVLuYSByxWpCU85bkzhgI-44y-DoiIPpjgRl3_tx06-9WNPT0PA_8XGRdC9AyMyXH9HkNRfRJUaVcd0G522tBIU_5S4bDfvlKDPmkTWOzTJ7DkAErdhQemDXFRbmKlaZg6xTHKKNQdWh6UVojQEfo53QwPhuFR3wZwjlnVbjSTDXmAYxquQ0jaKCPocDrSfX4nv8ROUIoJSgqC5oXDsRG4Aw-9g6___KAcfNZfvFJWupMM4vJS3q97-Gs_8MU1fDnMh66lej_UCCjwEixn6f1bGUnhAXLyQmSlfRxKe-71jw4Y5aqE5_ZcWNrmOR1Uid5MNZi_NkskoMDH0Jx7LwYg4pkCWsiEPPZw08B49hZrVvA8W-Rgkn_YaQyh5wYOm4_WbFd2d7Ia9OrKXjZqOeZWZFNsQx2Ow_unps_7wrAJqtSl_lbPNaOo_raL1jjeTJ7jh-I6JSeUE2oiDxs-T8NtZXCyfCOPzFKuREK7jP-dcJTZ-wTHFdDPopzyMQqLnoogln3HjlZVahuXqeA64SN_MsnQtJqWbhE_A2hh6beSnyu8zuvKTrW5TtwV9yqDpnz3n_igyjDRNv_MYXgudSmULaANpPsWqtGIaz3n_NbM6fs47OZ1PSDjERXowoFA_v1F2Xh2QcDe0USKl_N0=w1138-h281-no" />
+
+</div>
+<p>Now in the lower corner, instead of dragging down double click the little box on Q11, it will auto-fill down until Q40.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qoOFZe5LLMb9LB1tgTg08wPzu01R_lIiu-iuXCF2hSB9YFVrhoW1d4A5DRgJttfGZRzNowJXbB71jsfeWkPeiBAPkjJIw33ZlVOoaIHC2IW4vxh_OzGV5LovNhw67CPoHpzibeyAGACx_BncsJI3bNJ4vSHE9rCA3P5c07voQQQLgMiYtLlOxiG3624EPWPog9ScCNETBDOY_q4Fymc63PXQAlrNeeXfwPINhWnI_hvPAARHZW1_hf3VKFcnc6qpMXPyO5xkAnulTkkvQVcPfEwdKOb7com91htKdXVgQ1o-AI-zlqgzT-h-mWJxAsVxrCnQr2DsS2u1EwmnCtxKZmNBcTicMUWD0DCIUoq_wMc_lr3Peu0SSD6uASxGLKh-JTQOfhbPa_DN-mwepjLPyYaPxBHC9J6wuzIT5YjESYUz-qkwm4jx3-gscQahoZvVt_EslY7RnsDbRxmErszAsOjQ46FnXvM9EegPPBxbStSLmXYNKZ7Tp30aVmCCidMR6W7SI6y2cozboKecdqE8R9zbbhLGQ0AShbmKoSalGhDwrqsnOfZAbfITIhpUHLiO2jxSwDqSqHqCFgX8wARO3NdWr7ssoPrB4BR9T3DDakHO264VTSN3xmKmvlYd529h_77z869GLAVHgELgjRlsacA_Sr_HdnA=w1146-h768-no" />
+
+</div>
+<h1 id="copy-paste-tricks">Copy-Paste Tricks</h1>
+<p>Now we are going to make a nicer table that shows the crime rates per 100,000 population in 2013 and 2014.</p>
+<p>First we are going to make our table contents in the same sheet, and then we will make a new sheet and do a bit of nicer formatting. So anywhere to the right of your table of numbers, make a column that has the fields:</p>
+<pre><code>Crime Type
+Violent Crime
+  Murder
+  Rape
+  Robbery
+  Aggravated Assault
+Property Crime
+  Burglary
+  Larceny
+  Motor Vehicle Theft</code></pre>
+<p>Note I use extra spaces to signify a hierarchy among the different crime types (e.g. Murder is nested within Violent Crime). Since the cell contexts are bleeding out into the neighboring column (for mine it is in column U), I am going to expand the column by double clicking on the right most part of the column, highlighted in the red square.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/12I9vRoJhRrI_Dd19EkdTlB0yx-XeFWk7xspnXySwiZlTPyYOfFtIwpjGJhGpo5wqFv35KwHoTtl_l4o9lSsLiPMpKmHdrg4LEm1TbfUP5pa7nElYrqGUEb6kzpYpWu_aThVgTBvQJNW2wnQG6Xb2JJmQsliWBZ3Ke2XySEovfXuCql-vAip2jqY_x5s8DnyNsiZX7TuixcUDADTmGGZu7kzFUngoT5LtItH-1rGHr4w3zIVUk8_0RiIjqOmRh25pc3estpSsuStJuF_qPqGEfu8Sj_f64BzDSnOYkmQRyE8Vh3AXJ8hlqQLO-B7d7LBZgVQjUUMp3ICrKTdpZgh7v24N1lscXloPZjHJT3DDU5ls2Rli1yGqfy6KZg8Vp1jMkAdGAVJO9UHeWF3INL8QJB1XnvewSTk--kS1_uAYYzm8oceCfNer5HooY3Lb2R2euPRE4CVLzG4aXsN67SSsg1z8m-6ZLhiBmRJgWPthUBJMPldUxz55OpMnhu_T1V4ryQpM2n7GTit1T2TVvBCTqd84U3ThX82RUUTHmUXn8eN-ZBjlEZF1ElPjFYvTGKiW8PzI5p3c6fPCSors5Mfhs-XyPLWmWHVOfWsAgw3zz4OmWHVxth8fM2YrGaKAdqCyROjSL4XV9NTiQKnt6Kp3Of5yfGe_G8=w542-h656-no" />
+
+</div>
+<p>Then in the columns to the right, in the same row as Crime Type, type-in 2013 and 2014. In the end it should look something like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/33T5vSP023AAFfXYZr7sRnOBQwI5JADqx1v9cmc9ZEu4pERsqYj0L4w4OaxEtXv4wYSwwgH3OIhq45sWGZ0_aI1LPqSj8wipSORAbZJvbDnMc4UHSpoS-kQs9DopK3Vv9OC2dg8OOWWAZvFaOquRV3SZcWlmR3BpCjfAIW9JfzJafjk5tgNCl1oIxh9kibY4qmeB2X2mZEvwPI4b5NeenO3nLjQoJd6mtDoplmsSteppxx1g4dpycpCZDTkD2HJAHv6gP56KkdVxqyn4leRDofhkXb6csCFR1mW5FO8Y5UEtA89W_1YwK6FUGvh_WOllWBr93kBzU3ML2jE5NZr1TKS_bZ2AP5CEznhLZb5fLJdItQENUuY8AwOqcJUgEbF8YkIqPNGLjUIGMINesI57sFitsa9Ds4sD0c8PFXnyIOs1_QdJ02YhJaTyHpwRqtyZRcoivE8Gk2a2qneZeOIyx5lgaK9DH9canQ7ClNFSi5ZAhmJyDYsqSy-ApNkXdJti1Emv2BKrqJiok5LXaA0D2OBGzI9MoB53-CcLNEy3jP3N3amzLVukkWHQf4l2E6cQiwVVRikd-PBb-vt7ih63bP0pa41m_CfhdJR9xP2JdmA0xeramLOAmM4Z7C44xy_PdWIacruYXuv3kdUR48By8b8j9qyL8IA=w383-h304-no" />
+
+</div>
+<p>Now we just need to fill in the numbers. Select cells D11 to M11, then click <code>Ctrl + C</code> (for copy). Once you have selected the cells, Excel will do a fancy dashed animated line around the cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NC0KqfHQZM33d1ainXQLQzCKK8ZLxm_fYbNlzPB86OW-MciF7HIrgxpauDLEnzyd5bXL1NdKpn-_c_cNDqZFRqoOfSY2B9Oz2zwv93dAB4ngIJYHTPyVnpzo4WwSUS2wbbnwHMB5OWKnHJXtqegRAs_ZBsxbjkVvYI95WUJoVM0cHiCCgIuEWsTIC2C0BRwqttsR3fmayKeJGfbvgQNUT5B1ULYpRTH9GRcbcgz__MQBnEFjp8rFZnDQFMuxl8DpyQzBNhsOos8Mg-X4zXCjTdvofUYHwgo7tTJyu17bBHTqq5TpF6QSroCiIw5vDy64p1bDJYrKSGG19CPP2xpRXCrIH6ZONw2Agm61VxETNOipYEXgohpU0_t04nnwYDVIY_M-s2ZHK7xPq0SQw8tDqPi4STGdcPdP1e26kIWM9m3K9CWA5q-xoIjmPueXAQaxPYDAiPhVjWjDMOCN8AiS6jVq-dm6-ErGlrT-jJCgUoFET1EzSQ2CcCzACU6mkZ7XhGWO4LGNu_memkIM6wuEKbremPZwokJGgwnOjnAlvkcWybnCLk8UFOy2UxOgW7Psrf3EGan0C3PkVsBCO7Ctq8uAYNYBfwOKdDz90zAh6p1ooyQnRsgmI0Gg3wcbDc1eAqTxRqikM5SBkBl5SL5DajREXotrO0g=w556-h564-no" />
+
+</div>
+<p>Now select the cell just below 2013 and <em>right click</em>. You will then get a few options, and we want to select the one highlighted, which is the transpose function (turns rows into columns or columns into rows).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cnJKukNOfAkF8CuGqo-Q2HZBKyfs2NZkuRQbTtLUb7zOyfCi9k24n9hQd6ZGxbj8WGJkUXcRyjp5It2tlsQGamFgy_W7Fhqov1K2XOVRHQEX-nh2-4FASjGZZcNnjF6KblCvxpvlEXVoqDHo5oQ8xtzEb7m1HNm3ezBc2yXoH5uujbUYBNMnm1bD_XP3TjhgdfFiI1Ugzx95CITQGYI5xPoem4UQuCETzS7s77lVPTIdXkupWhBmrzD9ayN0G62fNgEFsVY4xTUY_VaxIgG9Qr4ZBU7SFKLtc3gETC7O2qfoyv3kmY-MPWHxSR-xpeBmQ_AraSrqJiaoDS8m0DSoyE_RK-7q-7ixVZgiTwjd-VX8T8533poVhPcPvn4omjux-nIGgSYnCrFyIFBgzWMb66qSqTdJIFguayfIhbccFSNO-0-EJF1dJ_f-Ds7VV8fz8pU-nMBuWcjngxwb_EIKcEviCB8-P6aNEiMDKh_vz7DCYJmFh1Nmy8tQdrwAvVszegjCZUmfei-8z-xgRcfp1gi54pP9MC77uuGKGJfd2ruFds5fSeOs9FechG_6nf-m95LP8dUQ2D4ZZIx0bLpnpYhYITPyqIEigtYRu5LQfBth5UNsFf08yzeM6WJbqfgOUq3K-my1iqUDW-UmFuhOEJqHuJxqLTg=w1252-h284-no" />
+
+</div>
+<p>Select that option, and you will see your numbers filled in, but are slightly off. The UCR changed the definition of Part 1 rape (it is much broader now than historically), so the uptick in 2014 is expected. So your numbers should look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/U1x1VdCKrs_u-QVBfyXVmTeIMbTC5XafqV7ZE8peW1-Lc5ARjQhvFBGa-m0EEBc6sNXm5B2UJyTTpnxcmZaVcOM0s-u-gWz8okgQCcf9A0qqt02eGoi4Sv2_gjRMCPZQpawvJgKKnFL3bQIIYfBmz7lVbe6IVRzhBbqJwSY7vDfg3gkbrWa2BQy_4PWl3p6ZdYLPqJNhGmdTLXNRTeMJyggokiyWFasenbkIdMQem4t2Y6Pwe-guYDT0TOJL8of4s5OiG5KgOH8ERnQVN0MKNT7eKNTLITTSWupRGBstvCgyiwpMp9WewfvbVx4zNeH6GLUdCc9j3Vb1YlKT1l068WDh3tE399Q5NQ0uVzSx3wEYiRlC5fFettyBUmWnqD6RG3o2E3LoU94xLo5indppnWOa15DHUQyjGMERQZH_yDpmZBRusee1jjJecAGkN2-t3edq--E7Ff5U1g5s56FBzxjx9yMQyn26vY6CuWpvpcxnlXOSs4ZQSD27nGkFL4TZOTBWVmdTJnKizNpFrE2VuLUGJe_V5L7LNFmA8LQBiiLlF_yFO4g67UKgWdKTAQ_jd1dmfYtBFzlf6eHLnr8-w9IfX5C3CaceoF6Ku2yv1kpOOucD-OyCGxpFqeY0cn1ACJP20osqABjvj3x6qQpbJPXjrpYuGxI=w548-h560-no" />
+
+</div>
+<p>Select the empty cell to the right of robbery, then right click, and select delete.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5UkqtHorK6izUtsYwvxrWuj2BBPgI4ShTI6FkvyL9c_KpeMw1g1eJaweuC71TE5DVKuLnDstHtLNXKx45GdDfEIWmjHICDAJTaBmRckvlvKT7OQhgyxe7R5LfsMrT8nrjVSZABfyanslZt3-w-R-hVlvZL5ve9tFHbhZNHMV8nvTQnsPEhOhOpMmxbUe3gGRrf82TvcppOIYfEOHU_narZYPYps6n1UR8OdtqCWpeynvasfkjZa2ynymbG7ZV1106jdYIswV3kImKuAHWU4JifoBlqO3lFUu0pAz3-lGHCySd069j4zA_uYYmzG8sQmOVMLhGjFSsjnW1PPqjkRE5Y5bOSttTJMBoAvez8rC4LjiRpdcSipfDkLIklUPi7aJDNvq_Yslr8YdALk6J-2GL6dafQ_0xo59V2hWVpKrinrsEbchP4dp3GZw36QlUnqyWoVYEZ73BNoxNYIiPVTNBfysjVD3hmP8hOFfURalKXx4xBylPHHYfymOlvMNxrwNJ-7CvN-xrComKaOuPT13cPLFpjp59GNEvZmflHiz9t1h5XrjT95A2P2V_yoY5jmhiWYpern-tK3GLwpRc5ascafCn6VIhg2KoQ9L2FHApwlpRkUC5tnPd9hs3u7lIKVyqWf6MBL0ja1KcdwOMLT0LlnYx5oteBY=w343-h303-no" />
+
+</div>
+<p>You will then get a little pop-up. Select the <em>Shift Cells Up</em> option, then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/C6DS_v-GD4ndeV-UYG0zkQqhaNTA6w4wVNnW9T9Efrxth66jhwtg1HMYN2IaNvp0B6MqyfoOyFzTDxQ_w6Cus7vn3YRUrK3OoA0D67S85ieJTJDIaWNSK8h3P7zWz6zUHBJqIxIJ3UFFTnxTRlNeg4kvzMr9Srw4DK5eZGtxQz1XofSetgsfMcUAFwCQqDxleqc2wpWF24Rj4NPOj2arm5uyjenVGqVKEnPZCdPKy94xnq4QpgA7k5NquKMFq9Kt5p6VAkgZfgXyb7uZL3-O9hKMpNgVZu_gTtyz9s-YHhLcFF0fGKaK16PxVjwWj05b-rJbOoMJItqFx6Vj6CDDeJlWVja6kGik81-ZQEsm9UR-mP_QzS2ayjoStd6cNnvrXpXH72H-mFaJEU4njPyrKkFx7hDyvhTlbOGWGQ6e6NakQbuJF71dmjp-jcJ1nUdeuCSb7BAZDvLVH--bYZ1NJ3jUzRiwbKGprjRKueVp8CFlK0DjcARxco-iZDLHXayXv234hPuw0vEjDGI6iGzmGXuxbJ1tJaB0utwyg0XaPAfHEQZ11V6KPXQnertK8PU2AghGIlOY9UKOmHfrrwzBUtRqEkILAIceOna2cblLVqsAjWye0zeXz7vJAPm488G8NRxmxKy5wSRlf1-uHKujTSc7Tbnq4kI=w173-h178-no" />
+
+</div>
+<p>You now get your numbers lined up as they should be. For a quick trick to check and make sure our numbers are OK, select the numbers to the right of Murder, Rape, Robbery, and Aggravated Assault. Excel provides some summary stats of the numbers in the lower right corner. We see that the sum is 663.8, which is close to equal to the total violent crime total of 663.7 (rounding error will account for the single decimal that is off).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/a64ExCa1iQ9l0jFkzg75v-Elk-1D8X9_DZL0NXDqd30jvQBLsPKHVpbKpUreMxYr4dWxQ8eMdtXWPcOVj6JNjt86wOz0ephWKxE9mcEM15gZugvzgA-GphdWZ4JZA-WCbsRSOVRrAeqjxKjr5QOkkrj1sYf7tGHjIrlU_uMprKpEllgtx05M1nELIg6BgcGqDWERSN1nIyuxV3XDv0e7DInVkTukIJBnNIUvFYjSZNkTajSr-mQ6P_JWGHJxwNjMbOCfEWUiHB9-9mMV1-ExKhe4xKXCbahTpKWBZ1SYEMW18Em2-wHuf7BqpNRUUVzde-HilvltpzX5HNulgAZ5xRDeBS06nG9f05YRxuXktHYsc9BkXdF5PbQsmEwSEAEB9TDY50go2h1HpiZEyd7Vuvqq2zp-gX_jLyXdxun710mMs2ZnC7b97f00UCTrSGbGrSAIVAKTc1P6MdTbViLiSVDqCEJpZaYKMTsNpy7ls1Rub7zr9BpdxI9VVirGZhHx5dpexQsah_Jg2oDRpykmi_Mm9Me3sTZQt0LknUXhl5WpUh2Dpi5i2u0MBZLwUNj1gI3WpIALPw6izEKUPYI2eUXV9lfefpdpcsLsBiriTk7Mp273K-tfqYXyMcc2cNtqqCN2rjld18rHZ63mJMDciP96sXAJeMs=w576-h612-no" />
+
+</div>
+<p>If you do the same exercise for Property crimes they should equal the same as the total property crime.</p>
+<p>Now fill in the numbers for the year 2014. I won’t go through point-by-point again, but here is what it should look like in the end.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rBcmjtIz8bCJl5UEN0H6up1e7kVWV0p8tulCcN7m9FtniuL-_cQRUi6ziWxgxRBYimcbNLs8gi2795Qt7V4ZjNBxUhgGEA9L9gmdb8ou27YT1afqR4e4DqDHAT-6NmLawg2W5DQYRlhOOoMY0pmtv8mSm8sLd5boVEADfAgUJKmexije-RxYkH-OlZPmWkYKkrQAY6aLmTqIjAzkJH4cIUnCzmF1aqLyEdUmhGTUpGZy4JV287pbtNms6PzVszNqSwyKjmijgJM5XFYkpfhJ03jSryKL-nZZs-3vrqC32al9cCsBYVeqL99DeM6Vo8K0aiEcAygrNEnpRgxfdlw7zJY4qc9HpvnzZwkuL8YgaIf7F6javQWoUk7cb37tdnzyfcHOTOq95cEe6F5Vuw2RWPd8HwRf5Fv0gdZYMXd_7qGGkcv0ewUpdbk0eTORnK0M8DqG6fm87wW_UiD-lpaxYenoVrkzyPZvhD4CIaDN5rNTf3qCpB3iWp_6PDQaQ389ZcVYjX5R-Ckv1CGAQRA3zJjDit-u9VMNyyr0ON8M8hZ9Q2Fj6WYZZ6QlrfyLW7LwpdOnFz-JcgX2Qycm5O5KUx0Vg2V48lPvhjyxbc2S9cJHE1u6OnUjHO2_-z7vMV7Pfbiv61EZLhQMfVZS4A8QJahnNPRwl4Q=w328-h279-no" />
+
+</div>
+<p>Now we are going to make a new sheet to store our table in. In the lower left corner of the Excel sheet, click the + symbol. This will create a new sheet, by default named <code>Sheet1</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NLNC-_WRdVKd4vwrdmMV7dFUOwb4coaps6IzlcUAPrqh8L4vnS4yrwrxuouCvIW_cmdLWqsnNE-BIPacwe4p_DE0UbWJtRtUhR8KnvB56O0sRTjyHQ6wHgXl_sRZXUL3AVf2iDpACopnqW_jM4XfLTGNrB-6LSRX5iTdUUsRxZCu3e3DdWNjsiHLbPcTq9KImPFgH55HiZJa82Jy0_pZiOob_zmNN0sGyKnRxQEgUDpzTN1wIP9uxI6lBCcOCDZ1LlXeL6jRPefqwz5RlfI9u7jf0T-Sa9dl5nC02YuUM97SK3NCbSdtUfpVDlvslhQBFNgTSYPP-xGf3W0AeRreeWktTsLZmdUCmXceBsS9AVx4t205pjoH0EY9lPQw5fNWzCRqCYOwvjs4LMRho8V6PZXX6vaUsByuoBJXc6VTpaOdU9p23nRlLCThsTGMd6DskMXZ7FHYU3ycrS3DYMfVsXdIoF64EUxTkVXAhzMMUMM1k4nYvNUzM1dO3iYXzQXUa4KGGktSapdxZGwsxSaeyEYEcVc1Qf_wveJcRtSqo3EllVV1g9u4fqOGPh3MWd3Sle1f4zl8pbvKiIS0TkaxgWZGFW75luMbjIMw5uBhEFsGegb3TCQJiRb6Txp4dze3OzK2IGBHnvLOGmu5uFCnmLap8SeiE-E=w394-h293-no" />
+
+</div>
+<p>Double click the sheet name, and edit it to be <code>UCR Table</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PFx3jv3WnrZ2RpT6-ixxMoFnsCi0qp6he3sOEm4hFK7lM28rp-kP29ByXN8ZJ8oXJYSFOVcdgeYBw-XTmgczgLU1PnJykuDdMo0RJUkyeJml_jd0GeSrecpfVwqqlgHHKDPVnYJ61CEppIaVuk-cdCUxh78fP69N8ZCRkXXE1ci69T736ishjK1PdVvKmERyvIYJCMZf0SIaLzQnlUHYB9tE2s4wojIaLZVsRUuo9bGD4aF4egetipDSF9OOup-btsDXCn5naM5IRUFNiwoax9qYI_rihdOb7Ny8cPG5fXRkqumjcIBKrEuAnd7UIt6m6Kvu8nn4IkxG2CgVbN2G7CqPfyJAKgscmHhy5qfSkGD2sr0CQ7cBE-YtQegrBi2tQlTbpol72orPMYoZ8ZawM663UMLdp5qPGkXvtJDrogDdCFqj2djodLUuX-S5l3Mvnowsd8TJJjGxqJdiDgBx9izNuM-K34ojCWiabasgypEZGm-qAy9N9U6v6W9V63U2eyWipvMapTInL7CcqEpPbw7rcRz2V_WnMokbOi0DrWB7hSLlCy1HyQrMyF25f4YLC7fLIKt9XpCWAl3DMelx8TzgCTGw-B70USTrrIPYVY8kUQghJ_QWzMWaQj8LilONfq1hclaFEb8jIYEg-DPd34Jljg186Ec=w381-h195-no" />
+
+</div>
+<p>Go back to the original sheet, named <code>LocalCrimeJurisbyJuris</code>, and select your table you made. Then copy-paste it into your new sheet after selecting cell A2. (We are going to put a title in the first row.) It should then look like this.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xCmh2pxl5-TsmM90qGo7EDfGOlDaNfY3z1hqiQXPWZbor-M3f_XsSovYlKqTQDsoSB6n1TOJ_YUteZQfzcrqlMtnVgaKytunh8UuS19aLl7y3Iq54hV6WKQCyjHLPZkx82rTB3rIi_RzKwur-qapw9pJ2Q67D6Q_X9J1xo5UfDeB0jK3jLqybDolj9nWeSxgEbckAq3W2jO3ncpqBNMQI95fK6XGIb1yzdgzqBxEZ0z2Fyq8PzTl93BEOfX4UOFweZi5jKkH8qCiWNnwSb6YORIPYhxwpbTxMP3Frqf4KHZ1t5S_8c2FVID_0iza_NnsC06a-M2-dRWhTUW9VN7JEMEtKBORGJZgneYRZrPBnTCkKoVBZI2L6uPfZWwQJaRPP_IXgZ6Y0bLyr48R_9RyCoAzOhcr-ATFoNlJaIENFkVesYqq5tFNE_UImFoKH5wrNMq3j5cAp72ayUGYPyuRfCX3FM1V65d-R5hgR69DaNTRMHHDCQVxSYdlcOd8oyMuGFxmWHbO63dCowfBZbKQREYWcHXY8oKqTxAsPKKfZfd0vnTs09elTSuS-Gav7JP9jop6TiGdxAYzHnFfbONdXtLdtzL4HaIx5P495j3M_TALdYB6I_OpFc9mYwhJp0BrWSzlUWaNTM1F-kMal02RkNmzg-k8QdA=w375-h871-no" />
+
+</div>
+<p>Before we move onto the next stage, lets make sure to save our work. Select the File option in the top right corner.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fASARAAUS3nBiZdoTuP1w3BXgqEOtquSwdKS3_6Wr-O-9koPUMmGGNdef3Lsn49eIRjQUv-u0FAgRGd7k-mUUgIiDBqEMHGEXb0G3gK3SUuuUdCwivWiwHz7Vf12LCp5Juh06WCUac6l9gQs-GxTsbqfTva5e3isl73qVuz_rTSl1zLF7jpViYDL7znb4ZC4BjYiRq94mGYTLZG42QxcPNVHuQVFK_FEAg23sBRvoWlf3ZTY8mz-y0GET7xc9zdGi37nW67pm-Lm7IynOthrUU44I4pl5OeaybWZp4QQXPO9TfdXm9YEWwue4XTD967gLFoQT6W7B2UvTlPi79UPSxFXitvUqclh9VX3Jcpt_XQ9UVvvz6TRtlXzmvzNjPMBsXXXrMi8KNvFEKtcZvh6x71pfjDng6_JEXDgfCb5-VO7Uoz0OeH7sSh1Iee2tvk2zjrJTW9PvdPQLPAJXCqLh4jMj9tYH4BKBRe23c8cVTkywmq_AxL4mXPNWdkvHRR34250mDLtsa0TV7SGvMtuxF0A3k9WvZ9uvkNlCKOxAfChsZjewGPUqc4oIdTxACKHvR5GDmqntKjujIi3_jFIvSV4nBkwfYxdo7UWFZfkcFWLPFCA1htrtix0GwnHRN2IFyM9U0MJnp2JIIDW85aJMh9mqCS7MLY=w280-h180-no" />
+
+</div>
+<p>Go down to Save As, and then navigate to where you want to save the file. I do this to save a different file from the one I started with, so I don’t mess up and accidentally delete my original data file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MU-3lgrVlnPQLcpXJN6XXAfQkhF3_jBp5IW0bfBAwjFc-hER3i6jneopI4pEK-Aka686tRKqcCFRrOw_cB8JstVWXuD4wcvZOEpJKXpzyipya8NviDOrw35SKK-cO3K52bM-kLwGMtFjQKTBi2WQQvIT_l0TROYQU-eQe5Qj2evcqUkOFFmNkxrjPmhrOzgbbHrsk5nCTCg61CK9il8PingmwKbnXidlpJIwmTtQ4zpwfVMPCLaxh4h4Nv_sgYGZbuX6yIKuziK4ljvfX5Ljo0lo2YEvKEmJr1VYG1-D-r1CP5LNJWLmmCHvjx7zpgIJ5aIfLsvbcHbRLs5cv3lvKgq_AsEGjh3TmCJ8TAQxtZTd1B7udjvxXtEHXlIUugGE8fbCIOyQpeVc4NdLRO_35OxMzq7zRIYs1AFyeKpny45-etETrqKSERF8e8km0g8XKfEz_cjW0XIJjeN0J6myNxN6VFNV-w-6u5-rvsv4iwvYcH9xKmUxB5E7ilOiDofLKeheFvVe5NyDyI53Sn4uRMuMQRN1vT1ef8Hg7WgcUS-KOkpMTQ5VL9irwUCLCR5saOg5rJACLcd9wSpLJ6g-NnjYPppWs1SuNDG2ie45duIC4Y9DPPraWQdczvRyOFkSlzKthxiAMKK6LzzW6iAzuW_jBqpe0Oo=w946-h559-no" />
+
+</div>
+<p>Now to re-save the file to the same location, all you need to do is hit <code>Ctrl+S</code> for the keyboard shortcut (where that means while holding the control button, hit the S key, and it will save). That is the keyboard short cut for Windows users, Mac users on on your own!</p>
+<h1 id="cell-formatting">Cell Formatting</h1>
+<p>Navigate back to the UCR Table sheet. Then make the A column wider, so we can see the full text in each of our rows. Now we are going to make a header title for our table. Select cells A1:C1, then click Merge &amp; Center:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VNiLT8Nec0CYXEumVVpQOmVHYfV1Lu7crEVHaP8iKCwnAZqZ7rXSZj8LM2NrUA4-ZZ-_y3-d4qpJxgMYLs44ZguGcB_6TL7l4xHG_5yGRMCW0SeO7BKGR5KVWBGfDBBBiU9fWwmZY1Dop8YKMY42EHZPmKL7Lt2AFyOAeXS_-JhnRxo42IowyiThwYXA90lvfm8cYRq6E32__yG6TM_Azn6wk8Pe-F3MflphpfUpFXbaXyqrljeHnFZ4jY4Auhlj4krKDFYyowM2CZVmFUibX-n6fx20a8-2f2oitvy2hFAfj7SWKDRwFOcqj3x59naonP-kM1PlIEAHIYBuSHW17TGv0fuqJn0zP1_WfCFtr6FZLtaNRJpfWmH4b9leyd6FcbVE000S6u0UsuDk0wKr-i6YkyXLF1I50D9S42pNymrL9uMi2pszvFOTUDddFpjSKUenEX38FjN28JQYUOFSNgp28zvNoehC93Rwxn7bw-KpWds92yusPc1HSHQxjbCFeyDp2IOPG-Lkj2C4hBcIiGjDbVjwE4igRwYNfHeXkTbuey2vuvl48pT-el-FC1ybz2mfXNuYYxdnks8yyCeM5uQ4O_D4Lyf11xMJZTBSQrM2Iv7xRg0LTSjeA6VbJ13Rz2r1Gbg54rlzFuU-oqcnVBIGvxmFsTQ=w649-h475-no" />
+
+</div>
+<p>In the now merged A1 cell, write <code>Dallas Police Department</code>, then hit <code>Alt+Enter</code> (this inserts a line break), and then on the second line write <code>UCR Crime Rates per 100,000</code>. If you don’t hold the Alt button, when you hit enter it will just tab to the next cell.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LJ8hdB6WbprQl81igqgFClnG9zlDFZI5zVh7xkrQ3IplnhKzyNSOuili1aCpEnRxdhqGmQK_8xPBaTJ2rcBi53myVZjOCfntCbsJXXrj2PJoFWkDabbrWJPLlZJywHwWDx_CpdqIB3s4hTSXBW6DWVYOLr7to3umtH_Or_2dW_LXLFk6SKpsIBQh0eu_inhfrcrtUodlLQCzNexLZOQ3-BkGfZcZ1Rd-96lMwlYX7VwLvxKfLrA4W9GL5DOwrolVVIGJB7llJX8Kq2HzteaaQWdQOk0YzKkGQcTM-89wbcvqNT_hbxKKd8_yjqMShstOucm37FTjgIdb_XdorSJH7nrky1a0tmdZJuCooVWHjdaL9C6I3x9L8ORp4HvDcdEKJWRVuORaZLpbT2ScGMPOPV3OpLxTcmmwGA5AJebtn_Q43abTyPQ2Xc2Pr8Y3RY7OViOovkCZ2kZ8zCt9HCvH2rZ9kcoUZ79sTSkz0Fryfaqiqw998lI8CMSOcQ9jatG3xPcWszVRnLGy4eUt6VqctkO3UIeHZvTxxeCDdGNQ5kDt6FG5LhGnvFqVsKZoXLHFM0KiSlzSyKx4nGzvcoEOFvfQ-UuMHO9l4psSezBs0xL_KHzY6biFOgJOifzRTd8MX_jmsnKrQtP2UJGnBz2vidSt18R3WVE=w465-h351-no" />
+
+</div>
+<p>Now while still selecting the merged A1 cell, left align the cell contents, bold the contents, and then make the row size larger so we can see both lines of text.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zbCGVvgBU4z6cov3vgNHXjBCdy9W5-ppV9d0pPAhwmWoIUz2KLktwOuJJQY9-jRosbqpZ9EUawiPOO_ZCr-i8e59oYeju64KaeskXfK5kkFCQeMDkNI-YoitSPz5oYIqgpp92dcOJN-IrRHYhxY9f33tBxx2ooy7CuWjelpexZPash4NDM8pLqRe5QTvE9b_rUhV2RWH5vdCmamgPDP2ON7kjLHG1VppxkDCQ9t-i-oLx9xqImsGNx8RcLG0c-JDoW52YZhFaBC6iaDmFUK84jCdrthLCoAbJ9aG25wH5KPHn2__Oo7dv_41O8LwJ5peo250wLdi3E9ED8qZQgbDYunjOUvAEpiULw55aIu_S1Etvqd1uzlDFcwv7UNL08gXT-hCdN6pmHB-PRNkkr8d3PpuolDZ2EanSb7TmtRHSz8I653cEFLYY8c76xeiGqr4zqYVXITjAA1En6U-29jcCrNGjJ8YuD_Q-cjuzX1QfvtIrIvVlrtikB_etcmDdEnoEBkxCcVjj8iUHHFZp9ufnpcHkYP9oJTDTpQ3KOyqtRwOP3oK_qiP9N9wCOkEarH5qF4JCvQYRJwcSd5o45ZFoskHEM0NO3TIMhIsDZ6aJHPGThyrpublRD_tD1pKExq5H6DY2U1zQhKKQF9cLMRVzXt8IZWt4ns=w620-h510-no" />
+
+</div>
+<p>Now select row 2 and italicize those cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xOURthp7hZBkCNR-lHjY4JxD95kA5UwNb63zmNX7CCyohZKnBOAeIdsZ5q9PzgZ-_xFyWGTTfMYJ1Zs-9EHV4nr08RYG1FOe9PaKE7SApQSMPxUjyTJ-s7q61Efe-knDxzDRXXP2xXIEZxNnWh8AewNUCxG-X9RMdqP3PcnEIzMktdKJKQeGDU_sQAgfKG7jIMeSMubu1zshBLxheqYThSzDyDR601mR_YexdZNNWPlmwCKzanWjrBGiApnQcW0MADtdJugPDXc-UR-HFUP78MefQtu_CK_IiHm4dWEk32QgHWRvqhfyRMxo4zeawtraJeHtxGO8i35UmtK2F0J7QRLKZOCnaUaKmEZx8r5ukPCt60cYgLNgfYeOScbOvI8uZgOgCf85pGcuxMZ7kBY2G63NocbPbfyYwxI-mybSMPm8Vtj5a0GkeYzURWcfysJ0XBDBjFZGMIi2NYZJ9TS_My061ibp5it9sFmgIFHc897BLmNgESv_DjwJCt1vD58tQTN5Mj436II7FzYgECaNGd5UuCjqyGM-GRsUABPbwxQpvAgNq2e5rB8kyGb2Y71DuovF0hTBEuIuJwbQpF_LEa1ONklpTBcZeP2UOUrwnMcgmQroVDYIZpntzANQSv9bEmTujX1S7hYrNpElmGJynQUDuwyHz90=w381-h495-no" />
+
+</div>
+<p>Now select cells B3:C11, and then right click, and select Format Cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HxshU8KmXvzD36wMC7gR7jwauYIbmx_1AKUNvIoRf3suX04DpZA5CK0yh-CgYvM18r-mx5UeXxKvH-dvfbAbe6S53DPr6U7aeB23o5g1xMuYSFgJzv4FCaJT82Sj6nJ_tMBZw3miX_70U57EXKjV8oj0JTTd0eabvK4uauPyayiDEycK6F9W7IEDc_w6KH15-uoDtMJCKNy9eEsnGEGQ-GkEbxr2z7taMr4s--ZHAfm50M7N_c44W3da1bcd6N5xa8M2SxCO9YGWpISw95Vk75OVNHkVhgSKZHWU9m4K9ZQyMTg6ktb0ARCrHyflE0LmBp-0PryoosTiyrJ6YRTBB7kmt4q_r8VOYAQmwWi6xE4vmzu_uL1RM7GHEHOSKII-Sykifb9dvVCjVQDKHpD2gI3--Jff2dqkDoIOLWUigweQUySa0Q_mWNE57KGsmP8zLS0mhMXSyHKub8GFRaFoAe6H_KA3I3ITKcPGNUYiCUh-iQyqMoor1b7TfJhG6f04JsWvYIQkgMcRovVRXo-PCcBOBhb_pZya-3H9ynZdNe7-mgumvMdQCCm1JF8EbR0DgFAY59zC3bXUjH6XrTEJJRO4q2IDdcDLd9SJWNiH9SwvtSXGO3QJEOchKCuBuMvwPvWo1fd31Cfo3taNbEAtXzUeL56CVjg=w632-h832-no" />
+
+</div>
+<p>Then in the left box, select Number, then set the decimal places to zero, and use the 1,000 separator. There is no need for the precision at the level of decimal places for this table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/x9xw9YDh9VVywHG1w7m2WTJJzJku_1VBLySJQwQApEkpu4kcBHu3j8hm3iTvuiKJcPrq2NNCN3MYQCK2_AWgizopnDhVnYqd4iy5yiophbEPMwG4Aqs86_LMucC1or5113T5hnYkuqyNbk6kFhmdPJxWQzESZ5m-YAyBgXMb-YxWVqGjuzhD-fjOsWGeFqcz8niVfk2Tpfwq-et5e8PQLmqxLhBuCQBmi1a9_bl6JEAbiZ7O8Yzp5kOeHUZkzf4eqTQqxK2K1w7wz6o5TI0fV_dRgx4muGvEKaLibo7yO77RZCnZ4Ub4xFgP_TCiJvsMb3rQpQGTSP5EtQ4KwED10eSTfn_sGIchdvA28PFobpOw2O5Mw6kr4v2Uc3hQfXWhzv2nkfhYkszbhF2VkQAXHf-SK8aErQ-hpI64pGDqammLnL0i1h69s5tD-oO3jwHlEUw7dyKafXrQDMBSGxilOkXyHh82vRUq1Rti7SmWSwWWmz-Bsk2XeoTWVkA7XeH5z9q9uXGikqqPB-d65iaU2KXOoI4uRxeIZPfd9SZIxk2UVOCRSQ5QppOjswpfSwnGd5v3Sqvq1uPuvyEMutVcwl3H6ctP4TX-Z05DC3L8SQ1dWB-4irVhRxnzk8g-x6v3SU7OsBK2HwcrF0hofAN1betmuMZY2h8=w529-h465-no" />
+
+</div>
+<p>Now we are going to set the font for the whole table. For here it would be OK to use whatever, but for more complicated tables with numbers, you will want to use a monospaced font (each letter/number takes the same space). Else you risk numbers not lining up. Numbers should almost always be right aligned. Here we are going to pick Consolas for our font.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Vp_roD78l4jA56wGWdDmqdKbUB8cfahjWR3FdnBMvH0GB9Uht-gydbcCDk6d1NyHqXagwktfVE8Na-v0iGP72t5iXbahoMbeMDk4O0EklXr1HgYWZwqVhXD-ndJd8pa-6GIz-cDlt9-FX49WQOgiacjLhWRJPbYXXUp0lA-KCUl2Q84M_NgDMZ4kXCnZe3ySHsjc-ZmQQcTmt-kcW6B_5HNh8Llh9-GrUPfVYbM4wgHxoPlRv0CtUUI94O828bl9tEjNrwTA34-FEPpanPPzcr6lDgbqexsYBpzGlvfgWEH6ugfNq1qlzA0-xD1FQJBcPiWuWuvjFvy0ufN0l_EdGR1l3tp5NvYo_D-Jbh8zmqHX6JyiDIylFKo-Y06qTUxhUveJMpL4mRsvff43VCE_6JqwTAEI9ThjFxAigawJKrEvuPIKMjj5ILz1rjRKOPkcnjUf5RfT1RgEff4V6WaxZrfwv2TcNnfopjjkfs-gDrmmAsf2fGfXHjggpz8ebYdSD0LAYPgfgwg67WFhD_aJMPCnXd912q2OcZO3hd603UMIQCqsMQZ3dUS9a66dQS2fCk4NYARTrnz9Okiwu1FukisBXGIkmstiQsSZweDDzTh5sVOVlFs07NCb0DYKlXjgM-MOMil_ApTWD_AWoSkkEsTH5dUTqLI=w540-h840-no" />
+
+</div>
+<p>Now we are going to do some zebra shading to our rows, to further distinguish a hierarchy. Select the Violent Crime row, and in the paint bucket colors, select a middle shade of orange.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/39eXS4eXuPb_ypS13r_ErPWAKFdI76YsD8PEqC6gt6MVaORQutY_HdMWf590WSZ095UUhck_r6OSJ8AItG2qlmQF5sQy3vLsDwU9GrQ7gzczaaTfto-J0cBxqe4gj1BNO-83jXcCLTKRhqCysGR0qZXu7rWxlo8raKEjZbBtF2QLQgwvPa7GU12vz7PY0j1w2S2puYmKG4aYJbC1rQDflPq5SMjeDvKbqyHLhxPif2lSeibebq7kjF8kXrEqIUZKE0LV14J0g7usRdMb9WVCip85FCeIlUqOss2m46xo8z6m5Nmz-VjZtGwweXDiipfpPK10L9VnEQ_YPLqtxTU5MExd5dKI_nCxrfdOwqL9M9_vKmxNcIuBMbJnu_fkIoRVU46uxcz2iznY9MzzER0QY2ZDo9r2jEKw-DyZHVbubGeQoi93YOwxIUisXwyHuoWNGGGhEvJYMBtydM6vQfxasCxjvEtec6NqL071vECr8y5l0ykO23YZ3neO33P9SKdft8La8S8h2WBFTOfnS3VC6vkDEAM65DaEMRfuDEx4VXnvLk0yhVQHodgz2XkcZdt-FSukfg7G8hOARuYUyHVeH0LfmWaazQtWaqN8SmG4SXp2SxeNuT9yTfFxjDlB7xQGv1oHOt5Pkr67emnRDqNwrLv2tnkMh3U=w480-h560-no" />
+
+</div>
+<p>Then for the Rape and Agg Assault rows select an even lighter shade of orange. (Pro-tip, when zebra shading many rows, you can copy-paste, right click, and select Paste formats. An easy way to do many rows in a similar style at once.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WE_Ogc9SjE6sQFRjF_OzgmZim3NKU6VuQNxLp1frs6pqZEip_tALhGigzTPoMoHnJXAINNp80emtg41DnKI3j_zh-RO1k9s1UqTzhJ9K0QfxUFJ9EMAmrl1-eHgc-ec985WpxZaVM9e8ZvCnWPL45C76Wyr_Ihlg63JFJmWw5fOrZJuaGyRZ9x-pFahqNH3nIAicJ456UT3tz_izyFNlFyhaQQFjYfRxWjDGLF-Vm6WUK-MO13YD_1W3PB8rlOsv1M46ES1tG6BGwoz-3fcZsn7OUL91qBjSecdpKMp6loL2WSH-NEUJIIZHJR2cGIWZWof2XX1GmlfAfXiBnyYyL5QoCg5EIdz4fGBfcO2MKUv2fMW4Wuipa-arUp5Z8-ggaY1vO-k1ZU0lsU0NKHm5TmahueD-u8bf7DWezNSCtvddVJyvx5YM9-n4pXaxgGh6cf0eFY_p1f9w-WTnUjISPGV0ZGwB86Bk97q-56qkdNQAvLSyw3aJeISUi2wsOpRn9VEOqdLgSUfQdXf7aZTeGQw-Y3nnupIFkVn-qEnMioqv_TQQ3J5XFYeg3Fhp-Q4ixcYhyjKapyP-mR9q3uYbLMbpLdWlR9ByUp0XSQcVqz-SNuekjBvXLaLC9Ajuy0RhcTI7Oq9waz1Ddhw_LDmk4lny2aAr9TA=w483-h532-no" />
+
+</div>
+<p>Do a similar color style for the Property crimes, but here choose a blue color. Then for the header rows choose varying shades of grey. (This is a bit busy compared to most tables I would do, but is for illustration on how to choose these colors.) Zebra striping rows tends to look nicer than using grid lines, so we are going to turn those off. In the top tool bar, select the View tab, then unselect the Gridlines option. Also increase the width of the A column so you can see Motor Vehicle Theft.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iEdox8r96CmYw977OoSdvC02a6PqcSTnmHcX-1LmMFJ0we8Wtv0sfRp4fEzabkb5VCCv0kSAgfI-gDfveSH7wbRf-ZIsdindFrrXjYAYhq7ULnNqok6CWS0nWgC9y0l_X24o3S6IKsAgE-98LDpMvey3G7MbxeLHERc-Brt-z73lu2zDoGn0SvC7MJMDKi-bqv2PTM8v9FuvnyWHpMzpic0NcHnI-4YYYtvHqcVG0NI5R8E77PFE20vp1f9ze9fQpSUf9g7ZkliRrvwbqQI2SSMR0IoTJIDlBcs7JmUncPl7C-wgtguTwwRRPY-WsUk3E9A574yKuT3q2cbSiR35BxXhB3elVYLFocTotJhWCatvkGGaA4E3Ic0j470tdYC7zBM_QCbsXahGt3bbE6NT6wmsJWST9p1RbR3XLeEfIEusSSugKBxY-laSGeMqYjAm1OLhp7qeGcCDq6ePvQwyPJ6RDyovyWHSvr87gemWKYMxNtI-uQbzam53t6CxrvOw2NBMEY1PEBw2O0Xmqg1a7ZkIzyovhqalhoZkVUlKG2StHE1Lt-JDIZdVEFtSZfTEkX8rPWJ_GFl7K--morOYzfug1kyygb1wEumYB8REUXVJX6Fb8fnHvM7buNaiOKlftiO-ibC3W0ppT1GoPYbgOHyqK3wr088=w630-h525-no" />
+
+</div>
+<p>To finish our table, we are going to place a border around the outside of the entire table. Select cells A1:C11, then on the top tool bar navigate back to the home tab. Then underneath the font location, select the box icon. Then choose the thick outside borders.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-6GNzLh_cWYzS0sPWHdn8X_hT0CNwXHhSgeVCwQF8d36DWpb6BdAOM4FAVMu5a9VZKKoLO2Fs-Mpl6hlO7IYW6ryUUZIM31YDo9AosKWXofo_teLrI3HqRtJy9Z8fIxY7ijA2bTYeqRkH8TawzopBGYk7HzuAl4Z7auGyqopTT2MUUPtsYHq06pd4QY3xHDsA6irHTqIao6FSZN0hl-eEYpyEufc53JgBTeAwBhWMdCmnn-AcTFlFDEqOkuaS4kewhEqYnOrdY65euakHZg2v8v8BxXHCVN-QlDjuLB9_sk3SFzlHuVGkynUphQOKUDqK7xy8FJdqqUnq30i4t_iFbCS3GPQ9iwyFWxEIwCVp0tfn6vKeEOlRC8PPWw363F-ZFDXHDkz0G_Er1TyboYDdzxws8tmE2WSyMtaMBJwpcbMRWUFm560DF1G6p613fBtK_bFmDqwwxzkG0gAXUS5FsvMZRnG381joYI-udwkhMtB06GsG9nIxQKV81UDQIleraRI5g9cd8m3PSC4QVp9OIFa5ovaVBh2hngU6fEbMx1in10TbRnJcN1U50a3_sD9krr_terq57Tw5iSFbnVpaReaR__E6jXYcwMWglcfZbmZaA1uXs773RkeVsf8o8y_8WXS1hH_a0CGK_OXqJ6gRUJQHLydX2g=w568-h684-no" />
+
+</div>
+<p>Since our border is partially cut off by being on the edge of the spreadsheet, I like to insert extra columns/rows so we can see the whole table. Right click on the A column and select Insert.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uR8YSjI-db5l3jtN5XJqy-93kXEMYJr5knW97AdbmpKN_qbrlwO0ZT35iBdSzFnPMa_UhEsnXipqh5M8U9QvubkpBgnkvz7Rlx9-B5be8V3i8LjSRVbSWmXVH6rxGHU78uU73J-R8qTIMb0p0sKPDk0jKZaOpGTaRVUJS4Y8z6QRVDScqwlbOGMoTczsr0adUXNwdbWB9WOvB_v0wM-7Zvl8RU7A1hE03B9au2N5DrOGOCziqVLptHAtT7wWoCUmLNXmHxhmw4AlbkJvjvLRsK_APgxgde8Oe-AWq2UP8MQpIOZZbjZHHTJ-cy4MUide1W4q4eE4LhieQIL3y26tLoZqBAZpOU5reMxlSI-kl66X0L6DE-PfaP44CeA_dGGgkdpePQO3cISFihq_VeWQXAVeRrH-LDgkcnPML2eUVFz74P14x6l-BmPOeTujEPSCX3EXcFQLSHrqospdUB-GUFQL9pSVQN7Mu011EYaifEzRC5qNQ3bAOy4MujNOX-asHkCxjhmDLoEd3Ndc8Bi6DEAnLKU34Bh7y_0IEDpt36V9_iciu2zlnYJBRhiF4Qhr6tLLBIUzC7Q5TQAXhbrLxgmVQB0_Hkvy-S25xltUdVC0LegqIh8EBydVWkrLfUIfLPIHzPnoDsjjH4Geu-aZqlCJe_UuiRA=w504-h476-no" />
+
+</div>
+<p>This will shift the contents over one column, now do the same for the first row.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-CXqgsdEyyYEG6Y0wereA0q9vtvKQ6kKw6kPDh8Ch_3B4MQZ93m_8qRf4l2I2HpS1FHM3277Sl6KI9t3S_qRDtDQ6_H6POFEmZzsqzbNYDzMw2P2BXlzflXTyF0stWXhDbN8rIo0CfVMxClhnjrwBBS6GVeCir2gXRRjNNufISvA7st_PBFo6U9JlUEZ_e_4Q9D_9tKusG7LVRmjB8QJFi7Nds3qn8DbxQ268wUnBb66518rUgkTShnwpBFs0X9yrUWhddP11ZBDN9UsIZ9eCFJkBHB3N597HeSH_WOZmuSxLzW-p7gSrDe9fPegK4ugrRjnR3TsEn5DG0AlKJwt96WAvUno_2UQhTbDC8B6Z1goYjj8KdHAetRO-iicnnx8u10hvOVyVvBR6TLZ7tjI5KzyuyuKh2GKrNvIpa2cU6NDxYVGsSpLtlxJA0Uz7FYiji_HMGQwyyNzlJGO6Bcn3703LLJE1W-wDA41jAGdw8McqspNHx3cC8KJBvT9RQukVPKmiV6KTySfi5Qi4P6VnbQkxISz8MfZ7MFFmibxmi9pUT1U5IZYZTG8Dm_TP7hgP09CDzPS7l7J1PvgejTFaXVKSMM-xc_sEm1ghv_PETcTE4bXjsIuX2pjSYTw12JW3aQ1t3LhMrwNwwWqBw-fEK5GfYOo_Qk=w462-h424-no" />
+
+</div>
+<p>Now we have a nice table floating in our spreadsheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sXlADxg2t93DDpkqN0h2QVQIQyUWYm1KLrp4bUndXfzr4G94mSI05QRPV9rdVSbsiLQ-_XI_eIdsfQnok2lXHsVG76RDhZQsvNE-0p99Pmjf0EJ8SO0Mn0ITEl5CZyYlw-3pg0WvoYrgRD34q27fxaXeSHsQk_HnSrlUpwIgqmMERuGWNOhU_nYWuWGIyaePI0pMJlRC1gtZCmn_FXGx1BoXTp9a_Bj1Mm1zzllA2FuJLoCDQ8H1CGyz2Hf_pjnAmHv4fB2m6OypYsS0nSkKrsRCfj-PlHkg2m2-cWz8U5bgzSnZu9JfVpjQ92Ud7bWp_yD1Clu4m4YxyfixTm0MgkSt2CsQgqaROlSbG8MKOq5q2YMiAaZXbW6c7ivafFVa6A8HWlN5r50JaiqBndQbNel7S8qhfMKDpZYN_dq49gG66TUJa83didZny1eGIG0CyZaopv8vuE-xdag13o2tKkx7k7gMhCbrYjisWRRRzFeaTdxhbw-XQj4tzhbGbFzFLQza8rZvvTetw4sUv9TMjrBwhwaFPV5Hy-aNBUlVxNNl_E0lQ6LEAVtAa2Zn0NffY4trAU9Pabf7H075nf4lB9AxxIvvq7A5AIoC1Y6LYL6-0fmjlnW-NZVEZyaOev4csgSm-8AYctBXPjRZgKTegIRq_ikWLQ4=w470-h342-no" />
+
+</div>
+<h1 id="making-a-graph">Making a Graph</h1>
+<p>In the next part I am going to show how to make a graph. Select the cells B9:D12 (so the columns rows from Property Crime top left until 554 bottom right). We are just going to do a bar chart for the Property crimes, since they are Violent crimes have such different totals, it is difficult to put them on the same chart. Then in the top tool bar, select the Insert tab. In the charts options in the middle, hit the bar chart icon, and then select the horizontal bars (it is easier to read the labels for horizontal bars than vertical bars).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ONnHoZZp628N10De9IwJexTJdfdwhUCPuTiiptNAJVfzoYn-wZI1uTtStctB0ZjjNgTYlflFfEdPGR2ras_ddKqj6zReJBrvnExVscLtTFtH1HMK6XFX8W3ojqo3iBqjtbzGnsuKbJ5uvT7vTPK7DG8BqmUg-SOnG6icoGXHLDQKX0ecytXXu4kv1wIvubl0_WR4aPHEsSk5a0k7BiQ2bm5SY_Q8RJHyXzbt8SgnjUPOuQzV-SPwJkNgxuwngqEzllnh9Zbr-Q6Bgoxr-EDEdSTuA44gH9Rl--6EU4ZqzQRW-4wlXrXfRlxX2InzFKWsfCG3Xey1WFBgwwHyAhmrTpz1-MeExsAWGAFLKNmfAYFHBp7vZFIm-GFp1vO8o-Z2cQKX6Irn4fabEqutmW-p5vUtNGQJ7fOCXhq6KSHS5B6dz1KEeAAhravB9hQXYHdHAmUkdfZzDjcRUDnX2Y8MB55779k4V8dV2eVPIJnzefhkiBgURHm13kOy_MFFQsIoOTsliZBtkh9jmjBlNeaqPUifhObZls3K9gp1VkJ6AuNh2m6KgAl3mJFOPFdIOeqZnC0ZGOPjA5c2d6BOSnE9QVGA0NC41EDifN-0Yaw7p4vnWGpRBJuXPYhaeKRPVREfSWmQyBS0R7aPGwobJmItvpwzneHpxB4=w1224-h792-no" />
+
+</div>
+<p>Now we are going to edit the chart to look nicer. First, select the Chart Title element within the chart. Then place the focus on the formula bar to the top. Hit equals, and then select the merged cell B2. This sets our Chart title to equal whatever is within that cell. Here it is not a big deal, but saves us some typing. Later on when you do interactive charts with slicers, this will make the chart title change when the chart content changes.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OmrKv5lDvFj3aj7vhmODBAimOnYgwEu52vUFDWOuHewKQrl6TaV63YaL7rj4bM4ejyjC8n_VKh4gG-bSysyL6d-Fov9BgPBux-gzTCN2vWZAob2sPUjY8BouPCfLo67DlG-o_WCVo_zrqwkVdP5k8VSsPDuabHrRsnApRVG0mkpJW5iRZSrj0enzTjInXf8LOkYQ_UqWxJRxClWLWyhKtbdCdqliGtgfcKElHK-zLRoNU-Q1fxXtQy-Tv1GxtElKk7-VrhrvhU7Tym3TTFuZWqQc4t5UjLARwyzKstuBw4nsyYw2eh9FqG7VmwDZ9AYlEQdQqwXzTMfdWgoFncH89WWNPyhOds8uKmhkU4GXr_qATTeaslDrNA5jrmFDlOx-Ew3lD4_eSTfOLjMq3Ab4q2ZbC9ItvsQyMO4p9KiGcQO3__ID2WcDuueK0bQPaAcQoR6Vq49FodP5bXAUO2K9b62PLwL6oFw1GyUjjk8wTyrxHHL1BQD1WJQ8Yr6ENjyFMLMHT7NjS2CpLQVZ64bcPAGPuCHoMI8wn2fRHGG9_vV5ISn2hIk65Dw5YkKnXhxppjh3tpWv59kVPiv5xbPaOCTIeJTx1dCR0T_h-_aRNWiVTAnYCT7suFsb40BF2w13k7BIc26FnOlhqLVfsGRcVmjPtwyXo5E=w1182-h652-no" />
+
+</div>
+<p>Now we are going to change our two series labels to say the years they correspond to. In the chart, click on one of the orange bars. Then right click and hit Select Data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/q4Uox5vG_v_SbyGpyfAa33zauPPo1SxTO8Ta2tW1SvRlJxUclTWOayJeg-BvUZMsqaZo39X8tb2Iw8JLdB5rWSFxG24Lkmkm1miVd2IyeTUbh-XQu_9oYubUmZeI6J8eBFYf0P55CFAlS8WvhhAusmZdUMGDmbN5tVn1V1X9Ss1hleOAwvxCZ1ldeDJamHFCbd1Ik7n2UtfqdOG7Dn07jEKVMgeOuqDQswyev74_q_Cb22cegsSIiv-DUMJDlWVo5YAJBknTMQbv9kUnwX-rTpINNNCR56Ishk0xhKKLkMOUJJ-oJoWNQ2RnYRRNp1eFjynaeWFlREbSvK5P4aupLyBFkultergu3IrnmzR_lo02sXPl07o1mRzdF0NvdRSHGpkMwABbmTaDLNzQKIS7NQfe1XR52Ny1F59vpgINEmpE1RmXSNv7qTMi0wwkspnifa2Pl-TSK6k-fzcIPuK-Oq0yYBo0FduqDNi9jAczfSJ34p6ixRjM8v0Dkx0-TYx9nj0LJeejbYMgJJoi63m99Qs0l7AQXpohttuWs7rSCGMKvjK1CdYnFpEyqkZ4pp3y2H1j5RPvF2zx9AXaVX5PRDj7gwZxeeOrcE_s3kqeERP160RJrivKvE0Nhc0xYk6T2fHmLkXBHBz9RFmmF-NvZVUevToI9NQ=w1196-h488-no" />
+
+</div>
+<p>In the box that pops up, select the Series1 on the left hand side, and then hit the Edit box.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/o6Ixv8MjaMD5e-6ob5RSjkKsPWX6P3jyMQTRYWstWCMEh06D5Q0DzJJ-RDwNEdbBMykZh8HqMZk74JCb-Q7vLa0p0WJbmAWj5XXuTzFJxlWpLE5xbREIdHChwraTx7nNBbi9M3smix7TPuvZLmHQwO4tSpP0hJ45Jz6455LHU20KhpJPBQFINce7DvHjmF31FzG1C5Sy7Qn0iYOZ2lsiHPHS7c9EmdzZcylwiDnEKSKQw4pvOCRZMBcCxpdQBzXn7Z-PVlXvucIHErLd-sTMQKqX3CRPO_3I1x2-1Fv_kYF-94x8HrTe9GwCXXj9rH367mCSZrO4JdxFXU-cNTgdiq7CR7S3s1_UKkDAy2q9dJMT1lUaG1FUPYonBywY4hftjtBQjEiF_08eO2rg_RV36-xbbJHUgTlVZO4OJzFqhWZaVBggXndRZ-2Ddz31gm8k_clUfD95RCoMmx9aAIVgxmTvnNKqtoMprp1NyLccyN1Ua9MoN_fXk_-sikhZ9svmQmg2dOkK3sQ-ubo7V1f0smUGvdHvhT2blH1arZUHAmUSOSZjosM_RRVEEXhluXPa-EjaRUgDfg3wyc6NvuZmRskwfiH11zd6C5prOodHv2hGuDlGL4kvfja8WIR03iYaYiWrJWj-C44BMVMaCoWRALeHU5KofF8=w584-h320-no" />
+
+</div>
+<p>Note that now we are editing the 2013 series that is in column C. In the new pop up box, place the focus on the Series name box, and then select cell C3.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-yJ78CgrNy8KdkTikvvujMPsBS1JQa4QvBkxmJjJAlQaIdloY9pGD4iNhhs1mHeyOUZdu1LITj00l3-W1e2zQE3v-F_CleqbKXqTlS1ewqTp2CE32MSL6yP8qZsxykWYpCbZ4cJxLri0GiN_bt6rqOgUSqyPTV4p8kJDXx75P_nvl3G-0KTvXKBKuNW0AN1fZdv7tHQrZ7Hj4ZoP4LB4YJoOwTJ_VeBsEKW8Wl8CAx7Hh7xDueF0os8F84bNrCGsPoJmUaaQ7So8hkg1TM_1PpN1xlthc7C4VZOMtTaACJDJJnBBVwra5bX88dC-UfafKIpTC65BajMxcyEYXWfDR-kJoUWCrhnbItEMxy3fPf1DjwoaDeAGYRBdzvoZkpSsWxWRSj4yAnPtDf0pO7v9vCDOYJPvLIrHN59qPh_hix1s-UQhWeg8d8hhdsrOJgglCkEVjbrGLXhGX7U33296B7L88lqHrNz5BVaaQuKijB5LqNxvtefZX-YsOEP7oUoDX5lTEDNa9u84o_chD1XDXuWaliOWLsdBKaf0alGJF1oa6X49NRa6DIlk8C7WFiIUQpdeXKKvnFYJKBOFgzWkmDhra6A-Hdv9zIgI80_ex0nfgurV1lI88l9WV8ArkHHGtcXFFy5nONSmB36D956U_Gi40txt2Cw=w1192-h516-no" />
+
+</div>
+<p>When you hit OK, it will change the series name to 2013 in the legend. Now do the same for Series 2, and change the name to 2014. (You could also type in a string here in that same box.) Now we are going to change the colors for the elements in the chart. Select the 2014 series by clicking on any of the orange bars once (you will see all of the other orange bars highlighted). In the top toolbar, make sure the Home tab is selected, and then use the paint bucket tool (same one as the background for the cells) and select Black.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Nl_Up7hZfYqRBQdboRydgC1zTtwwMrJvPM8D1b-Byh7wRnDNH9eGSWOkfDWeQNPThVJ9wX1cU_ExtFGR9-ZEsXnexZf2GGtFJSJ5Pu7j7N4wpKxzisa-yEYBDdZEjE_H7niAaP5wFgdnUcYcYV37dqKPQHgqm6yFGBVOASmrvT8pqMz-sFQavBSxwu_Ghj8IPQojhP4eJ1jFGNUxKblHSr9YZtwV-2uE3cb0G16j-V9lLIk5E0cFpZVSJhbqDCRbPZOO3nIEh6ig6iyMaIiTMx6IYhMaflNLbDLutvNrQ83WlmifQr7DRHnRSCRLgJhur4gjJ3_BmTmCJHHgkfy6r_p4GkOCZ3zMobiNwqpXuMWTI95ldxUS_hUzzVcD1ZjUBvfZVHSdIWH9ICxntfSWYgzhCKhdSMr3tV3rgkQcGOHcFR-jnmnLDdPjzriR_1QUsZjFOExu_PCev5lw-kz74cw8vD86O5VFZ82_mIbCsDx-r6-0HkUJ7G-JRiKedTTIDahZyfrm5Uu61Kw55BTjfmug-zuoHw7TGjqfsrwZ_KDabfMA236dB2M7DCFxenewGsKMEoZt-DzWCTHkfvCrmVq6gmtFgI5_eennYjAhKO8Mcx8mmpsJIw2IxMAD4BLvoicvajtGNYMW2oBB31v4oXPwrnGKBxs=w1214-h664-no" />
+
+</div>
+<p>Now do the same to the 2013 series, and select a lighter grey color. Having a darker (or brighter) color makes it stand out more. So here the 2014 series is more salient in the graph than the 2013 series. Next, select the crime labels on the Y axis, and then set the Font Size to 12.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dZfnVFkCgtOWYK8mfYXKRQwqT9BR4TU78xfllj6c-3h8Q0QlxWX3_KojtpC-hyhWyLuAUSKskSFX4pSvkBTkHDJcUFATm6RdR5_-x7RaoD9ZagknZ-abeu5JmaM9uFSTJcO5RKbir9Fa3dinqBdQs8MjOM7Ch1jTYkHunXdvm-Nz2rCWVmPTMFI3VxH7spReVrj54v7GNZwfi2wFnQEi0EtioHPIyU6keu2EQAxzJP5x_LOgZ6BgO4eFlekLyOnZ39E_FNNOI9RtOKyGrTji0ghBzS-PeON8k6QHWenfK3NOpNosHygnhckEZBx8ESnbTS-6zpXPy-_2RZ2iZNqv9VOz4bdotNtprtMkhOuPVqjku6zWw8sRy9QTTCkn3Gli3P2qhmUyIDpJwIC33Q5A7QqVaKhfnBQWthv-NVx2MToPHHr5hBoxt3lEYkEO_YRGxOsuQIiHpr44Ajr6cH6TwiguW5OdBAnIFJXGagIcb6eGK7j3q4qOe5TJVuuy0zUheUDKGcMaaVEXffrk-o1SSSFCDLl50Bk1SbDGQ9fUIVvMbOaJ4SrX2Wsw5JGQdWt-6BOnup5183VwxTIDQO_i-TmVJ2dl8MgGdCSfQaeqP67zyvdAKIo8fdHeUt3AeXcbOfNs2vB2kZYySZeYinM6eVx3ybLKjVw=w1232-h694-no" />
+
+</div>
+<p>Now lets make our chart slightly bigger. With the focus on just the overall chart, select the circle in the bottom right, and drag the chart so it is slightly bigger. Here I set it to a height of 4 inches and a width of 7 inches to be exact.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9bFStnZaWh2YNmhSKstKS1vvcuvxcONX6KxBgFCVYcmBoOVSJQAs2lReWoGivh1Uiedq3AUuJauAR4IEQeFQhxj1K9FtWjKJ_O1g68lsWd6F1EDh1dRhZGiUjqk0jeBzrRH61VjBmGnsWfqid2xMxN_V8PXEtf8euz8datLvF7Unhh5D9OEDrd_N6CLUWmhVpVVVM22-fU3lc54A68yfti0XxZWdLoufq6aVzqXi3zHEYUIhH2yzrfl_gvYCcRjsCmYQ_G6mp3McbEVtqPBArgu5ODqRms_kNPSEip5-yXdEgsZVbwl-ME5KchiSD2w5G1ibxWPe724npCFGDuDbXRp25KGWr67KHxyoSyGV0W2UyvRZLAd35dcdXQfmRD6ao6Tk2aGcyUmIesU1mPVV7q_j063nOGQhW4MXh0z5QURJLe1H_b4-RUGI6_5jfHTPKrPsZXoCz8GoRrAiseXvGXgIrsL1Z78XbyXKg-oEsqJ9JMkL3cUnj6pbV916Fzzjx1_CR4rhLmUsDydIiDSEye_jkIbHukc41CUx_OrQUap4Cg9A7Ejpt5es5rTdU-6iDCvvdaQQzT7p-bQO5AXxoiyhivCHOeBKjE9vBvZkdaZjIq4sFh5FAZqQZTnND8JrssoCDf-EcMR2ChPAWz8ct-cudBKUTyE=w1091-h793-no" />
+
+</div>
+<p>For the last part, I am going to place a box around the interior of the chart. In the interior of the chart, click on an empty space (the tooltip says plot area). Then in the top tool bar, select the Shape Outline option, and then select a middle grey option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/e4cfZMPae6BxpqxwkI5ygBwtLcnBP3cK7zUbBFUT4PdH5KExEgVHVtFiAVe80a871cdTxlJygDNf83XBwM8J0sYGIs9-21QvSwjbqMSdLLWMecYV709WuZW_t7bc4dyE2032dFSOdoarJDV6yTqDmmHJlfei0g3xuRJY-xlwOjhyMK4CVnAlDOGrqUMVGQnqIXQ_6vt1-xMyvgCf177j6grs7LsI1T1Mhu599f21j8bnWrMuMBDBdK9MYqlPWLaV6Ug6DhUvz8n3JWBJ3cpo5QH5FkxptAz1fp_nxFXhEtYeZ14rTjdxkn7yTLSrGHC89DLqca_hWyKwVPXRzjpk_bXcS1q3M7vWEHOqwuJ5WZHtlHiZvC1cSLZ_omuvyPf78TM2X6PXx9omNMX1P6loVwLKecgza52MMeLXcT_n3pNkjwD1FOTPW1p-dA6MogP7gWow5hzN16plZVVpa7SZpAPIrbM9rI4R9oVAP4gcMyFDPR9Cj7cBXKV5EVHGsyGDQcBZnZYp3Spe3rOMjAkfxteLEnGJ076i1xjWc9nVoEqc9Cot97jNK-kmkpmv0q_SQwSQ3PwNy4xhTbl7xTTwmA5DdrkAIr9uhMerKjVbpcK6z7fdLHO4tMQsv-eAb4DbVHyLEIsHu4IZSBWtBM1Dz8YfyEs1Q0U=w910-h780-no" />
+
+</div>
+<p>Last thing I am going to show how to change are setting the grid lines to be a dashed line instead of solid. Select the horizontal grid lines, and right click and select Format Gridlines.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/csuqzF2qMO6PTI8ZCOlMTvhb4TG_ZxPNT53iLE1I98XGy8oKx42BzoSzRM58Crmzuv8e3FIMyY5_X6Cbw7he2xonbtbGGs_QDGsXrngTgD0xBBE14cBW8iK7N8cbqVvYNjuKU9IwUl4KKNJfay04eU8urBeh3z1l9TIUBnY2aVAVkrgcfMiYSDVHNaIWD-pfaNuXMgy6MNtnPYJQ7tup-WkkF8H3hs-DTpZUC0WglBb7wK9vjwInUn3_i4fqVi9mriSsIPKRrOVoEAhAielveRrG2bt4NvUnhuG4HO8guThFg_MAX9yDpDT9jDjHK0Q1bTSx_RMhSS1qVjDI8bFe1Fz712Gvk77Kht78bn30gr709xoeDmuEi_oFkBBqAtXiYbgTgGJzKvxhcRbo6TyQeJCUmJVcbaaxDgDNQ43gdlJjNAUPGgtUkzVm8vHSpg1Zd2Smi_eOXxpK9a4I0SmnRDpajlJDGZXo1fa1NNGQD7GkfnUQRrbBint-FQVzyPuDXq9F87QrUzWYlWnDTVdUAmS6EP4kMaPfyU550sxhZoOFL8iZMV0NQksP36hs7XvWWEsTYWRVAv5siBwaLm8Ttc48eNFflSSmVVZWTC5GVoVk9pRw9E4KgC_7eThr1JCYw9cfq0pEZwGknhgBr4PKujchNx2GZ70=w828-h502-no" />
+
+</div>
+<p>You then get a bar to the right that pops up. In the drop down option Dash type, select one of the dash options.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Da5-yer3FV_ztQGVVPzTAW7nZ4qNL3uhUJz7WSSeBqICyUwbDLMD1jxCtioBSlt3PCthVLWS4lt4qtKHoU8y26bX9dIppsB-55FX5yjDrOLHXX18XM_9C1xhcO6W4xU3cpZIjhMxsdQfoZnpwif-XdcZDGOhjot37J2ezkRkh3ZnFblD6fs2gZ7_0i0mmitJkHJcVnA1mnoPz3eGSOMfo9miptkwedUFltInP3nsNW0qemF0MHFbQZOqchXXLzcsxOBWG9kRoMQGOkSGYfG0pIsG6X6wIZM0JoOsv_5bA9K6eYsjTD6KiGnHnCpD72fQ2wpt28wq_4GjE7nIHrFCB0jcQe0A_tk19bFxXe6oBzJCkSBJZ2HfaxCXi8jMfyY_fssPydydVf2myLVeMgNBpR4zNu8ykWCsqZVEoQiG8oTmOsC_4ujErJ74egJYelBmVCHYgjkPY-LjE5VEERwybPcNZGj44RLbkF0xUZp8ypfJ_vccV_QYv9AZNH6QpE-qof-DBIu_2c3SHPvyEJu2Q-hC4IgAKW2TZ8n9jKkrwVpYGpGuGpoSz2Ep4eOjFT4kZGSGU1pacxd3hMLoyBcGdw86x1Cb5Gw_FqQaZz_L8kIVHx7_qX7xkU5_nn-fcmjVGmpwPD0klMkKm4XF8fsHB5wzA5tYb0s=w1366-h664-no" />
+
+</div>
+<p>There are so many options for editing charts in Excel. Throughout the course I will illustrate more tricks here and there, but will often leave some of those formatting left unsaid (and you need to figure it out yourself). You can play around some more and figure them out on your own. If you have questions on how to achieve a particular look though, always feel free to ask me in class, at my office, or via email.</p>
+<p>To finish the chart I increased the font size for the X axis labels (the numbers), as well as the legend (the 2013 and 2014). So here is what my final spreadsheet looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9WgIu8A3ZMiJFwrTqK_n6STpiH_jhFsNGK6HUEL43yBSvmT6NAzEgkdlwEfgPIxZF9qL6sL8ghIVEISo0zFDOPToiuhMDa_8_Za-OtwQpa7KxL_GYixYdKSWMJK34Q9Nayi3zXkHpEi8b1lxnF1CImn2o1QQdk7uChvEOsx17IK1ssrekWn8_jE-Kqi8DYnR3RDooDhTfEHU8aJRS3gi_0GJQqbAweJUKlcT2FfvQ9h7lQzG2I__eTVTl3BGT_1u9MjDygwz7Tjcnja1HQNy09VhFo8bssXwwLoY8a3tlo4aaC_pdRpGA-THJr5mxG6yQWHoGf3yBMTrRh2-jQxVg8JRK_dKdfDbT9FfoTyWlQ8gicgcJMrcslxRp0NCQIuGCub1uHASJyDUhjdyguH6S9nVObOSZWfc6-oa0Ui560bLqjDGUkIUmK6Qd7iX8FoxWBUkURt_61KQsmVjUJ1QL01ORHXfhvvgy9izXX5d93YgSXANdfFfLKxrKqKL0CZh7YgwDIGbgaAyNSl4aDDb316fWheI23V4a8zkNG1foKiRtH8OROalZjz2dq708rOM0WeW_amvmLjsksvXz24fesp8PVer1IikZWe5wxfKpdviivXLGqWrb8IqvGe-ivuMfXrbYtcVLgMlNG9u1OCRRWoa3Jyjkq0=w1486-h602-no" />
+
+</div>
+<p>Make sure to save your work so far!</p>
+<h1 id="inserting-excel-tables-and-graphs-into-another-document">Inserting Excel tables and graphs into another document</h1>
+<p>Typically you will not be disseminating the Excel spreadsheet itself, but will insert tables and graphs into other documents. Go back to the folder where you are keeping your homework document. Right click in the folder and select New -&gt; Powerpoint Presentation. I named my file <code>Lab01_ChartsGraphs.pptx</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/aZRFLMMxeGQO7pBwXHl5OViwI8P8EL9JpTNMvGSLIaz0yEFc-wQabfYNBRofv6l9ecvPoMoqbozVursDk65GJHC4rokyUisZCjFTKTrJs6M05KOWyAAtfpZ-mLIh1Empj-ijhcmLAWekT_KFR-BHaShZITgDPc-GAzw0TuWomhlM2lA7dCG6SwDM0nURkpl-j4STaKKWAOBQ9PgJLxOqiKh90b2LjOtcTUefLdh1h4adDrDzzhSWvqtIgyUiYU1ckg0jriex6V1Vh6q9LxUBH9nzj7RAp3b5ZTI5GnYbu9yeDP7M8VKlq4zFBmONu9JTIgw4qiCbEvzYs8_GTi2FfZb5x4qR2fdoElAMc4zCHPPZcZHdvfRSWsr4sFSuevKR4TH7APekrSz0h011Dd8U3i7NN33JbHez_lr-vu7gI4LqkKhRDu2vmWPoViQJNemvJQ2n17AxWF_4jIF7EhUpF5VXlotBSgZT7yz8hfjSy1zf59wnxhNhMhy7sVPlBKZ5GKlyg_YrHd0L7WDrMfyCuhELJZ3u__RQsHvm9qdh7pN1BTMUSD3Zb0CyT9KkE-2O6VdDFAx6wQldvK-slTUTUl7t_saRDK4fF1r_xpWCLpqQt42b_IVYJtwWUvBNMtsZYegW_gnH31TgGoOWL2jFlu2xK7mj758=w902-h784-no" />
+
+</div>
+<p>Double click to open up the powerpoint presentation. In the New Slide icon, select blank.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XEzZ0GkZ6jzZotfFy27Nk2yJrVKN7mFPy8U1kkAKSv3g6oY1c2KMKEAWNV7cJBCMPMk-B0oXOs_3NdFa6SSVNWr5AqNyvqRCGstt14ru01HpcoFysAYDkR8eQRLdhGP-9WkfISgzgVVi17tBuWv3auSQ6_65tYDvJ1h5Yn6-dFGtiP5FqfQeHcjZ0LU9P1XQkQ97F-d5vvjdNIRHubjrPjzQUkC3ljdES1tsbfo9h5QCAf7iOCwaRzXlhkeV8hI4nfTu0MBuFACQHGg5S5fExo-bYYhMtVaQuPWRJc5d8l-vZhQblFXvaFfEeoCSI7BnkokT1kP7vLQr2WiTtOBpc_Mtmyg2cwDAdqhVG7XsG2BKRIO7tKwgWYmYquWTehV6O0tbZmJuId8V4Fw4Z-J6wwsvdhWnEkEs_MSai-ZPQZwCwzU4HGxuIOuiZ1lHsaZYaokr6Ce8sH28VXSPj4LmJa5gtwqJYwoJRNScqBuB8bEyraqOFoHxsEO4Ru5YQzajnrvHqBJhQogwEMMnB-tF1w--KPkZ_5KBVyYO8LcGyxfRJgEKgbnSLstBuKQK4y5pMXtsgHHt1xcEl9Pr_HZx2Kp427uJedpgZjDttOfbKQV63SzFqWWP7SHY6UWmqu3wVMO2tEvU9mxz_eQ6e8nNcixj4jm5kvk=w1024-h680-no" />
+
+</div>
+<p>Now go back to your Excel document and select the cells of your table and hit <code>Ctrl+C</code> to copy the table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lsMSzAwsVvy-FBR9Gyipnc1L6JPMzZ5WG10ynhzyMVVd2VTQbHAgnyTHvpQj-DEpP6GjD0XuS1Jtmh2-p3VL9lFoxqRK9Zmtk8I6HZsGEQCGe75Xlo3BHq7hO0isIeZUq2QARmP5jho636UPC-LcE2NgCEj5R2KwgJJrb76KZr-PSW-fqpuIThzY-z4Q53eMF8NMufXHBuJBjIlevfMnTTrjbGLIl7dFxU6XrxlrB2XbtHN_LG4A5HGbODFy2gdvjpWWjCHToRWLO0ndP5-rnUMiv5-DjajgqxMnMdMkcPZr9Vjd6BBhDdnwDIDQTq_3cGl62eSXbwOO4LB3ORRe9RSjHuF2MMjPBE4KpAPXpaQPgwjMMe-bo8zrHa98E9bqUJPSwwSe2Y1O_0U8cfW7DgkGQYnDUMUiRTGpTNQtFWbPaaqM333UBceUse6DpOYZvgexZ7_Cz3rtd0-dXO8MxOFw0vBxC9sBTFoc-KOyWmnHCdlbt_HVMUM69gDw2BcRLZDJ4hvLmlvEINm2HHPIQME1akz_CwW9ojeTqJ_edVuD0Uh04RSqt-bvBBTTsrNwcRHCoEbDu5knyamSp-YAh5l-BlXgVCsq14G5ZMMQz92Ni9G2cwXV6OjMeonjg6BqF-moKfAicbgEAqWTLxRL1I7QFE8re70=w462-h380-no" />
+
+</div>
+<p>Now back to the powerpoint. In the paste option in the top left, in the dropdown select the Picture option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TVGsMZWKpYrjAhfRF4BzbWnfpWDwhRr5vJ3xUt4dX--cQTRSWA-DoH6jD_rJI3dpkl9YRUoZgoEaxxU4laa3BvJZz4CThYWuR65LBsHDGN-M93S-2UMhiAeOghuVz_GWYvNizb6ewQ-cdpQzIvs7_j7SRXY7Xg1TxhfANzKzMuLRJsF--r6jJY46CpwZ55jw2Rpn90e52yVt3Q7z1SHtYrMBe2TZr0LXj_wqdl2BSeECmXKacU-4757d7oqtSVefaFw0WTNSF8slgtF_2xtj5FouFBqwSEphFNx8mgpsoWzic2IUzEjpxXATruuVc67D2VmJPMB_kYJnmbRqUNJgCjiuNBKjRC3q-jlmVpeFqcUM7ykj3b0p0wo6Z5T6kQilikKWTKQXZEob_4-maouV7Mwbz2yV6nJ8k5Uu1TGrAm5oFACGh6MiscbCtj_VP_qhBJ17EYh8kDDozECQ8rND8jpCjjX317cMcr6s7ZbCF7w4XtkIual83EqrC6_MnDUssJP-IqVijhMrskNNr7ii1bEzxpirJFymWksqId0KS2KouUmvCXJraC99o2NoJk7JL9vsB5UH0ruj7bpnK6w8nsRGM7ftOgduoG3vgTQGDcNi0K1d3q4emS7L6rnw6YO_EA7sk628ARZOIk316BXlfqRWVESnJrs=w566-h476-no" />
+
+</div>
+<p>This embeds a picture of the table in vector format. (This will save all of our formatting we did in Excel, but we can’t edit the cell contents.) Now select the Design tab in the top toolbar, and all the way to the right select Slide Size -&gt; Custom Slide Size.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XhKuH-Fm6VJxWxrNFEbJr89UZPGmbgxprWxGG4Os8O7scFhKBjhsVTJyWxfNg-pleBbmWkLZkGD-6TuBHoaCxqEOssyne1hBRANfjtezRB01DAVhitx4dFlI8De_4pfHlJ4ArxeoDHnjGtVCmbuF7ku53iMQh0hJIidVsQU_u6_tr49QX0ZVbrP9R3uSGMinftJin61LzQSkL3GF3SFYzTKpqG6pk2v4UUaWhOqm5cvIZVRumOB6_tWp8Ll1Uf4OEKZI30ZXP2JZPWiiwx6elx_PH3dJqvdybquGJse2H1eYi77k2aHEO7OOz4LAPw8xAu-AqOvaI3uuO7isKigKejtvWFmieDFwWwjRQh4-FpFhLzqk7p_ru9RCCdEoSbYeOPJ0Nncr7GVaMtZjX8kSWTDBaUhUtackl09bC3nlgFclYfNYOiplHqL9ro43V7ghx5AkafOnZyYi2dZtxac1kImrnxyI7c9LIfPqzeSvM7dShbMbwLqP12aLAL6t3JB7s1WOUiEEqpXIGY4psv8cpPhGrvMpUAOt2uIRhitCyo3Pz0zMsLCQe8z95a0cQ5tSd7P_m4x6DyM_R63ABrhCKXrBpS4VCA2j7N74xa1EX2ugc5TSLZroUd4dMpweo0wHbEu3sRsivcxGhwdvfPyVBcCgPdQtJiA=w1872-h718-no" />
+
+</div>
+<p>In the next window that pops up, select the letter size paper option (useful if you know you want to print out the slides). Then click OK. Don’t worry about the image option question that follows, we will be editing our images afterwards anyway.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zSmtFiyG_r1g8-SpndBMAe_xwY0z_KHZ7ljMobvs6WFr0LUZUPMYZOcxm_gh4Vct4JW1T8Ly7b14c9XA7CJyJKlZ9bVUvY6VZ61HgXTYI9tL2lWGGWz035YxkrxAfaQ-EcQwFEFK_107UcVCgAInDp2o-mmAGdfeur6Qd5wkGB3khUJFHtcGO5R5tsaZIzGDLouD3NoU5kvgglC8rhogK4GpZSKvTiyvsIdVMUJyoUZokvzYUjsoPQSWpCNzTGxPR9yFsDR1qZNh_C8LkjKQnmY32MePI6eEarAS6We5kpYtwAPTT2kNY3q0nRIMR2oXo-ez6XR6dp6BwES0uB8PVZeE5nInjDfzihdKDajA8l905vjrzgsZv3yGbzOKtgS3wfwvyU71e6k3L8jniDGzfYB-J7TypZwzC0xo4BXvvrrckKvvfc7MjDdbDUHkwfJ9jTayxFFykcI1zjZnU0B4h9pLyeFSFyEZfX8oNlFUDaEI0K2ovOLyrn2IK8vgz9IjIKH3v6hOQ9UWJn99of604GSi03KlmAvd_J1oHu5fTPHxS6HTsmjFWM04Y6IypRhlBRghkAo8PaKECA2KCmBa1DKUmI_O3CdjErpcdlMMyOvZZn6AyVSTP4rQnbbjhXk8NKOof26RkExdMZN05ojBCvmoEXY_gOs=w406-h446-no" />
+
+</div>
+<p>Now drag the corners of your table to fill up the entire page. (Make sure not to drag the interior bottom/top or left-side/right-side handles, as they will distort the aspect ratio of the text.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_uifc8GmKd7zxSwWLelcKIZNGwTXu7f-sPOrwtc3AK8oe7PIgMvJxQdRBRFgFIOoeDlArrh5Tt-1PMu0ic6RTzk9hE9Gwu3EV8vzL0iYwg__6zocP7Ir2AX4mOJH0s1D3j5jFa5e-eeyenSDXdojIC7rVqzogcrnj5hg3JwQnFzJ3lVpSRo_NJgeRdSDVZ4x73lHTkdW5KEsJbRkfkUF3clk3LJEJ9em-JLeWbftBOewXpGQlgJn8WrDNOctrmj9QxFcCtENYO5UR1Pq87shhmy6py6W7jsec0bdMiSN7BasxSdSrftcjedAPbtyRX_O79YqJGNubtUUUI6x5VBq-0hsyRjbob9xa9iKox3Z0z_PsjJp89eVh0VyUqCFg_7MaR1TaPw3WQP4TU-skKw4CMFW4IGLPuMGNkKAvWAUM43bPgchc5E5ge9z4HRr6SZ1Ky3RHfNwc2kFElhcaGlSbsMl7ToIf7WBQm91hsB4wI6Gi995pynY7PDRsRKUF7gstvenwlz3SLz5MaUxsYNAFSTjXldBcCFa_L1q8f7f2ZPJSDrapGOzi3ZCB4_PH-SBUr21Dm7V3z73VLBELss4jtgxMWZzXtUAsIMOcjt93PM_K-8qx0GHuQMLeuLcz3Ua5Mo8KWPeYZAyGic1zrIqztuW-M9WR5c=w1318-h937-no" />
+
+</div>
+<p>Now onto the chart. Create another empty slide. Go and select and copy the chart in Excel. Do the same paste picture as you did for the table. Then resize it to fill up the page. In the end here is what mine looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9yMLXO1KHTI0oUwGzJ4cg9f2pozzolXJZspvaf2cNGR3h-_UuD0suF5rQ5ArjEE5c3Y2UnoSVAwkjBNdsKqJCOAfAvwWoBARYXCatjrV11DZ1ND0hKaEWbD858BKucpijOt5zUgG32oXmSqH7gWrcRX7tNPe1gEPdP-4dsM-ilVhFV-6C79agHrmlzYGsiqD1WZNGiI4rEr1wQ4MNBxQFlOtBuEipqw_miUAPd3JzeNufzjtEtI8y95RSlxu3ZWHKd4MYSsrTfhy7uLq5YvIeBeC7hq6Sr-b32sXLdPt-RKFfx5VjFYtfhjesLclCVv16AyMl5P1NarVor5j16f5Bczawem0RNGygCXovYtHlKmKsKxh12Tk4HaiIAiQQDYjzYygGM-KF33bMRv-KpHqsTjwC-KHQF12Kd_qhNG7IbflNoHPRfq_wSqg15Us2sSu2yP27aElmNY4W9tyyNAoi882SxyIeNMBKSc2RGc6qrcNiDyPA3avgzwtqAtyLZDcyqacvMBen3jaPNMasynPhf68T0PBGHKEzZvywyHmbFF1cvBna1uKnPwQZOmUJ9mwGAx4iCFOt6T0p7xcpMj2r-ClI3cG4aMu4oyFQXVciXutSSQK7Rpu6UuHmCRuMbtKG3rN-puxt3LagX3szGLe1nL7Wiqxvbk=w1711-h937-no" />
+
+</div>
+<p>Save the document, and then go up to File (circled above), and then Export. (Note, if you do not have this option in your version of PPT, you can typical go to Print, and Print as a PDF will be an option as a substitute for this.) Click the Create PDF/XPS Button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5R4DLl9WLr9l3QY7C_9h3P5VxRVLW1rsiub6nuCf-1Pt4RdXgkhQFFY1Yny05SfOUlPafDmATTjHXfxmOEH8Nva8OzB6NhkHf6FWWbHXsQerpOVO6hdXcJ77qpUAsxCymTX4wmtgjFz4Nl-di8vzVhIcgcBAMO4gmF9vuZIXzou50jm1j5vaHpzL1_l4koz3wDdSuzPJNOST7L72lj0NNpPONPY1FoWuigGBE6FAkheQC2iU508Ak8dFUDa0FhybMKKYdqF0RAcwXp7TXx5a1NaYXxcauoAYN0ly3cDhgmje20z62nzcmOmCYowysCG9nK0dCw9E1Ah1m3AEDVeFMOsKUaNW-q0afhJdwKoukQ5G28yx-SQu5Hj0B4SFNbW7xMnmJOjwoh2l56hbE0INRaejg2pejG5HcSVFa-JamrwVUXAvyCzRBkgw8OlIId-ix8JlC75vhKGhHqCEcQbqz1c37d4uPgvBQVSB3VRZM-_LtVe7qcCi6T0mnEHHMFKjyXYSE5EvgmTByH7xDXnoeNJZSlcSD69s0E8FLHyneFL_GMZQcMRxFrBEA2WX1L_LeKeOvT-rH4K3Nf_yX4Hjdbi41TF4gzVWTHsxJGrR6zg27tMnZS1s-_k34xInCOztPBkE6UdV122kRMidJ8jEQXEd1jNk7yc=w896-h506-no" />
+
+</div>
+<p>Then save the PDF document in the same folder as your homework files (mine defaults to that same folder). I always want you to turn in the PDF document as the final homework, not an excel, word, or powerpoint file. Check out the PDF to make sure it looks like it should. Congrats, you are done with the tutorial! See below for your homework assignment this week.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/99T6RUlWeZhE0XUbQsLhsJr9NvdhtfMUijzlqvevKUK4NvyqbMfUaWFI11A-mvjXZbQ_gbCGaTfn7gIWT1kbKJoF5m0ykPo5eQtM4l4mIdy_x-Aj40xkb5CSW07bw_-A8uu17i1MfQ7xsaOG84FmF5u9sp7cBTqyUXM8q7ncpZhrFQEcCYt4ik31QySCKmfYnaM9kq6sMoq-ffnBAygDbhkc9FE0CxIaSZhKWcxPK13WdUW7YF9dez899W_lysEWh-rCLXp9WKPbXYSIZRxcQ_OgfrzO6BBguy-BlZlYvyid3CMUV_k2xoxcMa7L2FHBZw_RUL9RrPhCy35RGKaHWLHNPc1CSTi4eDTKukXGvUpHF5uTytAEpCQFkXSlpGAhl0t6m-ioXOQS-_eHroLHyoewehX7VqcuqlD38xEgD7vrxsK3N_ENeS-jQ0IdI8aps0WXZVScoJG-4mfFcXggoolDcTFbXAaJS76wY0f2f7F-ngtA8GaAkk1gyutWDZArphxhs7PUbjTzO0lqG0FGPjT-7p_Ecu_x-Pw39vgJHkXv2EnjwrrYiUNeTTWogXIbXxa9J-uGKq8yVgqhb76wO9_pbyVn6amdr_Avv8nUErHZcDbZNoZtAlBA1x9GgC13VsuCKdj5DLqa-A3Ix2Q0Qy8PwNrk8I0=w598-h848-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For the homework there are two additions I want you to do:</p>
+<ol style="list-style-type: decimal">
+<li>Add in another two columns into your table illustrating the <em>crime counts</em> for the UCR crimes in 2013 and 2014.</li>
+<li>Create a <em>line graph</em> for the Murder rate per 100,000 from 1985 through 2014.</li>
+</ol>
+<p>You have your discretion on how to add in the two extra columns, and how to format the graph to make it look nice. While I did not show you how to make a line graph in the tutorial, you have all the background needed to figure it out on your own.</p>
+<p>Insert these are two new slides into the powerpoint presentation. Export that presentation to a PDF, and turn in the PDF into ELearning. You will always turn in a PDF for your homework, never turn in the original Excel or other Office files. (Makes my life easier grading, as well as will be representative if you work as an analyst. PDF is the easiest to make it accessible to everyone.)</p>
+<p>I will then go over my example finished homework for class the next Tuesday.</p>
+</body>
+</html>
