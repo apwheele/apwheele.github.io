@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Social Network Analysis and an Introduction to SQL and Access</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Social Network Analysis and an Introduction to SQL and Access</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#why-access">Why Access?</a></li>
+<li><a href="#table-basics-and-using-sql">Table Basics and using SQL</a><ul>
+<li><a href="#sql-selecting-certain-columns-fields-from-a-table">SQL: Selecting certain columns (fields) from a table</a></li>
+<li><a href="#sql-select-certain-records-e.g.filtering">SQL: Select certain records (e.g. filtering)</a></li>
+<li><a href="#sql-calculating-fields">SQL: Calculating Fields</a></li>
+<li><a href="#sql-aggregating-incidents">SQL: Aggregating Incidents</a></li>
+<li><a href="#sql-merging-two-tables">SQL: Merging Two Tables</a></li>
+<li><a href="#sql-stringing-multiple-queries-together">SQL: Stringing multiple queries together</a></li>
+</ul></li>
+<li><a href="#creating-a-sna-edge-dataset">Creating a SNA Edge dataset</a></li>
+<li><a href="#homework">Homework</a></li>
+<li><a href="#todo-using-gephi">ToDo Using Gephi</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week I will be showing you how to do some simple queries in Microsoft Access, and then showing a bit more complicated query to create a node and edge dataset for use in social network analysis. The data to follow along (two Access databases) can either be downloaded from <a href="https://www.dropbox.com/s/c73eoc5poib3av0/Lab08_IntroAccess.zip?dl=0">this Dropbox link</a>, or downloaded from ELearning.</p>
+<h1 id="why-access">Why Access?</h1>
+<p>Access is another Microsoft office tool, but one that is specifically used to create and query relational databases. You’ve been introduced to tables in Excel – Access is <em>only</em> tables. In Excel you can decide to type something random in cell B157 or AA5 if you want. That is not the case in Access, it has defined rows and columns for each table, where only specific information goes in each.</p>
+<p>This may seem like a downside, and that Excel is more flexible. Access is a much better tool to work with large datasets though, it will be much faster. So it is better to do <em>queries</em> in Access, and then pipe the data over to Excel to finish the analysis. The fact that Access ensures data integrity for what is in its tables allows you to query and link them much more efficiently. You use a programming language called SQL (often pronounced see-quell) to conduct those queries.</p>
+<p>For a pro-tip, even if your database for your CAD system is is another file format, you can link it to an Access database (by creating a linked table). So this advice pretty much generalizes to all different types of databases.</p>
+<h1 id="table-basics-and-using-sql">Table Basics and using SQL</h1>
+<p>To start, open up the <code>Small_Example_Database.accdb</code> file, which is an Access database. You should see just two tables in the Table of Contents on the left hand side, one named <code>Incidents</code> and the other named <code>People</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iiMPFOruB-bYVNzfvbBwcIBBFYP6XWJheNABdZWGXiM-_vCwBNxfoprBSgnpP7zXBrXodIY3DfYV0j2nNbma1Tm26rBfb_nEw2H5K10qJwxXN4MfU7bOqN63pk4F-HEwwFQ31BMLVWeFTzumEBkOsHaNvwBno6zHQ2-4XgPqX18LjdzAlb_MbPJwMm2SJrgXdRd9_4wJhJOKUUsKLPJVAJovndU3gcT0QON1Nrf9w4KUvjfEd29_lP_ld-YKAhMn93PNg2TgeJ4mfjTGen-S0KeFtnokXWNMU-VCwKZkOyC5odSF3eaPKoa-n7AKVD0ArMhNETgw4TZg9ZI6IOasjDmrpe1uKgmQPGv_4Ow5UHbsCGxIm_8D1ptNR5qDAVFZoWkvifwP9RItDOt97f_AsqguThKU81r34trLR3o8I8tR2AYgvLNZ7XhTa79nxgY-pwDJM8m0jk8thnURlVb9bkz39GOnj2N7YQHZZiaxFRUEFLXoh4yjHgFNKoMSIHsZbK3osHZ2BAl-RQjlxJYrjXOrAdvBiTnL3k9wwe4-VPx1kHey5tShseeqjGsDgql2R-3V94MT8-dwKrfz_hhVoUEvBQ8X6jvNstr7MYdRlio08oHuYlOaRXzAWByQBGIm8jkOq2KaH146n3Tw9JnxDrSNRo1N4IwUK09VctjUh59y5Rrp6MxKNw4=w1325-h342-no" />
+
+</div>
+<p>Go ahead and double click on the <code>Incidents</code> table. This will show you the contents for the table – it looks very similar to an Excel spreadsheet, with columns showing certain variables, and rows having the data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wEdhUuY68U7OvCkil5UwsSVbX3czBUAj6kfN5dR-YSCmQZWtTxKV1XDCAB-d5Y_knvaEF72TToc-xbsUyWC4FYXb4W6OJwnwpfGrzEjWHomvW37i6glY6WIYdVupQgQ3aCyztU59t9UnDcHx_kJAV4LuzJh5Y9V-A9j9XnCSRB03N6fjsfas-TCosM0mCY6CqGtwKsqpZiDQA2S30lKcfU1rnjUJAeHMimMXPN7aesWIKpdEhZqul26JGAg4IDEjRytV4pZFculmqH9bH64IhDbKzdOMksszCJMe2LcDb5k-lNJ-5M-gndaOaHNtdsl6IfG9yQGgtIacjy1ae_cAM1U44Djo_P0q0GW1ff8rhAKVZtbeX40ojqaRiNweuP_06Yd05gmvcW_iYuMWBdq1KTK1SX-Cu3usRrSnSiaVXpmzFaTv6QdG9b1WlBWoibysxPBSQ19EyYhw8WNGxW4WdqsLW-l3p_HKkXjV7V7LUK89HhnZrELyseNv__HJy8RHKscJ7RganJrp1uKHIbVOR64IRqU_xZC--R6RVtMFR9GxB0x43rs8rpCFR5Jt6PAhduPTXtJZbEjfv3F_UmdWV3MEcuFsyMLecQWW2x5--Nf2m8KIEoKiz_kSV3ti0dhIqwkM8LSeyVT4nCS9BD_4mJvuNmLieHuHF68Q6MQya3NEaPa7qc9RiwM=w745-h218-no" />
+
+</div>
+<p>Now go ahead and click on the <code>People</code> table and check it out.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zrha6Cndob3MmtmbtNG9AYOA4osQLAV4BxyBnQNvyh765HZnCL8_YWTscY0goIDs6kTXrO3wHid2TPWYUQyyW-2hhFHMVviD_xHhRRr3oJKd5Y1uJuqF8VzcT35pfGpI9o_FbglTrf-PV5AW7CDXUExOpuYu7fY9Cve30ysCeGzn5oHSIpIhtCk0dCMS9aa0iz0ofEwFM6Hpjjz44tLAiZQefDSGUgDPdrk3flTvmzgktGO01oh68ga_kHxcVt85IItX84s9wcJbXJsjaPzfg6QgJu2gSBwuLh8p6_NJOLaa7LkVhA2wGPaw4YLc04RJkPhcxnE02w0kTbr_inmYn48QQPKmn8aP3Q5VTUwm3-QBx6QQ5sZfZvgDVr1OyW_AD8KxXBEPWOqFvX4QvI5qEZAkJMFMcftewahWuYa9U0z2NegUBx7cPrdBb9u_toyGH2ccvC41zBDVo8ouhJitDeufzJVjX2p_y9UD_J-u5W-OghqyYMqBsmkMBYiDhCNo_N2af0cCHaQoT3xKbQbEuK0Tte7vZQLdWQb0OKAd9cHE3sfWghH0bjEc-rFvfCk_xBcQQjwTEqBMVT-RiE66ivk_C8Ktj8RswMPW8oliP77zW1irCaN3iD7uvD4fMAA1f0TVBIqbv4tJ-ixDVRfg6O4Amt2AL0zK9wAgIpsUbrJSO_cwq5XokUY=w663-h208-no" />
+
+</div>
+<p>I’ve intentionally made these tables very tiny and simple to illustrate the use of a programming language called <code>SQL</code> to manipulate them. Just with these tiny snippets I can show you the nuts-and-bolts of the majority of queries you will want to make in not only a job as a crime analyst, but any data analysis job!</p>
+<h2 id="sql-selecting-certain-columns-fields-from-a-table">SQL: Selecting certain columns (fields) from a table</h2>
+<p>In the Access database in the top Ribbon, navigate to the Create tab, and select the Query Design button:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4n1AT2A2iB8CLiEZiQZsJsPh16UuHBNSylef47PWIoE829XAoBCji5737RtsoOWWXE__GOeVmGZnNLmsoBypHOLuxpkuoTefGXUNnzNCBkoe8gxbS1T8oUcDRxtr3kwYMZ9Bc8-Zyka2eC21Q7FSXoAPpwLiFiE5o_gzWoqsH-f0c-dkj_9pXut_15FyOz5pUAIJl7hMP97pPSyLawthRFj6sB6UGKKRHlpj-Wh7uWz5mz23er90fQKiSMdK84TJq3CgWofKzfdvEhj8y7ZS0PON0G3eVUxeiBXaMAUoDEZBQzZ3gxApw6s6S5wSuYVHItjlUdVjKA8YxfLipWus7a-uuxA0k1sS3zEKStWXejXFnFLzv3pckLwPzeV9i8upLwJO3D--4nUxXIfY5IjOMncjOUeAxmV0-ZmhaZLRBcVswQPV-8sahGsUkgESZxMXSfya1-6mV-EqnZaKUS9BWEa8ZAhx6cnxyDAeTFpVF4cZ5N2uTxLl5y9sXsglIjjqdOHlr05zqAznSSUBusCDYevIosEZVMM4xxrG7oFi4Eo95upXW5J2pp6tOgY3lA5lUTIXl4X1uUWSY-AwnYxqVM6CBHBEsbn1pVGfrkjQmJwEtT5dSVEauM58fkSmLS9pjYPVe5hXb4pWP_Dwu2IRgkd22XoGglAItpuM3pNCtgJZrTfFAZfoKjA=w827-h313-no" />
+
+</div>
+<p>You will get a pop-up, and you can go ahead and just close out that window (there is a GUI interface to do some SQL, but I prefer just to show you the code here).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RRRlYGmzbqFZk_EUQ8dY14ZoV60bhcBGdWitJRqE05hkj9Pj61AHBcWfz6o0CzZaAy2huoD1uv6oBlfjksJPMzQknxPEJeYs9ARx5maXUnrN-daoRxySEHAyX3GbeEpIRSpAxyGlWVvAjXzxagAWQ9KQJdYXWzCCasDjK80Z1K912ZYRbbppZE7amfZUmmythC9ydzucI6pC0osF1n3__hVDhel3zaMnjFaipcfDUsA8P8ML3IoLpovuB-ha8OORr41W5DHFugU5hMhj5y0Dau08OvAIBb4uOJp612_fJ8eX9ADsX0uURf-hxETTJlnb6C45pwqo077wvq1MEWcqK0ojga8IoeExCICsM2uzrTvIbyVO94zzSROQOKjDpqxjelM1-DM2gokWIB49cvTPWODG89FWT-ONh7K6kTu8VGcDxT8Q_hRoWtwkBNc_jPe_l_zg6Xs0uesdBxHG9W0VcANRpJ5jLLHUjvrDt_ie2IN9rLqiklQQIAI3ecy9Xs3Xj8AbATUviaYsuqYgBi4BPIX1JqMaTW5nYPr6sUB5oqQWWQK9Afza2Rbjd7rCfFt6IlksE7VZBLMXupUQJ7AhYXzrFcAvxvw1dwXrJNAv99CYDCdxhFOibiP0EDvMZxx15I8nWKyo46LJ7fX3UAwBaQKV_8UbYQK1f06_qpFl2Xq6dLB5Dcjs914=w385-h560-no" />
+
+</div>
+<p>Now right click on the Query1 tab, and select SQL view.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PoKafiyCjJfN2iZLldHImeW35qmeCgra1Fh146NuqYjP26TexY1pMOcKMUYf17aMe2czI-JY5kAE_Bhu1hyUOjyLrgTOmuNwUBslmEdygV2eZ7kNIbfOwmvCVqD1BlHUvVvob2tIesJ8XG4gmhJrowYTyf-ZfmZl9z99_bUoXtJ1sQuIDpcqLvpK5kMU_R-56UvIe_ffo4wWfCs4bat-8_OktmzFycTIxRJHV0toZHcSEteTggzUXgjfjfueC9KJrswVdg4dvcjFoMK-39NSvzlmAGZUW1QIixj__aaWfRmtX0lFfWNaH3I-JSbevA_pvKZ1LoUyI1JJaVf5tbaLZdvWuDU8jg_ZvskmyAgP6DAvGTLQsQ7pFIQpVsEQ3JWsRkkk8dcQRucWN1SwIWurYZNlVnJL3p8hUF8uBMJoz2HyYgdQkYjdJ4M-WT2wO8RmS0KSEKFrf6tqkUr6QKPmhlHz9G6LojXlPTRupTBjEyZTpJCJSV0B51HsDelezaaHvqtGZynjDFGqR722AUKC2kVHB-TjuJSJzraK0uUhkPg7w3S7a5hCaSXqioN3-ofGkEiPYTy71wbJO1ubO-yHnizlEr9OOVNko_Z3Xw06XbRQUpgBcT0mDHunoKZ6cbMqQ0MGld9xkKUyXX2C8DDglAKCxwpnreFWxlSoTj5VFtTxw1gscUAztx8=w440-h250-no" />
+
+</div>
+<p>This will now bring up a window in which you can type your SQL query directly. By default mine simply shows as <code>SELECT;</code></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iQQQdhX0SgAYpy9HUwbuUr9Wo19j4v2Zoyh1MGKtieQz8H2cQf-7vW7RgQcxqVFKwTyhYnYpAnrA2ZvI8EKlyIpcj4DMZDXpk7kM4sq52A8oiXAabKMbBDpUhhrwMyeIX9eWVQcDPaFmPz6ymNOcGv1qZoRP_3vxKC1c3p-JExIQmy8KkgT33c_VsjtLuNtvakgoh7l_WwnS7IDh5t4f0vYMF0C-3ICgSDKUVMA3RuTtXSLWBVSEtwCTXplzrBeYTZvS5Fta3R5fYNREOp1VWlbZO3G2AChfHebGPUIaIXIS9GNgpbLsNOtwBDS9aRFt5DqhaXg8LetJCmU1lIjsl3OnWGFx-yiFqbFc3bqcjjX2_2fCHEW4yXwWNMOKxRpheoBw19bxwZrwBfkSTVIEjDJzahfMlIa3_yMdu-i8OAJLHbW1ioL3LnSCKTxLwZtSGPeZVFwDCDZatkPbz7kHSYeE298zQiewSzii7R0p7OYjTm6uJy26GHKFJEY7f1l7zCa7cTwU0oxkf9PtL_bdPxMw-oxvhyG-H-28Zoa9rDHDyb8gKlwn-0j-Ml3l70ck7xyJMGKbkRpJ-8GLnPigAlRPmLHd05MKKsLqmjTA6vitzkA60CADswiVHAyC7VGSqfijImxhUd3HmI4SU3XL5Jp9Z968T_zwGl57UF2Ra21VICSHNZldJhM=w332-h181-no" />
+
+</div>
+<p>Now go ahead and in the query window type <code>SELECT IncidentID, DateIncident FROM Incidents;</code>. (NOTE there is no comma after <code>DateIncident</code> and before <code>FROM</code>.) When writing code, you need to make sure that everything is spelled correctly (and in the same case, e.g. you you typed <code>dateincident</code> instead of <code>DateIncident</code> the code would not work!). Now in the top ribbon, select the Design tab under the Query Tools area, and then hit the Run button (the big red exclamation point).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/n-EAvp6YLfSe5zbVayvP4YtIavbdYwNIiA9QMk70d7j43gw3L_8JZYF7BcB48u-nGIGGbjeLSNHLfwaTztvHHr_Uc82FvVbOwweEkJ3xiVrnLfHAwvmgIzbKvY48u1h4q0976GzxpsFqFIMdt1mt8vvjSYtG7vvQ1Cy16PJuMBFTkMqN-Giw8BUTM0hPl6v6NhVlls28Og2kTRjxkjJ21tBoho9bQN-0vIdK77w-9U8EwaHlPGFZECZhcbUJfuvZcZaC3Xh7ZCtHt3uGF8oj4XlJbZn3WSjJOP8--PE5uEhxufO4rWai7nbudWpHSwH5uHBHvAmiPtMd_RC0C9paWei5ZjgSqsDq2l4JAsnY9hVXDX7Q0AkSeRHq9FbGikPY37FXZQ8LeIQjw5OskbGXd5BLmzR9I5aHRlXV-DGfgFMdK0yHkiLIad6E-Q4iO7s5AHI2UnS6LqRx9Z3WEiMPPbEC4yaYzNLoSdmUU39lM-IrsKAXSKzkuOtnmdPyx0dCwYztO-mKXK4ZSJHh6VDbQeVKvZ163jks0-VdNogLz5KXVxYXGWxIoo7T4C0HnPmKFlsnSfK6bAbQSJxUURR1K7uAskJa9LAw611dRvxnkMCGimhLRfPXyQU1Rou635MELPhIDce76RmJt6D2xDYzLpJFT_iplO1l2Y1FG9VSBfhLtv6sMsBKSHE=w737-h339-no" />
+
+</div>
+<p>And boo-ya, you have your table. All we did here was select two columns, the Incident ID and the date of the incident. It returns all five rows of the table. The SQL code is pretty intuitive (why I do not mind teaching you some code!), and I will show some more examples.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vQpzrkjPl5pcgNdtVKrv1CIdDLknGByU2_OPhttlPJ8oxAPhMoCkQqatC_h-YWIxlauNEpPg2l2Z4udPu5Xrti-va9twK6hmt2dTS9LXpsjP_Jmcxw3gHTRjQuMd_pfGbWRUkq-127EaB3BDjDoHF2Ypp2ZIP8TfbQsL8j1ARXvepfJIa3OX4j7_LMJ68INUZzt2t5Ert5LGqZM6qUPz7tiU2_PhwmxEzz5YLH8hnmR1ktxzL9sMBBhE6LNc-xJwTfRkAKJXQvnnXwnYQZE-S0kPTxkU4jAxIgZH8lC_B3IuBqeLxO7jVWgqQDq8yXAO55qzfB7ziYIFTLhOsNVuoRqR-Et5Ui2aZfFqtX_YpWwlsIasBGopCgS-hvjEyY3DJhhRwlX37DFIdF7zDF5L77BEgwRrE_jHV53fG6dho8mDbEMf60J4bOaEPzRN7o-AyrEILMLy-80tL7lsBUq_eHJDozQk8WKAKyVncTy4tFben_vxo_9wleItQKaZH5h9JTiQGpfLQ_obW-jhbp1QP_0W72gtBWn1G9_aUyAUvnZ-zAXvcp4dZZKBiJgCpTUn_uXSzc9WFHTabD7e8KMmCL0LAetVLZuJkfbb2cxPeWuUOk9i2k-D4dXro6rbOoHF_rmcpBEtq5AYYCo6ZteyHe3asYG_YGJiX5OjEtNG_IumQeLIMBULO1s=w283-h218-no" />
+
+</div>
+<h2 id="sql-select-certain-records-e.g.filtering">SQL: Select certain records (e.g. filtering)</h2>
+<p>Now the next example I am going to give using SQL is to select certain records. Right click on your Query1, and go back to the SQL view. Now we are going to add a condition to filter statements out, so add into your query the fields <code>IncidentType</code> and <code>NIBRS_Code</code>, and then add in a <code>WHERE</code> clause to only select NIBRS_Code’s that are under 1500. In the end the SQL should be <code>SELECT IncidentID, DateIncident, IncidentType, NIBRS_Code FROM Incidents WHERE NIBRS_Code &lt; 1500;</code> (and below I formatted the code with line breaks to make it easier to read):</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/30w1LhWgGY0_bFyyLjg5kTm2nNiY83fHNXB2Fg66tSL9xDCZbxAcSb1LEEjETb5Gl_yaVq1gUmB3b4BCftVfmtbrCDURvbsoJtHZc9yZ7KCi0_jkFD0cfvGajDZke5pAfzM6mDDCx25YlqALSvswPJc5p56xPpGsaByh_JhPZ6sbksKNj1SrBGWcgof0hnnMmcXwyad_T40MP6d0Qd4xOqX2EQl_Ag6Z00gxJVBHR0vjpn2HxSfalm4538TymAkp1EI4O4NS6YjZP_9aW5StfURAHcAKJUNRPpQzm3JMR50nRftZ2wKVeziBImzei2Z4HHANeMcYqfrS6K_GZmH0fjEYM6itHuUwMLy5tzrAqpGZqmgQ1Gpap1DWnqNTT2sgBxYcFdMItsm2j-GGDyrdILS-rCvyTKLoPFoPZR0zMV29DnhnJoAhw02wEA_-RtSMw-WfLfBKpURv2Bj6rayZ4pRzC_rZgKq0zpksMCVBcN3c_AiDInNQjkmRzpK6kPidg5f03EU3x6v1Ir94CQij3PzI3DLUuFxsuLWQdXinjPDrUwR1jfaVCUPl_RDbxn7uIwdzfR6JrgODROFjqI82UwQMTk_G4oQz3d1wxfbaoY63nCm8nkN28AXsZ52Tq6-wY46bC8rFNyYVIcd00v3HYQ035-50Z9tYtiuF7-UhnHs5euuEJJqnT6I=w351-h175-no" />
+
+</div>
+<p>Go ahead and run that SQL code, and you will see now that it only includes 2 rows in the resulting table – only those with NIBRS codes underneath the filter.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mm5AKZyrfvf7SR6yKLad2RUEXHsW9x42XBC4fEfZjdwK0S4WbIxMFcdmwr2FAQ8csl3XrexDsf0O4Uo7mqBowdGc7uCHoW4iQifRTgSLYy9sQXK_bQa09kI2vheUv0plHpv9pj-qEj8K1QDaExxu6RcS7793buj8AyqLWzTbHqtbJoeKVDXXAQi8eU3ciNzXAG1yFIRcLmNiRn6FXtpwBGGEY-Wfa2DVwG_D1IZ7rb2x8Ywwhlki_PjxUi-l0gR0UUnbq-mry45HL_zk2ueEA9ByPgxeI5wwRZxBK7ESIIOZPTWsg-AFDJM4BQbPDsuWcWmEsz7OhZOe8g-AkEyxjzYeh5G5HDfo0BQ5ODjEil0k4LpqIuHIPaSzroGHLMDXDbVVQ3t4XrnRYsOXX6BOymErM9YmvGXUhVArFkRFRhQGueYyJKnBbGlCdZm8O7H-gfpkmQXFUk7lEdhG5uVzeYd1jD4nlGxU9rMuOF4hVo9QdTcmBD-MNCYoGkZM9y0zBEwQ8KfidKFUuBvMYFOPtymoWzSzIbwftyYJkyBRNhwil4yfYbxcUQffY3tmubxSMRyM0IJzogUsu7s1prtSzYoeyoaynIgJAL28mZ39K916O7obflIbtZr628O33MTIJAwjF3p7jaiQWerajqvzrouy1DBawjJgaT6lNfYNKiSkMk6wijRi-7E=w450-h153-no" />
+
+</div>
+<p>Besides inequality constraints (less than or greater than), you can also do exact equality constraints (e.g. <code>WHERE IncidentType = 'Robbery</code>). You can add multiple constraints together as well, here I select out NIBRS_Codes over 2000, and dates before 10/11/2019.</p>
+<pre><code>SELECT 
+  IncidentID, 
+  DateIncident, 
+  IncidentType, 
+  NIBRS_Code
+FROM Incidents 
+WHERE NIBRS_Code &gt; 2000 AND DateIncident &lt; #10/13/2019#;</code></pre>
+<p>And this produces the table:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YQtwWHT9Xk6RWN6yu-DTeTbC7awvjzV_D01YxPKf1A64fFE6IlSuWlYCWC8AKd4vsHoerZZGCcJ3lLUNLVm_YhtUU6hP3uMneNwCpOrO2GEYFozfPe4XslTuR2JGSjHxy8MMynvUL85g087xFb4E-zmMtgd1OGERMDDgZkCtPHNfo4T7quPCecNxILdHqhGzGsuPPm31XmkNl94wa6fsbxN97lBQxiKs_QtJmh8wIUWh2LICt-bRNHYd_VCnkGoYduV0xld1pAHnSjYrucp-UWx2s_6wTbo0-EwYsePveJfVAsvhD1gqNT6vPytCiBSIqrA84snR6UuSelcNgrWFTqf_W0bfHsWo_xxvG4Cc8TOETenfIg5pXQM1TuS_jyNMYtmrl9B0OOwP1I5oktiV8SWWtc7jewC00pzc2kqkO9T9rC9D4s5-Lqv3AMOPMCUaH_BeSG--FytZ7cK0ayqF6FdrKjyCy_Bh-foOKv9tIayKmuUSOP8nmLAvhyNaoWmHz2KCJ8f-4e4ZkZ5iDYYIOdxZpXhQUIQx9aw_L6k28RtXTR8QNUqjsP9qYaSWAaqcNkQWhUfS5U0i-_dZhZsb4OVY_FNppT8T6heHDo3ooFDmYKRrFc2tdHCnOXRUZ6mY_GKyOckQiGxT9Bb9k8KmyBQFaNlrB2S93_AeErFmHPeNlVssWJyiZ9U=w433-h154-no" />
+
+</div>
+<p>To use the current date in this calculation, instead of <code>#10/15/2019#</code> you would write <code>Date()</code>. So for example, if you wanted to take all of the robberies that occurred within the past 30 days (of when you execute the query), you could do a query along the lines of <code>SELECT * FROM Incidents WHERE DateIncident &gt;= Date() - 30;</code>. (The code <code>SELECT * FROM Table</code> selects all of the fields in that table.)</p>
+<h2 id="sql-calculating-fields">SQL: Calculating Fields</h2>
+<p>You can see in that last example I made my own calculation, <code>Date() - 30</code>. You can add in your own fields into the query as well. Get rid of the WHERE clause in the SQL query, and add in another data field that is <code>Date() - DateIncident AS DaysOld</code>. So our query now looks like:</p>
+<pre><code>SELECT 
+  IncidentID, 
+  DateIncident, 
+  IncidentType, 
+  NIBRS_Code,
+  Date() - DateIncident AS DaysOld
+FROM Incidents;</code></pre>
+<p>And run the query and you now have the table (yours will look different, since you are running it on a later date, I am doing this example on 10/15/19):</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/F6Nj2CjKXUZKvWp4-hJWdyKdmjmWiJdzrdwEd6U3gW8zMpy3ghJPYadoJZdy3VLXTCPq5tLBgcGDNYXJL4kbEHlUyevZ-DuRzdUiFhh3n1bBKhAT1zCvW3R4YDt6AhvMrpKEW8xG3-wTGoXrohPPWDbGsWw6TW6pRvH1FnQcAW0kPuDUOWslfbNdoMzieGAOMM3dvabCrMYcWbU99YO9ogfafYjQmFAdpZDkutEGKySqgE2EM44gYI1Nr9-er5jPm4aoGG9cX2SwbCn78bL5ifqFTwLWyPyVYcD5T-Jmj-89-z4Argh7EdQYgT8PbPF5Vnzq_deDCAIC4cJB1qCPDx4kFFeumtlL7-Q442JmBYX13BTN1u8-166mIV7w1G1iK7isTyLTvE31mNP_6EqgiTczAMbelLAD8zgCgOUlVVLnZ9Ut9osOvztMg7SjOhvb2ElqiePWo8ewbJAyF4egj_i7PFfdPxSk8b1ug4D0omDNPHW5ZdedMsdaiaKcn-4xhSIzr7XJ_J_dMmnQdqDYi9CgWC-CyKSWd2gbKSFH0DHdP0vgk1M2rKREHKRE0L1XXlDqY-QGrBxV9Kub6_HQcORH_jyQZcxbcdbDem7Xkchc-lRmT_s4jK9dnEBnyzx8kb8MIxS3Tv8gc0Sejt2iFCZ21tt6FaScrVxLmKPNshPBFEIrbCOOvNA=w560-h242-no" />
+
+</div>
+<p>Another common example is to create date aggregations, say you wanted to select all of the robberies in October 2019, you could do something along the lines of:</p>
+<pre><code>SELECT 
+  IncidentID, 
+  DateIncident, 
+  IncidentType, 
+  NIBRS_Code,
+  MONTH(DateIncident) AS Month,
+  YEAR(DateIncident) AS Year
+FROM Incidents
+WHERE MONTH(DateIncident) = 10 AND YEAR(DateIncident) = 2019;</code></pre>
+<p>And this produces the table:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LAK0nsdXq2QCpBz6uWOMn7o_71SU0ZYD3PJQ6-F2WWJH_Udnoin1E1ygfD5hyVXMmtXT8ptfLKhY733dSqFBtODe1C9aD5EzrSRnMBCsVbkfhx9B8A2_rM48ST15eJ1_wTLxwZDFdN4y-8g9T-IjwSyaio7ijeaE_LlSHi4FVHXZ8Rr6n8012OqY2_BE4nUOoGf4Jkv4jcjRVKx67jEQuuITLmb_7wxCF9X3ZtxBjAB7ByWi9vOC3kg-GNXM5y5LvYT6z0NpxGJ8uxyD8G6qBqi1-vr_jDX6u_qN53J4icJRYEeCNG4ehtW90CcNQQpK9TSWne3Yj4DLP3UVG-nP-NigbNOgBY2xtM4_y8X5QyDeUKDWrHys52qE_T3Ea2WWBnGBI7KDAQax8BKEAKsrcagvTeCTgnYHwvnN16SsiPvHi9ggNJULjTApkNE2MDjjl2MuHy6Z7wirPDFmS8khu_KHTZY6IWG8GafWYzH8i3tJdWLlVw80Q5ftOMBZq5KuMg1WtV5LcB0QrjNxSGBy3BRA9znWwjzq2woTJ53SGl0KratXZ3x5fsjHGUyjS7ExPLupS9ikma8pwIi7eQC_OqLpgvCpiE2ZgrwfDmTfLNRAIlGEpqjE22Yt7nmf14dKPmrLBxGRopHj4r5ss5JspSnCtsgaL1hTzUrxT5c66UllaZHNISvB1So=w667-h225-no" />
+
+</div>
+<p>So you can see you can both create calculated fields in the returned dataset (similar to simple functions in Excel), as well as use them in WHERE conditions here. You can basically use those calculated fields in whatever part of the SQL query you want though. Another example that is useful when making reports is to create a dummy variable, equal to 1 if a condition is true. You can use the <code>IIF()</code> statement, which works almost the same as an IF function in excel – the arguments it takes are the condition, the value if true, and the value if false.</p>
+<pre><code>SELECT 
+  DateIncident,
+  IncidentType,
+  IIF(IncidentType=&quot;Robbery&quot;,1,0) AS Robbery
+FROM Incidents;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/s67_VW_VQ4wjscfTeZsr20NUnkGPGUhWhNusR05SvfVyFK8s9dbdQde9nPcdyiDNFbCT7H9ZaoJUwDXu7OEz0Fy3fNDHf5-d2OcigccOzIvy_Db93ABG9q4rYfYw8dYB6F2DIGPfJ-nqDuDz9Q5yqHEs7NAdoy0CwR0AzSJPjboAe-qvHCx4p52urmumz9VvwIIRWXwkQCT0Mn6scDr90LoTfTn4vCCnfGQJ3Wp0rzKs0cCc2P7YIKJil9h05B-BTMUw83f4X6nk8oGl6ijOXMSmvKuBeYd0WHydmJ0AeC_lvZc5C8fJE4W0VGWQhgAMPKar4Y5D1wzeEHc-I8MuyOvP4Ktqd39JOP1RdGFZUuNr4Lyns5qjRvnrbFzQnwxDy7DUce71lFT9X-Z7VqelqL2NkgwxRuWyCkG_HTzI-y9-N_sBSGAPX3veFfTyv9j_dZSKpmLKCOM1OXKzbm0DtcBXXAsNOBtOskUdgzeWjFs_riATPPxoDVhUurjIaWRP7rMRoAlsdCh4kYnuiF2FI8HOEXcbnlRCcaf7cat6VSNFLQJANr1qhMAQ12j0lGugslet5fQ_dUSChxtxo06g1QFK0z0j5tiCS6mtS180hJnvbhVpzBAlIvAEXrf_O9HQnEgTWSffPdjDFMNwyWJdNXvi4Ju63iEv6eWox95xUljyxQbB9vZmuas=w348-h206-no" />
+
+</div>
+<p>That may seem like a strange example, but will come in handy when doing aggregate counts of crime over time. Which I will show in the next page.</p>
+<h2 id="sql-aggregating-incidents">SQL: Aggregating Incidents</h2>
+<p>Another common application of SQL queries is not just to filter data, but to create aggregations – very similar to Excel pivot tables. To do this you can use the <code>GROUP BY</code> statement.</p>
+<pre><code>SELECT 
+  DateIncident,
+  COUNT(DateIncident) AS NumberPerDay
+FROM Incidents
+GROUP BY DateIncident;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ttDpVGffTXkMxE95E0pFEqQpHsvr98Fp1dYDIdd0eqJ1_tq1lwKtO0W0G1a2a442lZUhNfwn8dnuxtAudJyWAuF9wJSJyUuEDfuCVaADd5ou1yHspOk8gJnAKJKN6Kl6gmjpvXnmf0UuoWs4Yxh9mXtr18Dw9bSDKtGKVZGxs3IM1aFHuzhrg9XsMaFcs_rFEJPutds5YpQ-CbnGBmJfeYHves4m_7XI8R1l5ag6RAlo865udFwWLDUolzBqyHkL1T7Og6enmr-Hi1ZRo1KcRxwy5G7VE9UYAvbHN3HIA9EZGPsT5bZRshbdcrm9LiwfI38nDNRST9MvkTP3QdsdFaZ5C0hJ9Me_sL5M87e266n6FvjwEr1xs072Gkx0UB07gNxpGIf7TqS2Xj0dWF_SujsUUz7zX4ISDOIYdKyTb9D5gMzMe2PM2IdvbwgoxioHH05kt1IJvv4nq0VDHjnLuPsSYMD6D5mmfrah57IZbAVyWWcfhhNevkBis_75jHV50Jr__1vgJeglb5dYpLWuUzOqRp0AAK8NnoNhOf4ulhmBkaf1-qhmiZCgF4zQXfSo596nI4XtaQLKktCl8IEOFRQ21UTJPjrhBGIUyICrOKp7DlxTSEj92X6KwBEPRCOOTH9Y2ejwE1K9bZwsX9xLvdZ0xYLeEjniMV-Q33OhSyppXOZSbZ2YRQw=w363-h187-no" />
+
+</div>
+<p>You can see we used the <code>COUNT()</code> function to get us the total number of incidents per day. When aggregating, same as for pivot tables, you need to say how exactly you are aggregating the events. Here it doesn’t really matter what field you place inside of the <code>COUNT()</code> function. (There are other aggregate functions, like AVERAGE and SUM, that do matter what you place in them, and only make sense for numeric data.) You can also add in a WHERE statement to the aggregation. (WHERE goes before GROUP BY, GROUP BY pretty much always goes last.)</p>
+<pre><code>SELECT 
+  DateIncident,
+  COUNT(DateIncident) AS NumberPerDay
+FROM Incidents
+WHERE IncidentType = &quot;Robbery&quot;
+GROUP BY DateIncident;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dpNlBqbxdN6cZvB-5cMVIuwm1Saw4j2RRQvIi0Z_Nl_Dr1VltiN_Ip4saAahYUkFuMEUgigBfxR9WMiV9FatO3T4LuOJmA63pUg9cwv3Sh0gubfMNPfSYQiFal_Ijw_Gcl4b8apro0ID7i9zG169t_L7TLzeEXbgXvE0AmGRaE93UWcj1VCYZZbZtdJPUoXaU8aNWFh7iwz_0erM9EPDZyaYuUKON54LtJ6oYi4oFNyQF1sUNs9kpKWWl36lbTqG6L1ssP1U_Tk73ecULIqLzEKdGl8ueLhnu4GSC2N6uLjmXEtKYgbBw3YhIaOVn4CaCbJZPoC0J3UseuglyQtzfzflueUfSEOTAeDqw0xaG7EjLhBuYH6VaysmXXOgEtNqAaCXpPXzn8jUw26bxg_Iab3OCK8LYe6wqR6QT8a4YpoTie4577EOOFJiYO5SJ_n6pZzAqEDPlZUL2zW130PFOgztOY7i27HbaVFJp3rkgwMvMwUV5VsBauA6Yd1NTClbLTXWK9oD3henUMuWCgyt8na6c3QuP3Z41UTOesks8fHral8ZB5vmZSV1rDeF-7smVi8-LDcplyGrZ5fXMuTWiFvqDqrZbdcDJsNV50quEzjcJHHlcRVf5ODRSYwxyWisPTtWoT9TklxMNQCUGIMYX4hXiv_2NnfSSKCPm8KFEvPFp4cBbIxk7Cg=w350-h147-no" />
+
+</div>
+<p>You can see here though that it only returns one row, on 10/11/19. If you want to make a graph over time, you will have 0 days missing from the resulting table. A trick is to then use the dummy variable approach I mentioned before, and use the SUM aggregate command.</p>
+<pre><code>SELECT 
+  DateIncident,
+  COUNT(DateIncident) AS NumberPerDay,
+  SUM(IIF(IncidentType=&quot;Robbery&quot;,1,0)) AS RobberyPerDay
+FROM Incidents
+GROUP BY DateIncident;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/t78k9_oIk9gyCSGHQ5ECE8sPUhCb131pRVm9oO9-88Lj--KXMlNvhkNQBGGXDQh-Hgfh9VHNWTXaHuist0sOyyvmiTvWYfub0q2ys9zwsL6dKNVGDJ68yIguyIvLc8trmMeMQ8lO9NLGt9aDwrfEkUeJW7yw6OQ6p4w8GS7cA_KfgReHEUfPSlwnOQz0s7AtrgQVmaIn32nsoAGJi7VAuBDc9f2Q_OcFx0vFkNmH4q_ow_Nc1jJItetsm-LAq8mu1qmADEHrELT34NA-HQHcmZFjdV79--dSylvzhZP4ajHtvXXwQrdOR-V3SuXTGskBpa__J89AAd7Pd4nqSN37NRildOxD_UkZlTfJx3vH5TXJ5ZOGmjTHVvp_vyWv4hXxaK36ft_xZwGM0X5EHuvIlXk2dhoHwIm7P-1oiEhABTzgpwpNu97X--jsc_ZMX-wKpM9yZm2EXw8w8Rg2jiSTZKjrPq-BOvyICJfVLtB-SOHMu8evMKzp03X0yZi1zC3pgVzqdIHG5c6mU-F-wVnyJEWDknEUfsD6ithD3tjSfuCC2ojFTTMPjPN9sNijUh0CtsjPLn31Hcjx3vxc0tPsoijqbpDug54U75S8DWnrQf84vT3pKJ3o0AYnSVCyFBAB8XIQH2P_cDc7kv_-_ae9mm03YWxP3377Wz2yB5ErNiO1VQ9_y0ORNDc=w448-h177-no" />
+
+</div>
+<p>And now you can see we have days that even have 0 robberies. If you wanted to do a regular report on a select set of crimes of interest (e.g. Part 1 UCR crimes), you could just keep adding additional tables.</p>
+<h2 id="sql-merging-two-tables">SQL: Merging Two Tables</h2>
+<p>So far all of the examples have been manipulating one table. But another benefit of Access is that you can merge multiple tables together. To do this, you need a <em>key</em> that says how to link the two tables together – a variable that is common to each. In this simplified example, the Incidents table and the People table both have a field named <em>PersonID</em>. So we will have three updates to this query: one is that the FROM statement now names both of our tables, and then gives them synonyms (Incidents is shortened to I, and People is shortened to P). Two, is that we now have an ON statement that says what two variables link the tables together. Third, in our original variable names, we have to preface the fields as to which table they come from. So we have three fields from the I table, and two fields from the P table.</p>
+<pre><code>SELECT 
+  I.DateIncident,
+  I.IncidentType,
+  I.PersonID,
+  P.FirstName,
+  P.LastName
+FROM Incidents AS I LEFT JOIN People AS P
+ON I.PersonID = P.PersonID</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3y4doL9iUJXgT6EWoRR_xgo8j3qHlqa1VE0BIzXEUuNzJbHAC0SbSCj95DwrjXlv0vz234TnApA2tP75dW8kdyTPe1iJvByRmpUiBTXBQOEV8CEPj7gqgsnRaRSVh9P-u77fotAAl0p-RJiT0Ta9Pld3HNt6LnBaK_xAYFSZtOA7Duyd1w4LLFJEZj4Fs3CXzMDRu0oJ0BQ7MAQ3DGzu6s--SOygJl71e7RIkBAxY2oiBH3EKC9Ljxkxtpp1bv9E_b7qQbEa-c2RBmjuS78ZAhnxeNkx6Ku4rzygiPo2w-l448FTsFZVPAmGapAet1U6wZ7obiBcDUEO6atj8wqTVw1QU4z0IOEzNsaWcpIvqv7GSZF29khO6OK8FkeWGiUZJMAJpNiIwMeWZu7-VPde-CF4o0jwM93i466-IXT5TC1gvbFlnQSg1nw1L-8Q7_Gs_tjMXPG6zX4SnwbnEhtdEe1oZDcja8oDaTMaHZhWTOUgwCs7kRF6B0dD9W4faoIbijJk2hy_84r3IP1fp_tPFlcYHMsDNJXBV2Nj5Pyi4OOlyHbr7F888O43tCfvEAZZeFfl_c2bPZFyfv-aPyVt2IidOoegLfXGaVyEMH7Sq2g3wd2RsBTG2VWVUHVn75RwJvvM4qdjy8ouOk9snbkiAq9VQC8V7RGMovQlXCe5c-hqAqPT3cA5I24=w548-h201-no" />
+
+</div>
+<p>In this example, you can see that one person is merged to multiple incidents – a one to many join. To go the other way, to merge the incident data to the person data, requires you to aggregate the incident data so it is only one record. It is a bit annoying in this example, as you need to specify an aggregate function for every field, even though in the end the People table does not end up being aggregated. (So you can use MIN/MAX as a stand in, which works even for string data.)</p>
+<pre><code>SELECT 
+  MAX(P.PersonID) AS PersonID,
+  COUNT(I.PersonID) AS CountIncidents,
+  MAX(P.FirstName) AS FirstName,
+  MAX(P.LastName) AS LastName
+FROM People AS P LEFT JOIN Incidents AS I
+ON P.PersonID = I.PersonID
+GROUP BY I.PersonID</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/20mBVmfAPrqA7Zz5z5Gd6VGGfQ0iPkcwe8hK02WzCP_bm8Kq9gIfS3F512iqBntzgFDf99QRZBdJzNDyoSrV6oe-Es3y5T-kK2isfrCfUQbfJwDOvsxm1R-0nXKOvyPhdD-evC1w2eWrwn3BaO3ewqIdA78FWbkac41jmAGUUetTF9skLBpCUk6g9ldcnOKUzOiIiLTqZO9-Y-CFCUlD63eIAdOYcLcdg8vuyNeLdlqJoxkHk1W0EeZtXrIFU6j9VvyJUhZDYGIjNZj3EDwVeMGbGeqI6kUUvycgkzuSmHAKHplRKPITXo6nMGcm8XQ68yoAys7xnOBTFgwYqVm6B6kWftHvn0RPTBhI1Da7yHaDDBpk36f_GJX34WvLgMaQiKXlnHsqC83L4q5R4gVw9bZwodo4QOBtKRZlBHEQme31MLsuD_lxYtDkN8AW543eWwwB89Fivrc7PP5fVCSJEcB6hH8wA53eHg4J-nip8qXX34zgiMW2Z2nPviHdVeC-oFxufttq8rpFtrjsDnr5xETagK-R-bkvSb4B_67H-nLoT0mW6OX8Z_yiicUAtp4os7n3FX7Oy8E7ZKhuBYTnY9Plqcj7fnvlLJe9vzVIE75QHUeFwdhlTV9qNVpiQrUFSj8E4KzPLYQanwfj7gZrc9S2S-uDFM9Sta69EZz38jFM5jmQlY-Lzr0=w455-h160-no" />
+
+</div>
+<p>Here you can see Iron Man has zero associated incidents. Whereas myself and Delilah have two. I often would not do it this way though, but would first create a query to aggregate the incident table, and then merge that aggregated incident table to the person table. I will show that next.</p>
+<h2 id="sql-stringing-multiple-queries-together">SQL: Stringing multiple queries together</h2>
+<p>So lets do what I just said, aggregate incidents to the person level, and then merge that aggregated table to the person database. So lets first make an aggregate query on the incident table that counts up the total number of incidents, as well as the total number of robbery incidents.</p>
+<pre><code>SELECT 
+  PersonID,
+  COUNT(PersonID) AS CountIncidents,
+  SUM(IIF(IncidentType=&quot;Robbery&quot;,1,0)) AS RobInc
+FROM Incidents
+GROUP BY PersonID</code></pre>
+<p>Check and make sure that your query works, and now right click on the Query1 tab and select SAVE AS</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uXVW2gCpq94Am0NbmQg4f_hqfVMuOkY2SRZpNMDTxqJ-VDOgh5gFMP-QW-BxonKDA7nLjimH8vaajBF3OgqUDnTZjWyLQEWr54pzrdADjY-Gi9IoFPPqB2WtauSK3hQIFDhtmC0xrpBz1OVTdeFXxg_4oodgAFVMxXzBX-Rjivo5EZRSNFIUIQj0GUsYe8cBWzook7Frm9n_mdcz9behoBXRTvYc17vNwM3I9piStNrRlRrnhqSJpxOyGMFrAJ_StJIDy2uVQzxZkkW-21nRHYeGnYlXX-Eu1oUvxv5Z7YPvV9EEDEi_CdodIfrB3KsZnPMEUTbs8UUzcr8mtZd_xODWU1w4SsEe9gi_WInvgLsNjsc89R517_nkGfaZb2KCcJDz7wJfKRQHUOEA98afo64GUzze3NyCHyYdjtZxwNfRx9uCEDSR9mHY4EgzCPrz5QcuLIroTPqmHVTFWZJwAS6_THoaibAgkMIYhyuqhM4z-qOBcEgUz24feLDYa_fCD08qsIVMqrWQev8edU3W1rhNNoS6KAMPkenLEXyyoUc1v35-cTOnGH3T0iSbkpVJnUS-yzOO9cYpbMqMEHzwz39Du24AxCSJNPyuhERRlbhP2ZVJmbLnn4TFwy8wAvcCJ39d7zNKIsru-wtJLKIA5K8yXCFx_yXPI2ddmkYSsgRN-Dy0t0BlqEU=w408-h218-no" />
+
+</div>
+<p>Now lets name this query as <code>PersonStats_00</code>. I use this naming convention, <code>QueryDescript_##</code>, so I can know what queries go together and in what order.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TNlxoPVJMEUBIaXajzxVmOlenh2a_bb2s69Z9AE45Bx2nZWYx1NUmhfY5VvBWX-IM_-OB7Y9WKaVUFceZpE0m5x9VEMt_sqV4p9FzP10eFq0jhG-PrKaHcLrSNEJ7KFWGBJmaORMKWz9Ozuq8abzHXdscggUiCYjTINv_sNBXe6MppuNkrO2w8RAY3z-Ftd3uz8DJ8FJyQ9HTdOxwmxQmykaEL3GgJyQ08f9cdKyauA3E7buovpNxKWlU53MR0uFvBSmctiba6N3as2OFqS86dCG2gaos13iinji7R89M8-Pt-X1aqUOa2srLHx8iMnkEk-8P6JYjfy_ysuGy8vPhVlD7VQh5Z9KZK_zYpCmTGLJz21w-DuldMGMjVZUS3Czz544Z9ikSgN5PPCLyAv2WFEcNsvGi1UsPc068N0tOgDZl_EqwRLUjOrD9cT6cwVsnKL9QhGRalsQUpGpBnjFlyVekcbYpKmF4-k9Q3YSXuWL4G6SIJNXPS5SJqvruwkb3NSx13xso4QNNlL6ZCUEAWDVCrK3-PMVSeZjYNTidByU4HC8ztFbRN-N_lTB9n2EHmYEn3lZGU_53qjVCmfBW78uMsCUD5-sDF07zjgutCOoG9JQ9PDbASf_E79pWqcy97m-jp5d_9EtuWuHLvasv_zCIG2OKX8rETURh7F7YjWeQXT6GBt7sOw=w581-h310-no" />
+
+</div>
+<p>Then you should see that there is a new query in the table of contents on the left, and that the tab is renamed as well. Go ahead now and create a new query, and name it <code>PersonStats_01</code>. In this query, we are going to merge our last query with our People table. You can treat the prior <code>PersonStats_00</code> query they same as any other table, and I use a left join to match the two together. I added in the ORDER BY statement at the end – this does not change the data, just the order of the rows (same as sorting a table in Excel). I sort those with the most incidents to the top of the dataset.</p>
+<pre><code>SELECT
+  P.PersonID,
+  P.FirstName,
+  P.LastName,
+  S.CountIncidents,
+  S.RobInc
+FROM People AS P LEFT JOIN PersonStats_00 AS S
+ON P.PersonID = S.PersonID
+ORDER BY S.CountIncidents DESC;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JbRQ07x-BfxfBCOvvsQ5Os4xgQInp_xvF5DPEMSRIHdZMNAd7-rJ1GznktNnbgr2KpxetRyWpeyJ-etXolPC6BiiUm_yeE8RtKQN2rHjvzviUNXBCxF3idBlbSi8oiRAO6mG7alntwE4MfVFioAe1ruymzI8v95I0BRV5XpGPLL4cd55ibe3p1d-wyBaPUa4rQxq_97vmSDnokHI5kkDLmfe9eN1DrQ1cHUyJ5AFYS4WUUjjiy-Qi6WNzmktODwZGI89GIdYk_PABTCFyQNSEyw4plDhRKBFxv4kUXgyTfcFw8rlPfC8JA7lfxx0X3QE2l0bdIToHR-XLhgDvdQ_j16fD1bKLwdhWXBbe1VhvAe8_U0_9bgGcGdvNA3nQ8YI9eZWwbu3tZyJRM3ecI1j1H11Sq1PkuWQ1UAk9SAujX-6XId0AUvNmROCHpJtTVPBCXlzK78hJyeNdr3CiWWLNDd3r5NkDrj1eBqTjC_hc-YDyHzGqaUcS69kiBG8x8OYxZnnM71hVyuetUb-gOY3bwPzL2yh_YJS49yh2CKGS3id_Ai8xpoZQHzrNXzRM57Ma62TosaDg3Ujs9ZNr9oXNZ7WQZ_TtcMIslI2p5S70LBFTzyuN02-qEX64ilm2rZulouc_EpUqaqPqbzXdq39R_ApCEuDv-G1Z0DE4Kcp00Kur_TnqmJQgdc=w578-h205-no" />
+
+</div>
+<p>You can see here that Tony Stark has missing data in this query, instead of 0’s. One way to fix that is to use the NZ function and then add 0 to the result (NZ stands for Null-Zero, so treat a null value like 0). Here I left the CountIncidents field as is so you can see the difference in the results.</p>
+<pre><code>SELECT
+  P.PersonID,
+  P.FirstName,
+  P.LastName,
+  S.CountIncidents,
+  NZ(S.RobInc) + 0 AS RobInc
+FROM People AS P LEFT JOIN PersonStats_00 AS S
+ON P.PersonID = S.PersonID
+ORDER BY S.CountIncidents DESC;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/i9K45Lz4uQuFuwUb4exCb_Yk_spOFklpzAzewSroJ3aj2I_1XFf53us9tBQ08s-oPWjRNoT8nfNL7pI0C34ei9aT6f-eoT8Uroueii5juCTcWpI8T9u2xhoRkKk6wKL41kZFaGAt_QUoeBkUxWZTffWohD6G0PHFIIk_z9Tu2qepkNSfrZJasua2cvPQY2r-WszTkODLbzudvLmNqW39_YP5G3SGYs-aLnwgvefvrYUfko_-BycbKR2YRCcnBoKJTVx4-38So_29KEzdbyCpOmSaIAjN84KOh7uUITgomDoqCEkvDOhutsXJPlzWFU9oEQVkd9OjxqWNKCTnspFGkcRN2X8-AZrJomDHQjPQCNM5p1qSw6V6cn3XuZg-dbdkre-Ggyq004PcVUfndLXbyk7qho93p9Av5sUgoPw0SHV1IkXCrerQYLQ7usNIxbf7iPeKMgH4-78boLPZ7U4hpatP3LwDIQ-UErboq-r8NU6sk22pZpX6ZziC-oYgKUqA7Crp-tSM8HUqWKrnYAOnPshRuhwheSQxMH83rS28X2hPjPddeASGB4bOP5x74Jb8aurMK7qnZroI67L0K_r2wWhLwlKUrXuyblKxgUu39qK2PN8W8fH8zpiAgNi3C-X3FakyPNzhKZMZ2huzN7NuC1KC5fyC2ytHC4NXD8urszpNIAEb-fthEOk=w546-h164-no" />
+
+</div>
+<p>I am going to show one more example of stringing multiple queries together. This task highlights the utility of Access – it is very difficult to accomplish what I am going to show in Excel, but can be reduced to just a few queries in Access. For UCR reporting, you need to select the Top Charge per incident, so if you have an incident with a burglary and an aggravated assault, you don’t count both for UCR reporting, you would only count the aggravated assault. So here what we are going to do is select out the top charge per incident, then aggregate those incidents into a report you might do for a monthly UCR reporting.</p>
+<p>So our first table is going to use the MIN aggregate function on the NIBRS codes that are within the incidents (lower NIBRS codes are more serious incidents). Name this query <code>TopCharge_00</code>.</p>
+<pre><code>SELECT
+  MIN(NIBRS_Code) AS TopNIBRS,
+  IncidentID
+FROM Incidents
+GROUP BY IncidentID;</code></pre>
+<p>Second, we are going to merge the TopNIBRS code back into the Incidents table. When doing that we can select out only incidents that are the top charge using a WHERE statement. Also we need to do an additional aggregation to prevent incidents with multiple of the same charges from being selected. This ultimately gets us our unique ID for the specific incident that will count as our top charge in the final dataset. Name this query <code>TopCharge_01</code>.</p>
+<pre><code>SELECT
+  MIN(I.AutoID) AS AutoID,
+  MIN(I.IncidentID) AS IncidentID,
+  MIN(T.TopNIBRS) AS TopNIBRS
+FROM Incidents AS I LEFT JOIN TopCharge_00 AS T
+ON I.IncidentID = T.IncidentID
+WHERE I.NIBRS_Code = T.TopNIBRS
+GROUP BY I.IncidentID;</code></pre>
+<p>Now we can merge back in our information on the date the incident occurred, as well as the generic name of the incident. We are merging now by the AutoID column, which is unique within each incident. Also add in our time variables, Month and Year, based on the date of the incident. Name this third query <code>TopCharge_02</code>.</p>
+<pre><code>SELECT
+ S.AutoID,
+ S.IncidentID,
+ I.IncidentType,
+ I.NIBRS_Code,
+ I.DateIncident,
+ MONTH(I.DateIncident) AS Month,
+ YEAR(I.DateIncident) AS Year
+FROM TopCharge_01 AS S LEFT JOIN Incidents AS I
+ON S.AutoID = I.AutoID;</code></pre>
+<p>Now we are going to make our crime counts per year and month and crime type using an aggregate statement. We eliminate murder, as those get reported by the total number, so we will need to make a separate query to deal with that. You can then use multiple fields in the GROUP BY statement as well to get our aggregate counts. Name this query <code>TopCharge_03</code>.</p>
+<pre><code>SELECT
+  Year,
+  Month,
+  IncidentType,
+  COUNT(IncidentType) AS CrimeCount
+FROM TopCharge_02
+WHERE IncidentType &lt;&gt; &#39;Murder&#39;
+GROUP BY Year,Month,IncidentType;</code></pre>
+<p>And at this point this is what the query results should look like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pAmC_uzYmmlQXZvQDkTj8REGhZ3hEWF2MPEbM8tsNz086SY6qIhWuX5iHpdKZo3STxpX4gLQr25qgj-Nc3luSxWh33CsrbniFp8qnYhYrbJc7Z84bw6Puj4aexPpzCrujIW4f3PJZlLCuX4dVdabuLLIAYUlNT0vc9LcjmHPq07Lo9-lDGN9LnD8togSqejrx8PBSCmPe75bHcGxNcJHEgs7SBhWYGxJAQuw653aqtbNY_OK9UEq65RyTbz6XA91JNuftFVP6ew6e_sJtl5jfTn-bLSbNhevI0FPCWwOUIQ79-VbwFqThaUiFSPyL1HOqP3_7Onz7DtpLTB4lMedKtmHX30ZXuVLdyTS8Zxlhn6Mn2uvRzJqY93YfMPnqIu2d8sp7oRleVD0nD2ewgO7CCAirJCXcZv5YRuXsu8rm4uWEsBH3edrzL8hU01QxjyhPaYxZ8aZqa1LXWAf1aKuA3vRF23CST6Tp5l_Vc1syZnnjO-9zEuNWzchl-3r46bTzpqPHNBxLq35mCQZ4kITJlItOWgKr218QX2PHqNTNuVUEQluiJLpPdUJx5VyzlPA9R8XCYoPG8SLUQg_VUNuej9ncg-l_1_d5n8m5XvNkbBO1x17KGlbyUFBKENpQruCiACwyQXqQT3wG3Mn2ODjIe3fq7nW0kqXigMOostK55DPII7mMqJI2QA=w850-h136-no" />
+
+</div>
+<p>Depending on your reporting needs, you may want to have the data in wide format, not long format. You can PIVOT the data in Access using alittle bit of a different type of query (Access describes this as a crosstab). Basically this uses the text in the IncidentType field to rename the columns.</p>
+<pre><code>TRANSFORM MAX(CrimeCount)
+SELECT
+  Year,
+  Month
+FROM TopCharge_03
+GROUP BY Year, Month
+PIVOT IncidentType;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2rhuLArt9TESY7_Byq7qlia6idbz8UI_7XE8m9oFAz1L9IEooGT6FuYZjJZpTfhrsj3j3R-H-gfaFNsn_Ok7wmcbUQQd1IM3f6YpZqQ6eumclQ_P4udsCLYDAmjKIYHKG8KpgdTfo-jNCmo8OmAYJp-bLyJnZobnWS_Hx6dKEIfc_f3l5b8LAVelxarT9tY_QjEgMcEVJw9DgGfovOZgbP8p77Y1GpeuD4um0edmYb_zvCR40BpfAcW9L_rN1TX_dgjTpf99-jW8GqNZuLnsQnSaEOCeS4O6arq47XdJnus88zWu6Mtzg-z2cek7PkdbEWwzuuw2fsdQ_lSawrEPU6ssBUuuvJvRbE9wBkh_svI628Bj6vwQ8bb5wXYWNKh43px5ngLAbtKjZ98m7-Y7hH-8BSNsQDk-qDqyNa1HtP9vt9hXXoz5PULXpEog8XROGn4doD4Umz3LGvhnSm2ZhoOhEEGkzvBuQc04GYxo_52gr0lRNXIvHpRKe1oYYDgfs4RchK05-tgX3Z-QvFYu5W_7qhPR69YHAeGVdHGAL2dQJDUy_qQb-aDibUREUTWNkmWutsxKUfuH1kGsdw81ayfiAWOwlfwdf_1Jfak9bn_jRK5E6GagcfudzlZ_vx3e2YIBaUUzICk_WFk3nNHSc9OWQT1LRWWjx9SIX4VXjVhNOFCkVLBTv2g=w481-h141-no" />
+
+</div>
+<p>These are simplified examples, but combining all of those different elements, you can nearly do any type of data manipulation that you want. Then to do your final analysis (making nice graphs and tables to disseminate), you can link the Access tables/queries into Excel. Which I will show in the next section.</p>
+<h1 id="creating-a-sna-edge-dataset">Creating a SNA Edge dataset</h1>
+<p>Open up the second Access database I have provided, the <code>Stop_Gang_Example.accdb</code>. This is simulated data, but will look very similar to how a real police database would look (minus that it has many fewer fields). I am going to show how to go from a typical records management database to an edge dataset (which shows who is linked to who), for use in social network analysis.</p>
+<p>First, create a simple query where you select out only 1 incident, (number 116628) from the FieldStops table. This is an incident with three people associated. So based on this, we want to define three connections – <code>40371 to 1237837</code>, <code>40371 to 1306631</code>, and <code>1306631 to 1237837</code>. I am going to show the logic of creating the edge database first on this simple table, and then move on to the bigger table. Name the query SubTable.</p>
+<pre><code>SELECT *
+FROM FieldStops
+WHERE incid_no = 116628;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3M3BUNrEBKTf24D9tHRQWxIOpn7-iOGtXPnZmp5RDlDdoqqeEIEiS-30j2gipjM9sDTzYJ6vhYaRF4iBRk6FpZKil9gd-6dEVNO10eYUtot97NnGxPr0mp33L174uI2oDllWIJCBEhd5hrv5OMDKyjLcGkU4hu5slspCXjADeDUHmjifQti1PUoMLoTjFvO9YQvah7kiX8Zn6Bmx_-5Oy09sYi5EU38y_CZo6tE4BDLFyjI-l6HotF2O529tvcSK7atuQCj1hVoL5mTT6S5wpWxSbEKt2KUsTqqyQ1mWsKB2ti8e9MwgdAtSWkXzA-W1KiVe_CZ-So4x-lDzqe4zqiXjLkqHvZLoZzLBkg0XKsK9dGJdCEW0peNJuRR-gma6IDz0RERtHtv2VmwQ6PcGW342sH0MZxOqTsYJR3xru5hPkglA0TqWIjw94g2UlQg3_1ccgSqs6aLZfKppAgIUWWEiEnR7coyO-KTl75k_Zrhkkt5SYFpRG768_MuQ_zXUlz6IYB-M3Rkn-W_eCuHVOawLJJPy3yqJuXmeQPMMi45UvpJmxNR60uOwnksrpeGIiKbrJa6xNFLN_Pan0BfXRxZz1PxQ9GXuOMqIuM-OdSXeXncy2DksikKkZzUajsw0nhIEWJ1XzcijkhqkC32oTJP4MlaQlO7XoKZhn6j-iAHVEBYv_fe0ZZg=w629-h164-no" />
+
+</div>
+<p>Now make a second query. This is another type of JOIN I am going to show you here, called an INNER JOIN. This will join a table to itself. So if we have an incident with three records (say A,B,C), this join will subsequently create all combinations of potential records, <code>A:A, A:B, A:C, B:A, B:B, B:C, C:A, C:B, C:C</code>. The SQL to do this would be:</p>
+<pre><code>SELECT 
+  F.personid  AS P1,
+  S.personid AS P2,
+  F.incid_no
+FROM SubTable AS F INNER JOIN SubTable AS S
+ON F.incid_no = S.incid_no;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xLnV0G0YhwlXirL70UJsXvRBlXgmR8V65zl1Rwb5ZUwHEN2-MMsIvsaDl2w7KZcKvs27WOsBg04yNkqmCiEhkbJ8NIhuwildqlXHpMXEHta7ZQ6ORrn0Cm58VeeXNZlVSJN66s8MqP6qM2nANb1_HdDjrvbvdA2l27GTRgbjzQVi1i5BfC2loczqiWMaGF6y3uq5zitvDdQJhhm9H7Xl56BUiiueHU-q9RDLHVh2bi8qu89vgNjH59OPXYwbdA2EWyHgDiU0FyS0uTF-B3YGc05lTr-YOVe_wU3jwIw8AJEh1Tk9oKa5wpdO3FLu1wojJgeVFWjoEncsmO8LbEUou_EBO9Cq3u7z8V3Tr7sM3p_nUl_5hA4MLksJB7TmsMZEdBcGE_U9R1ayu5Cv5qdqmjOdkWzJESWkl7KsQcvRtVz0H3EDFEuiOze0w5BU68riKw6nS8bb-2VGeWh1__GQ-pKodY-UxOz8AQCpF0U55IAOTRblge-eegfZaaqtA4QTtQ4Rt36V8UpZw0_d5jBpD2QCHsmQNo4UEK5BRNvsxCf9EnOtGjoJE1XACuljpaSjZvpnBq68iaWqrJmztllf-_O_SBdvs3XpjoS8teiklSPTMvExCawb5hBLIDl56AH8NO8GcWHAfrwFHbb9EiETA7Dd1eT94Ak21Lk6vAxFL5L7b2RXiDm5Hjs=w344-h279-no" />
+
+</div>
+<p>In the end we do not want redundant edges, e.g. we only need either a record for <code>1306631 -- 40371</code> or <code>40371 -- 1306631</code>, we don’t need both. Also we don’t need an edge from a person to themselves, e.g. <code>1306631 -- 1306631</code>. We can use a simple trick though to eliminate both, only select P1 records that are less than P2 values. (This trick will work even if the person ID fields are strings.)</p>
+<pre><code>SELECT 
+  F.personid  AS P1,
+  S.personid AS P2,
+  F.incid_no
+FROM SubTable AS F INNER JOIN SubTable AS S
+ON F.incid_no = S.incid_no
+WHERE F.personid &lt; S.personid;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Oad2yWnZqOa_vSUVr1PZaYSj7SetQismFC3QuxI0uzhO8UQp_ozloTN0P2UYGD8hy_A7zK2sQkp-ZVU17oMO0xbPn0y3lJYwnFWSLJXeaPxNJS2RtgUrQQ_bM2klKyA46Ez2JFSZQLE9OJeRRTCTxrdtW8ymGZ7KNHcs3djPJWaspWoNycpV2Q1LCMaTiZI5alrMlaoB5Hzn3pCn5AI801pKmy39rqe2uw7fz44S-N93l6b7yCVwEoX1pZYqCnA8ce3pLusX5NDePhPP6Mu-7rItvBC98JGZUI9IEfBiJMa5kBH27fgQ1Zf9j7X9blYUVLlYfWXwvAO12wR7LiuE1dRVE8U-IosF58_s-_7nJezJ1sHYK3C7tT4xabQ0kJllX6BZwzICehAqKo1rW9a1vgpecH61IBgoirg_WzzLpMpN88pcQ8RGjF6-kmrmqUixX_5narzA5yB27OrVJurjIwz7thVWbn58pLq97-MKJoG7mF2mfjsDudeeqoT8hsugIcstCN7Vm6WvU70bQ2lKIVCVophICCgyXEIakcOF79l-govbg_iIceBi_hIXgBVEaxiXmHE99Kzpwq90JKFjoZ98L5w-5JpwzdRjd3i1_ZxmSX5DOvm_as72OZJi9qaTSI9NbUeHgeXcFIXYtte3yj9JEtQgo5gNRPb0EItHIQ7MYEhPH0Hn0Kk=w332-h141-no" />
+
+</div>
+<p>Now that you’ve seen that example, I am going to replace the query with the full FieldStops table. Even with over 100,000 records, this runs in just a second or two.</p>
+<pre><code>SELECT 
+  F.personid  AS P1,
+  S.personid AS P2,
+  F.incid_no
+FROM FieldStops AS F INNER JOIN FieldStops AS S
+ON F.incid_no = S.incid_no
+WHERE F.personid &lt; S.personid;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1WVN4nU2ZsplmYBeMZ9SbeiOZhqAmQLLllMt4Cl-1jWEtT-BP2AP68X1QP1qlYic0089P3phUT39tPTNQ2CTDBEgPLydGQdkDweea1nAoPNDK-fZOioDQL5eZsyOPcZ8Pux5znchGfApdIsy91F5jDHOj9zRWWq9Pd4zQIZkkMo8QbTjr8-0u3HDMYdZ1L7uJRQFLz5qr2yrMUwm5gZR_8QTqRpsUoGtHSTe-0XtnQkUZpplO-LxvvX2Nx0lAIL399PRj_ZwS9QyxRwoRlUaSBdrB1-dslTfzxU8zi9I2w3HP4XYFQ7a-tDuvz9PuXngjHB426xGz-Lh3KL_25ux59ZoBZ2k0TlIVPAV-2xegPhoduKkzSfU3VtYd-3NMPN-FwY7HA_DqIHTMB0AP1oVNI0lIB9DaZ8bkxehCkarwZgo3ylY8ajO9BEuMgKnhHOcGQmhJ0tod8pTdlpOEGjaYDmhkPGQQ-ojAr26DPEsmHec3kKj0KMhIRpm5oI7LETYditXECM5rB_ibHA7iEFgXqsf0Io0oqLAHA-MD-JlShxVqEEAFCYZQQe2yw9oQMbNzO4W87Ga5u1qMYlCIZBgBsw6IZcsXRSh5brcuAwVdXWzvgmFaa1tarRTYasKJzOvWZXunxA_XhCf-6u5AUICxPYJpDPfS3n21QnUMOjEesACQG6aTYroQcQ=w349-h364-no" />
+
+</div>
+<p>Now as a final step, this current query returns the links for every incident. So you could see how the links change over time. Most examples though to SNA do not take this into account though. One simple way to show the strength of the association between two individuals is not only if they have been stopped together once, but how many times they have been stopped together. To do this, we can again use GROUP BY. Also I show how you can limit the results to the TOP # of your choosing as well (here I just grab the top 20 most linked people). Similar to Excel, if there are ties as to the top they will also be included.</p>
+<pre><code>SELECT TOP 20
+  F.personid  AS P1,
+  S.personid AS P2,
+  COUNT(F.incid_no) AS Ties
+FROM FieldStops AS F INNER JOIN FieldStops AS S
+ON F.incid_no = S.incid_no
+WHERE F.personid &lt; S.personid
+GROUP BY F.personid, S.personid
+ORDER BY COUNT(F.incid_no) DESC;</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Ed2rxh0w-tkuKcdXFAmXM-_nJQPQtGSn8HB0cH8jYo3IqBlpIwBOzOumTuFEXnboBSRLzUYSnZHOxtMwFOWSbGFmXqB4D14c6cQC21ss6kY6reQwzUpnaT7vsx70WsiL53aTq6HgpirCSKO3DDoQgGVmaLHk5_MN6tnbOAfLW69q1hvDpFBvc2g2bskxeZoW1It0u2hz1C8FRZQBNTq1JYCakXOqAqt12YNWkDHk9FAtHsAjPqOzaNG7k0Xtf2c_ftk5FKcR5jHr8m6L4qgY0K16iINh2ONnX3hhtgoNRTLLLYOZ-zaksAX6rdhJ2SUrzoItv3rxjyVg-6Lhf6d3_nAERjHgSBKcCqOEw-F77aP_TqItV_k0wtBkVttkEbbOgvYzsrjcqTLvfsRhcsfo5dzM5Gp6IOL24suMoQ7vGfwauUa-k-xXEjuGQMLNQlEjdlbntKsbCwFIzWovGGweMrE17nN3vNHLno_bmwjn0xDOmih749Y1LNzMURVOSdOXRgZ3ND2oH9FBx_2T8L8xI7efmjqz56fHAn_H_zHbWgKWARGCm5zc1kSxhEyOQgreGO7K3CW0ZmQcDrkLzZ3EJYXqYgIe3yW8oV5GE3S0jDyo-N4XdSGsIE58hVeOfTojMQodh35ZAYfg54onopPUL85nA1LMeLad6tOJc3yOvaZOlnA_Us3kyd8=w370-h495-no" />
+
+</div>
+<p>This edge table is the basic part you need to do social network analysis. And you can add in further information into this table the same way as you do to any table. If you want to add in person info though you need to add it in two steps (merge to P1 and then merge to P2).</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, for the first part of the homework, using the Stop_Gang_Example database, create a table of the stops for each gang per each year in the database. (The steps will be merge the gang table person id’s into the field stop table, then aggregate by year and gang.) (Five points extra credit to make a graph to visualize that information.)</p>
+<p>For the second part, I want you to create a table of all the individuals who are connected to <code>JOSLYN GUTIERREZ</code> (with a person id of <code>1316697</code>). Include in this table the peoples names, as well as their gang affiliation (not all individuals will have an associated gang). This is called an ego network of Joslyn’s.</p>
+<p>Do not turn in an Access database for the assignment. Either export the tables to make them nice in Powerpoint, or create screenshots to place in Powerpoint (and then export to a PDF file).</p>
+<h1 id="todo-using-gephi">ToDo Using Gephi</h1>
+<p>Gephi is the best free tool to use to make social network diagrams, https://gephi.org/. I will need to update this at a later point to illustrate its use.</p>
+</body>
+</html>

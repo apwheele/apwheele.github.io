@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Lab 09: Creating weighted offender scores in Access</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Lab 09: Creating weighted offender scores in Access</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#creating-a-table-in-access">Creating a Table in Access</a></li>
+<li><a href="#creating-a-weighted-offender-score">Creating a Weighted Offender Score</a></li>
+<li><a href="#linking-a-table-from-access-to-excel">Linking a Table from Access to Excel</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week we will be working in Access again, this time to create a weighted offender score for use in making a chronic offender list. The database to follow along can be downloaded <a href="https://www.dropbox.com/s/gdyn0x5mdgw2c1z/Lab09_WeightedOffender.zip?dl=0">from here</a>, or from ELearning.</p>
+<h1 id="creating-a-table-in-access">Creating a Table in Access</h1>
+<p>First we are going to create a table that identifies how much weight we want to give to different offenses. Go ahead and open up the CrimeTables.accdb database. Then in the Create tab click Table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vDQ8aOkFyu3JyZEaryvZMlOaL2uJsf98CXjx_HCmELXojv-BC7nFWFM5nfJVqu0V_d2hx7roPgrOVbYixQZUJa_3GODb7DNoCi89pLtgYyVnD8EKXWm4Sx7LVzfoXoGdOK0qDRKO9QEE5A6e1ijiKhPDU5fipoEeoIJhIHUOuHmM1UCzlM8r4puouFcGTmZSgPWVjhK01ZeU-VJqXI0jq5Wq7G6T7UWY-v3PF7BF36JAphwDQIpvuUs7_tCVz4kvhHO7CK5aWmUQUWR_CBds_BZiTXhH_o_Fe5YSJ7opt0Z63jZ2CeEQmR9qHoLO2OnIKS4oo1btDgTvLZj6HJMF5hRoTYRueLk0_qZLjNckbuj5aUKBCJgRC6n1CyzbXi2d8X8-wkjksintI4KVbna_Xs5cj_isZZ2h-xclzLmQY-RcCD2Lk36nS1Q7q1nnV2zBzpGY86TumNUKraLfFCi0KPwXqUUHFRgt1Uu7-ZoIgmxSwG8lyA9B438I1BoE29HQKeOwOL1sAnhEnDAWnXFpDUk2m75k_8kT9-_gIcwMIx8CXWXJgA6SWlIrCY2asPQbTwUZgF4N0TW6ltob90e8_pgaekQdo_Gd4gQ8b1AQoWQdLELYUGzjlDv1EI7bZqNantb-QjWVReXM6c5RVi9lHV6ceiM7gAsIVUJPpnHF83TQ50q3QMmOBRiHYw8nQZYYxQ2hivLXNNC4LPp9XaMZmArAnBHLtboGOj-RDA_f73LVgbeC=w572-h363-no" />
+
+</div>
+<p>You then get an empty table, and mine is autonamed Table1. Right click on the tab with the tables name, and select Design View.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ubTxBE7jmNpgqjWsBNPD3sHdfV_Ki2y41LpA6lgnsQBDfcWEe1O8ccKNyyeEQyiKrCwJlH7aQefZUAPdY1afzEVadV25ID6csJ_39jqhKFsczrc_jSLrgbuk8DNV6vnmMc380eqbL_rbOs3jPdEfuTXq1CCISx46fsF3erhVPMlV66r7c9yOds_wnNC43UYHbgVK_Wa_kjJAiWAVcMuCXNe8WkDEOguJmVqG5hG6HWnmPc9ehX4xQCJCOhh41ez0fbQX_FIZ9mhAITtd4FP2pWB-A5r5Dsf5OLfYzeBGN0KFJJRrF1RdmY3SRUqx75CUZ_nTlzDXegxiQJYEGQQ_V1iIcD-DJ68j-RAMUla5rnTkjwBg3Aauqawi1RpMN7lB1R8K0MR3s3YeoF7vg34zywTnLvdY9VWy5B9wCxX0DcbY2R78AfYoIHg9NjaEXzG8_gqDfdgFwsjHwDyevOAq4brgAdIvU7aXrNyi5GoutB1qkWNu0zO5x2uqT5lWOie0rlxDvIHVsBIXvH0TH44GjrZy8GPsjamRLErEpL93PC6jGYPR1u6zVBccuvoLObx8dh3JZwum_8H4plblYXEDrcae76Y1A7qrvJNq3W9xiIr1LDqfLzj_HT5Wd3H7GVkSoRcsO5vGAv1EKULc4SsKHVnGHmjY6k9HRPFE8aA8W4xstX9ODFC_KxugxerMsn_8KGOv0yc7sZuE_HotR5cAiAspJWo7PFzZ931vuyjvU7NFmcCQ=w461-h229-no" />
+
+</div>
+<p>It asks you to name the table, and here I name it ‘CrimeWeights’. First we need to create a primary key for our table. Every table in Access needs to have a field that is unique to every row. Here we are going to associate UCR index crimes with particular weights, and in our incident table we have UCR field with a number and label. Basically we are just going to use those UCR numbers as our unique IDs. So go ahead and name this first field UCR. Then in the Data Type column select Number in the dropdown. The key symbol indicates it should be the unique key for every row of the table (e.g. you can’t have two rows that have UCR=1 in the table).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SKbE2z20SiNsWLEogDzvU7zAwAqs2V6tty9B42KbOrL3cUHFOP4ptTuhJXQhSAdgJd2wCeQbuOgo2zJ9QVtepsnefeqATaBB9aWRJKBnFV3eQMNi8Vy4ai-gvegB2cxHBaVuzfTibc5h_AktZTj12Y46yFOSlQs8KDDCbEAq1-7aNPclPb9aIlsYaT4bDgeAZCZqzAT8odFMU5lskp6eo37WmiaSuOHtdRhz2s1rW26aGc6AsNfs4Pn2zY4vQfaUufcR-QPdzI6TjWwkSo6FHk5e_Bo5x07HFb6a1fYm8eSSMrg6-uckA8BOlmd1jJqrQoGIuiK--3jnVtkLWncX60WnlVuBJYItm408JgCnjP5GzK6KtoE1WYsCrRJyEEm1hwKhFM8kCEf4PhX5lg1nIjY3gAkJtSiX2mmLSs5uUdTdpUvsC9gIzEG7HQNWCvuFYeOXVNu5A-ipU38xeX2ZDvTSajJVVUfYwAz6atgFggCAv9jCDZtTDVYHJGxVb8PybC0VdEsNrWn1chZB45WVRzH4pNCTZx_n-KXg44tGNf5tuPV7zOfIFkncSQB9QAtSc7ymjGFP57u3BONipybqxACIf7Dn6ZT1yxrHmb89zLjt_sbkMCmSyljjlyuqdmYK95vE9PZG7BN_BhY1DyV_fQQDVyxR21PcOmCQqnEa1LQbQ1cW8TBLsPhjiqvQnVjVGxWtK8AdvN94hB_prpvmry7yj-xSFCh0uPZ_4cUXf06dZehA=w621-h341-no" />
+
+</div>
+<p>Next fields we want to create are labels to go with the ucr numbers (CrimeLabel), and then a weight to go with the crimes (Weight). CrimeLabel treat as a string field type, and Weight treat as a number. (Access you need to specify the field type, whereas in Excel it just guesses the field type, and they can be mixed numbers/strings.) In the end here is what my table looks like (you can see I also added in variable descriptions):</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Qa93KBIK8RHT4uSMdSRnp0Xx49LiOe7LQ9Covn97m8o2MvE_nJs3NIJMZ6YFG8ySK8scljPK4NJvGiUqPp6uqwQbBtAtzL_ZCXAHyWSWp8PO81g3wYJVJFGeCwR7SyXILFtQxZlG5ctK7eFlKUez0WCgtU3eESsHbLQYr3gUfGiblW9rnBicLqEznCoTCWfwwR6mRnSIkEsDUgxxgIIlUQT40Rh_jZRsv7fdotp18YPSv9rLo8vwrrOQnxzBG0zWDEfTF94Gf5yuJEyXWAH4nWIB9j0YUxWMHdE24Lqr9wI-KvsnZObi6hfE-f0M6RV31Tr0MH8EROGuo6JaqHyvMHMPtgSy-Bq_6QPXmEJxm6QefG_it-MC6io50ExU6uLa7Iv8pwWQKlvCnvxUmDs8SWPCf6pt8j-gUkBhhT6lxaPoVId5HKmyTv2TocqtcvPCbuELH7FZIWrpKqQ6auVFHhrl6e01DJcwqfhe3xlApyZWPj6-KoJ3lKiyknO_UjFvQv1X9vu1U618k8IaqyHnXhUc9Px4lscUZyGNtCiE-uG7z7YM8K8_F8aOFkDKc1tz9a9nxzTP74XL8WtHHTZUxd8MdhCyj2mn4_9fFNpMWxlvZARxewC1tOvIhCmin2Z27-sfT-eq6ZgJqbF12sl3no5XfAUmhxeVxALyBs4E1RqVzQ735KCBIYXx1vrY1y_QVJIHja6bVDmU7UwFvkE-vQ9eJjxa7LXDuW3_FKQeAQMQZFJy=w1020-h204-no" />
+
+</div>
+<p>Now right click on the CrimeWeights tab, and select Datasheet view. You will be prompted to save the table, and you can go ahead and say yes to that prompt.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/z0qKSY8s7A7MZH97umGKzHF_Gzv9gfx7qB7WVfABMQE4Q53yBao54Am1k8phg5gd3qTkhagKktWF5KcXoDoAEODDAntJvCzAEnyIdtP5vWz9pTUiydJ22A9U117rqTgXkHaugfH0Tb65SgCOYemMIhe1o5Pllf3Q6-VBHRE7yT1YCTl9XWNGLnTmrPDePV9sjLpTSciiNq1b9SVWTd1F0t1m6T2dvUkr795sPYfwG08HMKtmckI29uKX8yogMWzulgcvldffohj2Z-WLV6g97oxsHAPfMKiJTfrGQLWSOBnayhAt77_ouDQQG-c-EXnSyayInJ40lVEF4sqSgL42PLAvvqUfcVC2gDZJYcYl7I5I_IKvKbAp63dDalorwuOdI2TZts78KoHpGKuUtUxEo61h1sHkbFzLUMpzptCW1lG-DvhzaPwp9NIbzDtD6jtwWLwni9miupv3OgsXeHW-Oq_T6KTroQNQ2TWHIDDZ6Pn1K0-fzH-6zpEZni1vwVf1DKY8DHGN7mWGN3lGhLBBYZNraOvHYKpUoBORLl68HSVl3FcxkrEYS-wIbM3iFE0St98ecesmok2UYRscP4LNS_QbdWC3lCNjIgQXl_yAGvuVvJfPm4De3OvFyLx2hW3u70q0rHomNJgw6MSUl75j2NBrpDsavGnosO8ya1rlCtRgMCSmNVlqvApfyc9cGiQy6y60hHBSn8MWJvc3XCL3ZhEbI1Bj_k5ctf5pnZTaWlj8wTjU=w541-h243-no" />
+
+</div>
+<p>Now we are going to put in our arbitrary weighted scores for different offenses. The idea being if someone has a murder in their history, that should person should be higher up on the priority list than a person with two or three larcenies. So in our first row, give UCR a value of 1, CrimeLabel as Murder, and Weight as 10.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oO-4YDl4xZYpCPMjVSyr5-f97RdB0w_yol4tm3uT2wozNCiM6KU6sy6rNujXjKZgtJvNV9iaXnTEd7Qmt-7L_WTGylhCGDT7fYd9RUztqxmnu7rCnmQ_ntePQonoCMJerbIQQSChgz8WoBWPkVeUEDorYbqTjvI0q1XatIfulQs1peWGjaYyiY34KeMnXD-LKO6VUvlo94LdM-oKdO59Qo38Cr3WGYJraKI0kRbf0GNp8ZggtL9VcmvgnZxdz3GXLzm_iCNSyCk6g1BwVFpiBtV-JLh5gTpPsReK8Sw3VN9jw7JB9eeTUBj4pjrEnVGK8DEV8U4gyE-Xt0xY6Z0s639xKRUYHGNdlZEGwMKl8JlNlSdqZ5rNoRaOu6YSGRC2p2CZJy1z4S6S3xxx0ublCPd34XWS-s-e2RcBh9TeOXU_FrlxVrRWSWcKMu8GEsMMzbLK2zFMTyQgUofX459BFkXWKn-m4_1lkzkKrUZDtdk19NbPfh_ca3A693RAzbYNsiqLWsFwhSpMeiQqVGcGO4lA87RYiAxgc99hinQn-wfoI9klwswFom_sg0Io5Fff-uVofJ1_Po1TYoempf9JT-9v49An6nfLa8VTVcKgiGNtDN9xBf3HOrq2j2p81evViy8_sxEU2qPrsBLFkbSsGCgePWQxNJsFf5eosYp0_Kt__3CcKk_Tpn4w6kzGVO1V1tOpwDMjdgl6VIwYhBEGsxoLqOjJjoyGlEg16nX69ADeyIqu=w434-h117-no" />
+
+</div>
+<p>Here we are only going to give weights to Part 1 crimes. So in the end the crimes and weights I want you to fill in the table are.</p>
+<pre><code>UCR CrimeLabel Weight
+1     Murder     10
+2     Rape        5
+3     Robbery     5
+4     Agg Assault 5
+5     Burglary    2
+6     Larceny     2
+7     MV Theft    2
+8     Arson       2</code></pre>
+<p>And here is what my end result table looks like. Once done make sure to save the table again (right click on the table tab and select Save).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0B3ZYROsOjxe95TLdbIGMqse4JjaWWl0k3JOb56k6oYGivUxaG7xp1J3jrwxwBpLn0eO6OtaxOCF71Z6zUXCTBaHfAjB-ddeS-Pz9F1X2itl-E4hJfbks8VL1bYo2EdHDLHKmi160WFg6BAn9G2LuDLJm3PSnk1d-ZygFzbkS_qohOSdTtXSsU_83a12FnBqAVztzFOzpErOf7DKus1qF41GIWtRzGk-ElHz0LltlFyEsg-_Wd0-Psf01Ckmhv-E5mhTCwv4pKT3NIadweaWlj28ffLx3HkukETNfjr3BHGC-MAU8Ewhq2KphDk1pgDJXHWRx34KmZutKtveg5Rgk99L4TtTJdWq-0xrIK5tLsu0roxAnYS59MlQvR_MugqBnSFjpplsr1xoV30nW695r6rz85z5vfdUgFVgTu9DWsvAzXJng040SlEMA7qSeqRaMYfx-UZABvLFDnG05-u_sUrNAFf_gj-DkMqoyY-JZuarcnyxPDUxVO97w3m-iUzuEi1_qAdzwiFlDJOS7R-z1-au_wOJ-KcyknrU0xkSE5-OFF8Du8hDPjBu6S6WlaL6R1-XYDh15e7xPNT1qzcVb4JfrjPSvPNux-8msoxc_aUgaAHyGWhXToQs_3pbD0k3GUxIX2U7qrE9ktufQ2s5716Yd77hXqtb5l2mevYtx-QFvmF2Ag9uaiZISVAwoGHXTYYH9apYcO0DdJ6CTKvy1hC6hbCYlr3pFiycVCx7_vK81WeN=w434-h251-no" />
+
+</div>
+<p>Another way to accomplish a similar process is to create a table in Excel, and then import it into Access. But I wanted you to know how to make your own table and primary keys directly in Access as well. (You can also write SQL to make a new table.)</p>
+<h1 id="creating-a-weighted-offender-score">Creating a Weighted Offender Score</h1>
+<p>Now onto the SQL part. To create a final weighted offender score we need to take several steps using our PersonExploded table (all the people and their involvement type in an incident), the Incidents table (the crime that took place), and our CrimeWeights table we just made.</p>
+<p>The steps we will end up taking are:</p>
+<ol style="list-style-type: decimal">
+<li>Merge in the UCR associated with each incident into the PersonExploded table.</li>
+<li>Merge in crime weights to the results from Step 1.</li>
+<li>Aggregate crime weights to each individual person, and select out the top scores</li>
+</ol>
+<p>So we will write three different queries to accomplish those tasks. The step one query will look like:</p>
+<pre><code>SELECT
+  P.incident_num,
+  P.inv_desc,
+  P.localid,
+  I.ucr,
+  I.UCR_Label,
+  I.DateIncident
+FROM PersonExploded AS P INNER JOIN Incidents AS I
+ON P.incident_num = I.incident_num;</code></pre>
+<p>Note that an INNER JOIN like this can potentially double count crimes associated with persons, e.g. if an incident had a burglary and an assault, they both go into an offenders weight in this example. One way around that is to use a top charge per incident (see the prior weeks tutorial to show an example of that).</p>
+<p>The second step we are going to merge in our arbitrary weights we created earlier. Here I simply named the first query <code>Step_01</code>. Here I also only select out persons that are arrested (I don’t give a weight to victimizations or people reporting). And I also eliminate incidents that do not have any weighted associated with them. I then name this query <code>Step_02</code>.</p>
+<pre><code>SELECT
+ S.incident_num,
+ S.DateIncident,
+ S.localid,
+ S.inv_desc,
+ W.Weight,
+ S.ucr,
+ W.CrimeLabel 
+FROM Step_01 AS S LEFT JOIN CrimeWeights AS W
+ON S.ucr = W.ucr
+WHERE S.inv_desc = &quot;ARRESTED&quot; AND W.Weight &gt; 0;</code></pre>
+<p>Now onto the final part – we can sum those weights up to individuals. Here I also only select out the Top 20 folks from the query. I named this query <code>Step_03</code>.</p>
+<pre><code>SELECT TOP 20
+  localid,
+  SUM(Weight) AS Score
+FROM Step_02
+GROUP BY localid
+ORDER BY SUM(Weight) DESC;</code></pre>
+<p>And it should look like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pbKut-C5m8W5mbTyauaXJk8_gvFAht2MyIeJIwtJ94HzRw1unDUdXy93w2XkVg1CBSnBm8DenPtZJkr5qGxk746RvM9bjy1rPj3qB0uYOXcTYc205NP38ZGo0qEOzi4U0QB3ZlPdqjJOmkpFrpQtoc3cFhybitELSUlLDOPWS2Wh4K6V9vyKptrt5oM80UeriELErW_4JhKJtyzyP9-WWpKWxuvFSbmJwgsOcNxehoyffsgWXnE9OI3BWA2Bp8UHiILJBSFZAbXbGCL8xQy5X2WmN0pIavnEQ2GbcnUjn_9RgBcmLviuwBwBqhVXdAs7Ax8Dw5ltZiRPvYtDGJM36GzjcSAY16gy9HD7ACjMl-7c2XdQ1wNeb3TCM9hFeUxmMyBYUCJIf3S6BYbO32K2hxmGjR4ly_tJ2E8QBv_vkSGkGMrU29AuR5E3ytBCp42tisXYl2moZ_8B_LX3OlDWK27b46ONbwml2K4iWN5tUgrPpeg7JSnM9Wqf7v-6M3vWQ3BLzHQNJwlCSEKbjtjXuKwBV7l6k4Or9Lrg5f12Raf3_i3lWJivYV1PkADunWrYSnsQ7MbJtc28ka0D5QF_xPeic0EvzTmlFVolN1eMhG9vWp8KHATLcE0qufO8ghIdsc_ynSwwNNb2nCoLLZi6cDeV9poH87pqEY4_jOsfIFIenAWTb0J0tIkqFN0VZO0TNTOqGs8wBllbB3P6COwyFSKzBTprLHuFjANgHsqiyADf58Dt=w477-h488-no" />
+
+</div>
+<p>Now go ahead and save all of your work and close the Access database.</p>
+<h1 id="linking-a-table-from-access-to-excel">Linking a Table from Access to Excel</h1>
+<p>Create a new Excel file. Here I am going to show you how to have a linked file from Access (it is easier to work with the Access database when it is closed). Here I just have the focus on Sheet1 and cell A1, and in the Data tab select the From Access button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6XcnyCfCqSoJMVCurD00FPl3B527y_IBBgUAOd1jb7LSC_Zl-g0oY9RabSQKPcYqEMRtiiWAo8YX5waRjE3K1SZVThGV196y0N0EzowXuCvo53OZz2c2wrwy9F240vQ7pJXfie7nykeAGHnjKkl7q9stF5vceMIoEAVTToK7LVyY11UP76Said7RER90IJOzB0xOhFpaALzI_tSrP5Lm7fZJptoAgWXRE_UgSvFMBFUmJbYbGrQeR8KakTvidGervDwxlWX5IzEyA4IanKQBs4m8GbME0wGwK5vjIboPm6gEF_vQMS2wtD9vHPojZJrCgzWT7wurqpsZmfxORQl7KULYWASK46U9pGXZypBk-c0z4m48SHV0EexH8VchyOzUDHjKBpzj8rADztKFozpmGymaGq1EhUnFeJBbPMlGawQbxVKn2S3i0vBSVovd66YJ2NGFwDJCtzNb_tiaDtlGjD7EqvvnMQpo86pEeq6HtzkY6sZNrdpjzBrVPZMSEVYO_2tSb-qvEU_cp02mDZu0FABRgkHELv5K525bjfPZJjzmX_7nHnupN6fET9Gr-3Zdl9YtNoaZ-7vcdJvh8IN74NjbN22xEIKh0HjR2sM-QkDGHMMpH9n9Ha8Edg_49WAxNPK1M8QdJ2Ko1w-Ux9wC4F263PRZOMjrVat2oied_YvSpYSO5cF4dPwRElv7DXK8xAz5FfsFpJvaL7RnoYwJ4EgAVzz1RNyFhc77z5Fy8bm9kSST=w490-h344-no" />
+
+</div>
+<p>Navigate in the file explorer to select the CrimeTables access database we have been working with, and then select Open.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gEq648jH-K_Js0rrvxg87LrHtwe37FdP74KcVQMAWQqR-XD76E8DuCm2LlB-how9Fb_1ehkBZTpATaoAgaLh02d6wEDSgZq2AUPAMy2QFDVX8kgE5B-rohgDOgl7IIhIBujCIEfCosg_PkxbpVskxE4k8GeXX3KoqWv9_R_L-BRE-H7TYpeksTBNfEFLK9tX0xaki9nIolpx7tNRP2DLRm7LP3GDhpZpvNAHwr_toPulS6QFJS1mYOaBfSJOoWT54bDHv8TwGWsBA0o7scm4J-9L5KGWMzv4LU-8dGgiZv3g5MNmfd0KhnHJNJ2u6Y-6k9zl_wZq7hBLJod57UDZWNbhhj783k9uvwEGpRIRU17o9fOc8YURI4LI8Hms-Umbu3YjI2ZsdQG2nAS_20XBzTy3Ad_LeenPZbfaPi10oSzEHcEDsqmVJnsPHsaV--ysijwt0iQzqNZr5cbieCxw1idXTospifSVxEVBonjAlfvKkC_WlBMaQyEe_hhS_W0DScYFPlrnwrxIRSpHWZyz5OkAGWgItZMSARAZ25ox7jgJk6R7FFJVGlpQ92KnZEwnPqNXetqZxvBusBSL2IM9w6nZuhXehpVM77X5bbPn2JpGRDT_LYO00CUam2joAI-nH4E8l8hDw3iLPbriZfvdU-rUZcKO5AilTCtFegOUCY_v8Wj6HdsBh73lWuLUgcvpEYtgNlWqCYNn3dFkly5j-3RzHckMcmzlE3lDmPqLc5NUatdu=w955-h579-no" />
+
+</div>
+<p>And then in the tables options, you see you can select your queries, as well as all of the original tables. Click on Step_03, and then select OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sbTe8vFgVkb8fTf2e8Uyd56nQ9lPusAFvvrZhHjUz-ORUWctyOIC-0MlSqsJOFjMCxfusPn6rc71AC9r0-es_gDozEYngOWV5de7djxO5g7QwNl71vrlEuRV54E7ZIBTYFJjnLwVQqg01O1COO7eDcyqXvwjAEvM9Hblbi4KJPv35mWHRDWUOVsWmNUKyZlMSyV-YfSufVlskxyW1tfnlNmYxXLXeadxGUXx5EbDCilSt5RTfSnXXJ1YaFpNDiwsZp1gM9_Q-YOyt7q2ImvXu-RU7I1A-jIskVXauPvCte0anWogRehlg6O_wOZurF3iFwWYqAyFLIfXaaCWlQ6KQizNquPEu0FMmL0rim4MZVzZ-vUJu8M7PgzNvWKjAOvzbrD4tULCXoA_oLIT0Qac1kPxzjf_IDe64FzCmxhsRPwMC6GoX-GXXhmp59hWmO0rbaVbRxxxM7PQG2XFfsPk2vDketSH0XLufi098yKxuBHTys_NTdTgsHWfk2mYsoYI5Vw0HL7up-kfrglRYVmjMgavQaeTRLx2JhTm7FcAlUnNC7vxsAT-i1NlIyNxcO5ZV5SL7Ja3Tz0KDhYcgt_uLwURjrHOlFqiDzJOJQ8NyPr3hG2e_iUeCS_OZhC7AZw6ze-fBlSJBeKcM-pGLA3k9TwogG-3KJoYfOOoUwYkunfqWmhg9YDGzTNnx-LPkMxLcVPpjkYDxRkbsWhEGLHlp5_Wx2B0lawVpEgmt0g7L_GZq15z=w660-h333-no" />
+
+</div>
+<p>In the next step, you can just keep all of the defaults, and I am importing the Table into A1.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cuFExj8anx5XjfacLL22-nP1mbBFpViHjtKdG0TBUcInnj45gS9bbnu_Qrfz-lpJeqijxteUp_mwl_DkZen8XA62jjazXB-BG_kbtctYForBMJHIqTf-d9SrHTA1NWO5UwC4rrwaC522f9RiXJSu3s5tj1YDdXNAgD-JkZpc-M-fIbvd4eb4ZQsXRVyTrijzUA0w5wc9MwyoRhhQk52hHtaEQu4HegIpMWU31d5cIg2myvoXNN8FzS144oef4v5oxWcpEKHCFYjid4vts8v7vksAqgPedTjKG43v2_M1QSJk3P9reG-ylxMD2Ly1uAoyIYZoSJvO0g7V2ahO-3LH47ga1SxS8n50DTgsMtrBYBve1zkLgSNMXjCScJY3S1V34nmE073VTfgYY4TiRfaFhKv1wdv0y6MreIRaopzhos3y1QFfFHJh1pkH-5gq2e5bnpaooBo4MZ-TPy54bhlPDuDYN3y2_O_HUSXLeNKdGMsWD-mAjuzJ4nxdKteoHX0DgGel_u0deBBlvrH7AKAhM9Han7L6d6rTvrZpb0Cv-ZsUZPGcPv7yMMjKXDRDloddg5PD1_TLs0Xxb0inJosXy9WuXAOm5L5Pyp03U0J-uKbtj7iQbiyYWK_glRsHbL9nPYwssv3NOLLx8C-CCJhDGRk4FvcZGyib14UyEBocXaUj5qqsnm3BuMCT8lC0XyGeTQZmtmv4tnCYgVoChVjpwAiFu-ZSXdMsaEGmEMlJkt1YVN7M=w458-h352-no" />
+
+</div>
+<p>Once you click OK, it will take a few seconds, but will then import the table into our Excel spreadsheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/15ufFmMxQNK2px0u-vbBO8m-tTlaIoFlA-VJPFZmPynjpdj8ga8nv7SnVCCTmPtKpioCIac1tfIZYiZtU8ma01G3Apzxk0Vo5gWifwoPTFdSX2hxc-vYhYdws8oGjzm3kECFF0EE1dA7Ncr4R8UbFYXyDNmSvgPthacM1XFHoGY8kPk_lynNabVgvMi9cm1KvPRtg3M-dDBUXxUeKiy3MvkIImX9joSJMXvJ7P0FHNwSpzwOuSTaebPB8dEd4nlvvACbjKAAFyVsYY7pJ8kw-5s_zWfhhky-A8g3lS770nM2cFUi1dm0xeYwkgDFkbE7BehcgrtKZyPqs4HKojRJZNPcSuFKCAqVQn-zUTk7SKgJ8vTKgX4ttwZ14FS3hTokdFbcFCdFriqVA49Uag51rSnDzSgbJJgoHGiItE2hmby_o0Wu2y3F6c4dXJegtB-K8z86rKFpwX-01ZWv3DcMsg_XTqA3lZGG7zo_hbAgq1mBh2qiNJmqAaq6XHxoiNb4GaLChdQVRMsCxBsP3QVGN7WmdWr6enWC6mJ-hKfQ9h1w4CWuemTrzDKZDqI3ebr8Jy5t1-mgjTAy1Xoz84CvIGh4zM4mn_TGK8oOUUbYunVs_JG9gTcUiW5LjeoaYWW1DSyNrzPeaVVrDlkM0y_qzHzOOnDQrtvPfw1zmc4FzrWACT-qoOm_iAoKb29bn5zb3RF1FoaW24uel82QwDumKsKKf1KrxWnZj4Fc32N1ixyT5p_A=w193-h509-no" />
+
+</div>
+<p>The cool thing about this is that it is a dynamic link. So if we update the query, it will then update in our Excel spreadsheet. So we can have automated analyses that gets updated. I will show a simple example for this. Say we wanted to update our chronic offender scores to include a recency score. Go ahead and save the Excel file and close it, then open our Access database back up.</p>
+<p>There are multiple ways to do this, but what I will do to create a recent score is identify incidents that occurred in 2015 (this is a bit older data, see last weeks to make a variable based on the current date), and make a separate weight for only those incidents. So lets go back to query Step_01, and make a variable that calculates the year of the incident, and another variable that uses an IIF statement to equal 1 if the incident occurred in 2015.</p>
+<pre><code>SELECT 
+  P.incident_num, 
+  P.inv_desc, 
+  P.localid, 
+  I.ucr, 
+  I.UCR_Label, 
+  I.DateIncident,
+  YEAR(I.DateIncident) AS Year
+FROM PersonExploded AS P INNER JOIN Incidents AS I 
+ON P.incident_num = I.incident_num;</code></pre>
+<p>And the Step_01 query results should now look like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PxsgRT8pyGWHl6vlms40Ok9sRemsY5gLBkoKKTF9IKvM5A660xd6mxbQ38lRzh-8gBiC4ohgt3tzUSUs8_zerXAsFpRi5GVPjiLHL4yOekEIaWxCSu_3dBSxRHx6wiK2T8tuDp8sTpc9Ri0NDUqCstOou_gCyqMqI-4oTV9qko6qXYttpyKT2qZ8-Cix1m8mV9NPueNKsQcNcWxWosrp5savbaOkgA6nmEbzq8ntp8fTgnGzumKavItUA-jw5qVMu2hyj_3y4x4ukvbZOzqh8qXbWsidUWWqv0i-XN0G4lfjKgWOKn8LvP2ssbCBd2OX5yE44nkrfIohCLgTE8KvJ-pjkLte83-qnjlDObNEGQbdU-7bZpZda0QbuD3mHEJzfn3eBUiMJrNfNbgZGr4QyfcQFuY2X1fl7nAJJtkS2gcJOZyQytygFUdSgu4WutY4KJVcmVf5UPAsERij4AiVMhgoow_T2zvJWEO_xuxi83lc6QWWQZWlXGp5oH-Wrjzg8Ou89hf1yZB8hwEIbhSL9OQh9wtTc88x7F3yKZcc61sRMO6l2EzwgZlKBc8CPcZhOX6DxJ-SRtuUM7ytiqNDarzJzPD31F8PIsbDJOSrx_3It4Hi-N896FE1VZh-BUVSvJoI4xssjOYZOvA-2cYP3kJfp928tz9BYTaOmvGmt9l26olA6WGqnFMCQxJxPXB7zTqdDJfe7I9SQ-8G2KIIKFJ9wGp0vogrpxZqg-oGM9kbaQW7=w717-h708-no" />
+
+</div>
+<p>Now for Step_02 I am going to add in two new variables. One is an IIF statement, that equals 1 when the year of the incident is 2015 and 0 otherwise. The second new variable is going to be the multiplication of that recent dummy variable and the weighted crime score. I also sorted by the dates descending, so you can see how the variable applies to only cases in 2015.</p>
+<pre><code>SELECT 
+  S.incident_num, 
+  S.DateIncident,
+  S.localid, 
+  S.inv_desc, 
+  W.Weight, 
+  S.ucr, 
+  W.CrimeLabel,
+  IIF(S.Year=2015,1,0) AS Recent,
+  Recent*W.Weight AS RecentWeight
+FROM Step_01 AS S LEFT JOIN CrimeWeights AS W ON S.ucr = W.ucr
+WHERE S.inv_desc = &quot;ARRESTED&quot; AND W.Weight &gt; 0
+ORDER BY S.DateIncident DESC;</code></pre>
+<p>And here is what this table looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-eiSuA6cG29_RxOWTvCgQx0OpwlT68NUHDNwvVhFvN05hJrY_ATFo2PNBeHw-Nx7ch60rOvwYcl8ihGshAJJ3c55K4u3j1CMQ0ZBN1dMDQ2VFWp0w6mJKBQDPDMOJJh8bETBBK3KABxYjR90b4kpQxThdddn6UYUeyWug0SVsyEQ87qi6vr5x87gNDZsTm18FRfl1KQ6lwIxVCNZ5AyGihyapH63wbzquADahBDau1OBPxwfoRbgEXP-EXEft7v3Y3PZKFQT7B2Y-Lz8w2LnFdD2k-kb0dLwV_wzEP5TWnSit0X2ADOVnx7QUqHoTEJ_nzZhEixUkvtJw-5hZYiqChpWMsn2xwZTgfA44mW1Sjw_feFabDpWmlVR7G1j4l6XvABYRvZCdKlRwESjlPBY_FAcwNR6f0hCoCh3N4uEogsx70FG3KEj4X0-c_2gTEon-Na2lMXb0PCIbkeeOuUU4Bsx0y7MCtGMV5qJC_EIUTuGqee92Klr4bRN4_fM2ejDqhYVRykQJNiNrBk433tshFKqvVqRc9RMdSxXmZ8Qoirril8DTZjQyDJCotfSEwavHUNtR0vSu8jtbSf19AGjTb8qCloctJHe0sSDPuZQfObZ4ZXTksDVOZ74ZS0pjp3QFt4NcNFPxrWgbw1eNwjBv4fX91Bv3dV-FBUHM_KgaW1UDilhG4_Q2y5QQkNx91EReip5KFeKKo7wJmhwggs9e8Ie53sPLHYqcohrhWtUHKR33ryH=w922-h465-no" />
+
+</div>
+<p>Now for Step_03, we can create a new column of the recent weighted scores, along with our cumulative weighted scores as well.</p>
+<pre><code>SELECT TOP 20 
+  localid, 
+  SUM(Weight) AS Score,
+  SUM(RecentWeight) AS RecentScore
+FROM Step_02
+GROUP BY localid
+ORDER BY SUM(Weight) DESC;</code></pre>
+<p>And this is what the table now looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qA2pHwVjNWNrPC7enFr_s3hpnpnRsfAJeL0WLkjRatacf6ZUIAam-xGgt4Yrx-ilL5ZBlOzOzGBTseSyhBcwYdU0JAiUw9m9txTWufOg67JIxsztCD54RJOvWEIoVf9WN3nZhvkraFMfqdyvVjPBoeg4QmTA58SirZms6IJN9djgWNrsazGaE67MxfHEG4TMs41wtbyr0Dwz7jV_ok0XTCxSZ3Gqe5_Jne0-MbmKCLr7zGOAF3bt12ZUGxqlqhIBVrnY5okmEyfXRYOfp7PoCubRtEa5HKbr9Sx5Zdws-YB_0BcLt4wY9HRBa950TYDPL-esLXSN96OUETEN2zCDmQdh3e7FVpoRvvKQNR9u--dnc5cyCtjkLhyAxpNVDus12paTMixGbfM7V13QhAMcz2w6BNSGZTEibLYJ5DwvFTWj0XCjG6_TgDE-E261YihrgTxzhSPSTuHGEdMOphZd6rfIUk_Uycio4NKRXqvJofiz45xYwyMg7vUWf1RYyJv-Xyc_fcd_8OOd4t30u1xNSrCc3EeMnGlwgovRHLmpkQ3OHTB0Mds9VnjcWlUoC6FnyEACbbCIXVEjW2QWuabg73qPcZ5NTqoaDyo4QQBSZiesXeqVIo8-79iJ1TOPhjDxA-hlVk73vFUqcdm9Kk4ZBuvmbhy4zq5y0YNJEexfhipm6Vw1AIkAjXUxCt4Z8hFN9UTrOgYM7z0WwOFYIZyWyO_xd61dXEHWSM_777AfIao9IeGb=w377-h507-no" />
+
+</div>
+<p>You can see that only a few of the people have recent incidents in 2015. If you wanted to select based on the ranking of the recent score instead of the cumulative score, you would change the ORDER BY statement to be <code>ORDER BY SUM(RecentWeight) DESC;</code></p>
+<p>Go ahead and save the updated SQL and Access database, and then close the Access database, and finally open back up our prior Excel file we made. You can see we have the same old table we had previously, but navigate to the Data tab in the Ribbon, and hit the Refresh button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ryxY-BqFYmkMUAU041gxGiz5DysRyM2lBEiwdSaZo8vH0x2rx0aoeQ6z1kLmJrtIVYqKbBxztw_wM-twyINoiPq_xfMauBU0mElUAkzXEctuM_TBARNTY4Gh7cK3tEtZv5cX85PMNpYMhIboqDwb9gdkahbYqDc2XiGIoBic89xMu-lefakxhA5RMIteR639myB_a0R_RXhTkx4utuHmLD5FksmHfoW_917VwHX3lk0TR176dmJuoO43_avqtqSD6U2Z7MSSplZFCjoi_bZBTgrQuqQzpMBYfga3QNasxZig_qt7a--LiHMd63uaz2RFIstdptIp9MyzHnkLTwijaYp6Ggo4FU-5epug9iLFzn-fEFaKsTST_dbUMSRHe7ghmzLc01vgepcxUZqNwd2-CG0unUoeGgY8xsnOmMJd7NCJ5Ah-KoBmI5QnH1M7T1NPy0boWJmFQYx_rPFP1Gyycvh9sHMBwfIvxl4pOuEpsWNgzIKBwb6Y5IBH6ZwIKSZX_Mey6Hu9jyzJsVHdQ3cUJtIL5VwKNAADwZy66FP0Ep2tDAWR04UokAlPtMM_WFrz22H-THxANyDXC3G72N0nji_q40YKb97SNYc1GpwbJBz3d2Cy1eNt360yQePtcfQJ407fxOo27RVm7cahegSexKmS1gBi3S4jbKJHnKN8q328dmCc2jiLVVCpo9TibGAFYK9ZRpGF7H2-eh7ZW2dXE5DjgFSdBEUrYnoe-QEp9a1sbK8N=w659-h767-no" />
+
+</div>
+<p>And boom, you will see we now also have our updated RecentScore column in the new results.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-hCbSZYm35pKQjvz4N6AYK6KrCB31y4Y6gYkY6na0cFRM21Asppm9D0pVx8OYup-6VDrDBNjNni_fI2YRXvek_fg8TgnQfejKGd8nxFvcRu9cttxH34ki-NNcbrulgC8k7rPbGzr7umEM0KUYKLfszh7O9OkKycXHsIOVac-bq_eJI0ztcUe_gfn3Q6NmnKnoYKoKEmwsKLFzI0K0Zs3jSNkFCQ__dQ-aoWDG7JVLwR6nvW7YGui9L-HBQ5Q31UVHa-R0ZHjkB2wEl7FdKLrrahLNva6BgT-spuTonBkzFUaA-kDRBQYrfjf5Nirw9Jqn8rHfhfeyUZAUJRBg8Nizc8js4dB6JsuMSsfBhsYasmWj_M7ZamQC_nt4SL-FKxaVxY9d92FCzkwS9m8T5UN_seT2BNktWKoMCGkRqLJEW2G7kMTXOBP9i_j7ZmHfpAPmRRN-M5I-fNDyno6MQioMb001iJtRZpEbNDfturtKt9Gql6TypR87hTd6v0HyN1Q9lw3hJtXWkB-bymWE3ZOfzI4mDMrE8NHiokEAuta5HHbwkmM06aFyp8tP-fJ5U8_-nqjlvowxv0MmPgX2j89c2NwiVrv3SURcQ6PiDV6g4UjrsdWS-G1GtSO-6RnLB0HWZKTC-oQ2m1-c7JI9gWCOgsRU81-M7KcZ5DELBunHZEznZT1TIdZtosJ0wR7Omr2n5Po_xX_090-ks5S_sZ7_cIfjgOB7_1EPiGRoJJyLQnWuxh3=w278-h524-no" />
+
+</div>
+<p>So that shows how you can make tables/graphs in Excel that auto-update based on more recent data stored in an Access database.</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, create a top 10 chronic offender list based on violent crimes (UCR #’s 1-4) and a separate list for the top 10 non-violent offenders (UCR #’s 5-8). Include in those two tables names and DOB’s (from the PersonTable).</p>
+<p>Five points extra credit, create a top 10 list for all crimes, and add into the table the component items they are based off of (i.e. have additional columns for Murder, Rape, Robbery, Agg Assault, Burglary, Larceny, MV Theft, and Arson weights).</p>
+</body>
+</html>

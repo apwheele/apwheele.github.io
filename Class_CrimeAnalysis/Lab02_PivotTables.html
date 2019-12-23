@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Lab 02: Introduction to Pivot Tables</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Lab 02: Introduction to Pivot Tables</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#creating-a-table">Creating a Table</a></li>
+<li><a href="#creating-a-pivot-table-to-aggregate-items">Creating a Pivot Table to Aggregate Items</a></li>
+<li><a href="#creating-a-graph-with-a-slicer">Creating a Graph with a Slicer</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>Here I am going to show an introduction to pivot tables in Excel. This is a reduced set of data of crimes in selected <a href="https://www.dallasopendata.com/Public-Safety/FY-2017-DPD-Targeted-Action-Area-Grids/mzdg-sn35">TAAG areas in Dallas</a> in 2017. (TAAG stands for Target Area Action Grid, and they are meant as a sort of identified hot spot of crime by the DPD.)</p>
+<p>If you took my Communities &amp; Crime class it should look familiar – it is the data I gave you for your presentations. There I gave you the final Excel spreadsheet with all the nice graphs already. Here I am going to show you how to make it yourself.</p>
+<p>You can download the original CSV data to follow along from ELearning, <a href="https://www.dropbox.com/s/9pdy8bqz69zwv4g/Lab02_TAAG_Areas.csv?dl=0">or from this link</a>.</p>
+<h1 id="creating-a-table">Creating a Table</h1>
+<p>First, you should have downloaded a CSV file (linked above). It is named <code>Lab02_TAAG_Areas.csv</code>. (CSV stands for comma separated values, it is a plain text file format.) On my computer if I just double-click the file, it will open up in Excel. If this does not work, use right click and open in Excel.</p>
+<p>Here is what the file looks like when I open it.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lWL75Cz8Ou_5_aHSaoWDkVhdo4VCMJf1YgrHJxhkqIRIMWbvB_-JLzF7LWV_O0drDL2CJ4huEKpzYLsp0WdaSOrsLsKuu-KaL2QfFrY7BGUII9lHETK4nSGbsKDGyQuE8oo7Ic4Ms0z2VKRAXG9_rX__fgk2DmFiSPiFAh8NwkUiazkyILHUeml6y7WeiHWJ3YIYD3vOFx5AyDw-H2GFK-KnQObWSpl5IN12HHNTDe8STQXuXDb5ipk9Nh8KWRurjSALa3VC4xU9VQTJrVzehSrXxyDkHUARfylJ9exG_NV2XjSY2QwuYoZxu_T6WwMJxqhBSNJkNesvlhzXgDo-FD4lAaNF7pm2hvZ18aqHb3iYSaIHgczeu52u-B2mgxnIvdFY1ogITRqyVs4mUiwx06_0RG_cqd8Q7EuLwKYZX7QGM7j1ILXssEC2KJFy0OlUPuXy2rXcTzIY-oBJGbsZk3N47DNmX1sOS4L9WKoEbo8n64GuYP57OPOwozY60UVbz4IQY0Y0Vm3Nhj9Z3dNkVh_BUCTPCWoCAgWmFmDI-W3PxBEyxNV33WahmWd-fCm3Zp29hcQrn7lDT7m-buwgS7aiRv3kNgZ4ob69W7aneChTVBTJUty5_vPjW-l3f5bYHW4CAeC0dThgBIx2SeDMb5GEt_dUhFY=w944-h610-no" />
+
+</div>
+<p>Select the cell A1, and then in the top toolbar navigate to the Insert tab. Then select the Table button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/v0HzlZR12JS5TlYAYSxbqshxnOSBhmY4hlHAbXrDpmK2hV9KzCGdHMTWgKT9aFcAdJGhUvKtLvBQHOknoc5C8fGcwfNd59VrYm3qFEzSN0Ae_K2p9JDhMdd6tLs-rm-M0G3WlbEC2plvCGle8QeHdf77xz8jBYXcO5WKWW9tXZ8Ii6uE-BJWpg6utnt4t8o0H5rQFGkgewwCOr3epqIM6Oi2G8__ZRLAM-Rg1QllK2v0-6ROKOswT7LeZRgtJuSolf6ML0OxCnE_kYgrEvI6Cjh1eEkV-Jmy2YDhGkWRAosUnh4Sna_dYYYlpqx8M1-ahFxES-Mq_oIvvUh4h0km7n8tgFm40R9jEZBdLFoEFt0Nk1Wst_7kjtSPQCit-AB-iUb1HHlwZK-b4QD9ieDwY2UTyLDIAlqN_Gxl9TfOWm4a19ZY663a2x8lWYRv_zN6BFQe2z9v_UWz4S1qjpenr0s-MJJuQtepKCh24399Eky8CrWKLEWPm8u_C8kbmKW-DElHHMSyKeeEnjjddRyJdBJj2LZBZhy6AKnEDueYB1C889fE0Fy0Q_IvKI9Lg5nFVzIuETfSJ4bs-aBtS3im3IcqbBoOWogNjt9uM9sK321yk_RnabDzb6pPXdEP2EeaSUie8w2X0yeTojg07o3JGelIY7B9P_Q=w867-h379-no" />
+
+</div>
+<p>You should get alittle pop-up window that automatically figures out where your data is in the sheet. Make sure the option <em>My table has headers</em> is checked, and then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hp2R-n8xHqY3L37St8q8BjQ5ixcdKA5ccL291FnO-meIxMGizWZSWz9-zayV-vfiukOXVi5HoT_YWXxc7wy3EHfFXBnZzxdc3jW5Ud84c4oYqHXdM-Yr4R_OM5GSM4YKtAL6epLTv3OhPv2tRMPUW-pdzOPMxeEbUu-6T-HJ0Lhp0Vhf3CazhChcpzW9znXFhv_RsCwXWOhW_5DVKND37nvBJzgIqA2owO1GMnsa_F-8xutK4x7PT4sKdrgsRDyX-kvHxUsn9oNLK2bNMXxns5FxTAXzRtrs8oHvRT7_LgC5jk8mDFD6Jgex_ceGrHPwRQZdLUyysTTaDI7YIIraLZ1E9ocCdBpw1_Bb96yMLaSt89IV95-yoyRDW4UvBhpvD4OHuT9-WWLV9zqfdxZf6ofXMi84XHngJB4EblJUPz_OYZiDfQtIXyFo5myzCYlASU8uopsb0Tdo1V7rv-czYT1bUF1PDqzV-lnyniSFSzPHEZz71-CzCmapqbgUDsHVw5nqFw3RUlNnSvbSPi6j0crhSPEHDNyKr0Ka73rNtEpO4xg1v1M3QgBC9_i7z-fa7ZcKwffJisCKaCrQoEZeuOPXha6Jy1B3vwx4z87nLi0DAsmGTLjut272-gMMrFcG7QSGoO49HmvFpZdlvza4IjilAlgVviI=w816-h286-no" />
+
+</div>
+<p>You will see your table now is nicely formatted using zebra-stripes, and has little triangle icons at the top of each row. Select the ICON for UCROffense (column I). Then click off the Select All option, and then click on the Animal Bit option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SriMfKCNnu53DT2OB_hJFjBeAjuGBoOYI_Ns2L8N2u98Tml2DHMSieUrrno4ktQKSEYiaPTAi-SnqxIQ58lwyyVBalishrGpa8Wjr3-6XjZnKxB-f_9J6fzzevommHONz3r4BcA3rjQ6Tr4NQBtIhS_0xCOiIVKagwZrAfx_88HLvNKVFh1ozMksU9S5y2MdmTNOcmcxuAkrKRCPYg6JcHPzDol3GUdXw8rj020XRogP7gn6O0egZb1iDogOT_WO1YqfeT6MRzlOWXmry36OLmiwaDzgvK2ai5oB47BaCCzxaVimU2WcEeiywSMVRx6wvr7zG509CjW2AswNvTq9RgTdJe5ryq_nOoHCJKCreJkB4pYA5ilAQbtM7BiYRt32cwdqc1txQKsNbKLehT4hs6iWoGluLVok3krZln3loj9Khx_gyiyAy46flvhGtornE90v4m94GgN51euDQDQ9n3gSe-cW-6QjobsMSFSlQb4CQKuZTDzbfwOkI_Ol-FvwPjibwK2OOHCrppsAxmV0YW7KGgo3QfOy5BLMas13Ca2LNNKmMXW7jkoZlzfLq9poEWQ2Uif-5es1S2_WJFgJPPI2JB5Pvj9azc0oQlQ5tLIPl6ye33j1Iwim5V8dbDZbY_6-Lt-3vT-FfCV-Lw2n8k6hKiNKulk=w435-h541-no" />
+
+</div>
+<p>Once done, you will see that the sheet now only has the rows selected that have the crime type listed as an ANIMAL BITE.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uU3H0G_ys_kAwpWOybWOg8wNtOjJOx-I6tTCe6vH2-DmpAHbm4AK3B5BbVOkwe-PtGISuJOwEcRInWf0mnexj9tVbUwRGMTmc7jQj0HvtXv1K7LqkYQT7g6jgN7IT3nT82QfH5i-sGe0ZnmvvdFbdYHkPIGb2F2g-pR48T1cmZsr1BICXQQUJ__kNVjTcEnB0c5Zg0O5SqXk1wl7T3QN9axs1MUhCwWLKrqsyrDDQj-as14uaKZ_eGWkMuS_luok7vFlXFhMYA7koyWH6idpMYwNBSt_NwOShrvhhhnYP3xIDRgM60sNRUi-yWnkojo2UJeMcoVrMPoPr7Q3zqmlYsiIopgaQbKLFiQ5WpsOAAShEpSXuQvyeWYPY_5XmH-eU3n37LwH5DSSL42AeoZ8mW0_x09hhxSMSgAf426lYq8x2ZQ6JIWnBY0-NfnNMueVyddUpb7Efo8h5v4DElCPA0rB5miMtwhc5bvtsHrZxRLPVN7Zikgpeayxy9JpPPm5OFv9UiXbiFu_YkjW7eLfeFNOkOKwmCdXilSMtftXSUAzYvG7lquxI7YYjrC6Cf5vv2VdUDwsh-YcVpBU9v2N6Kh0Pf75_7StaN3HasNA6hsjzOW7o0E7cSOP-LshZ6F9YqAHCyTRWdzsWLlOLK1xlfgvtPTRlrY=w1526-h418-no" />
+
+</div>
+<p>Now go back and make sure all of the UCR categories are selected.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/r8yf11gp_CHR2C6H43u0KErbiez0Pj4GC9qZ_naVEvedqoK4jhUO43RIx87cjzAf1EUjoWyZE49SFnFi3MQNJwCMeBfdjFWl3rsVSdnXdBKrwliRM4w5M866duksvmxx1EuzGKQOXuvlzhX-_Catc-_-s1VNqHNGfthXIN9zPkdVWOT_TNj6pKVEulJ7cSETQgOnDFxU6DRqqX49BL1rdNvM1OQKCleURtbn0G8y493csBp7oDK1JWpthJu3JCRlVw57hIzeZ6o4PVlpfCO-xw06rqpXODV6ilpQj-u_0pEaGh2zXp9JsoVReNcUuhViJSCid6ifHUi1Zfj6Y20iN-YJZoYucWb3wErGv7NF8HKYpHBtuN-PbxVxOO0ypGNvUWdnqjjMNSnYzbqAOygetQRUdYYzB4zlR9oTg84AsVmKU35bhNKEpA4qUVkRlUrB1cl7l9MseWzXfFiOdu2PkdEySepd8UEcvmQD8UHQ7Cb9rDdj2xHioUxD_45Q3QgwlB3p7at56x0Nw-EFGjaqzwjvZngwIRwv93vfa9QIeQWTa0E9O4eMoTfh117qlhm6XCtciPyyN79Dlrl39VZIW-2S7kRjSOcUiUAghCkZsWwq-hxxcEd8yBw1MvdHnKHco_UDDAO93JfQ4uCOaIrGGiSR4Dn0aI4=w456-h565-no" />
+
+</div>
+<p>And the sheet should now be back to how it was to begin with. Then select the IncidentAddress header (column E). This time select the option to sort the rows, A to Z. (Also note you could use a simple search tool to look for a particular address.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/g1mIujgrznkH8kpL_0yJiLwpqcDObIPAYpzbYWoYCsRSpUyg07lbtWUyZT4BDWtS6wTPcZWj0-vM83NwL24ZdIKFD1UM3-g1w7laHGut94ZOe77lWenT6AG3nyekme_O2snwsRSq6VslRxKGBIyvALG25Y4bpftO3xz4HOIhRI37cPDx0kYDe_7LmdQ7WzSJ4pjH7BgdUwL_tyJr0_vcYfE8c1BciVWkOW451eQfgU1eRh0YCPbz2jGBrXuL1X03auv4m6w5oUBhnOinRM26NeqxDCM26MtiZsIrlwhtnSsHhV7tNaZrHSbvivFpI8uG5QEBloaXjc0Ue9NSoMRCgv622Y36yKfVuA8JrubfuSM0zyvpo92clBdwfWBW41BaHsJFfmmE5ybfviTQiSetcQdupM-BNBj65lbVkEYxZ1T1tLe5R2Zpr4odJPtjTttqfXt7rJWISivz2TZJxrbr6JQu3z9FnSTaqBZ3kvYvNb9OWXOJQx1yG5S8ukfUDCrBmqIeBs2JDB3Qf9lWjSGghaZ7n9-c4pgvWBdENF-2rWu_n70O5UFzRExO7GGr6SufAMcQ6SvF2U7TmDHXBF5lh2tTopYH5tZo8TZb-8p5-QQqxFxne2hVVA792oKapZ0R2Ns5gnyD4PO1biz-1z43Jl2pAamQVro=w367-h509-no" />
+
+</div>
+<p>Via sorting and filtering, it is an easy way to conduct some simple data mining type analysis. Here we can see that 100 CRESCENT CT is a repeat crime address with a few assaults plus other junk. A quick google search shows it is a mixed office/food location.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bl0MpZf1N-C8wqahw6vKDKMq-2xDFyEryjH9ecoVUvbSDuuC-xk07YtZ_5qmhEtrrbD8X4noMjq0bTlNMfBz5GuyhdgUoYLGgHTo3vYG0yf8Ki5nI9jZQaeB03hprc4yXAYxYSDNr6RC4ZgSJm4b_RMZxIuPLlEvG7xVQ5Heq60uP8MG5uXWTcCBlEQ3Jm7ifXo8xMcql2Km_XH7RGZVeeB34LauKmKrHDRV6tQSTgnabsABw5-bwBn2_tzU3-wwXkDBeNy-EehP23Obsqvq5ILfxGxpr_rlB_MT3d-IwagBBXgPBCM77JmVUStPp6sY09Qu2--_gC7bTlLb4XDR4poeqR2-qyEvWE6OqqPMyquWg1N3Ra8BBbLdNE7nFxWnFClY9mPtFOG-KX3Q6SYCM2Aqywn6ak3tfWGoH9TMTPoHl_cttLCdZtdPLAJCy7Pvd3zy3U3Z9V8U_ZnEW333dD7clC4YAkwxGB40-NKKh-BnfQTytnLrGPejN5SSwKWlUpm6DaH86aUJDSeKakoqcxzSEadxnvyU5AktCrVChojJBpJHCxwYGmamuQVKeWV5GWQCQclIylrHFOqZ0TG2knosEPf2L_aWfs_hq4scgza_2-TU4Azr7FtReM5f1obvaNEJ4BO8dqlmxvzLcVGhmVlrObHPzG8=w1512-h255-no" />
+
+</div>
+<h1 id="creating-a-pivot-table-to-aggregate-items">Creating a Pivot Table to Aggregate Items</h1>
+<p>The above approach is great when looking at individual incidents, but if you want to answer a question like “how many assaults occurred in January” or “what is the most common crime type in the Jefferson corridor area”. To do that, we are going to create what is called a Pivot Table. It allows us to make aggregations of multiple incidents, and estimate different quantities.</p>
+<p>In the top tool bar, select the Insert button, and then click the PivotTable option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WhbeLG3fm_Zfzb2fCdXGeACq0JZnfyB9lNiSm01Agi_Am16AJt1u6_NAbZZiOws59-3S85IUEXPO2BBMZ2d93Lj0_hXuoB3gKVZ_NsbHaZBH_OhSVtgsscxp0AEDO-KwMN9vv5eIeJVjqd2wLTvsczshjC0fA63N6Lw0W40zYLsSb3OYXrO7dCahK8H_y2dykXQvGu6avZN1Ug2cc1sxMffEne3xmfJCbwDhtcuq2pzBsxfMOP1GxixqG6v7x3OKfVAZtoX0D0o8kreeSJVwDBBXHSYi0kzn9RWhb8-fCxuxPn18y7kfmFZ5T6b_hILSHAmyEVn8knP3VLVlt7DqCYJFBSPugcPauCA7N_qUsTWyjNQXE69kCJF9G0LVMSg5toispKSfAkh2zzzydl1HIIusoSjn14yNhbDnUBI82zvrKvflWm-I8vaUo1XuL8h-MV_gqkCyO0u5UJ-tx2swWA67Lts0gWoL0VB9hLQDXwujmpEMq3qLlzY_Q9ydUwYkeg-bS9WnyTLJu94gFMmBH0FEu4eVw1WSHsuTpBb__50hEOTgFZGFSnKhHRtor8rC4kjdX9F8yUMzZywW0L7R5uRT4Bo3XyCOzfhXukftfDVQqPIrdpcnUDX06gFXRB2SyPl-TP45SGIc4tZ-677-7UvXZRijRAE=w562-h365-no" />
+
+</div>
+<p>You get a nice little pop up, and it should default to selecting the Table you already created. You can just keep all of the defaults, and select to put the Pivot Table in a new worksheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TnwA9x_BVQdfzxGdYDLyh7FFl59trh1sQEkZhIk2eRsO9Ts49dRfWE0ZX5JJakKiWRZJgZPvyfZlfpdZjQqxi7-m1NU6tI3iwbP8GdRWspJqcPUiQXbSR9anpfuM9ABqMqXaXxRG7iQvDW5yOpTypw_4hufjm8ilvgcXZySzrl67qCLHVsicDECOxxDWDZXpQ9hpgkSj-A4GU6Kgr0I0PWw2NbmVX-V7YOwCH1dqDIlytpV2YMyCk2jeFm7xS1tvlZHeKnGOkyfLVOLSvNCWKJSJ4uyjrc50PXBIVMEhHM1_hTiPd9Ne_-RhTHLUf4sMCQqk1u1ZiAwLGXp8pcrFBstnI3lERTlijrKS9U1RuDFN5wE_aepzIJtwhm85NnfX-qBcxAcm81ZfCDH1aCskKsPs_K30Rk12LVsqd5nlbWuGMwhXD0obMkpaNKkVoNoRq3faRVDqxrAdkiWFyOSBTYooOOZMKDG_Mm3xiqbxy_a3t9OiLFM0AJh2VFr6fsUA6TcGIQBJhHt-g0vYS_fvR7_ds9Rv5_l13k0A77VvuYkNT3fDFuGL1augoneD2KmsAeh4n6k5sJOTPNlipDXklFZFy-510AHLVf36cJKttyh5iNeghXVf9e0GUmaquC_o_G-Pb5_761lWWHfZeIxZysGSp3TxcOQ=w829-h491-no" />
+
+</div>
+<p>Once you hit OK, it should look something like this in the worksheet:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rXJLMP1bPbS5ielkqyCgtlTmlpXI44NFTXzJRX2JWlDpbiPNOyubv41QlSxovvP99x_47tCBRNfBXhX-ZOawQQdn6l5Sr3L1olF0Wa5wxF2kvDi-OVtNGs12cEuNv8lX4bFxypoT7PPsYe6rwZKp8Ex6jJEcSJuT8J50_mEWIXaVW3nkQt3Ta7pP8VYfEvExK98mZ3dIwh7bViKgD4BY2xb7ewljwf3n9tqsOfYpQ_exkJEPef0yIBZPuMQnivdsBOVMmiTGFeVVNo5dyKP5eXszZj_1GoXUXJr8cg8gM80ZrrVtfwBVOIRTLWtKzcJn-VhA5Itw6otVj8xKFfCg4w6wbU8d7XvebxvfzIlQpkQpLeY0C1-XEyS43vIbCtN8SqA9e-AXxU-nrRknPnF4aJT3YRJYQ1I8xTM6nj7N9c10qt4RAxOp8MzJMN0flf97n-o4Ug8lSdJJfs5Up8U6tB1YEyZYKFDiFXup4eVpp-VcNnMnljKhp0Nf-4ULkEUs8ZFbrg8tZ1FYTYpzYLLQBRg52DfQ3C_ddLB82SCnacTeV8QSKHRDzHTlyJ4DUvcFyScn8_3xSvY5gPy9Zmqw9W2Twtbmlb7_54yfePvMKFlYKgbJ8m6wgA_U4CCKwjy05rBFIeFB4FRIZc2t6ueRnYBHeFfoBT0=w1913-h756-no" />
+
+</div>
+<p>Next, in the right hand section, drag the field UCROffense down to the rows area on the right hand side.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/niiKRMwSI-OJNaLrbtl0BLY7QGz3oUBDgsouEwXISZrYeEPFhAc7iOaAQVQp5ijdbtUOEvHn1lnYfMh5gdAg319gfOzeA15xXcOlsrY7Q0ojawQ1dIQNGOMa4NImrtwVFS6y0XDaK0_DaXxz459egQa8qDv5GhVqFAZnhk1iEvbcGgu2ipit2hDFEdSK9FdWbrmQz_WY9VuYC0dwgGG8dBmmJaEDUhj3OALFkcPMY1tEvafmA61unvsy-CyS_kEU3e7DO2h9XFeM9eNUCPWNoUTXXmgqy2ydj4hh9xcQX-OQD60nEguZGYbAVsDHxSWld1tiO2mx4a24palu5MAPnfsZUtgy_RmAoR8knq-zNHWOe8hBm8e6KlkcdXRS-cH-46c5zPYK4vht4plDsFuD2NxSsOuradEFo8uPup4mmqTeidfCWgtOuKY-ElnXEsW69jaYdk-yNef3QsYXB3eWcO425ChKrU_WprSt4_nSUeXDB-3Jybz7I_t9m0yrAVxRa-MkMCYQMAzghosu4z_S0WugjbzsL46JLoCE_NeiWM5dRf5JInx2jQc3S5OYA_7rvPEM9nlGULui5PSMkGaO--J-gsgdSVOoy-xGe10lvwCHVZICzRj6tmEZDqxAuxWQMIAm801B_EIOl2HQ_kSQfP2Ziqct_0I=w1048-h773-no" />
+
+</div>
+<p>Next, drag the UCROffense field again into the Values box in the lower left. This by default will give you the total Counts of UCR offenses in the Pivot table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UJWLJS3SJRj5YRCNsfhA0o7OF5NQHj7SPC_FsC5FvEF7emVM6GIqm79HPdODKaAGjE8yOvl5f8yy3jFhcy3Y6QC5CzkStDSTmwi0n47m6ZYm0aFBNlDJMcdOQXy29UjDnMGRvbWtW2dPWrAdSfooTa6iEp0C5TCIfQ0YVdoU4Oo5wxBx5iBMnSMfD7N0zPC6cxfTW3flk3RD0XznrLtDAqRKtTW23_7M__ijS8t_H3cyhzvutpnjTW3NFCOD5ZBQOceB9T4a1K4549tO_lHWegcJPIbrRUM4hLgNrMCQwF9kf0oMTI36PSh1p8fI2zRxZNgaQ1VOj5Kme93v1kf4wKhpPFnJAcMdn4pz6Z9NTpEKaA5pUDVXVAPanHXHo0uP1TxJGUMh4bEYcMvV7d0uvQMJUvp_pkXCDXp3Awy5aFiVelnV_OqWeZMoSjsumdMsVqb1UaYD_x9BcGaUjwIH_o0jKnPIFgZdPUEXyeqryinUrUgMtA-1X5KHuwCqL8h0NtVcCbf4GBVuW6wze8pD39rVk7NFbdtBhdCTepQXS5W6e3nyrf7xmgy0ctN0XHKKNgZfF4V78z1J5C3v69oQq5ZR9aEDUlkPhVIOLeiCPBZCz_YgVIt7I9NB5N_2e83qIGBVneZyhICLYPVkCI3sSUB69NB9340=w1039-h768-no" />
+
+</div>
+<p>You can do other data summaries besides counts, like if you had a dataset of thefts, and you had a field of the estimated value of items stolen. In that case you could do a summary statistic like the average (mean) of those values. I use pivot tables mostly for counts though.</p>
+<p>Next, drag the Day1oftheWeek field into the Columns area. You will then see the counts are further broken down by each day of the week.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Qc47cCZJl6jYGQ0VWKixE35j8E297gz1wY7L3gPwwXIUaijjHTGxfV-zDHYV9oMUxRIIrl92eU6b0OyhZka8Rv_ifngX43Ban5S2n-yPnyP8Ay5-Kq0O4No9n1_0OPO534LaXLxvQWWwz07SrpHvvD_nVx-_WOJACAOfYVtDlSd-BIwJGqXKrPCdIZCU6PT9v62WpMceMg8FszAhMZqOp-YCfndjEKp-9HwvAdJNCma8MFkt5sILtyw3KnzaSAvWENlvVzMfSsusRJeRVgnjNUOM3k40RDqPJ3fysiLwlYaR7Vsv5vZmkMHerpRFe0NYNWzgNvkhU5KNV7DP29fH9IHhqwqA3Dcy1GPQ1bQGdn5SH4kxLeGbPfVHcaeR5WTxI428xTuLEUm-wsY05bCaSJuv2-aUds4xAQhRxMwDCfmXibqFhmBfjZGKlbgxvzlJ3bfuEdxLoHexeA7BNTxprP9TJE-lrIxglm1JuYEiifJ02iORZNfsQlO8nTE9lvsfjtpo7xLEWqTDAe-V7rtc-UJuoB1tOlrguGBa1s_eOoHlOUXjGedyUDsE1TDofwjcHm2Rmv6pZLqohcmykmWMUkTSlYhEExkS0zafCa-M63Y-2GMHTBgM9Sl-zhx1A5aaj_dQ98l7QixPIJ-osM3qA2pL6VAVEBI=w1129-h739-no" />
+
+</div>
+<p>For the last part, drag down the TargetAreaActionGrids field into the Filters area. Then above the table you will see an extra row with the same type of dropdown as the table with the original incidents.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hMOtHZ1tOekMuKOaDh3uUg6_BlQ6z42nZRo1w6-6TztjcWU04O_V2tMQzS2RXrDlXdtPj8r0WVJTIpnCXdZbyJUmDwsjn_TrZKb03JPMwuh0ceEzbLAH10ZnUB6itUjGnrEL-r3mB8858t1fr3HeWHKIEsb71GlEZRcPqrHs7TwQkVrXcNsnhvyPLvvyZqgGqx2NZtUSDxJ_PcNaxtk7rg0Rc0UodOoqu6bJXgZ5cTnaF_SfDQHWwpnICb0loGCL69XQe9UsyB__xmOdCTzyv0HgINuInCRELT_R4b2lNoovRkCdCrCKRww23ZZJbhATI6RGlgl2JxRg8RTHwfXYx_PA90Re5POrdA-OhuSJ2KC812ba02RFn2Dx_SqvKIKae0igkfQY60yt2_2GbHgUqd-ihUexJXaBA2ekxz17NUPyONibmCJ8yE_MDy1cqyyOEXOd1a_B3kl8CqaihyEk_zm4NOaYXwCWTzbbCiwHLb2ayPsS8D6OTThB4RqtosyUKAOjLPUMsEpduKs-2VOt--hCs2xb1IluajeXIbOoDS0sOaMZqyv-pwt5yw5lbm30ixbjZn_KWAEZQZSq626blrN-DQxhI__gj7dTRrEjQnn0Xy2X1tbJyBmHTmWMw7Xp4vYfAuxH3I3KmLkJJQ6Tn68DkC5Ci00=w1125-h661-no" />
+
+</div>
+<p>Select that dropdown, and then click the Coit Churchill+ option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nExiYcnEDaNeNo6q7TpbV0YzzhsHJDa3JUblyaaY_VTczWDZzew7LhyT1BRIDQGE1NaVW5qTtSusFpg7_GYDvkzqXxRay6F7k-cd01XB6Jx5NaCqXJVbToXbnQMz0F1BPiGwrVOeO98awZeMUHrWWy18mMmaeOLsVAp6Jbci4P8JTJiRRtdkrKbwor_2LvpMmrZmw6SVZcoqdA5znQZgqwWd0qB1FjLbK7C6_zZrLb0CQP5xc_d4f4L68FDdqfsyebDUremF_ITzdzNJ-RXZ7zJNmhYPlY3DQ2m382cGElvsx65wyyZPWtlM77OJo4Aj8Ub7cr9mVu6Mecy8yjZpFA8ODZDZOHp6vo0xRl3wUNMa9uNvvzTvEMQmEeX2fEBIBnB4xj4zowddKfCQjbqrcr8Y3fUZXxIOsqWxzdhpS80fEXsk8u3yxVU2KiwhuD0OCJK860XPjVdHz_2HAOaF9nH0V7roldggHLcItlQrXr42dKXgqncMgouG3LuBU5rNWXRDeqebyfwQOdXmfZNBYIbismQQRH4kCD5PpEaEQEaDiogaEpLxCeGXHFOpKmPZLgTw7t-i21U5AwHnIkVyZakqCIC38Sh29e4WnsviYVJP3uEqJcjYXIljmL1LXhlM4t8LOxrEHxfTXdhUz9kzKUUDJU2k4lo=w1122-h791-no" />
+
+</div>
+<p>You can see now that the total numbers are much lower. They now only include those cases that occur within that particular area.</p>
+<h1 id="creating-a-graph-with-a-slicer">Creating a Graph with a Slicer</h1>
+<p>We can create graphs with the Pivot Table data the same as we did in the first week. But, with the pivot table we can do what are called slicers in the chart. Basically how we can filter the pivot table data, we can have that same behavior tied to a chart. Clear out the variables in the Pivot Table (just drag the variables outside of the window they are in, or select the field and click the Remove Field option). Then redo the pivot table so it is TargetAreaActionsGrids in the rows, UCROffense in the values, and UCROffense in the filter area.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/36jwgwR9qvioNmzWRVjqoXlF-2q_KLybgGhaq5H2FAKJCLJSJzK6kPJobP_04Q2JbycsANOE6dluZa3MeJRGeRCb17LzFCprJAinTwShxAaV8gSZmbEG6MT44ChL7gEX0JGk9qbgdNPL6iJFAXbJoZ8Fq9mRYo54SgfBy7ADYTwvQv9oJzhsdThoepnt0Urnr-KLDQaLzprgsuhCSDm6fl73qKMtUbH0oZKRiHfE5QLd0F8tSZ3Im_QeGv7al6hD8BmzEfJ6CvAIPxHlHBTqO8e-oawus6vfxogQbXDcjhWWXn1XgD8jyy62RfakDGWlqGBPcIMjT_lFWaPISI_dPJe464F_m0q9YX5Fu3epnT7q9wdA3zPOB-704gez14UdsEV5X5XRyLW_GJ5WCdQUy4uWP2I270k130TFc29kNxF8gnR2kvwVSrv7fYQQ42mH_gbnyCb3cZim6gThFJQnCMg6dOCYy9lHWOYJ77zQVPuKPfUXjNVAGX2OvxHqEt9QOklqziQZdH5mcfFAPOmRCPduB8OcvY_epixpiV12Ezhq3qwj_Vb3DYTJGIBlO3Skpl4J8n7Z803jW6UW7LeNIcdFytKbb1PWxJOb7SkqQaf3xzxTkCbje4m9zSKSBsQdF0TQMbyWJS9rssfgsLddJjbgGQxYT5o=w1123-h805-no" />
+
+</div>
+<p>Next select cell B4 in the pivot table, and then on the Insert tab, select a horizontal bar chart.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/K5n424VU0Jh5V5tKbAd58fML95DPUtlJTetkptNzP8lo5jk-kimZkbGE-ULtdKsssyH_C_gvK_atATKuN7dC0WpasEnIqDFH6NrMOcPAO5MT-5IKt7datUoe9dXzpeZg2cg85qAmYql0fytbQXILGV2zryp9-mbuzv4WInS2cVpweYj-o4ClB1S6Ierk9XyiZry_miXjTCE3eD6R9ZQUUTyWSLrulWMyZnKWGjPwY9ciAvDcoHVhoA1PbZh4Vk2oFZ-05-c7OKrHdUtab4QoqmhisfT8TkbpTWd8LQRPTZ4UR1o_I4jMUgcpc5Wt0Fry7dEFdAtIpsaasAkZtTBJmMf1hMHovnFKIx7vw1HsPLM2FOz608Aa1aqoBmESlCgiCeR0SAzEv4fPqX1tSkllaagMcoHJR1MBPigcX1SuVIa1AVGgcF74Sj_RkkpubWnZBsSklbhf6ARkcZIEqmW0a616B5rSktHxrH_IAfO-opx5r89e9EovCgLCC0JFHMnwIWTib5CrbtDt1FyK_nyjdaujvKUq4d8rEojTsOpbtFm-BsO4Ly_JzGq5uBWU_MB-9Iq35Xc6f7rV9qcvlBNLs4Gx9vR_Ve3dMGKHmwzM83IoayJIaTOrYQIYLsna3wShpTZkR5AUtenrkfpnNHFDjeqN31v5tBA=w1003-h473-no" />
+
+</div>
+<p>I dragged my chart to be alittle larger, so it is easier to see the counts and the area names. (Even now it is suppressing many of the area names.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fzaaTV-j3tvmTLmDZUG90-aZnOdwqBy75TU5nfFUyEade-PXP2DScechZPp8DexzDxYGXFle2622m1GHh56ni_-vdjHxY2VrOs0GnlQ0NBGGaqRn-U1gRWqNN45Gm8l10sAfGAZ4iQ1dK_78S1537kahyN9q-MedebIfdr_XiRswg_PWshKiB8FOpQuGuZ22YjRgQuumEf-kTHOJM9_IXuyVZbZEB8vrXkBLhdOIksHT0Ik_J3Gwt5-YEvJQzHJE36Lrvcwc0calsJ3QaoCDDSejQU6yKEUf_5gaZSPEy3lP2Fw-MyQZlgO6DM3YhNbqjbI4L9Z28i2UqyRX_AnxpVELs-kXOgsFGh7ebTD4zF9AWYnVDDkntl-auPH3G8YbY7jguMIjcEXk9KIkAGiD-cGM28nFUM42ubsHDsxiwsqOihXQUmtBvWqtrAg59tvTo7UV4O8ySX7xQEtjTG8MbAfQKvZCcp-ftycXWNANvuaLjdcbzvcAmO2Hqe2nXeeFXp-61URL7dKwExgAjLhRWjbPxvrghm31yFuolhchQPtm-p-Rk9l7Z_zk0F8SPxIuVfyLr6JuGi5sbmHeZbvfTz102NP8Iu8vqbH0h5XZMcdZopSL6WCnSDEOtXHRLkO7yEQYJPAytaIMQ9yGl_eIMTrz0HI7RMk=w1002-h720-no" />
+
+</div>
+<p>Now back in the pivot table, select the cell B4, right click, then choose Sort -&gt; Sort Largest to Smallest.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5Wve25i6sKaENBTzsBd1vKP0Luk4r2nW6LmYrtTwZ76VmVdgVKeNiozoHcJ5-nPadhGqHKlIq4jR9wJ-llil_82pl-2WfTIOSKVYgBSJJyws-AzFU1aORY6PNh4J-70KWquvR562DFLtGUjQb4PX8SSoI1wPeYSWnxoETjaKThBoLgTdq3hCHRJqdxXC02aTQRR5M300p0UyUZ7RkPphPtUjosD358Huj5hUeV0EcgV1avoQClF_xp3m_xPGKnIz5J0SQnWs7EmC_xlW37qmEY_m_TXCvLuoldQZWOu2MkFS9NHU7AMMCf_1c321KDv5m5N7cyKOI2yCY1k2dbIyu3NZeDdqssHNonZkuUpgjHJ5POJWhKQUXl-9CE1soCqXdtLr06lZvrXxarDJvFwFw3yZSN6GPHbOXuipbm9iEazyDOPnviTg5gHeLohkYyTVFGJTEHUP9gyru_NrnCzL-2ikg5FDPeXxiliuPe1ii8A73Kb8cotFv8Tw-i6GW5z-wlKmCyjPJ909iKSu62_OZU3sopQK5DhoT45AgoMqC5mynUg7G6AHGeymv9n7U6G5Uj1nZBnkiFv1vmDmDnk2BlfzHVpYnmydJLqGkbAIi9vr4sAi1fhy12hKxVpZlaYh5mK5lQgencWdJcyBZdDjqC3AN9iYcLA=w892-h499-no" />
+
+</div>
+<p>Once that is done, you will see the chart updated as well. But now it is much easier to see what areas have the most crime – Ross Bennett is now at the top.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/B2bLsYlW7gOxJsAM4FzFesfPv6a2KnjfasIiQQHq_sdZ_h8byHDsp1LQYxI16un-BLpjwdK9KSfZd_3rfb17z5Lnu7t_lAhKTvtD8YO14gNdaURKZY_lkyLZM6bleY5VM0f9e34fkCyLUkGtDEI0lLmMnR6h3TLKV9B5X4l2N6d92pDpjQ07t3wBmX0yL7S275MVeyg-Ot_X6jQz0r9JOk2XSWUl6BOblX7hmC__hZP9kcLxFFG1uOuPhRhjZ9D6Z6u7cTnKXdbq0Gpkk1XPPSh9Wd6HERo0CUVDavu8cIApnsKyNLLgyrX-KAaRLIMGW-6zETb8b-nZd1hwmWmhlqlTrSAqfpBD9qhJ5i7scGBvW1iqcpU1qceshOW0vwwjVSVbWwTzAxmY5XFwMiJHEvM42I9AkPi0PKFEqUSfiUywGY_suhNLybl1VRvoMGEOQaTbAv1lDCv8d_wBZ5Bqd0NNdRbPpmgKFTMVvrHIwztzn4z8NLSe8DQYTLpWyk6vDkqrKgwVrTpeDYOAEvAcZa4Scrs9ss41nV94xwMAKCHUIe19oEv8mP8jWlcztu6b8Eg3a7c0mm5Ky12mmKPiTfzV1sNTRUKbINNkN5iX0SAqkG1snwYTvefMq6-PNUwKgjasSCLTOno_dSmYorkHGYn3_IWIJLA=w1452-h759-no" />
+
+</div>
+<p>Next we are going to make it so our chart title will also update. Select the Total title area for the top of the chart. Then place the focus in the function bar area. Then select the cell B1. Once that is done, hit Enter.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NZTvUcfpcjKiI_Lp-KlkEH_R9QL1gcKfBGXE_fsLFT9GMSzF_Ua8HDdGCoRmPSPbNC1wlaAzo5kBI9mnM984yZGy3aE8iN7uN0KMd6GFLaTsVeqx-ttXf-5-tf4GoCZsoAFZbb1hnhIv2xm1w4RXEPD0-2dPhT6GcQrSbUHdRSiCFzyQMJfMOTohHUPFjKa3WzzmhCIQj-kf1AWiGgmfrd9O3xy8Pm_MyF_hehyRoW7w0EGakuQNQzQ27euZ1PhFQC90n2zI3nxOoGkabyPp4PaoUz38Bx4UbnlWWFHTdByWyKWHppbcCXIGy2wxrrNkfOnRod0izotObe7sh8qc9NEcXdmlAnFIEYhUpYh7U1vRh7q0BWrAT-lbhmcelfykQRjIDyxMWZadHyyguLjO8iSKI6MP-cuqI1gyvtYKkDPWTwAcuD6csbOjIZWKTkcnaOi5ika01k2EMzyVqK7SGqSpbQvWl10-4v8F6NabD597NY77sfF874ZJb2D1QMiyvr8NXMWzlrky8KdgtleOoOB4OL_UDiJfP4IgybqmPqBxQVvkOorEX5FLJO6qJcLu5kzrgre_wvmHJF49nMSDSss1IZU5bfePHJl74q_puMH8SJwHILu4kRyKM2CSARTeH3xCwCB6V0bMUivwKeOFSQjPzNoYVsg=w1284-h350-no" />
+
+</div>
+<p>Now go ahead and in the UCROffense filter, select Burglary-Business, and see what happens to the chart. Pretty cool eh!</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DOdr9rPXWBkLDeMI6l8mZGgI5lfmGTZB3IRlmg-BEvEhuYaInRVMHjEoJtWkjSXOmAECi_HvxP0PTA9Snf7fgZ3QfIl5r0ha7oDP8n5XeoBk1-iC_mobfkMAMk4lxNvxuKM2qb7h2Thvo_fQI-PNJwF8yr9mLFzX9_heISa34YzYQXj86pC1phJ-BDywTXqPyFHSzoMGygJ01f-4Z7NrKmtgIlsTtwwzLfFOVw3UgR-jmhzGv9ymMwowRJ8GdO3L54phFza6G3DDBmAcCipkqbYoqbpK5jrX_yTBqxvGbLGmyyw2A1e5IgJBuqj8G4rfrOO6il-y-wtUtBOrANYxQFyLA2mKsqyqtyXUxqs7nEUAMQ09HAVks_3zNddMfZtXl4-LZN1p69mbDThQMTpd65s591W7uaqGTRvWbfm1u3I1ulwJ8eR3ujM1Jf99MJLelYQGpBm8sCPcXvHpTb-GvNprxsEkwpBAYVnACMvRl3SJu7sAvGVvrq7rcBg3ePoEQqCh9l_wltbc7sK1rmGXasbAvg2HeUnDCcknUqIVDgv3Ob-mORZMFJ1UHnyRXhHj96L15g7gTGoPgwtkrCKue7gMumXh6l120UkzWzfkboGuf8K1jyM9uXN0znNzSCwC94LUpvEdTk5Fill2INmbN6xDmP4uIc4=w1474-h827-no" />
+
+</div>
+<p>Next we are going to place the chart in its own sheet. Select the chart area, then right click -&gt; Move Chart…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Tp7Gew5BT_wstNtv_sQIvtQ-POsgPiTOhzxgqQMyjNQ_jd1gDBQFc7UhzG-HHVsIyt5964hRN1-vZYUuBl2KE0UU3tg0FTfvSEV5Ow41wtfgzjSzBkfcIbzY_WAb6MMdWryumOzx-O4C-59XHrOf-vURlmiBWxgJJRH4yHwbwI-sVZ_TYKHIrNFfpme622Kc_EY0zdcsSEWUgFlE1OCwESnHCAaNYDDoKWOoXGSb31XrzsbOQfbpyBSuam60kxabAH5CAKc691zxd_IL5FI94EIKY7TeSSn03q0xggSnKOp5emqj_r5wVOF2Wp6ONS663mDp9ovE8J2if6hUOHFFkzcudieK6q2VqZGBNWGC3KbIwmAvYGBA5k6CwBLXeSsC0n1LeqXdW-cKtStGCoCPqmjoOd9G6mNaia_rOPPWlUbOa3D-gPY4_8NpFL7j5UZxB3edb4C6wXg494x8U0g-rv3Jvm6rvmGa1IYAiHILiZ3fHAdpoC-pHAoUKaQLWIP3K1Ou7-cVeMLOKOS-Dw_Gdx-M7ySO0DidKnoI6RGSqrvTXq39Mm4CWh8anh3M-oDunzfQBSnIeKls8b_Y94KoRuKM2I4aWq1rjVNDZWrYvnl-Vt58LJ0kEfLbLPRGmsT87h4N2MMDqO86YHUB9IIwP5eqAceWgRE=w1055-h759-no" />
+
+</div>
+<p>In the pop-up dialog, select the New sheet option, and then name the sheet something more informative than Chart1, I named mine here <code>UCR Offenses Slicer by TAAG</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MxtA27Z5Opxtse76qTDzxqI4BoBfM-wDzWTNGlEx8eGywMVSQdD2TLIBYuhYadzVWGqkj6T7Uyahfg6fySTHC3F9GOJHdu24dNwELkuWbu64_6cp877Whh0CEmKvlFml_QTyIX4fwFsPPiB-WfkWP3k_dQIMfoelm6tGoYjjcmbkoQ4TkIX0wNhiuPfKyUegTjjnGW-IAmCYFS29FdHxI9WrBiPEDxZ_OS3xbgGCA4Od8U9jrPgEVm2DgshtbropXrNE2qDDXChNua9HvjIxTveOz3hdJnLR_pOrpG0fbaNcuOMWq7UCpybdnuis-QCY_1aomm36Xob_DSorhCV-HQT7Hpd1I5CsLwG1w90oLD8Paj330YKV5ABiLvMRxrAK1nkAb91vqo3QYgk-J6LVhcPvxHBcmrzPSMbpWyeWMeJA2hJl6-1JAhwld6FLwnXj5AkJOb5jktanJo1kT8fnE7RlyDfzBv8mmbGrwVP9UGDcCORfiDgEstNH3PfaAx_Xc4cpVtxAUw38zYc9wwOsglE_X_DO43SPWQgGFVX_AKvds1qRMgv9OL6bTx2POasJNKU1FaoyEZ4F59OO04Jmb92XyWTMeN3gWWxftWQ01K7yu7Yt6BaYolrdbetZASrSSW22RCm_jaBkFrJ_buLzRbxcJ6xeEJM=w470-h216-no" />
+
+</div>
+<p>And now you will see the chart is in its own worksheet. Now to make the chart alittle nicer. Go ahead and select the Total legend on the right hand side and delete it. Then in the PivotChart Fields area on the right select the TargetAreaActionGrids field, and select the Hide Axis Field Buttons option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KpKw9JKSShfNQvcH7UkttJQR6Md-DRqudGdaTUZuVJdtzZtAxST-tig1-7Xs84UP4gTchsYQ3TEIed_CLw96Mz5ZAiZn9Fj0vVT1DUfHFYkvCuOSRHs_uOAZFhdthqul5CplNYWq2e7afGtWcp2now9Uzb4afy7NfB3jO_J8fxniMHOknZ1E4xsxLRQcQhzZoouQ0g2Lo6sI8shY7DBvqEqFCeWSSPAdsuL5zCWrtUZTNAN4_i2D1eP1Nw-ilQTNy_vEHJ_kIxzubG6zizVQWp3bzNfUlSoJpToLc26BdeCx7085HVcIRVYHO7_iN0XzLbQkhbc_NNCPx5O7vHbCJ9d0mLqXOnxYndbqGPmQu0qJhqw3iiRzhfRQ482lCQuBwAecEpi-hG11twqITAlhDbEdr3_9P4zDkuMIZkC0S_J8ckMGP-fYW3vRx8u6Gk7HmvLzAJMSFfOlBddrlsjme7aSlBx5hJY0spRVZp6z34Q1taHZkxyW4tHJuVe1ndDjebWFMfG2FdbJvRusxkXG6fWWrVNkttXZdVSfj1Pyj8Q_WIjXG-GSvAburFdIORH5dSH6T9QU4XPjPV4cn39ClJNTZtBorOH13y9TqaTmB51fhKFzzwRiqJuEXe6lGCRtR8jAGFkJMtmCb24mlGAsge42f81rlBw=w1706-h773-no" />
+
+</div>
+<p>Do the same for the Count of UCROffense field as well. Now we only have the slicer for the UCR offense on our chart. You can go ahead and play around with this to check out other crime counts in areas. For nice images in reports please take out those buttons!</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ng3D-rBRsV_FSaEVY7suqeyGowgJnw5s5FAnQmjacwM1C6HC2mraV_zCLhn4hGAucGCWEAYk2LDbdDqqWRmXDaJcfcQ6TX7fqqoy0eQaffAosdDyIIfw0UMAaHhZ3OSUZ0bFNw6ULCUoI-AfwnGjHRh1rZQm7dIqk8pDcZ2MhCsujlxoV1uS1IVeyJ-yQQR5ysx8vZG3YmjCLdlgGIcqrbVcARrZ556uTRJ40wc80PIz4gZ9NSMWhzY2zE5r46uqteikvbxkIqdb-zD3mpdq6_CP2_a3HhEGKzfuj2GJEofkLJQ_CumAz60Glb5R8LXSrFWf15M3SJKC9gL-eEyWOvCx8aQabswpemiOOQkGRkpYarhSvT5UrRzYBXDeNvb2lEqTuB6Tu0tBNUcAf-TlMYSiqNp0ROmTbLcTrX88hvm8t2JOJbKvtDJvLWZc8I20OGPVrF8B37FU_EiBS8KdKhfjm62-uh_NK8JCmsmNRlxyo9zn9SMooZS-RM9_ADs_jAKev7gWEqCxxVw56yWJzgwbJzF8HFLEldvVqTlJLewVrwQRznZy-AArdm71oLXP3HGnRvbQ2DryP-ZsqfK7GwY7XMfRVdpbtXunX-4mPUbp90U1ZjLmGQ8KtiehqSCYOuq5IoG1eHv3knM9m5i6RQDy85dRbUs=w1052-h759-no" />
+
+</div>
+<p>The last thing we are going to do is to filter this so we are only looking at the top 10 areas. Currently there are too many areas to even see label all of them on our chart. Go back to the worksheet that our pivot table is in. Then select the Top 10 option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BUJa3JCPy7sBVucM8qXXwdQa6dcflhfStBIWuAr9e1GCgDtd3-bn-zunRykNzSKB-CKks3Rpi-qoMZtqmumUdNDLhiIQhBXQ21mExJ-RTE-H1_gxpHii1a6Y1XOvknhQ02ivacPSgVIeg5jLIosPwEsov7fzzdP4uuymbKSzuwCdlgNEP9R1GHrzvBU42Ym8_rLqmRUj5KF_AJ2m7OrLY3LvmndTfyl8qSdiB5wunPBvdm4KlkI4nmWXbNF6QZMvPERjSEvleMLODw1CacCLIYSDKcrgAEDxJMEKfLyUjXKyLC1QNu0uBb36VaFfa6SEHRLcKXk49w5Bt-ipH1Rd1vgKz6gJDejBnsJ4yUyVWhNoZ6DCeIJlh2qMuwUKcsiL50vBJqcfRrjDL_hHyOxxVgabFKOFuCyaEVycy8kKOT3f6GrDAjmg8_0BVQZD8Y4iillGWNfNbHe5GQNdBqlDJ6zD1tMEelzngYJdov5MJ_iXAxPAFksjqgzWAZ2OgU4wYrWwISAIgqBJNbvn6ybMZKET0apEc2OsvPv-1Puo-qMjITk2OWxoP9D05YgtoTfrsYS6NdvliK-SqACcL56QZPG8eMq-jb3Q4X4IjtXg-ECblwX91Bf7LPj96S7lB1Va4iAQr2pOrUmZ6TUNY94gtneoLTiAWPs=w741-h876-no" />
+
+</div>
+<p>In the pop-up dialog, change it to Top 5, and then select OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DeTCf-KcEKqcas1HT7bEI-ct3XeYXaAeREyYlPF2cFqrrDt4QLLmjAgGNRIvTyyW6TXJcNXluAIHkYgI488MnimbaF1kcG5xlnRghe1ivuGyGZUIQCIMXCcTydHHIqqxnKm-9JaFuQ5vY55QFZCGEuIhB9SmGxWHiaXNr6XKj9I0tXCvfB6Uy6Zx0CKZ_apKCXZhHmtwumsF6JWSG5vOdeRnQmdhC38NZhaaq3NdnKh1naLdpCBj4I_qM6K30jRGDGInWj9bgYYneAAV6Ht9OUNp3NAuRpwHwXpqRaingYFVqwktt0HFmdXjM95mRnRJ6dmb8OZMaLsigYrC4CHmAC8w8imjhmz_906Ekq6qXznh-C9rmFkl5pAHx02WD23w2YLViGSguoi6t2pH0ixl7cQ_Hc8x2gNSpDflZzdbNs2SemWH6Q1-geMQaC5jdtNxGeY4EmeFGSO6v--njctOlFsgC1s_zSz8NJrmYjiv8yQk96jiTgI9sLPduUzZIm5-XYpfyRKNf3yLi806uciMDfYdiVIqvmb27E-NSOMydnNbgnNfotoEYlM1y13fq0R_kgw0CgyEwArts-PI9BQbj0eHsTTYmKscHtjEj5HVZCHxTzuxE9xH3WVXFX6_lKf_O8JNLTeQTXWscJGdybixzpET8umdnYg=w504-h138-no" />
+
+</div>
+<p>My table keeps the ties, so here I actually have 6 areas listed.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Pw1zAyUoL4axBiq51RXtqUN1SMR0pQroHw0dmH4zyY8czL5SP76mLIuy7hq6CMeV2Wb13DeQF_JGzSOWxqWrBnF3cWSQVjHHbvUK_mh3Q0ValrpTmTu60N0LT0Wx5bXX6sGItZIXiRpcLJALmcl5PGPmS5keQ3evjn_w024_jEtFdvMcDyQgXaHp0JVqFdL1m6NNqjR85Ld8OHa6eOJtxpOFl8ukvwgjEa0pN3mK4icC5tvkWQ3OuG5zAuIhJSN2Xt2pPxvCD2ILlboXxR9JatLIloOXNVOFecYx6B262sBktWcikN5rQDxeyqSST5l3G64-yuCJv3ectjXYiqlmb0mTJanjX2A00SO70xHNQh19S81uNlUqRSDIghOF490WsRTZ3-v2L05xNq0tbq6UgB-ZGMFyfYI7JFp1F1uVMRMNuGPIHTXsaUP6uIbZRmtbzTpmq3saZc4pl9LfGuayarUHo2yQJBj1nxtirEdJGkZI4sdCVxY5B5B6ol0ZtZnlsvTf_j1MP9CBKCTjUtv1Q5U4UUloBQ_-58JMAKp2Hj58eMKlVMIJCHvko_AbarSdM1Hw5h2BESWzyH9F6tyIzKBhyMO5d0uQoa7R1HIKY3rEyB-H4Ebao8g7J2MYoYyQhOKGiV_y8smU7QjS598J55jBAlfbX7I=w414-h252-no" />
+
+</div>
+<p>If we go back to our chart now, it also is just limited to the Top 5 areas, since it is linked to the pivot table. Here I also increased the font size of the TAAG area names. But now we are golden.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XujkCF3XBW2ANFSQe8KMU17mZ7JSMYosf9d6PcoFG8zkwWDAUbp0Y6_e0nzgUvtkOXc1guZlwt_NgbCl1O6jIItHHHxpC7-vS-Ezp07pNUt8crCHtQWEXkAEUkSesjm2v3jde2Ae4qA4ZMfUpIH8DTPhcvHD38NL1pyBKMri5c6ANn4J_0xm_kORWGAqhGPH2VPhF2_a6JgLc2mcd23vG75D3xQU4eKnTL9HRUGq_5hUuYwVl4YIS17NIHB6rHRZAm_UzJxqQ-aLWJ1eKoG8ZzfPkUfu58Ohx0yws7xLoGpb-c_H_DMJSBAB_NH5m0m6DOXvfZn1KKfBHHM2UOxtX6L7svRygDGbu78LeO8ZgarxOeUfqrJnY4g5BaR3ufupFBzCGjjo6PY4HHsH7Xi7A8hXinmC3I4SnDYqfA68UpfkFzuM2QOYFh4calds5QYcbqNatR18YtdwjsAB5GMkpjOKxLOhKkgaArQc1L5NDGvl0AMAcKPXnxUJSWPuf54JjiGtfIuykTJ_iZ9Csj9uGyKoW8sZM8wP94_xK42Cul5_aloCd0DCEVRZIfCTpY9afv6ZTZoP7AUF6j_tWSdv4WOjCmdm2-djXMWBOFZFHbhS5yxWJS4YR3SID66dHaocn6d9ipwgaexyN0egN7JALkUUgFMiDNI=w1065-h761-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For your homework, I want you to do two things:</p>
+<ul>
+<li>create a table of select TAAG Areas (Five Points, Greenville, Loop12, WebbChapel, and JohnWest), and UCR Counts of serious violent crimes for the columns.</li>
+<li>create a line graph with slicers, with Hour of the day on the X axis, with counts on the Y axis, and a slicer for UCR Offenses. (Hint: You need to calculate Hour of the day as a new column in the original table data. Use the <code>HOUR</code> function. Then you may need to refresh the pivot table data in the Analyze tab (available when editing a pivot table) to get that new column to show up.)</li>
+</ul>
+<p>Insert both of these into a Powerpoint presentation (for slicer chart just pick one crime and then include that graph as a picture), then export to PDF and turn that PDF homework in. Remember to make the tables and graphs look nice for the homework.</p>
+</body>
+</html>

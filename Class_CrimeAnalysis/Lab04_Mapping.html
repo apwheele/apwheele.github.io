@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Mapping in Excel</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Mapping in Excel</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">Lab 04 Crime Analysis</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#repeat-address-mapping">Repeat Address Mapping</a><ul>
+<li><a href="#working-with-zip-files">Working with Zip files</a></li>
+<li><a href="#cleaning-address-strings">Cleaning Address Strings</a></li>
+<li><a href="#making-a-repeat-address-table">Making a Repeat Address Table</a></li>
+<li><a href="#using-3d-maps-to-make-a-point-map">Using 3d Maps to make a point map</a></li>
+</ul></li>
+<li><a href="#choropleth-mapping">Choropleth Mapping</a><ul>
+<li><a href="#merging-in-data-from-a-pivot-table">Merging in Data from a Pivot Table</a></li>
+<li><a href="#creating-custom-region-choropleth-map">Creating Custom Region Choropleth Map</a></li>
+</ul></li>
+<li><a href="#homework">Homework</a></li>
+<li><a href="#extra-creating-an-animated-hot-spot-map">Extra – Creating an Animated Hot Spot Map</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week I will illustrate three different types of mapping techniques you can do in Excel: repeat address, choropleth, and kernel density hot spot maps. Excel has only very basic mapping capabilities, and most crime analysts will use a full fledged Geographic Information System (GIS) to do more sophisticated data manipulation. (Check out my <a href="https://personal.utdallas.edu/~Andrew.Wheeler/OnlineGISCrime_AllLessons_Share/">graduate level GIS course</a> for example.)</p>
+<p>But Excel has recently made some mapping capabilities available, so I will show how to do some simple mapping techniques. Either download the data from ELearning, or download <a href="https://www.dropbox.com/s/tvxrq7ba5luz42p/Lab04_Mapping.zip?dl=0">it from here</a>.</p>
+<h1 id="repeat-address-mapping">Repeat Address Mapping</h1>
+<h2 id="working-with-zip-files">Working with Zip files</h2>
+<p>For those not familiar with zip files, I often use them to send larger files as one (nicer for emailing or opening up a set of files). It compresses the data, and makes it one file, so easier to share. So here is what that zip file looks like on my machine in the Windows folder view.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/AmG0SlGNV9VyN_0x4ViUfNRaSojuKyO4wTarloL0K9hbd5ovx0OwOgM6qNAkpDWplUhqEOZNgnSmH_MXzzKb4c2DdmKi01lmesUjt9UQ514HpwVv8TqsNd5u5aLJ26s6jzRwZvIreMJ9m7UORbyTdxNH9LtrSOJRDW6YSvuGCB3ues2C-b12GwxdFYNR9ZeUB25fbcdk5Hu3INSi0r6HszTPP-6pHTy5o5pWvF8X8ZBqlsaarD9xyNuHa6pj9Mg5okzhtel0olDil0XcK2jvlX5VdSYBJUPYZF5EcPsKQUuISBkpxdauFUE7R5mAhDSa4abZS6q-M13ZRx44DKeePBXQ9wdDw1qql2O12VY9g3WJNpwcvRZbvCoyoMMlaYcBaKCMuypQ47lgeU4oW2xEWH_WF-ZOITeIFbwTaB691nYP4KldzKkjzcS31D7Oh8m4pgCSE3z3veVi-03CrdJ_oZgXRRggbHQF85K_EGXDD10GAMjxecuYgjFk0F10D7JqWglFbtFJfUqV77V_Hmm3OfozLprKeHjTz7xw4avuNb3I_KHugzU-Jb-jVQbnlgU4wvALoO0dyD6AGhRyrFTffJ0EerZb9kf0kEwc3YPYeR6oyRZNohK-ENSeBSlStIizTwXFFgm7UzxwqfKgNXv0OX6ekdo8SbAK4kmMKJIAhQ-r9T7JVem4-EA=w162-h39-no" />
+
+</div>
+<p>But to work with them you need to unzip them. Right click on the zipped folder and select Extract All.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RrQWCubMLVkdjmp6DKneJUQnk5xcqROzBK9fzCr1_7xtgAW3UPEGx2FQqWHdpbDK2GEeHUMkjiOap6oSExIAWe0d2c9T3n4s58g8bWQzqUSEsnDho2qwypJY2Car5150b5z5-tQ8jxb5U1Kzthoseij2fjqBnrrVht61MT-IAHWnVYvWaD_0qfWiK34vVscRocH0Rg2qNLdjtVdWzQ9x2uze2Ct0bYeC-NQwqCwdadl8l6nvRCrdb45okkBQD5leNLqZTSGMr2perOoq24h7LZhbZ9piYlzsQ8L8Ggl6Ra2uBiHtHg9JyvOsBE-UrM90YF5x-WApYmtOADi3iZcKzQj0bd_ifjMtdRMSi6qdl_RQ8M32wjOKl7JJRzxOrxlQCVAOBf9awFcpHwBt1DZ7tgiUWc2JGdlSZs5RZctE7xzmHBD8bIFtE4TerFoJZz3lwFcXGmJONQr4LCiAAJsaKLHpbNpMaQhlWTSFKlhi3sFzp-yeKxAppiL3OALJUY2yMBaoXwqcE41coj0UY81PVw8wYPDeQbl2RfX8CYT8n9X9-MJSB8nScMUl_aznltiOgQD0Gkv-rsIpPls5LQWyC2yOzLsxzdBtTDkLld_7nyx_3LtiKaWonciYAiFq7tbd7KiYYhgdrqLmkkQTKZAh1qLpEQZQ0ygsrJ9tBNGvNDrT3eu0jHHVkaA=w393-h124-no" />
+
+</div>
+<p>Then it brings up a dialogue for the location of where to save the files. By default it saves it in the same folder that the zip file is located in. If you are working in the lab, you might want to change it to where you store all of your files for class. Then hit Extract to de-compress the files.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zF-QiNvVMO2fgTg1RVIBBsclDJRfFQDLuv2e2Lu8iIrPDhhjKnmZTYd2eKVQFYffFAWMlXYtG9kSNIIJ5n4nlAzFsUyLJ0O-F9qBz5mP5D4r-Yp1-RmpWEoup4cRu6ttQTEMlIUhqGwecBZGkFY4nOgeuAVWlQB_qayfGb6Qm6hjDAll0XNHWRV7gRVrkB8_fr7ph3zL-ODAJVhkpS_wn5tqD_MKRCAb5IPszZJAhl7oO4OwRQXWz6M-xOhit2hZjXkiH44ryPHPOebjnpaGn61lmpM7F_j-q7RKgpqG2T1PUZ1num6_fLseqCedaSfTSObtB5FbtiFt7gUC_8eMJUkLLibdnUJsbypnOsSwxSDAgV5IMIi-PC3CvJVmlR5U7BjAVFHS7Ku5CjikAm9sx8ImnnJUSpImnI0QVFkMwOer0H1qTP8ulY2ZU7R-DPsoHsNiID5luDZA3CfzaYitwyuExSX7uEK-N-dL8J5I8zQfqwFDy0MSrX6XRKNCfFsBbC76JGkFepdRpzyCol0JYNe5I88R3R8gLG4HPnQ3jaGs_TJsGagks0QAaKbSVYtnSIyLxOfbGSdk4nN_A4KKUc4SHKSMmmF_ybcuxXV2Awdx6sKBwMGjZ2-aPXY8du3QkPeCgrbwJRnAgPbz7kIIbEEP7V48nwBc7X7LtbJKD0-MdI6FTeLnj4w=w636-h475-no" />
+
+</div>
+<p>You can see I have a new folder named Lab04_Mapping.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JO9d4B8YssD3m7ISXroRCg0qRNA--sXH6VqO7nKPTgblwc3kzqY2KaPkUe5DMzOP3Bwr-gZmMwlGAC7KGggMTd-V82t75s8HtzjYtgxQmxRhCoIZslSklb6JN7CJ5Kwnd0tD96vSHzOkE-TQDn2vUiSXqDIoNnN8lLgZmwkRLZRLnM_zQTDu7bJtuKUJxtlgeeQpMYmsIOclOF4s_GV0JtbJQQEAXD8yG9tyJNmpzlpY8TTi3JtcAxAomLOBBFC_VCeCBFQB_3ggqmIpFjt8ysC6nIQ7CR9iJufYHaZ_S8-8m6weuGA74qnQemzN6pbCJVHL3Gr3Cfh-uICA8JCaj4Ah8_frq8OGqmMTsAUEM54KK6BVW_P-G45Qe85gzuCOAMqKChIDtAg7nRAwxPJALora5WFKsJacYZLcE4cqTaTIWYE8EEA6qJDMRXEUNnzM2713Uz2rApS6g_g4cC1vKNFRSlBsnyDKIqSlCpHA9ObxIk0Tj9Vu4dCxEA9w5i8ckpA0zUiEDGnCuYkt_2YfTb1htz3-zRWkYhFlh7u1fewtkuiBJVyfP_hmmqmUJ6jewO8V0Bt1ahW2RydXRUlD-jQQks9CHLCg-YHciOqiwIqiD6a_NecvNcoFsgTjxmQFxetZpiZ69qnC3orM5hvsv9DXDvduohdC7guSur_7Dpm8NgOq1HxZ1E4=w758-h331-no" />
+
+</div>
+<p>To do the reverse, what is typical is to place all of the files in a single folder. Then you can right click on the folder, and then select Send To -&gt; Compressed (zipped) folder</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2N8xivyZIRruwFkNn1kMSQOWTy6LdOgQKEsGsVYGEnaYy0SAbYSl6Gbrm1B8JrvTcEXglXlrYVxk8csoGqxmjPGZQjALIAyeRB8oGEK11YasgSO5hInZ6HkNyMV04Zwr1udKqN6LMdBsbvstZ8sGdmnxisTls1FCbDkEFKWcxAheVxkjcnTtd1VhiCyxn2a2mY9dHWrFxiu33kBKh-VV_hb9cO978qxA7npuAppdbeHSj2ks1Iua4ptR_5EG2bDrf5Q7dhsOwQHIlugTRC6qBZ6f09we6__e0mgmraS2_nohuT3rGsxqKTOBkndfNID4ZOvjZfYmfznpA4SD0uoQKPXq10np02qQ-BQEJitw8tyXj1_F2CrBiLR70hx8CwhIBro0W5hAZbf_YCfRiNqOAyj9ZLGFAQ0_4HWVs6raI3rLmOsMIohUlvyIspS2m8awvJR4xPo108ctf_KNi0uahOzchVDmXbNMINZIgnXPhmCGha466JXtwWyC21kiL7X-xfi4KPmmTPcxkvsX3gC5QH514qu8MyqzK9oWg9KHP6mQubx_-bqgpBKCzch12akJhs8JoKU-iuTHOA6aDuXzB7F2fCJoF4lEnHobyNGdTBMvyvDSL5qvTLKg_vldhOtf_RZ7muA9BmA_BstMSxD6WOFYJtMi2b5-B22Q26QwpD7O7G6q_57v1Ck=w773-h559-no" />
+
+</div>
+<p>And that will subsequently create a zip file in the same folder (if you still have Lab04_Mapping.zip in the same folder, it will make a new one named <code>Lab04_Mapping (2).zip</code>).</p>
+<p>That is the zip file service that comes for free with Windows. Another popular compression tool is <a href="https://www.7-zip.org/">7-zip</a>. That tool can do either traditiona zip compression, or even better compression .7z. (But note not everyone will have access to 7z, to some users may not be able to use it.)</p>
+<h2 id="cleaning-address-strings">Cleaning Address Strings</h2>
+<p>In this section, I will illustrate some simple text manipulation you can do in Excel. This is common to clean addresses, in many systems you will have extra text in the address column that prevents proper geocoding.</p>
+<p>Go ahead and open up the DallasIncidents.csv file in Excel, and turn the data into a table. It is pretty big (just short of 100,000 total incidents), so takes a minute.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lh5f6W3-EQy8WBgxhgl53861nIG1Pl7rTXJrwz2ESP57uy82VICsxt_p5W8OoHUIOT5HyC19pn00XIXdLxSeRMHvYYv9TEXd6Bdq09Lk-xJlvm50h81GiamGf3go83hyUmI4qlMl5_im0krlp2x-MqTu-nRMsLg0i-7PqX_79_5XzQBMxBX-398oFeYNRyWFr_Nnr9hUkIZ_dJYIHJQAP8J98ZmWz221-5BYoV-_hOp3SC-cS-5XZtO-o-QiSQUDEkNaZoPBGSqpBV0I5g8vI4OS3jgEGa3_71qUzyW9XbM22pNHc5B3IyRmnT9nNCcMQsf55sqPLr0MWxkDhKze7YZiR3QCRojtcVTE6ASY2dMWNngg4YjbsxZ2_hYt9BKUD-IM1r6ca_RmAJ3ZYpZfXuJu8DRomZeOryQxm9IUDw61x3I-9EqSS6GecPFYFnAS8vvONn9VgR9OiNV-NZefgyvj-nSHcvb3XIbWEO_FAImhVYImHCOe4bzyPrhK0NNFOF065-Mb9bNH5nu7foQD7RcR5orE3lWHmtFSYrTnNAKuqNFFl7IQMb-5rD1Im4SDjAp9Jrl0-PQ_Qb2dkD1rn6oRdZCf0zNgE-3bFSHB_GH-831-UGZGmRxiMesn7yfgbW_YWLSy1olIFsWgo8uyIS_CwAuQyNI3qB3p3zTkkT1QOgt8MvM4ZLc=w1606-h653-no" />
+
+</div>
+<p>Select column G (City), and right click Insert.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/w9Oy_1UItOUUBGntLHZV5oCj3JvgbjV50OIHWhEZKKFMGwI2MFSX98XkbCiY4-WnznmKfFHCHvxhquZzxhfi_lEoofT7TnT9i25MS0RU_g0TyQXTyvjSo4A3EHjRKUhkAqDMMZEa0ftTmbrPmISHa6jcDTA38mJMot0h5IU70tMp8bY09O3MZoX_-iu7p_y1JFF1Hzz6t9JuuqoKCZMiUKhza6nI9iyWc-OBjNYgHxVi8qNkfabrCXiDqaveCWP_8k94YFJKtLLiKyBCVGNNI6v4TcCNbczaX_ycbFcpfAxFtGF0dSI3GNBG_tDIYgIQEFsAO1zyngELTX4jKVZYIGYhAQ302PAjs-F2gtlAvxdYrHxNvsB1q9smM_sKsMS04DI8laxWiBTtcuQMfdvaHlkFhZqKmZKLJkfjUWE50mir7dcUR7xOvPXMUj_foLwVrQOLEY3P7HQGbhAmqdCj-zaRp7vgW8GXxcVwV_3-JmavYtk1ce3tc6Fcugbi8Frh9krynG5B2u1yU56tVBpinAYA02Y_LyUoO4qzOg0xm-g1iT4tsDRKrnM8-RprOYaH7g6NTeuCcMz4L0WmjEisSRtOaMffCSlW6NFT3YPIeJVxwgLqrjOG65Hi-vbYkXBVVJOw6wHan72mk0_p3XgJyOARGKjNWoNqIlfjeQtpIA7rQtmMewEQLGI=w466-h394-no" />
+
+</div>
+<p>This will create a new blank column in-between IncidentAddress and City. Name that column CleanedAddress. Then select the IncidentAddress column (F), double click the right edge of the F column at the top to expand it, and hit Ctrl+F to bring up the Find &amp; Replace dialogue.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/j_IDfc3LheSi-velp9yt7sBFFgriBnVcG785W-DWbaNoYidXzyo1tt_t4y544giMettgzI7nA-SBJBhhWWLAIi4R37r_QmU79WXixGdRlm6P6XS2u-WSuj2qiQU00Y_VWxTM0YflP1q4pi1cZUE4pZ0pnTn7RtQxj9vjvbIlNP75yZ7jdD6eR4GrxWcxjKqHW-izelkYslau8PjxWSwsecZ6zu8SBvIDHnlG1-orlOkxHlqZ4btWNcjMe_fSC4CYx2gTwbw_lej-Wwq4GMuJ8h6VgvYU-x6Z-FF_xYx-t4D0DAGy9CshEStvAM7y2IYUx7aSuYmPuD_CLc2fPc2u65BSKuCdDD__xSCG1O7HomR9aBJwdkO8Y0hYjldEfkGUTPW_pcotTCvSFenTRW9P30DflMiyRlCCIvQjEjhgC0Buk8jx_bozsKrk3I4bOHk1MKFbosLjpGDZrBMHGlizNsXG2WBuhw3N0dTXYDvL3ROqrin2E8G7DmbXnV02lw2cnLqF21ZJv8OHu1-hggZtUWWYuLm44aA6W0vNTYF4HlNsghSVaYNQ0uZSO0u9PcyU06nZKvhKRJgGSI3qeFpJhwJ2rq4MmsZRHvzcAbPRQw205-lq_D3YbU68baQslKy9r_4OJIZyiIkpYoFUsDouU76HIC4L2xRfhhBajbmrG6ABbS5XxHRboF0=w721-h478-no" />
+
+</div>
+<p>Type in APT in the Find What box, and then hit the Find Next button, this should take you to row 5,740, and show that an address with Harry Hines Blvd accidently has an apartment number included.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LQRrALDYP2CK6MX8b7J0PTVXg-clzQJwiP78MZe_OdKo05YmOhSKCGYWlupwZ_DZ7QnliUdVGHH0aCnwfjvdEGLKl656Bjw8176aFoMqaDFF-XibmmcmwnLMFf6Xf1_zUUzK_yaRGg-__Sh7r4j1wNRxAaG7Iz9X_WTOnvnBfl0pSekIKuxi9CD0w5hlUMA3tbNtKHG9T3FAr1W9roBcZzFnM3k3FVToEoF4nuLHVX2WDFRsHp71OLTPeaxCCh0pZV23IcxLUbMDTTTxI5qLmnH5m83CVIKBeIloZgAKRKiQxY-tVeDcNf0VaOy-yI3YFSOGIwDrOqP6Wiq06CjKTTENX-lHOD_kSo2suKDTvzDe9YKJ8bekb9RWRbQRWdHFwpw4XjRo-OMNcbK94m50kKFjRODrUpMX4givF8zLYhHy6xD47Ol2U2IuvCBqKPkzQ1WxHkfIOkD3rZjOFMRMZ0d8NkxQGeCKIXf8z9-luD7czotzgt90gkLEj03O93AGItiWVTihRIJ4Frw_mAdldQTx908WUKWnfv9r_OTOUzcC_JQYtttQZX0_EqRROyIZmroepq7a0PhA3zghkgVYVCNVRaerg4jESo9SisE2GWN7JJOmY1ORR8665TsZN7Bhy5G3ZYTeKFtJJtlifKAeUpNDXf-UUUENNW5CLveVDj1tNNBNZC9S-Ew=w1353-h356-no" />
+
+</div>
+<p>Having extra text like that will often make the geocoding engine fail. This dataset is pretty clean already (DPD must use some type of data validation already when inputting addresses), but it has a few of these APT notes misplaced in the main address field. To fix this what we are going to do is to search for the text APT, and then only return the text string. This will require nesting several functions together:</p>
+<ul>
+<li>The <code>LEFT</code> function to return the string</li>
+<li>The <code>FIND</code> function to search the address string for if it contains <code>APT</code></li>
+<li>and the <code>IFERROR</code> function, to just return the original string if it does not contain any extra APT notes.</li>
+</ul>
+<p>So first, in our new (and so far empty) column and row 5740, type in the formula <code>=LEFT([@IncidentAddress],10)</code>. You can see in the update this just grabs the first 10 characters in the string.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MTL0WNgn7PY7IJo219whNQOABo6E5Qv1YgblCYABGeAwx8niNXfkf4gwVgoU8dzLRlE4mc31ZhLbw_e1EiOjl-1xtNIkztT2EZQz62_RyeomnAIhBoyIlNdOTi0l7QQdjoovMp_-abyrZP_kYXU6-sCBBAKVa2aQMKlzYdtOg5v0OvYs_IE-JzCT4My0ZJYtcy3moj1Vx5tp2PR1ucjXVlWjeg2GFTAwkoC_AK3qaFMcDrv1x4wl1zoKpYSFsmjKu1tmNK4vh1rcMuQwdVR0HqL7Pw9Vi6TjfxDfrjj7WEjy7wLFjAPLJ2hORlppfoUlEV50SpTyOx8Cvco5KTd6KBKumCHOVdjfiRlbGJDla4pIHl05SixDu7R6MAMEyCfjTDGX5jB4MPA-aZ0PGD9sOG5IeiDZ3uWVAZq0q_sq3mbcV76giat2zXxLLQjQLpKt-EcpCm84yu4nURxjLqzZ9UE2hVTVLM4GN91gr0Hk9x-Bd9Mf5x9MvgOd3hfWOlVUejK39iatH3nQio25EBWWjZWZ9zYJ8Ox0oHchBkJUstkLpQUSd9sYazbvKgFu_QRZaIConjZwqNtO-HpQXhHgqQh2pIDB9FcBCbOWp3EFqQf4mtlRk9oDprCZekT3B6C33GHYCwfuussxielbnilzH1V64bgvF3KcwUlN3K944cY8Gn9y62hEFQo=w1143-h563-no" />
+
+</div>
+<p>To strip out the APT text, and keep the address stuff we want, we need to replace the hard coded 10 with where the APT string starts. The function <code>FIND</code> lets us do that, so lets replace our formula now with <code>=LEFT([@IncidentAddress],FIND(&quot; APT&quot;,[@IncidentAddress]))</code>. I include the space before APT to prevent catching street names that might include APT within them, e.g. something like RAPTOR ST would not be captured.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WeX7Sg-v0A_6_W87dMduKgDTxyNP7CP9Bx8XZboz-sVPXncmDrfbG-C-Js4DVViYNHGRPSPlzB_ddyBzTOAsNL9b2rRFCT6uICYzUjo9MLnrrN3cyIokORXUNYpG8OBnT0o6tNZGRh4lDYGiSABq6Couz_bYDExgpIE0pkBE8rOgrTIYibyZI1xn3_vaJVTevNVuU3KtaLn47o3C29f2AAuzj4ROhON3F2OFSDCz6DeZcBEU58n5S-AgeRvpoYqtYvVAIbKJQBzsG1mVTiWX2coy6D7ZVoTfLMkDWUW7vJ-gNpAdPQAUbqtpRrNpppWqTnrVVGe-wodhsMOZjVyHt-yEFLqoQXLdFAvsOB99r-3rWwphCwZnw2M3dyWiSNEyvmZH51-PQNhI-fxvRBvZWqlJLSVDuKKCFOO08-iDRs9wNGQrbLT0j15c8qg7RJgVMDyeAIWO_nSF3pd0Byeq_feRmO2YBHRBGQiUScZca9hZwuyFCzSIVs5ZV3JPebZUCKFynclenWg8wBzi_2JaxSeGJk3xSpM4i5MiEFVpGJu3LNIkBw1Bm6YZoeIiXIKeE81pI6S6Z05BvB6ntkjGuvPvZurj6Txe-IyHLjk7Da4Y0jTBA9RBlpNn7V5KJQrAbXNy2KEksZWYcmBk6QPyQwa_pJtmfZmK73gGUfT2yUYzksOvFT0so78=w1146-h568-no" />
+
+</div>
+<p>We can see now that this works for the Harry Hines address, but gives us errors for the others that do not have APT contained in them. This is because if &quot; APT&quot; is not contained in the original IncidentAddress string, the FIND function will return an error. So to fix this we will use the IFERROR function. Now update the formula to read <code>=LEFT([@IncidentAddress],IFERROR(FIND(&quot; APT&quot;,[@IncidentAddress]),100))</code>. In long form to make the nesting easier to read, here is how the formula goes:</p>
+<pre><code>=LEFT([@IncidentAddress],
+      IFERROR(
+              FIND(&quot; APT&quot;,[@IncidentAddress]),
+              100
+              )
+     )</code></pre>
+<p>Here we use 100 as just a long number that will contain the full address for any cells that do not contain &quot; APT“. Another option sticking just to the data would be to replace 100 with <code>LEN([@IncidentAddress])</code>. And now we can see that our new address field works out just dandy.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/G84VZIoo7AHVta6XPJ1fyflz1xJpJSPiuvd38wfcuUo_NykjiUq2SLKaLKB5_dLmU7xDhArJsDmKNIGYtyxyLrhDA5N_7DqFygUe-C01TDoozD4CE0XUifG9ti7ATBVrL6BI9JVf9xUl66Agb90Vr7vEUCzddjxKlgHg7d_YL8rcvYhyjbGMYY1spSd6J2xYS4VyiPs14ow0dJAMaLnVeRXThwkKtTxlIPk1IZnqbuLSebA77vId0gDb0zvDdAWDnuamcNCjR72j8uP7CunDGVUQ9TR7JvuN1DkqxGlOjI-q5NlSsQ7WPuj0hVjKC7pZeZgDScmmHei5fjEllKrVQdYwYLpXhRovdgITrFNeWSvYypjhUzE0tL-020D8Fyk5EsoxtVMBoamuQ8YbP0Lz4JD9YF0ycZ3WQxJlThzmNYKxc8Ca4pbj4MEIjsUM3iJ9L3x3S2YKkBOnUO0pxKev2nY4m5-muY0sg-xTlvwk4M9DZmkrcoz3wlBD2_P1hVBAC0i2dz9_Nmy8tatbSkgNpN7AGrk525USHRLpSnJlRHa8aVS2X40tjDrMbEWlzwXGR7qZu-Xu7vJ5bSRstZciSSV7YLuxE6RRJSZXfE4jTAd_o6AcZlYkHb5lJMsTP5npqtcU8LAXneUp3Iwr9u1q9SRTu6XjidMpvWdslsjxxvsKmMthZKr20Kg=w1266-h649-no" />
+
+</div>
+<p>Now right click on column K (ApartmentNumber) and Insert a new column. To use the Excel geocoder, we need to submit one string with the full address (include City, State, and Zipcode). Name the column FullAddress, and then type in the formula <code>=CONCATENATE([@CleanedAddress],[@City])</code></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/C4t7xQGdTmxFJQbvvN8g6FpetnYOoE42_f4kpJ9XF8mo7jlhKvUMhBz4vHVjNoT9Hf_gN48yYWxXjoeqXQCqFThb11xHsTvchukN1SJ3gLBQf3wgZj41MMSXGCNFArr9vxKOrSg0zBkIi2K05lojnF8KRBlgtPXmWU-Gnm5w6bSDPGmnD8PBUhgldJ153fq1wG2cCy-m3RikejJHylMgb-cRYBLho4brXHnANrxhoLZowJk7iERgqxH_y92ClBXGwfWIIFQTTU4_8D1jZ5sdiRGJVbO5x1XMncMoqn-xo5stXUXfbKkNPRdEOgDRJo0Ov4YUF-HWlRiJqLQP_rIeDuZcjpDJgfbipI6j9iMDSGGAGcha_EVbSZlRFfPPDYoa3ZNJ0moe1CEXVYlgI-GmGW2Xnvz4Dd9K4mQfPM6ymp8jmeXKyj-3eHdTH_84wTmN931qgR_cZ9R5suWi8qWLwaKzcZT-JE9bkDbIS0Jdt9TTm449_EobMnUF7PVyLPc3M7_Rrj3-CQWQYcKVqgTYXho9IQSw1JEUUYwAWBFzqhGGV-uB0GyOLTSFkxB3qCW4xWN9Mvsz8llfac3EW_3APNPSW-S1anqXVxr9owLhS0IXbYzNdHHeIPScvcOii2SUmZ6MHX5eZNEiT9h42rxJIPcCgYmQ1IrQSbdKLScmeYs9-HmD_vShPDU=w1590-h326-no" />
+
+</div>
+<p>Whoops, we can see that there is no space in-between our address field, and the city name Dallas. Now redo the formula, inserting <code>&quot;, &quot;</code> inbetween the two columns, <code>=CONCATENATE([@CleanedAddress],&quot;, &quot;,[@City])</code></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VDfWXxVMz9zXjE2byrL7c162v6xOMGUSCiokugNsInERD7GLaQgEqDinhIND5FgXFNU-ghpUSWiM0x5i62_QZFvHPC7PNHcqa0O3tm0kXLukKDMwRPtlz8cz1eRJ7VSDJ_m3eKsEjgByUwQerbQchSsfhWZIJy7OS4tfyC8mKMHl3eCvbEFPvutsawhz8Gky6LggFJUkms0azJz5xLEdgNypAShtUsQtuFHYfSTQFrorL7FcUrxVA8rCviPHzsBQLAsOOVIVXo45z18oIRN98RQZ5jD2CBOB2V9_nHdrHWIMmg82gqA5W-CBIN-Vzxl3YXwOLirXXwzS0o998T30eTVXwwcZY9FxL-6d5BOQc-omfAmZuFUtQsLfm9u13e-1MQX6vSXVr3FaHk0Aizu5nA6wxFsANk9xqifKx21fi342OlzgbBVDcZnHZXT56Qz0P-b6tRixxTSyOEca0qqR6i4R2jnAEF7rNfSURjefSm7afYs6lAi_GcwxmRkxkVr8khvHVZ7QNDLURdqwtxAWqM1grGUSw2I92F9jHVmKQULAAJBAq8LsqYYr0deZHwQ1BAGXgA0tql-xvs00gSSa0iIn0YG8fp_dY4-Vqy5Vsk_ba11x737iqaip3sZHkO1dI6anfwhP_BHVJoBJuHNrwHeo0YhZDWuu9k0XYIo4f63qBr9oj-K1bQ8=w1600-h307-no" />
+
+</div>
+<p>That looks better now. Go ahead and add in the State and Zipcode, incorporating extra spaces and comma’s in where appropriate. So in the end mine looks like <code>=CONCATENATE([@CleanedAddress],&quot;, &quot;,[@City],&quot;, &quot;,[@State],&quot; &quot;,[@ZipCode])</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/igj9LnzKdDGUfSu2tOF-ZdtkUHyv0BSm-izBQTCl6pXBP2M8XXex8Xso3Qz5_kdyZZR_T-jikWk5aOhdZ7q7Us9SzsE5Qonm2ozUY6__MzRq0XgKgT5mkbY9JrfD_kRx3so1jLEmkqH4SQI5YculEarPlFVtphRRfOsp5zcZASZ-cLhXKv9d0mLX4lP2MmMYI296quu0gYQEgK-_yefqEhnM_K2gT_4xbvVtUsSriPffHOvDhHk3dffblV8L_wsukp6z4tiO6YmYrg3vpdTo1cWJ3DX5wtey9kjnBQouVWlEVrJQE5JLmNkcUezg3nfYPDEu502vLIDqnBIadhV6cRvyKRnSKHgIOnda2L9MYspZN4mqMCk5jFQfah8Fu1IP-BLv_lvuUSahIoCVmTWWSnDfbcdlBxtKnktG6HqihmcBH_270P0wPAPwygnC4kSlQsebzATvaYUWpJUISjwcGhElEe8r9Bt0sMb0QbfLgpFnUwF4-1Qr2lWD8pXG6WTz1FNtVLGE5vTuipPYUDLfywIFBMHSZc-J8nhVvzeV-fMKRqRa0XpamTCvj1GPGvqCgducirIicML5cI4XIdCb2f4mEskUeBqwFASfBppiOEXNT6f6R6kcCmr2swinDklBxC3dSyR5n7CyRIdjsAPtpO_y3iteTttcvKccTpVlAJd8CxvERl8zupw=w1607-h273-no" />
+
+</div>
+<p>Next up, doing repeat address mapping.</p>
+<h2 id="making-a-repeat-address-table">Making a Repeat Address Table</h2>
+<p>Go ahead and make a pivot table of the incidents, using FullAddress for rows, and ucr_redString for the columns, and Count of ucr_redString for the values.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bYH-3thg3MwF-944u0wvzd0p8MqA30ZoVu5aE1lvl3JfqmBdWD3gA9pjSgzb8r2yzUJWOzm0Sq_U7aPx4Nnboh7OMqjLQVfIRc8mddxwvsCzLMVrNF46LofpiQeWlU889t7qqZGayyR8mFB8pTF7MGtWnJJXOVKU7tVbXyAKA-NylBqvNy8ahTRjNN2v-J9YV_cwhP-mDfFDCc7aKSCU3mgCQ0LnaeiWCTIC9uqU10DDT6h80KiWHUx6o1YPSR-AbjI24Je9_-9kviknzdcFX7G3cEbz_We7qN5PemTqxU5PzNRhsFfFAvP85JNTuMvT5bpjlDdxfXIEle2MW6O-CmLigt5pJbHQNFFjetai0KgIfgK4oCES4-9AOqtoWj3gLnyoT4uwhjQ0d2tjafzQ1MTiinZtwtEIdoW5kJUWaEOLU1ir4f3ifSUdOlMrXwp79ftmf1NB6aOA1wPbY5G1Ov5jyeHXZwGOj2DLQDhtAu80haku4-JR0bftClcZtR8Dj6Ts7Xn1a12noSq5Ef1AHWjoOF52H4FoH_tmuMUMyvZJJPa_RN_FZMMY7O-0t_Sl-CfA9Z5W_iLyuk-PiVPtpr7wg1Q5GXzNENyXgKyo0MBOIMtV3KGPoDtujGIjweyHzqvzboTFFKCQaIwvq2JSysnhRpIefbA0YFXITyya6TR6RGc5mA4w-pY=w1914-h780-no" />
+
+</div>
+<p>Select the dropdown arrow in the Rowlabels area, and navigate to Value Filters -&gt; Greater Than:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4fDy3knNKx3OJ48x6uaj8ZEoExxxWoVMSoPUERiQ2itSNE_sbKNyYynuUTQ5OFSSnLts7x4D5Fmdd5W2biKctm8g5YY-lxkuww6dMEJUY8v0VB1Pth6INd31halUyA37QfFTjKN2AXFNTc3NYkRACQcSPBwP53oF0F9mM-uApEjs_G_QpfmhuKdTA4R1Rl9oThnVeyadtA40aGgcH1OJxwARteGnBRe6YEV7_wW7cb0FpZh_m7eVp87gumjD1Zc3swZ6l1YJ7qXg71xILVUbYuXUtBqIFeXK311L6jdaip0i3o_SaBuplaHQv67-3LlJ6Ga__BwEipH6tGGhZdLbcnnyZqaRhF8cTeDfXvySDKWKdpC1j3IoHnR8BLaNZRp6xo8jzv5xbfKkAZNj18vOLBxVNsC5oNdGsla99kvEshpVaqVatlCaM3V3yOGgZpd8huxp5mj-8lQiUgpQwu2w3tF5izy5G1fNnv8Wl4pfq4FZ2dgfQ1LOfcAhVesE1yGV_3lEuraIsXTYH_rpnCGvu_k0pdFgQ6iDRu4ChcZHBz-snDUiL3StoxEgdfB4noAo5duArDL_rirGo3bDzddMCaoii5t7Xgw2M6Yis-ca1NpUM9zUeBUO28f8a7mzBWB63-KFQImHURmGkRXObYiGEHyfmwWA_lFaMT-tkArhueKO0Z6hlHgWC-o=w787-h544-no" />
+
+</div>
+<p>Then input 30 as the selection criteria and hit OK. This will limit the table to places with a total of 30 or more incidents (across all crime types).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Er2RxBvFPf-HdiHe9ggMLd19gR1Ls6FwieLa43375XforL8HZPSf2ITfjfoNZZ0ejZMNS2bLs0FW096MtLmKstBeiQxoMVyVhguOai2ONlaV4Z2rfvTYezYp9UtngEly3-ve9wfeYwz6OvTgcycppxduvUD6C9T0xRNAN30KXJ8Fr0eiMWxQmlkdEznw8xFwnukYM-ReQqJQ-A8pMxE98e03uGt1t5XbEMHPHpMQt6HMvxpV4x5Y7wNPTjlUZHvOP8gFmphnJQIkTX3d3clHhs1FhJP7JBTephTN0d9E7U0WyMpjCex7kwVsbOKU-ntjzWTlZKdd-Bn1pM4mu7TtYslLbEzjECDvfJAwo2YP_4MhJ2sU0zqr5kBqHIzL-PSDk3wCWTDQquCvbMuw2WGcigvW06SbLfdoeCqbvXB2GYBPm0Fa_TpW_BZEZ5-BnbaIOXaArAahRKkPIxjAD8Z1Szya6e0tzjP1xyCinIzbQedSdOB6fMWI49lOdASr4x8wQAxhCMhx0EHZ4ntvBQkDGMxZ8ah3uDVxe-iApFFkmsONVQR_xTHt210dLDNk4nYxRay51nbB6FbN3Yr14yentCiuUkkgXzM5Z6_-iDrIRAuHIDn91Y1WN0i4mKhlSmcBEf-pz2ORPtN9BoqvMWTfp-Itb0atqfRcbRGSul1B8d_VB_IIfvlBD3M=w597-h159-no" />
+
+</div>
+<p>Now right click on the header row of the pivot table, and select Pivot Table Options.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gB_Dquao5fU7GGMDS44l9AnUiTQkjT5V-cRoC3wJ2pPxS20VMiR37QzFKaGpw4Gug2an3lLsIwWrlHtDRLEj8M0k522e82yboPBgzYmGsxsy7OsxWGezZ11hJw_hnrJQjkxXnFqwCM051Gdc2kvf1NqW8Zy_Jh4KfpA97D1unilhI4df0c7XBMlgzNgIabvYS1dhPTjCeg860s9M_40qNHlVJ91-CzpmIprnH4NoIWZMTXFPi8xEr6z5-bzw5hwmTViCkvVflkzoxc3Q8dAOUMwShD8tX6NbGwVge-vRYugCAXTQNUNZTNH_0uAfadBvWgAVGjVSlf6WzvTvu6jf7g5E0LpjkhlCs0kW44NarzCVi6mEaNl9EZwJYGIQO_kQHyeRpoTdYKtKjynNcPMRersCb9qphaAYf3r8HtkdkLdvr_qVl5Uyz_CdKyil8QmIM6qOKtcFoELeSPhooogkgWcLZX46_R_IDp_QeFeeLMlAcRktSECzqwOSgXqoCvr0Uo6GuGPM1Me_OsQ4XWbVVOz0cOj-GZKLEWi55Gr_K-kG0Ysc8hfgoap7ZVZm53c1MO4neq-eFpgVYGzzCJRNC0UqvQ7yZASuiyPJJ2QD1U8Vshv9caUvIRfeWy5KnH4QVdtTepg7vzE6rUWP1M8kOHxsFN-saHsu0YqST8mPkhz77ubSIjddaSM=w533-h255-no" />
+
+</div>
+<p>With the Layout and Format tab selected, in the empty cells option type 0. Then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ySNYD2ipOkfYUNLHkEFEXO5ZT-EDZaS4_X3fLWsjA4Q5jo3PaTQWklb0PbbsCqOgWAeG9GnXzn7Z50giAXs2Ki3tcKLgMxbL-bxDOv-OCDVlPbPq7elx8kyFjCCj8CedJoS71cQ0pfgfufCvi0ZT7j5682qXh3q5ejKfCEWO2CqfgnDdTc_2mzBC3m6MlYnYszoUZLZVwZOsx8jbZlPwazSLWG7QQ0HZnQnMdh5vp6NqhaicXN7GvSIB7qk9RHhIrROs_Od46iDQso10LSB6tpgNHsTdX8wrqsgWP9WgM4cF5tzq4A5NHCTOaMt6Ejty9pnsHe_P7PPQftaHJ0CUNGtoG7L7EXmR0uULIgEgOmJpkTujBVNOQ3MLkpeAWQK8onXcSZrlFR9Mi92QJ9cpRIE_TZJF-PMB6vx9AUi4xszN--CagX5owMDbK5zZU0okRGt-SarfuhJUM8SD8JWs9K5TGi5wK65aHL7a7j_lvSWSQ6OKsnL8CjEgnkP8mxd1DQvebfw1FWoxANsFj3RZc42dWgMkJ65mDaML3O8aNRpOGtSbSANp_cC_lwn0Bx_hnESfXtc0LNp6QxHtZFsUwCqEQCIU59yzzrCBWYT8fCzoNCRnUi16joP-t7OgfjIlq-wZMZU_6FejqlwG7eozRpFDwOpDCwycj59-TT8tZX4XMq5-SzoA9UI=w471-h494-no" />
+
+</div>
+<p>You will see the table now has 0’s instead of blanks for empty crime counts.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hQ98Mw97d_sbdNYMryJWm8UYz-bKdSLsU4cDqieAv5SdQBo4QVhD8NjQnYJI2XpvU5v8F6CHLiGEvRHyTYa-lso9CaL7aDqoTGlfWZOx7ZjUmAqbR6ZQeRfy8lDNX0xBSxUdrEIPfqgxu8oHOAxHXPudKgItkckfKKWpsBS1z4CboN7Uij5P0YzVjmXCwJX2AZYLMrEy_Vwiga4D3H8RMRJ14XGFj8iyMt2LeCGcx9svjEOJNW9yBvyGOj3EfMDF9qO0OiIj-9jDuulD1oRR9ZRtQIkG7fKjEJyHME9L61Gt2VfERn21JHfGaZT9Z8D6mYpyM3nMy7ueoJemBIzONZS-rkKa7vWfUFFtfbEUaQVUKPLvzp_iLaehkqhLBHCZj_4SXMi1gjeQ3kGssUwagm6HiHZJhWdJbVorAUVpNul4p9YkGl1eUGql4nnq50Tuk5TjgX3BY9maQ_i7RmVeMAOL9qGWOoq8TmuYMauNON4xFg0hcfo6b52G4SYiwsc5nw-R9T_7B4OjrRhpbWAh42JoPd3DlHTWDJx-1PsTZ9eLgHOQRdwnxImEXVaIESvuyGWCvJH3WK7NVJyZWiUHO3HJqHBt5D8R05i5pPZE6L6KJsqE1NMvd5GF6j0dP6oUt0CxGeqxnjyrM4a9ZX12Srmoey2MlPdazOO7PK6m8Q5I6NGHwHB6tgY=w1106-h397-no" />
+
+</div>
+<h2 id="using-3d-maps-to-make-a-point-map">Using 3d Maps to make a point map</h2>
+<p>Before we move onto making a map (which is only available in newer versions of Excel, not sure if they are available for Mac editions), we need to save our worksheet as an xlsx file. So go to File -&gt; Save As, navigate to where you want to save the file, and in the dropdown select Excel Workbook.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/s2AUvm0pOFvHzD1a1BtgyjkcFC-Sk5Ewe3UXXXVfPpJ1h5HqYTqpOBbZLZ8BOUZdeq7hwCTfbDeBarmAmBH6ZT-2o1pdjtPH2IhfUPhNL9qKpdFxuiBYGnm5x_ASk_NLJ7e2aalbiT8_AYZ71ceWR0tBVeKclsvv3CWlIsVGuo67R-8BKzRhVtOEmkzrin95iJih-8NGE7SZU3TzC1DyAhO1oq3daUK_wuDE7Bvw1Poch_9GgRCG0EW2EfAT3m62s3WA5zpfGv-slQb4ZBvJ_NGbgTi7ozQjxwv9c3-cziIHGoxPUCGUOX3Q9GOyDDboaJfcrNj_cHfdOD7JGj2LmkW125UuLKOo6fH9xX1bUJS-S1inTrvLG56iOmKqpVR_EBEpFF6AIntDMIWD3xbip7GacHTTqdMVp9wMC6T90Uzreclt4kX2hkIvtfqphedd-cyp9XzMv-au8gHKR7KDvZBJCVfiRPuf3LDhASnc_4WrBZUfILXhaqDBJDUJ0pC4kBBijSJ1XFmo-r_Nn0IVESBwOaebWHQC8iunSiAZj5OrponZMR6F84PuSD_GcRPMiHGsEhWomGKw0FA9aEHUkZ3svhAglQMu1rO8_QbOvg2FHtcPTAtk-cQbEYoUojWHUrTu6on2dQib6QK9eNekRURtLDlmj7V1w-3tM5hvXPf-IXoF96421tc=w985-h573-no" />
+
+</div>
+<p>Also maps does not work with PivotTable (only regular tables). So we need to transfer our Pivot Table data into a new location. So, make a new worksheet, and label it RepeatAddress. Then from the Pivot Table copy-paste cells A4:K222. Then turn that data into a Table. I renamed A1 then to say address.</p>
+<p>With that data, now in the top toolbar go to Insert, and then select the 3D Map option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/X-DDmIRus-CmRPyQwz5U1UQVYyxiFa5h2slhZAXXufxk0g6Wj4t_iZb0jbiHoXPNH9KOfq7W32l7RTWZT0nJGpfe-iuVlMisQdPYRgw9UfehHNssxygojChf0Xigt8cfkJPU4BVdv4doJo0Ht5_wWkDaN4WGrQPylQZ6C-sSip26Up5-y75h4pI2EDwmlznv0MOc1bZapULPNMiHiU-qVmBFeile4s36lP0GzYxF8Ziw1wHi9ioZenSVxFtZf3XQaFFvHkzTqTHuaZ2-rnxteDJZzX5GSmBh4NlKjXynA4pHcJdgI8Gv9B_GSIPTeQbG5hXPAhniDh1pS8kDm2nbn2lAMGE2llcJ3Go0eRylQqxyQtyMV7uewYXROQJGpdGc9-mOzlcdsh60fEb-I2FkBFBpKTM3dT_ShNHTgFh4wj9wwieVQrvIujAj6iDWmoDtQVXAyrlzBzNwQUt0qKMLV8JME3_zCGO1hpNn4mhalL_1ja2S3vdrWxUeq-uWu_6MwUQL-5fJ5U8R94c31n5MCSb_GbBnBIIq8NhaSECtrg8vNzw84z1gbIMs0m5OqRP2FloFVp-qBvplDHovbPkq9LkhJGaDJxGrMWed0EhDZVz44fg8ZqUG2gM6X8paAEbE9ynQichXbgVVq78arefdrlDXqiw9BGjf6aRh_BYOrB43sg0eKOZyPNo=w1185-h937-no" />
+
+</div>
+<p>This should bring up a map! And Excel automatically figures out to geocode the locations. You can zoom into the locations around Dallas to check it out. I also click the Map Labels option (brings up street names), and the Flat Map option here.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9ANOALP8PMAlp0JM4OR0EmVXBITv1iBLa6ZawKJb-o87MNx0MayhKxuIa85VSnWF97fxbIagIe8MESbVZCUCVNSvHiw4xRXW05s1s0qXfWRPl7WsEPMQaSDnYHejnJVZJ3hmSBKDeNk_xUU4OR5E_ePaUI8biZ7sVh8d_1eL1JLgHvTSl0UNZJC9nOmFNZcljS_KoL6fFhTBeYSj_aPyxnpIN0mVSE68FdLPiK31VF7fEcFF0ZJyV2IuF3gea6zahIrXzqWrG1GepV-eHrTBtV6pMNJCNQHa5xALXPj_7IRdeB_1dK8hkxHDDETO7iCa7d7yiEPxHR-E4Obxfoi9bry5eFLHVhocf0W3zZ84QwatILszPfbZJ7DoXmOZcoJz360vErDS4rW4HXC4iAzFXsr2C4GAExBGcuLluTi2aHYHAkOWws-16nnZJCsXKkM-lrQUKi7LovzEKvwkoQPn1kfTCEuZp5Knm9p5ZELC1WItqB4-x8I4HQI2s7iE5Oe6Oq-ho8oCP3FJu1SIxzRExDxrdcKEmI4O1ZLW9qUtDGZyZXVNmSiA6qZ2ASr0emqeGzSyVexFsl47NeOy3eW2WuzTqz6yZ6v3GUuCQWFZ2oufe1rCXSNtcjcbNkxpWazFALCfsRFyRQ13y1SilQtPNF01B7E51K4i_XH4OGDY5LWB8tgEs3M3cjw=w1919-h843-no" />
+
+</div>
+<p>Now we will style our map, showing addresses with more crimes as larger circles. (We will check the geocoding in a bit.) In the right hand side, click the bubble looking icon just below the Data layer, and then select the Add Field option below Size, and select Grand Total as the field.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sYhPdqaSGePWbW8z-prvd7V5Ua5PXNmSzA5mABfqvaySvDg1qY6pSacvIyjQ_yJB8LQRY1K1zU8Q0r7i1QcHdsIw72H39sszCVuBx3cMQe0H2BmFMtRM_71gKwcHsv7S7uaLtYlje5BuWqrDYMlOJDWjr4s3lgNECKmm5yNelTOe8YoWQbLgtT1oKwpQA_6leMvbLQ7FJDIIM2O3OdCxD8IbtCA83YXtynaMoyflCnhna8gaX6KfGspNeUxCaQc4f8AdY1-VFpDTSDRsCJUV2t8W2EKhzqD48mpTdJSFO3Z-3gd9fBsiGaYx_i6dyXm-tH8mlmiZ0Y09U4kJrtAlUxgNL-xefxCT5H3j26DJUqTniz-wEGcsyHOHbuLCVoOpOw4ntutF5xr0tyYKl8de4HEG7HNkYs2DCkOFAsGGd0S6VfcaoCuVhkP02ZsSJnTXvLgcHx5d2lC4Ih9U8IWXx_Z6wFJQ0d9N1lXO4Hgfeu4InQF4QdeElyy4AS8-qlhnJZaNb-b0k4Rp928GqQxZEHPrayH5qBVxO7o53J4-JpaUnzGGGtaZjodJsRHQl-fBoM7EdJXcjrwjNgieM2tBLCHpJIHunYmVkB6k3ENIJwWBBw391yQYR3vOgaRzVx9tc6DlaeT9NAP3ssdjZve1YRuV4yM-FyncnXk8CFpVPGcP0Vi3ua2Xwis=w780-h801-no" />
+
+</div>
+<p>This will make the bubbles too big, so expand the Layer Options (below Size), and set the Size to 20%, Thickness to 0, and Opacity to 80%. Here I also change the color to a more pink/salmon. Now you can see variation in crime areas a bit better.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZQubaT05mrmm6dsgkmRYnWWqr03VDOl-IGzXsGRMcqr0FToxQqMPH-9kElW4N8EJzVmg1dqOTI4Lq-TMTTam3aHud-4EpmjBvbwuBZjSqQQq7e2gq6EsKGKMjSpCJEt1oHdGDjqs34IMVSj3BIFDKixdRwUalyAQcyWxhud8ODvCz-PEl1iyCBNlOezCCwK5IP62ITuZAhFhAqalqSEVi1F0Wvk1fmBnSW6bBpS7kuupwVoTSlVD7_YgBr-99rwF3DptP01ZjFJ53pb3WA_28AeH2Tyv1b8rZnliFU5KvFQMkmu7BAsQIFhiF5dFgFt2QLA-Vcey4V7Fbapsz12keLcjlcO9qkPAIjhELoOF2ml7ZSVZaGdtr_COE0hA6GkGhWOZC2QGSlWrXQCa0dvb--1tMf-C8GmOvHzimG17IB-NviSnl9qhmu7uDDx4EtH9aenzyvaGve0-iwT-OLCWzL3RAn0oWqU2Ecl7wncXRVM3T4HogcQOsVAzD5ht7yWcZ_hm2x3Zy0-x7434VERIe986qGr34KZilPrvjYqOOd-hW3Coe3LKVSz8hJ5SHg4FvFDeUDd4EZKGTIRxza5_Hm4xKZapO1ymc0481d4hp0gTzqaeJ-13qCyUsEmMFMsIaHMt_FWOjmNh9fe6HUgkHH0YTPONy1js5XdkMVH35vlMF6p_rLTYwsA=w1608-h828-no" />
+
+</div>
+<p>You can zoom into the map and select the circles, which brings up a tool tip. Here I zoom into the largest bubble. Uh-oh, it is 1400 S Lamar St. This is just DPD headquarters! I don’t want to map that.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/l_Q5PVFtUndRC8EZx9SwRvHDJX4I8nvaGo__o-ZTX73NfSTv92bE9AS45mb_LU0hSUp7JijcH-RELkh6ffwE4aAwatgoQ6bw-huM7b-fZKjcTEgjGme5hVz7BytGQmwPS9aOUMoBRfwNOEkonA_m5HPbpwgHt9z21wUSvHrLiOWj3BdMlIlskHbG63tq9l3JTqtv9SG7H3bVYAYtSZdlomMHxlh_IfKpijPXf8fXC6_Ko1JrqqmyxOtI-u17uz-Yds-PG3SMEuPxIQhIZsXnrlSAD0nRtJVYG9wbvWJpJRAy4ZLXK9ZBJw-UUIu6uHHXVkNLC_9YTwFqYt2V529TiQdh6DO4bmGgoTlNUbmE18gN3mVkg8l0FgI4t1F22UIXDaKkKGMDKpvFW_D13G15u-hGE4goT_I-ThH5xF29kekcRcB0_ib-mCfUXYTSE5xorkSXkmOsff6Gb9O_8G9cYyBctSAxvhTTsRYYw9HIoDhGNuexDuevLlBBnd8liTUY2vBpyqGeBc47JltXU6ZCdaQMP2pBVq9KZTITzlLfMD8fUluGUHuzAO_EL4Kxo9uj7q2PThd8VAZsPxnNrIGXxNWiP4_TvjFwnLSDuBZUB73ma5yBNqtyxYaBUvgtcwa2ejV6q1ZO74zfRo8ydDKyO96TWSo8Cm8z7H4EWzrFJS_s93rUKWQQ-0E=w1122-h794-no" />
+
+</div>
+<p>So navigate back to the RepeatAddress worksheet. Then sort the data by descending values on the Grand Total Column. Then select the Lamar St row, and right click and select Delete.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/573NqGczNu19nv6xgUB_WadM3g1mFac_rStRUjv-O_MvNGR7dGZgRx3OX_MkI8y2Vnexu8xRyxzLqItEG0FXHDO1IBoo6IczK8K6zaWUnFCiJzFoG0NjYeMrAoYEs1pP00zYcVZvkifUc-1nIKE-rwdkeKQi2CHTpHN4gQzFroW_8H093BFHy8Ef00-nWXOzSIefTx44uIUSVk-KRoYgVgwaq4VKW4-kfU5txfcmESA19iM7ebIHOSLky7ZOqDsXH8rgih4ulzMPxvg5r3JkyUCjM52hR2A7TP7tSdQfyunF4jhrQpECcN0KxW_zVxqOMpVzRgtuOVOmuvW5Is8sh_Hiu2G4JJ7A3XXs4QJbx_yrngVSOE0O8u38swt79Fygv8Kawrjvr2vxU6ffH02xwD-jgFvc858rtWW4ehoe30fNDhPc597dVnHEUSRHPeAUCONdHK15Ys5m5ay2xoZyYJEef2UagmPtFYBAsL5_tVS66GU6_xRDpylG_e5VBfW01-i5xAn0ihr1R6DBt_2avmI3DUFrt6_ciuGuHKfDjiYQVkbzqJwYDf9rYXzC0lC8ILeH4F4hZ39UXtDDTYeinEJCiWhui1QucNOBbePPDxtQdWc-dOVisU5-hlTesxCsmEtIagEP6fJnI68_XvlzrxJDWd62uj9LZX2Fzq0hBK9iK7cR8R1-hnQ=w1549-h804-no" />
+
+</div>
+<p>Now if we go back to our Map, the bubble is still there. But lets hit the Refresh Data button, and then see the map update with no more bubble on S Lamar St.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XzKU3Mh75t9I87dCQ4QyF7nU7rkZRqYdHI9XDTrfEWYoo6wrTuz9WaY7DMedokwSE74Guvc1wyGPpchp91WAyzrjB21WVIshmbovGBQ77cvxzXytkpWQz7nvWrTLucjQX4wibjBqn94ytyBHnC1YmckFvAaHcZUCo_QupOsk6qlT8yNkZGPig0MBQ49SIkZn_zz4CFzDR-R0OG2gsJYlaKyLz8ieOk2F0JD9b0xlVW_LtmvvShhkHpozlmJNVBV7p-LySPlmpeWGJuUXKrJKft2S7MEzsyI6PDgUfQB-WQODjV6sie-EFU06lqshPbnW0gEX7cZ8HOyuWoCxpTzwOMaasAERWrEp4Agl8GWg_tNCxTHB0xMd5Vuw4ueQhzwkgtx9q2igYEjgXtZ01uSfxQpAzAPeQGNE5Qf_lfar2ZW_odN0Oz21LJZ9XHqDJ31CxP_d921jxU9Z8cq6rVGERGkTduE-UJ1lZz04-Jder-r1IESXjohulKX-RoCW-UR8FoZ0n1GVtL2g03Stg95PHzah8F0q-B_1h8NJEq43tHFy2UA9zhSbMvF5qx3RaKyvZwNXQLEUd1E4vuEmyO7UPlUnply9QVCu0p859iAMVkx2RR0PSWS6ItZgEcl1yCUKLfP0hNwWSuhrmi3hfR8u54eRvIBdKrfWEtNk9U13nClYlJRanKcEdxo=w1113-h801-no" />
+
+</div>
+<p>Now we are going to check our geocoding results. In the Layer table of contents on the right, above the Location box there is a little % button. Here it says 0%, and click that:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/37qGdmI7kpxpABRggY-HzJ2_fReRjfO67Tr4-Th6JlIU7UCJYhoJT-EN4SPb9zka8MoLatkNzK6d4Refje-i7_LKlA1mR_0d7VpGmf1YD7EyHr3vtYE0_6pOO9enlN-yeuh1cLHxU6Gv5ZHOXi5nfPyNlixqh0mvnDGMj-gtiGnTJe7HWM331E9rHnhV1VnBOTiIsOM9nlZ81a6Yktwx-_ffo9M50t5gZHPm7Kcx8oJsM95YAUfGKfRTSaQs8CacIAfalF-qece8VtHMjt6jS3g_Wdv3ckqxzm8cMaxNutRNquHwiUjTP-o7cHI38png2fkA3nJ8uXVUvM_AGFSzGVX3WG-tfPzIZFsSN0hPE6PJvLOLNkEF4vQIgAO6sUNKXij4ubfMVg8Pn_umlze1H9iOppnqgvGsOQu2FpPz9-bRCec0Ly-7TqltUsZX_qKyRy8mfsw3BaR3kZzcq9gbyyvCbX0Sw25fj9msczs1VMn2tQkg-Xm2b-LPV15vx4WoIx6dhz-eQQCqdXpnS9eZy7s9IS2nzRwCtcTknvd8AsTsfj42UuvzzZywMMNN2ZV_e90xs2BEz0JXSvU7JzHBZlcleUfM4dQWasPBs48EpHFz0jyKXGTUliT5SJFDFtZNUywMbYBOs8BYi8ELtyWEg6RnEnpJVyk_wYvIXii4Qp3E33ct39h9Xrk=w359-h309-no" />
+
+</div>
+<p>You can see a bunch of warning yellow triangles, but it just happens to be because of the proper case versus all uppercase addresses. So even though it says 0% mapped with confidence, it doesn’t appear to be that bad.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nN3vr2hwselVVuUNsBQ7xBYIptY8O6NhV4mebvVkJMQVgRRZsHfDCxNd04EHyqVYGrpRPguxyCmjqv7-1I7FTyXdWUXkEdEMBeBQNIcVlCHVPcIWx8Gb4YuI6UPF9Jo2805NCBZmsVaT06fLA5kfL5G0gTGc9J2tymsET367ZoRDfT2QQrlbD5skvqgjo7gc_8mUEmUaqxMv-gaTggwOgF2sj5pTvAIVHmBF-q5e0YggrGPbkt8e0CnBvmq4FL2QxkiqLAAT5ICCm9WnWp2mOVkVlOnUrDtf85vHVnAijhncJExcQdwFM2wGguSRv8DLwt8gpy4g49f_cPjGXgvwo8ci-iiln1e_gqa7puMC_B9pcbyk6jDnmhJuIpAi-S6n3oEIPBfqm-gmk13njlILOZhsAEftXe8eaWyJrd3OUVYI4QV20Bj7z0HiV1IsOuEVCg5m_1U177D36rcEtGtMu_wBbuz46Kv4JVhj5q4N5ef4TSGj-NPXmKCVXWZ0w_GwVKkJXAf4XuOeewSFtPtl95wbecGswnQbfViOfd70bs3wTHgrJmMTBiTxt5IJeqnF8yjK4DLqKVp3jUuQSULe3L-tLB3EUfN0wx5jrteQXwFSHFUGpidiHjTQyKEu6gCHTsvep-fyJ2O2JEAKO1iZGK3WATXe9JZXH0idb7O82YCh5mU6qKZ4KEY=w803-h616-no" />
+
+</div>
+<p>Click the Result column header <strong>twice</strong>, and this will sort the 3 cases that were not matched at all to the top of the table. (If you only click once, it will sort them to the bottom, all the way on page 5.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ggh7hRKFsgLJZ5wlVrjsqjiMFsHykXeGcwCTlk6IBypiQDkdfMWSJ9yKu2GZAdxs7Il1HQb9Gc6kHIm-rCtIFVziZeNyFn8yIYTFljr0mdhQYCRR_w2-ZrrckqOCRzrKbYbStHUKvQzlCVo3wiHCVfqRVM9uOZTBSl0zeyQu3fJBaUiuqzfugAupWZ55ihVerA_0D8B9ufs7HQ4pSFRBIcHqgrn_2RaGJYXjQfOnbC-EyzeXJBqnqK_hbX0vtsFOUSD2UBidFyAbUy3SrAqYh3fMUF5Ys-KmJUtQWbZD5JeEV5M3KRZd5vXD3p-AGeKYP73shJwwLvb6lImPPP08zZ1bxI9x8sn90Tlhee_L12S3swFQ2o8oOyBbfZS1ZDG4HIUmEMOF0XV2zHyKbJWoswZYjktDKcVFU3JCcFrPrEDqhB6A7DR-waOydB_VWFR3HceUNkWn2YwI1UWV2nEa0EA2jNIYIZr4ZhjwXc3WGnjtbP9LN7rL1HtncNCf53xA01TJD5UdqjDRo2HHkftQ-jxis1oGeHzeSPngN9LCVZN93E4qWwYZGHXabGqhbpDprnFviifb5c9komS9-69Q2M4KMwzxS57FBNUFYgaygjOuBRjms4VBxss_FVXFQyw1Upa3-L4QA3HDIOeA-xOqfETMK7QQmKs6JB3-nRYXba83AnsYBt3ibCs=w804-h611-no" />
+
+</div>
+<p>We now need to change the data so it will map. I typically use a mix of googling (Fun Way appears to be a small road around Fair Park). And it happens that LBJ in the Excel (Bing) maps is listed under its full name, Lyndon B Johnson. Lets navigate back to the RepeatAddress sheet, and edit these few locations.</p>
+<p>To make it easier I selected out just those three addresses in the Address column. Select the dropdown arrow on the Address column, the select the Text Filters -&gt; Custom Filter option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6sc0cQOUyeTaEQZvxmdHSiMlBjehLAaOJbnFP1jAZxPMAoK63RW8JMPE0RzC-LtdOUELNUV1LajLK-6zXeAoDDbDKqOLDcem7eVUegFvNJMdHkPwBKUuzirvM3ekpx6lWFzlBwJ29DLPxwOLud-YzbKW1nzVkgrOMrx0BCHtauKpABUZwPUbunmvIm0OwCwXAN7vKvRkfshvh4rL4tYpFBbWfBzPoqVDEZ6qeb5zDzs0kHl6tLYGn-z2Gh2Jss33DhwZr8X59N46opTlMzi5qC9oPV2nNnO5g5CuLj2HKFKMw7KCKpWuNL0MmmaIiHPR3RVNaxO-bo2L09vNfHssccsXJpSrYBigtm6rNy28x42XdhhrJkUOI6OFJnPmK5wlnuU3pb79H68Fkh-AQqaNNgYM6ksCr-HxngTJHT1DsqbgM3cHaL5pP6FJ158VSq1bbcfMOiKh4wjcPr9w_WTmrkH4_B_BKeLpJfl34-GIa6UuE0rUekn7oYSrSdqqnSCY8OCNHOH1aX5viIgOuU4K_E3hstGfUHMqbg016ef3gtCVYC8hPcrKsPZhyer1FoKcuOj37NO-iWyMRFDQDZSlbyUqiPKxE4S_4KrxRC7HPzQa13FIFVg0GHis4KtQpRURTxGRJ0v1WCwcms9uMKtKb31wgMowajJ1682xc0-mZDjFrlqww5_ZVW8=w554-h452-no" />
+
+</div>
+<p>Then in the options to the right, make sure the contains option is selected, and in the two rows type <code>FUN WAY</code> and <code>L B J</code> (for the latter make sure there are spaces). Then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MxDvBei4pm_-q_is9DhlaC_0d0QQYO5wLdS9uyYn1EnX6Vu3NNfk5_VlmsNtZio3BtLPdb4Rzt_b7G5g74silKl9NJ4Aqgd6rdkZZ5dusvOWFiyCX7UvYtqi8tjCiLQvED7Pb1Bv5egSHYScmlYYedjAIgpVr5zMbqTWN1CSOttSVGi0d9a34bux1psmA1wQ7z04Faip4eWOhMiarb-K4v0PjHsuQGQ18kaxRCYs0U_npzsZCrc5HTEDH-aBA6-b-rmLRuqS11FBVL0_GEdwm-mHOo_u8oeBlEFuv2RAUKa4DU_En0DG1W3MHhjeT4NalceT-yuEJ70R-KR5VbTybi6NbD70T6JIqajXmiX4zekrFKHhf12gGhjFWjeCVcNDjZNQyGzbjLnKNLLoxy3UeM8iuCSlvpNm5V8ydI3f9d1VnCKuvfIMHcQCk4HkU4t9B5RZWISUMhvfJDLsFqF6YqvgNsTLz-0vKuZ2joVCxFO5wLWLfmnZyqAFTHqRiuBDAde-jjtW_Od_9XwX8p6FYrffT5zq3wg5-siThmP7VVktSLrIZqumfaYbGlqg5gK63MRCLiSaovYYB0mb3Qf5CcwrldZazFvGVVbfgPXvZ-YroHwIudIHVglJCGozWEQgoINotP_iBkVzzEvzIF4b7QuK-Q2WL3hQAt3H0LPLAxPYmWBg5QrcOaY=w738-h252-no" />
+
+</div>
+<p>You should now see our three bad addresses selected.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FEdBSbd1WoKPOK_4lX0N1cJd4_3vD2QijbO3Lp5pFaZKsXgmrq6gdN03-m72USy1a2XvJ03RfDgJS6ZS7pNZDgDcb2RlG8W6cdeA1vbKrFiHsfL6ATZiFVTEu2hyESfwYt_pyOymR_wxpbMZKKXHWe-uqpcw5Ynp6wQBP_Z2SUg1Ab0hDiQv71bmuIQjyi9XOegKTZ-tiSr7roZCbwvi7AF9LPyod8gXWi1-6alF73iOo-KgkAZZSK9rwcQEekZEFpoSOWpCaAMlEhRthJmnvqsnB2DBoouW198KMCPxe5VMh_h06I2iKVR9d6KEAClt8yApDEzQAVXLeh5QDk-6CMha9onx7xht_k3WO8iprt_Zwxp8BlpHqNhb-tAOmTdlBt49_DiXbMlgQr_WWjcUk-rCdQy-b_1bPoozdGjo9OWo7k8aVKNkMx1FJxZ_vkcG6v5o0Rcph2tBVS9kXaCFnwSTqqqsVevZOc3uXt2Y5B_daceNsfQDhmBhrvzQx_2L5eIlMEk2QNkvC6GsdjCcuE3dzDgxTjikSe8BFduk66rDargegnk0hEzGYTJmkO-ty7U0LW9C_d2-tSJePpR9iDvGViSj6eOdQYMeG6jmRyRWwVbOF_jR7XBoG5vSsmCLmfLGeGoGgDg5iX2JM4ZbQTjvAshqjQ6_w2OlrR-NsbqKoaWkdt1345c=w1215-h143-no" />
+
+</div>
+<p>For LBJ, we just need to edit the address to be Lyndon B Johnson and will it subsequently geocode. For Fun Way it is alittle more difficult, as that address is not in Bing maps at all. So edit LBJ to say <code>Lyndon B Johnson</code> instead (keeping the same address). But for the 1600 FUN WAY I am going to just use Cotton Bowl Circle (as it is pretty close). Leave the 1550 Fun Way as is.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FbSwa7C1YnUZqGpmyTszRpOXsvN5QRsKovwGwKAFaxnuP5QujXmRPp6LV0DDDQbGn_Snh8tDhB3bA9FAObS1tlJauSkrfMCih82T9Qo0f0KTc9f0d1AvuPwn0LnuWFpG01YFIBmyClt5T1bfg_-7kLR6lsmcF-yKTZaCiddPyuPj1v-bEVXPBt-XAd-qmah2uGIVFEPq8qGtjrfGcE21S0ad6QM2F861Jo9reBhwHV-C0_DUjexz-nIkz9ymCUrJM4obIS4QZlxWCHBH5Iz-tH2UfOjDpv1uQyYI9S9_58-TNpWtdGYd4TwO-OPU0CpQMY54YoH1GA9ibxP6Ge7MW9fN69ATNGGLNLp9qebCmAKuqXIWNccPgi9JPUDc73L5zpD6kkNrXglVV97VK5iGoeOLJ7dq51ru204-VKRkoKaZROdqUEf1WVV44cbgIS05tvScUti6QklqaK8-UYSUX3ebJNcRAMrwhI0NgQ7qtq3uKi_RHMeuK5gg1ANUQfxuNPoN0OZy20Eph0BmT5Hl9_WGEPsgq0xg2M0ocpZahSyetN2AhvM-DZJBeMgzPFIrMRIlAK2z-GXgJWgGebXMvzccyRozUVIPE0MGEADwS4zG1PZFFOLlWRCA6ejCanb-vR_L3LfBkhOUX2guIjmVFddbiBFsx92Vc7Q1rPeXa7GcOCpjmJyF3Aw=w1239-h243-no" />
+
+</div>
+<p>Now go back to the map page, click the Refresh Data button, and then scroll the map to Fair Park. You should now see our big bubble that (that used to be 1600 Fun Way).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6E_KO43L6Ys7MXmxQxgS5HkSjFvK0fzxN8booBNg9VYr0UmoYlA1RcBMaTXhFVp5ArsYb6-wOO1ItLYql40Q8e5Xym4o2dK6CJMgDJCgFkV7ppp5inW7JxfrOHT_mTZdhz5q6T3SHEWe9F6HZVeF48MsIhz8dD_fat_-NK1REBV6g1Z5fL98z9_rpvll__LnnckK87LNtagO1v_UxK7YE1n0Lb-4gLv1LPEN1ixnsZu2W0ZeDfGjtv6My9PJECso6p4Ie5llGHY07px3i1HBnAXM-sm6aA_QrtTxBTYZluHHVBYSnJxVWrYAuXHTQkDrUzG_nnj1X-EeWoUbXQt4B3_dd5pmFrTBgYbzeTNxMc6BbPMjf77jwoTorodZ4CYmXR9i4AxotM5FZfX6ngXUJBU4KoYqAAKqcCFI7SYwC6MI7FpKAGb3RsUHj3WoGrTcVLYaf8k_czsX9_yr6D5X6yi4vR9GufexU-0LvL4oPtajom2L8nAU9mZBNwv444UnaXqm6uaJGMkmIwaQFOWDw4lqw3-8Suvb4cpATqPXFPm0oWY9797gmYW2MGNun5JazA2Xwf3nZXlvbP11C87Wl0KgLhW8bv1TFwBoS57sBoNvlwx9FbXtL4mTr4mA_ANKRHPt6IiS2x8fAyM_e1ljEjHPLvWUh1Id1_qCppEVW_4WLeAT9jULGMU=w1208-h782-no" />
+
+</div>
+<p>If you go back to the Mapping Confidence dialogue and sort again by Results, you should now only see the 1550 Fun Way address.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6ms-aIOqD6b95E0KtUiQkRfTmhNOMSB781MNIfPO5GLAn85Y2cl0Uc0DVHD605nivqeUsN3EdWOHVZ5q_vv67TnfTUNP-wLJ4thUgYftOKHmUWRiZJg9eVvQHuD-T172SlFE30P6xCga2SHELlrA8JgphIlHehugxo7gWVAOEzfUzywMRV04WO3Dkb3dE2Z83vdlpkiKgqExDICSSWJ5fRF8XAxuLyBIJO4CNvJm-wfEeK4b8rf3TmriPDqyhXk4nwjMrDkQmafN2URqTMu1nioNtl4mh8er21-QI3s1FyKLwRP0ndWNusVv4kMj2XoURgBOWeVMx4m88p4hT5jPUvaJgl7MTKUx2eQY_mB795YPWzHhJfg2yeEtU8aJyAEtFG2dmAnzRvgGFtN6tNWM-nd5fYhteTKkLEypfvyqKf_M0iXdpfKoNuZPyAjW-aWOg4NCaPHZME8gemTZ1Avaf-CkrgbV9Tz9suUU2f0odXe8EhO0BFFbG0lBSsxRGAKfGc6tZcBE97MWXkWQIfKdV57hdNPmVcuIaUxYa9YNaBCWjO8nU62xNj1NFA7wLfFnKwabGwXJsXKGk4kFboAZLMZVfbyE1CxKYcxAO9z5-ZsaoI6abVhrt9SDx9xeT6n01KFdLPp-riyZh74Srg1qk48zWcBkfjVDW0SW65F6ZEDu0HnQYh0vtEg=w812-h616-no" />
+
+</div>
+<p>I am not going to worry about fixing this last address for now. One way would be back in the original data, whenever you encounter FUN WAY, change that address to simply Cotton Bowl Circle. That would collapse the two FUN WAY addresses together in the final map.</p>
+<h1 id="choropleth-mapping">Choropleth Mapping</h1>
+<p>Next up, we are going to create a choropleth map of crime densities per DPD reporting areas. Small geographic areas made up by DPD to patrolling essentially.</p>
+<p>First we are going to add in a file of all of the reporting areas. Navigate back to the main Excel document, and create a new worksheet and title it, ReportingAreas. Then select cell A1, and in the top toolbar go to the Data tab, and select From Text.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/71mpnuxloXBGw4Hgt645bKbLniXQbgyM5eLikdj8FCrrBfiMWjMGa722qKrUpkI2mPBUWxTeSfmkFCxrH3QiTtWH1pF_Ua3m_jbZjo6W0K3uHUtRUAn5_BQtIxNqAKUYPJfFY_FBie6ZqzGp4r7g7w-Fe5HINXEZmb9iXEQ2p9VsCOZCNzeAX7xkGkhmxaL-7zGrlao4wqP8IFj3o1-CG8-LmQYDaW_sd3TMfi7Aj7aFmw9jRmbRrETkKjlhO4cXpgj0obQeiladB-sLd8xiHmYd-K0GNVrCZzPvqG9EJWqpYpaX0cpHbY-joWI85G2h02ve3BoSVkmbQAqwlATmu8fFInQkIo-5KhZwiWjw-Xn402hlmoipSK2QqJPYFJz5oh_acJxIVslredv3t9VdPwyQhErwZ3IEaOrLV24TtCGSMl9iTFM7Qdm0hgij_Ww1KzfNmU7NeLvc3tFNW5sPVtg0_KIVTMzBs2Zp6X4Lii4oNcBZjg091DrA1b1Ers5SYF4j4eaVV1gjn6iiO5GgtRhVsfRzM4PgNCjQ_njQy0Ttlk5WXqZeuLnyj9_jFZxFGPt1JRVOdi_bOjvjhPLjBVqXFhYOsN0nE8C1KM7eDFAK7w5VMwkngUho_j9F1XUfLWeM8zr5n7SWnQvYtCsUYAe60oY87cS4-yaYgOOl3SeMA09JriMGeWg=w740-h937-no" />
+
+</div>
+<p>Then in the dialogue, navigate to the RA_Data.csv file location, and select that file. and click Import.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FJKQ4E8-RMDT8BUq2ty81dOyRwMR6gCRlMdWvItyy_PIXIJSsJFKuOXmjhKoQgOCeXyGRqIMopij0HkCWgqal3wuDuywKvXoE82MLWgBneCLHaIGJKeilLIG9aduhIqZnY2kiWP6eWsXM37s7hE-kYIX0-Q4o7aj5fzgnwpfMpsUtd-ADcE8cj_etVjFUIktJOl2ohS6lrptDB-DrKrqG1sUyZBz-wYqVklXkHBqP1uJuWyrIZzRL8y59QU8PvpcQRzEEoxMe8sttmWKENIunFiyDVCcDWJWG0Oe3rbCbrirDr7w4pktNILcJ8h4ld6rNIMWayu0pmIh_CxZZpkMPDLGgidSQQv33peww-SB5v75rv_lw0zvdrUQKmJYkXx8dfu4ShJHVFaXDPvYcEGhspw-Amr6upgI4LOCTHZra1HnAJ8Lpeyde2WuXTK17NgIVMWJMQ2mXPLH9hd2jedTK4NbpE-NdKjEykqSdd6h1Z0fu2zmWNCAIuAq0MViwyDD7QuAm3oAS8b4Z0QQ-yf2ardcSU9nIP_buIjLX7HB_Mhbjx0OrUobtgKah_QlVniMPSdwZbaAeAtzEt5rSe-9KBLQ1oiY8eaJsobmFfsmThhJFlyE4opB9u9xMFTj48uV-2uXPg-054MdvCAyQLKEimt5zq4dVnB6hAVfOWRh9ocCC-Q7FxEDWE8=w965-h554-no" />
+
+</div>
+<p>In Step 1 of 3 in Text Import Wizard, make sure Delimited is checked, as well as My Data has headers. Then click Next.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Gm0-Kdeq_WasNRDYl5IX08pL3XHAgmvv1khTq1_jQNhWB5LGi9Wf-z80NR6JYVAYFeJClo_jYIXJ7hQs2cslKwoxcgsmLvU3NMqxZfh0DRzjgxazUrGfMD92bcLzoLcmRRXREHI-WkV4QU665BUVjRTwUGmYkzOa0nUOlt3rvnF9RBjaHtVhFT-Ua6V7W3PkvpXdRA1UeI5yUaQMvGu79mrpKOQsjJat_kBeXw4nWKXw8mlIbGoVQxiUekBGigWwBvpmpZWxYrXnJIZr_a3iZMxFBwl3L1eac7oZCblEd0rKMp7qZ4-bl9TAOJrV8N6uQqF9Nh1NyZDjbe5vWpxtgFCEwYFRJTV_42wkPM_WLQfq8hxTSRimXzFr2E_lG8apD70uOq4UGkz88VvdS7eSjQyTXQpXRWzNOSBqng8RSU_tJN3H3EDW8tC5C7idyhfdULHPmftInvS2wCSdN7cmY_ptoXB9nXnFYp-tQm-MhLPtoMvVjmh4L5Wzo7KREyUIStUJH-dViTgMdkm6hxl4eitzvykstzEjJc2YgVr3aiupQ9NmVN8rqyo-h7-6oV1nP8mdfnY5X2d9NukszPjYeOfYGaPAMBaAHjT0ojSW4XAvfAaZ5AqMYPsWZLdOKEP2kOJUYbUJttHkbJcxWt5LMt2sdDGtqvOFLYrMk1zusocIPWrH6CnrGE4=w586-h450-no" />
+
+</div>
+<p>Then in the next step, make sure Comma is selected. It will then make the fields have lines inbetween them (whereas if you leave it as Tab it will just import all of the data as one big string in one column).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ikGQuQV3edi7Hb4JeeorSxK-vS_Yg5aKT5Y8RaBfAAQCvoHZFcoPkskuDrvY8BRyC9BaBTeL7bG1f7ZzwGxvyfrx7EpT7LxZgaIfqxClh7EcpyMiz__KZ_O2EC1T1bFBmamgnqRrhv7FHxScPNGaGbPSP82vwasvlEkxy81vp59kXsC2KGdVrwJ-m4k8QwbKDRnuWmoUVf7Binshg9rMH3xnzigt_zOoGFQmgaPc-0NWhfgMsXGo-4qEzE93mMsOtGCPERA79KhH8KU6RA-5PjYkVgPDiCAKuaSnNNqOTu5TM7FfnF39eYjUjGRqPmebqIQuFnR4Hq2nN1J5cYEKW-qh9w3cdXUciqt2R23g79LU84DzAVceQdRn574K1ZbkuLjOiAflEusXpSrCe4EgwAEoOfCFbXKNdQtWdYP-2qkYONMFoTPURVyaU76uffJWlXjbwa0d8aOzYuJT4zzOKaoFPaP7wCyw_fSxfaPXufPw8k-yF_m40IxbeCOuB6JyktieTYeAFT-dZQDztXBuoUAUnaUg18nOEu6cZSAaVKmpJhuRGIm_gQ3UKS9W2TKujrNfsojbvRiyVgEX6HB8Eq1t4c3LAf8lKJXYOul5X4mGQ0h2eEQeMd1lXadXtf_ibfnLq3xMy0kjrUOlNprxoEG1Xzo_uX1J49xN1bcibb13WIy9bIWhSS4=w594-h461-no" />
+
+</div>
+<p>Then in the step 3 of the Wizard you can keep the defaults for how it treats columns, and then just click Finish.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/kVN1rsSWDOTa48qsMSwf6KU_3iYdvSPzammmPztEl_lMuDr4SOdpDI3MwGzwhqBRMkxM_cpz4pIw19YRuvqxi1bcAhS5mZPPmfVczFc3b7zi3G4405AOkr5wHlHtqfXTXmQUaDAXJjHy1g2LA2rzqjszgpr_B2XhzmhLsjYMN-q45TFfv4u6Uien23shZIWgvsj2e8qcmlqMhn1vwO_1wz2d2ue4Jw_GyDMMEjY1Ck8PqzYxSbWMcZmoGKDB-Ey4-pMSsJlOql88JdZwRqwkvNi-Igh1iTxqHH_0v6TFZRQnl7atNgOgmtV5LSfxxUsLUR646l5PlFO34maOPF5QdY3IZhqbI9_gAqumfTx8Kyrpf-mjU1MP1ZOOxlgWnlNJ1RShFruDuWnzvVyoieLnpg849JmVA1W5QSIYzTnqaXqWvtBgybtrHkXZw3H6aaOKGYlJx6n5lBDPSwpKktlzfnU05vPL49a4x33V7qVuRHJqQQretIazNhZGJdE8ASvbsq8byyGW5LYDCHRNgMkX0uRRp_vye97OZ8wtzoGKvKWoeYDS912bhwiqFtU10KA8kCdANrR6bGY7bXmexWuLCo5OYyxady_nkBsrBzy5Q_CrVtMCjnzwA6kF5TbZKFXjU15Osas26cZGFJMPUL_g6asdQS6hiUTCordZkr05YsadbeUD9aIlHAc=w588-h458-no" />
+
+</div>
+<p>Then finally you get alittle Import Data dialogue that asks where you want to import the data. Make sure =$A$1 is chosen, and then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/i5xI5p3wX1KMq4eYyPw3aT3WYQ_RVjIQpPAd4EFI60vIyTUwRb-LFgxrrnepfciNkxGEWirVfrdCdGW5GDrzotaHdjjFtJEg7tljwkffjwJMOqpVuXwOmFUKL_WGLpsdpuhBU89gFlbJWfHgE06i10_PNFUwiXNoIr67inCltk9Meg5SjXV2wKA5yIIh0PWtWOhX3QLFsEer9_HXemCaG-blLWWYBK8ckFS5f8PdkxT72gEvM1VHtGEz0Gv03mgvL9zzq3PdmlIwUfGMwApqk8uiq5iXm-h15bpr2t9yWVTq7oJmrf56B_iNXbL4B6AcCLdxUtiD2ns90Pw_gxU0bmJ4MtEgnH9VwXXjTnmWVLdiF1E1E86JmBqnXS5zW2zYnvKoap01vT9YGtGpK5xC29pjaxOnKllYr3eiV3SZ8z5LaKVhpxSdmfPpNg3sM6YXDTJmFjsag0fUrOwq2TwjSWy8LbS7LOmkV6cwgV0tAOx_3gOZN-2n4AdNoIC4Og4VXi6JRxqWyRSS13tunKiZB8A5IHdiZkD9avZgffFiENfKLdm2R7As2MxtRCfDC8PKBif-qKLmZ_r_d1bsdEweQR5EYlSznOH1xHkUclCP4rApfdleiGL9DifdhMPoX_wlzPaZ_Z3zhVLv5VNEtA20CyZ-SK19cgyxpqTu9tHHKjMtQJgLnEhzxB8=w325-h292-no" />
+
+</div>
+<p>You may be asking what is the benefit of doing it this way, as opposed to opening up the CSV file and just dragging the sheet into the current workbook. The answer is when you do it this way, the data is linked in the workbook. If you edit the CSV file, your values in the Excel workbook will change.</p>
+<p>Here it does not make much of a difference, later in the semester though I will show how when linking to an Access database this will be really helpful behavior.</p>
+<h2 id="merging-in-data-from-a-pivot-table">Merging in Data from a Pivot Table</h2>
+<p>Go to the original DallasIncidents_2017 sheet, and select the Design tab in the top toolbar. Then rename the table to Incident_Data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UqIZA5nHchlfki1LrrL1pUtAs2NoHafb3ULhrxUFbWLPap9adUENLmEmPeM1zUcQtup4jpLq3RPCuwIOT7AnwUQSV_hav0ZY-NdX8qQTMk4A15BUeTACMv32EkGq7ZdJDsPhoaCZ86b6ZEmf9hA-9mIgAk2NSNkZlwEkmUd5FySIhE_XOtMR66ftyApKzpBeBSScHamHU7lH7xPgMdk3Wro6UgMTsbZbHNLA3yKg597VIJhacUg42Fx05MirNDiEAxl2XF96akxx4RI9SThnWfZheRpsfoTUtOrRlC__fPTRhmdNfa3rWb0jQmfeJ87i3OxK0iw51rV9rr2pFhHiPuAys_H8xKSblvivwDmn1AALpRcp74g3Q6Eqq95g_5Wl7UGrydOF6AxusjNrLRfRYEZzYZeDfFQRFdP1xAYVtRIwdx22QCuXFD85dIO8_rTjblc1AZ9M4ud2drgSfFju22ekHGGbpiFa1Tn1-jbPjpT-H4ud3HWEKbZ8mz8Vpp4PqblTQwVgHWNJWQd47Gx4h2Zia8SDY2b0NeBUqnSzAk7eaWAVVnKwHRAu3IhXVp3arviesT9b4FrhlWIfiQpClCRrD3Ji5NpdTAAEkF0W_1F4_3cdpU3nWPx0zUSIb00EZ5w_53Y6OY6OjTxEYqVFv49egtCNzQEHhvxlfy1lrj1bIxgewyOZn1w=w1102-h507-no" />
+
+</div>
+<p>Then navigate back to the ReportingAreas sheet and select cell R1. Then insert a Pivot Table – fill out the Select a table option to be Incident_Data, and the location to be R1 in the reporting areas worksheet. Then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zQRgxzeCXQ_16hwVUsIPNGy62otB7AD3AVkJ26cg6lxb-LgLosVApABFdSZ6Zp4CWecWl_6-FcbfR_5FS-3Lfgnyed60X7e0vsquWzV6_Xi75hh7SIUAAmvCekiGq5ZU5uEZO86IjBFAUow3Cpfz2TDRgrQ3TpYEUz_ejBk22jSGY15-Xea-fZNy0DEWxB-LU7vwzqHfThxOUWi3mP7nkJ3kZ3a9tkl4p_83FVFuVqbI4oAPz7qKh3MaepKnws92aeieZxiO2Z_ykKxRdXJr--jezhaI8_nzPWRInSq8fzDDbygOkbor0WnpSq4awcntxFhacaHgqh8NJcxmJAfu7_T9cdZrelraVqKdJBbtcPuKdZ7Xe6bXlG1ZLDGqSrRxUOXiiBCP0f_nXkp4yjaOwLslMqqNZY7Hp-xUWwbtd-2n0QDlFbQO49X4GZrzsW6IQwjfdXOVWfNSGy-aLj7r-KOnZuuMK0UqwUWdDebCZvzRORAMeJIinFG2Mc-1y3LbYIuqsP7xm6Wnkck1eN2fVEt6EPMYamjwd6aQVKF3uqrKs5cHO6t_yGMyFOlWpGBJMJfYz4n78TZjf8qh4p4wyNkiVEFDBrvdffiyXXIimtNG0Lf0usOQBxQ2z2K8zuX08hZYbnCf6_1GKhAUkaJXIBPUj5YPFB2BTKhjs_e-NloKVa3587sCxCU=w1108-h937-no" />
+
+</div>
+<p>In the Pivot Table, place ReportingArea for the rows, and count of ReportingArea for the Values.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wV5ij1-VNXItvVL8EfZ8sqfTqNG1OyjC0Ivclj369G6-2p46cSTtP6tYEWX4n-NDrFph-QOi8HngNhaY28KO0-dc8tPj-yRf4hPxKoZIeYmhpwJHihilU7e95DU3JEtQDB7LO9hZTat-eaxwl6WmTVb1aSfUgTvOSLDKO3GQ-ZO6Kpjsob76vx0K0jYvwcX8VKH2DabXKHRlFRZAnqkPrdRjgxHneYqUDyN7ap5lNPrqiwtYER9uIMDA_-sgx1homQRmTQLj4Bg_UGB6jrb-iVlbFVsfrMqvJvtFCKVR-AIZEIr6pYn5WuFxh8sU9wXx9iaKiJXK_X1-s7O7pz1KhKabaTUP7bP-WbBcfViC4INjLMlqiYRdG_Z0K2v4fASXhDXbAxS26rUrSe2jhtxXI4x_NGu4HRezZurbEZ9XMU9thbaVU00DEOizCjOuSirnib9RCSDpC94z_jMw1xvkyFRmZh-BdwNzUSzeCl4SivCCcwBjj1lGX6DvPhOfHrpElzaIYQ14aB_H6v3dmErfnQ94ueMj-1ToO2OZkUzpBh86jrg4Hxy_xDZ54EWwfpQdxmJHe-0FwC7pl4qR9zcz8geBs6DPvFcjReitSIXsGqvMo_WDpADDCnwIbY06yhebdIF_113in2Uex5x538KmeeCzstw5kaUd-htzj8jr8lnquBBhlfMo-O4=w1451-h835-no" />
+
+</div>
+<p>This looks like it lines right up with our other data we imported, but if you scroll down further you can see it does not line up directly forever. In cell K2, type an equal sign, and then select cell S2. You will see a formula pop up that looks like <code>=GETPIVOTDATA(&quot;ReportingArea&quot;,$R$1,&quot;ReportingArea&quot;,1001)</code></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yJlAXier3m6OgSDpOg1VXeQtqYpg40c6qTtZ7hXmmpth4Z5lBUL-ia4YXovzkWDYrgcESZejpZyxOEptLMQN0mIfQCtKk-5AiXVJFPm77jbEooosb_9TV5V3TiZ92V5GOuSWi0L6p9fIH9vRH5u24cmRxyaR8yWu25XqQla9f0yWOcnaq90y4OnvSMs2oeuDSei1lyoi2ihoUzkGXH7_LEIqVRlThGyagmHiQ3sUOTGaE6Xs99fzLxMAs_jdQR0XnqyBwb9ais1qrpatIOOp6dMqftMU7c0aZ_yt1zKWY2ix73F82oC_eCwg5MznZaZvMMGAJVinDXtDcqXloIP7Th06DVOB4AzcTtkuXG6v3ZGB7uMP2eJcVcUckvWH9d_hVsvC5yojE_RwJ6DX-KtT1VGIHI9fAMUCbgU1MpBkQamNrZL2uvx6Kdj2GmhFS7JyVEmn35RpN4QtcWHCenPUrppQMR-PUxfKswr66eXEDQ7Mgc9qtGz8wLjesKpEL0NnZ6rkyKZRELe2DywUlD6eiiHrO357lMybmLrs48B3LXKx4-4YrPVwkccAZfTKaEECgJCfa6VGs-v0JBYK5M9166EopDcLu9J1YX2nepa2DIbx8WGSscyW4nmvcoZcWm520ySxPJlP28Bi_iRGTTb6TEa4c60kRESOrBM5If8uE2SfaOVmW22BO7U=w1444-h438-no" />
+
+</div>
+<p>Change the 1001 in the end to be B2. Then hit enter, and double click the formula to extend down the entire dataset. Here I also named the column CountCrimes. If you scroll down to row 44, you will see an error.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jY7VYJWS05q7cGifB5MayhooPnATQwigQDM6uEPbMApBfWpatfPkOxqFsq7NHCw2c_Eaz12bE1BCe6Oe3hG3QHT05PajlNslGdZ6zYPH3XHUjs23lFSeeMHnqQ70gDlxCUpXguGrG9MYUO9gmnrlt9Q2CrHwGvtUmUumxyhlFP0lPtBuNT81d7tS7LQqPzKF87mpPwTjXl5SqxikTEia-cUcOnKm4w3noJwDMpSaa7zgLvRB3NC4gnNtLxoQ-ekPRKCQkoqZCr7tzJwriEP8ZyaCJDhJxWesgRjVUDRYWfG_8ZoxdVHqp9Y1zaIVfp6xRdVUXNvjM0D4kIKZlfuXTvM4Fhg8C7DsK8MBCpt_PlOs5s8uJHIQzC9CI6YCeq1U09PYsBljtvmlI9po4avg-mTOOiS1TClApYL6DOFlY0b9mep7GpjdxXhcM7a9XohufVCOoC7O69qJTTjhAC80g5RjCpxKuRXc8uXHaoryquH-3QUqmtZdfsB-lSQanOgUzADmO3Y8ygl4DyM8GkmoPfLjEsVx98ryPqobocUkvdPN_oAuJdCcm5KobZpn9rf-z-KL52pSLXEWxrGBi8OGkoLgaK7XdMAuKFO1QkF0IOAkT6-e6_mJ1ht7GOzjcVns5FHscD4T6eaifFDzsJn0zuOvbRE9wusUVlSQj_yfdtteib9ot8BnX64=w1413-h666-no" />
+
+</div>
+<p>To fix this, we are going to nest our function within an <code>IFERROR</code> function. So change the function reference to <code>=IFERROR(GETPIVOTDATA(&quot;ReportingArea&quot;,$R$1,&quot;ReportingArea&quot;,B44),0)</code>. Then make sure to update that function both above and below in the column. (Note, the mapping functions in Excel will not work if you have errors in the data files.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UoXK6RkpRcXZiPZG6v_MAICN3pNcAxsLkRn5LqPpYLdoy8S5ERk_curiNOnboqmin_iq4we36kdKVHc-3QKlDPc0qM6xKTfcCfM-bSWWRtvGFn82IzdpxgG_GHW8A5UIYFryoytKqETawDGTYW6CeDKM-IelwOcHBiFMLslOFyKLjTof8jJWD2wVmQqIfh8tWkmPjamvdfVz_2koz0sAYGmfm-F7SIfe51O37Q_69QESIT1RKr_dypojiZfPZ7wdKCXz2u8uvRWQTKMcwV7-8ZCSia1oQVf8BKuqIHfRia7vuZuCofi2c1NW3aseZp4QUGIW-1Ux3rUR_0AGjFoo6te9ElVhMiq4oUUY6fQDVmVj0zwdRJQhAl9XBdyOxqDxyPs1NAsFfO3_vXp3Y_GPqkNup0SBDooDXgBDxo3l2VCiJRTsqNOpz1Ol2Yqkxukxps1dTgpQysPIxrjvZFLrt1BQwjqTkcXCx2IYhPxTebajlnU5VBQR-YCaASOKKEP1NvT9VOExMM6HWLrbUdmwElShc9WWAergksE5NqX2rfvu38kYhY7Jje0Jn6NrhkoepMfJJb9TcDxaOJKdX7aevnD54hRyYfvTyzNp1V_XUPQJWCEYgsQ8OKprew4rW5qTu1311m14vL_VBg_4xiifqCEw7yrkCh5qIXE8suEvjgI00drRiVnQMEA=w982-h596-no" />
+
+</div>
+<p>Now to end we are going to make a field that is the density of crimes per square mile. In K1, write CrimeDens, and in K2, the formula is just <code>K2/J2</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Snms0E4WBqTvXajbn33pruFUg3eHP2d9Z-hvo4Ix_IeLrqau_gOYmMIrujHtv7anKoq03tLaPQEfVmmA8W3S3am90vbCVPWkoFO7zDmIFZh7IJWMix_4R7nK5aM6K-U8VKC7yOLle3phK8sl1exbEJOUKXkd4L4YZ0hi709KVO3Ye-WEVyLrX6WuUowq0WSPsZvSzcjqHEZzf0SQFpkd1Xe575eA9ZPfd9-O3Ph9OS9Z2FlGqLjUZRxYiof5wiV-x7-Fx6-EQnWrnEnat5StcVBWmcR22puP8_jwUNffX_7bUpUkqudbDw4OiQxHufghdQMAXDyNDLPyng_fXN-lX6ka-hRmfTFl4HewdEFhytl1oti0uPN7aIkm75X6x_Tz4tj4G5HoUEdvSp78FfILsHA-3XmMuQSQNHqe4Azn1HX5mA3F82yt0I6fM09i4NqkbNgS3t0L2Ux3bE3TWYTnLqfr0q7P6-0ohQYNnbGhcefug3XGrY5TTtUYBLi67YRQVAlk7Xqx6kQqTm2hltpgCXl1bAdFz0tlrVdw0h7xELyrRrfUuFbuqJc2wZM2LD20Kq-cKiG582cTuGfk2_wNb0zOFmM8L5svaN2SuXxr0XMCF-xImBN3ikvgYonGdmAY0fySYx-NLyo5rRCqDrZO-MAYpOkosf3uHidUoGt3qK_RfGD_MmiOiMQ=w897-h254-no" />
+
+</div>
+<p>For reference, if you are not working with Pivot Tables, another function to that of <code>GETPIVOTDATA</code> that can accomplish a similar task is called <code>VLOOKUP</code>. But here the Pivot Table specific function is a better choice.</p>
+<h2 id="creating-custom-region-choropleth-map">Creating Custom Region Choropleth Map</h2>
+<p>Select cells A1:K1157, and then in the 3D map option select Add Selected Data to 3d Maps.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/kieXRNA4s_uJ-CGUlFB-W1AKzBSDD14AZ1Qm_pSZO7jpVVj4Of2cnOeG8nscWVq7HNcgtj_sAbngbzaKuYcKQ14-5O0an8KJTPKC_Qy5FdI37sqTPizVojFa0JfOLftwxLkEhcKDR3Q0EKtNGt2jhgtPNnw_v4rbJxaMhWMzhYcU2Nb0tH0glHrE0LEZ4QkzG8DFlkez34O3XVTelTy89RjxDLY-rwtiHlCW3xFI0a98OPW8dIBajxlJb5o3uzgt3XMv9eJmV-C1JK33cytEjG5ZjX98Vkrq-e1phpJ-ZelUxdQevEkmMgJJyCAIoXRj7uSVjuWIuQXCnX09Rl0-eu15swCaYYFASQVa8iqUFU7kF4REOai30WrhhYFrMl9vOuuloxhh7D5Upohxo8xjNjFZJeGl3IPhpfEt5yyz6EOolN5m9K-Xw6hdf3KgTaYeOuQaGQ27TW4hOReUv6PIZbB-zzsBC7xPGWJpYKy5z2ZGSYYZA_nceP66qHQjafIPwz0eICPXC8yWfZsFGS_Cjkp8voREDdWIN_35jA1PR1BVqrxV7r-xaDY7n6YzV3fy6u7KaK1bMnov0pxpvHcRD1l486FudWCeNFawrTrJfuflqgbf7mWFQqp-Yco479SmRAgU1OTptxc4Pu-9X6NEHaBu99X4rzYp6srglCLIxzrYFxQc1_YVle4=w1076-h937-no" />
+
+</div>
+<p>The map should now be the focus, and you should have a Layer 2 option in the right table of contents, but is empty (if not click the Add Layer button). Turn the point map off (by clicking the Eyeball in Layer 1). And then in the Location field in the dropdown select RA.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Q0kCuZgjJv8QYDaX8xl0wbiB4lAhwDHyjL_aZpfZKDoxm5o7dFCBEU_dztY5ShIvgAljBTATd1wz_86dY4wdGCZcpvaYsId9c-5uCq_dXo5Gj0NzNmUHxkqPIaZm7Aw8q0z-c7zle5YHhe08UKSYPbVVK_d4qkirKcejZ6gRnNxp0QyQfvQ8UxW-BQoeIrxBpRW4yge4t_aaUCayNhFzLqH02w4kuk4e4qMIqUzkBbmQQAwSxj8yMC6EUQdL6xPCeguNbiagDdmXyf_ms4fikUtKBTZkcnRV64SL0LIbu-PLgUj8A82oL0xFeNI0hJmkFNDX2mMtSIeIlbOO7vVbuw3ZHuvJXBxPGs9BbOAvOGmrs54SzZEVcOYBnUVLgH1ohOolB0arR_WzcJJ6vggIa4w3qhOU1ebeZzCFyyEMWXYDdvH-RbSxxmT1XrM5k8zVXk_i9US434yOyqe9D3B_PU9aJfs4tlanYt1Iad3EiO1-rZBXOSRM_6VV7-ReeO6negyM5GEwDhFB2tobXfNC2wZD26i20RoNJlhYg15jbGCUJun1_I7FFnbJtLw0Y8pIJz-JsEiyHyGOdtXPwof8w_34v3ulfF0zZK5Qm8KkKK5IdsmdqbVM2o3DUy9H0joZMCXtGk1gW5GgcftXw1zJDyP9QXGNvkCJkAsttOzpoGPda2fnqgAYr7o=w888-h635-no" />
+
+</div>
+<p>Then in the dropdown for the RA select Custom Region (.kml, .shp).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tzSRPpo5ygF1XlfuL_77TgCQ3NQTBY1Nm9txMQzwV8EIwURNtp9WlUm7XdteVqpIg-MlLrU-E9SmgGIrV7R7L_F1rUjgst2YUX3X6DMTDkJVDy2BIpSlmveuGH-z_1q7LCXzlpELNHaE6CkRok_rKDD2pwlDZ-XtDmvhZTVI--No5QUj0Q5pXiEeyiaO7P9XCKXEyZTtG5aJ3C04exWJi6eDfPkZopK05Du6Ez2T_x68r4W86-gvOXyizt5lvWhXYNN-nEKtw1K-JtCgHVKEVxLS2zL67noXEe9BAJcCiZlJ7SWTFL4KWsI6aCjKgXZb-1JYd7MmjtZnQlbIboKUVQEGICd_YcutGSCtchLBX7TtAL36GbAlymhP-ejAujlZ3mVymfPiNxGbGS3GR9K0fBCZjBss9VZsnom6cEfaN95mXC74xaI6yBzkwhjd9ed8wnetLqLsyzx3ZQlWnBEEUaFLSsfpObzxgbke1otrD1ULPWAks5vG09Jpt8mJPYFqXZU41yKaCUz0dS7GFKUUYoROzmH82v6tS1lTztkeSMQVywaYHvUZZ01RMcs-vWCOjDK1TDuQwEHvTN4FsCMhaciiOmLCUIADnq-h5Ymk6FdGSbKyF9qBxg-TyrMG2Hgt1UrqWBvXhB3ZXISQDnZjhUnq2pzhtaCnkdwEKVor164wPqEHGokf65I=w313-h529-no" />
+
+</div>
+<p>You then get a pop-up to import custom regions, Go ahead and click Yes, and then navigate to the DPD_ReportingAreas.kml file. (This is a type of geographic file, specifically one associated with Google Earth.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WJE0VBVybmVShip6V64STgkMkQauRS4PKAlkCMcPU5kkmjVI0BvrlrUda85iVN8uc1B1QdXFR2F2FlCv946Gw7Ateo9IkITqmGzGuSY-kwL_C7j-pERKrtzKIkm4LFep3eisgpQqXNG-zJBSUjs4TbCunOJDdFpIXlN6IkdyCQwAUWsNFlbrshjC53AnKrTF_5_4ZlEyQoG98DeiERA2Ur7vGqv-27carQEB4E6Y8QlzOlgDTdMIWVcHDfnbf-9-NG1gFkbwkfqNMqh8yNxwdiTe5gYx26fyffRWGsQaLUfiFhw-kimHaRmiNE9VgmlyGz6-9ckqJJt2qNjrE9X6iRncRXUAQZ0ISHankQSKU8ks56N01OYjKCp7bew5gYs9DYmBD5V7eJZ_QdFNbUdK6gfbzumP1A5wpoyonCnGmDNT8x4sgSEucioiOulpkDeYNLEB7l8W9xzWJON6iZyZ6mQg4deal7TEJVklsZOLncUP5wOGmIOwTOMqvdF60SzIwXtyytKrSRq7AIhsr2xSCaP2dV5pME5YReN1tf1f6Ca6FNqcnn-wsPlpdO5G5oq30kBMqhgED6koN-IWDOIW2ahqAESg8YLas9jKzZkHk30utZdB3PlN-UgblcJQU6BhFWPGrmnkqZ63knnKWXYFzEP2S-meUDVEigmpyXCLEBMzieH_R1mRlb0=w1292-h568-no" />
+
+</div>
+<p>In the Regions selection, change the default Name to RA. Then click Import.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XTX7GhTcc3SmursPu5yAA6o7VjajZijeyVO6MMRV3I8F1wQnCj3-lHCdZWJ_npwhwMjksjHuVy5QMMCZch4fk8cxUuysuBysKW7ssH2iewj5J8xmX8P1I9D5WwRyTkWOh5qnjxP6EW6tsa0t1345yzy9pMLA7cdKsQ_OJNbmVNwpsJnJDnk9ZmwaZmJvcuvxEFR9N0fFF_9JHskFjcqgcPDDRy05oop6LTun8VUWo0zHPaMWXME3OS8xfHGZo4EeReKGSgIL3puYK6cOKwP47X4mfuOHl-XfSHsEsixln7ARiwOm4kOg5p3cm9oyq_FcrI5jBt_iModLJJ9gOpdTanT7KLg8e4-L2-b4fq38I0viSu-OR3NU5gukbp2dYUhsrZhyHy0A9MbRgrx5bHQLrnKCBvhhsgGrCzrNCTpAYhTDcWT85mc5QD_PoxuZRuQNEQ-b_y3SkcsjIc89amGQqfvo7pbJ99q6uzAudTJ7C6yhVGbDHjZEpGKOOYGng_ptmW9KSiaZelQhrrE8NwYma4TGAaBVsPbnQEODU1oYDnSm6v7Ez5k8gN87iZfVsgjUP0Y-WXmDL6luRqRTZ8Nosruatm1XlY68-ryuxQ_LNeLj2GiPInE1AfuX5KWWNRvLavE84tdMNa9Rf2wxfZkruxIrZWHszDR5KDX4D6pWeHOdaKEj0vLuHIw=w744-h331-no" />
+
+</div>
+<p>You should see them populate as a bunch of points in the map. In the table of contents on the right, change the Viz. type to region. Then in the value section change it to CountCrimes.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CYKwEjsTxVdKflRY-OfpvZLVet44lKvzJor78Uow-ePQ-f4cEJjkg-cuoM_d9XgujO3ytZ6W-sO3iIzmkmuGrbwqn0JuKb0Y5_F_lyek3PhQz7tI-9-ocW6bEfGX1hdnKL7GBImpr181yk6QcLR3Gyfm4FLhpyCX1aXLFfn4PWYUmpBGbjSXmstI3JW8HDcc1iM4nGKSoUPED43-PhmFGIrIf_6kdV9_mIQ_NNHtsCgeUS1Z7ojty8NZB98hmFDOZn_0-YtamZVEBOL6c7bXQgpeeeNK_6bFqPWoBjrFhMtJfpVTRMqQOPQIYohsm3zf_HdMiboUdqc67RtXv6vzTQ6mLmT5-qB9A5ACGvrfMjd5Ielw_apNrN6IuL-uZ4rnkkbu1shCMkAIM5L5VDX1PTHOMOenxEUgARygNZ-_Mv-eZiRtC2UqeRPGe9e0xCewemBq0khOWfDxDJ1XmXdiDwSfSWqE4wDNcd9vQL0_YsIsODPoctymimttavs_azYTdYmF-xcweIyP2J0ie-qAyyYpV0Aa7c7Cl4acqR4qn_2bnt2Fo1ULkFxkzjY1eMSNLfpzagYcpsAm-4ueBQYker5LeVHIbdXfTKjg6A6jG1E7vqB7W2u64f_Dk6TN15gMPzHSxl1n4Vlkdhk5pXJEOWbxDaQSE61WSNHPyxLsHGTDnC8CpuGAKa8=w883-h702-no" />
+
+</div>
+<p>Then in the layer options I changed a few options to get alittle more difference across the areas.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3D0pUktZ_2sOXR_3OwIHeN0UP1DIcY-8PLrlSYnZ2OwMTrfT50vwCT3ZmIYFabEfxXo7uqbYlY5VxzxZ-VLdgNz_EzS_nxFPtWOURs0rpGatQAnudIOHeH1jYcjGW5JnoCqApgWsM7-bHan5KY_v2egSnNbD0jxpLZYcTCvJqje49DJkUhDbqWvHikBa3EZYzGZ5qNgFbDM2jsJXDV6uQ0BtJgxWsV6qP0CTzlkmwiKhKxd-OEhDvVfyIRMruApcuZjpoH9uvlJEJwiQO4Yiy8T8Em9wPYFQmri_khnTXYUotwGugzgrMlb0zg_-HDITvRLygcxtLX6oHjXsDArgLW6L9raiD9kyqAoom1pXF3KqUpRrdRfKFFbE5aEW0hT0leben0_DEh1yZqSKUqV4nx6yi4g48227C9D8tO5a9Or6GGh1Z-W_TiW8IqxnQocr3N1Wi8kLS8geMs99LKWQaslxETMq90Op2dU1IQxX24WfSKtWZeG_v5r-a7bSEsQeouPCsp3BdSB0BGb4mDJnBSCE_dbOh4rGV_2Scgnpvz-cT22rLb7lGCrJs5RF7rnGK_9W8-KR69-tXzXodoD_tFC2DmEQ9oE2nzM8ttulelb-GOxTNAMZh68GcWNIteFK8TUciw0EFBPwYYCR0mezwsFvGori03-TnFb38DbV290DeJlngfee-9E=w1248-h804-no" />
+
+</div>
+<p>Note to create an image of the map, you can click on the Capture-Screen button on the top left, and then paste the resulting image into whatever document you are using.</p>
+<p>This ends up not showing much variation and looks washed out. One way to make more variation in the map is to bin the data (such as via quantiles). (ToDo for another time!)</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, create a table of the top 10 repeat addresses for Robberies in Dallas. Then for the mapping portion, create a Choropleth map of the robbery rates per population for reporting areas (see the POP2010 field). Insert both of the those into a powerpoint presentation, then save as a PDF, and turn the PDF in.</p>
+<p>See below for an additional extra credit opportunity via making a kernel density map.</p>
+<h1 id="extra-creating-an-animated-hot-spot-map">Extra – Creating an Animated Hot Spot Map</h1>
+<p>On <a href="https://andrewpwheeler.wordpress.com/2017/11/10/creating-an-animated-heatmap-in-excel/">my personal website</a> I have created an example of creating an animated hot spot map over time. Check out the video for illustration.</p>
+<iframe class="youtube-player" type="text/html" width="600" height="338" src="https://www.youtube.com/embed/nJsf2o0pJoM?version=3&amp;rel=1&amp;fs=1&amp;autohide=2&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;wmode=transparent" allowfullscreen="true" style="border:0;">
+</iframe>
+<p>For 5 points extra credit, create an animated hot spot map for one particular crime type in Dallas and turn it in.</p>
+</body>
+</html>

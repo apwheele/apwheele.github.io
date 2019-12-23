@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Crime Analysis Lab 06: Weighted Displacement Difference Test</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Crime Analysis Lab 06: Weighted Displacement Difference Test</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#calculating-prepost-stats-for-treated-and-control-areas">Calculating Pre/Post Stats for Treated and Control Areas</a></li>
+<li><a href="#inserting-statistics-into-the-wdd-calculator">Inserting Statistics into the WDD Calculator</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial goes over how to conduct a simple outcome evaluation using my work, the Weighted Displacement Difference (WDD) test (<a href="https://crimesciencejournal.biomedcentral.com/articles/10.1186/s40163-018-0085-5">Wheeler and Ratcliffe, 2018</a>. We are going to be doing some simplified analysis of the effect of community prosecution hot spots areas in Dallas (see <a href="https://www.tandfonline.com/doi/full/10.1080/07418825.2018.1438497">Worrall and Wheeler, 2019</a> for the full analysis).</p>
+<p>To follow along, download the data (<code>PFA_Data.csv</code> and <code>SpreadSheet_WDD.xlsx</code>) from ELearning, or from this <a href="https://www.dropbox.com/s/oy4f4zc66vcd9a2/Lab06_WDD.zip?dl=0">dropbox link</a>.</p>
+<h1 id="calculating-prepost-stats-for-treated-and-control-areas">Calculating Pre/Post Stats for Treated and Control Areas</h1>
+<p>In this part, we are going to create several variables that help us later on when we construct our pivot table. First we are going to make a variable (using the incident level data), that identifies what incidents are associated with our control areas and treatment areas. Second, we are going to make a variable that identifies whether the incident took place before the intervention or after the intervention.</p>
+<p>Our treatment area is going to be the Forest/Audelia PFA area, and our control area is going to be the TAAG area Forest/Dennis. I choose Forest/Dennis as a control area because it had similar crime counts to Audelia, and the nature of the area was similar (commercial), but it is on the other side of the city.</p>
+<p>So open up the <code>PFA_Data.csv</code> data file, and turn the data into a table. The scroll all the way to the right at the end of the variable list.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yPvLWi0qyF4j3lTXsonRnA40K0d-J4IXCnp-3NSl-JYGtSyO1S-7IMCGYUGw_lMW-9KEBE29zDeAeHmUT_QakxeGUdeOzJ_kz7SDvjCfhId9d2DnDrgs215QN0LIYevrCES6XTkKbJWsshm1dK8RFyWjD1N0PpHP7FAMIlnWKZds41CYXMTNFm-sPW3FaD_jLGhDJ1laaHmJ311xY58zCcYDpS8nOkUKv4RkCKhML4IcSSMx3c3kl6vbeISUCcC3jUiszBS1mKT00tVYJAMYBWTriFkJpry4lHbGNyWZLmsXrm-KnC4dA_4d0jBCeljJdIm30iZZzl7h7TBUHLJH2NY15wOszDjfczuxmkijM_CRMEFaIDt8K2zR747ucSAoI-hKuw_DGfbEamtWYPPIYCz80c03sQGZDrEqFItBMHBg6TvmRu7Pi2qhwSmVlgdJd8Q5naMba_UtVrqFihK9HMhDslBa5TkBYJDwnU8oNtUNHvfZaGVZl3Bwsg2cZpkBY08m-41cCRVR4s4YcDPVg8-aQ8Phe4KIx3ixMb4butAzLTcnApSolcgmCn5mV4-yiYz17unZG_vWieWyGbuOJzwHY4efl8yjrJaqg2rEnOxvZE7UnysRf_52lTJsPmPSIFYoM_krHQLklraEZbuZSgv4ewmJ5SYitIJEJk0UfYzdq-Y-vCbsTvU=w1280-h786-no" />
+
+</div>
+<p>Double click the right side of the column AE and AF (TargetAreaActionGrids, the long name for TAAG, and Community) to make sure the fields do not hide any of the text. In the TAAG field, filter to the area named <code>Forest Dennis</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/kv5p7vyUO7i3TMoEfMcUKEun0aEQZIV-vo5lHBnJvjLn-Gi4eW8Z3JCjJIm2AfmblDCJzV35trWUSpHx2BeXiyvYOoYYqeV3VdoLB0b9tr5-gxmRQjsq1VWO4NgKmum9xyWuTvCTWLfPwFlC9j7uj_cLxiPEtIlb5bqHMdZ5w4TWNvIpx3j_XbxRif4eQBOhagV0TzBnzCxCqXvqwjGRHLpn5vCoAKV0g0BqKuhxfjl70B39o-4XwKgOLuSw0f2iU2iRouJYfmvfuEsL0lU_afhJ7QFioZNTTRuE9L_PEceAxdCPcEwY7WLaJscaBcuvdoTUCmdYdilSZJczUCxBRVtSJJi08BDW86ZeBHtaNcH9KbWq74xCztlXoltZMXrhR9pUSpwjYH4-XMSzP01MyA43dbUpGvX250IjTl_fyDmV0Zqgo3mXGs2S9qn04Hh7iB2aQRGChe7mHvmB45dSN2v7GH7z8AkqTD_AnlHuAoJ2x5_QqyUY1MxDJtoXJqNWvbJG4vlmaSEHTY_NCSA4Xc7nxzynNhHStradSWcK7EU4g61zRgdqKDMSIHccLB8AQ5yBNBc1HoAwNeNXBo5aufPRsbeYgWg_S_ytpIJLvk2lfxTYegIRi0TnGOjEz_mR3FqDHi9KB26WBpWOumOfW6uQjJvZdaDk0npcSlBmtfAC3PBOZvYFyKg=w572-h495-no" />
+
+</div>
+<p>This TAAG area is going to be our control area. Select the top cell that is viewable in AJ, and we are going to type an IF statement to identify this area as our control. Type in the formula <code>=IF([@TargetAreaActionGrids]=&quot;Forest Dennis&quot;,&quot;Control&quot;,&quot;????&quot;)</code>. And you should see the column auto-update. (Make sure to type <code>Forest Dennis</code> exactly as it should be, otherwise the equal condition will not be satisfied.) What this IF statement does is cases that meet the equality condition, it populates the text field with the word “Control”. For those not meeting the condition, it populates the field with the text of question marks.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tGJquH2lJ8O_3CRpDgVFzE97ISSwqh1PS6yoAH_5GmvAxQfz1UG9iu3G5F63NEYujWX3uiqNXDl3roga-7psml8D-MB0zh5lnj8rXnCbpA5N6SdI7LUzxXpV3R20qQbDT8wnLDj-E6AqmFA5m3nJERp_6y9M8rsopNZBi2764z0M04givKFhXoZSZns9BNJEhh8t-uSrvUd-BBjsMrn8DtbScsD92W9tyErXdF19toaiv_xUeaVwOobQkXxEdVmIb6NA_3K2uWPydEHPx4dChtHh-KHkhZMKcX_pGTZn6oyHSkAGFSmkhAZV899BgcXtNfTP-egvSbMg67w5dWduGfZUX8E6EygONCoC4Chvh1ryFWhotrB6t-TvI-cTkvq3AtRbfJWolHUoYhRVx9pyDy0xJ56HxlAhdpRTfBPjial81VWcbUAaipa7JaEkBOkEhJZD8yqElQqFGt4Fduy7FsgZW5oAZPzTAeMPdZkgHp7rQUgxzYONw3lcKkfvsrpUj904wiUwNOQqetFSr97_wWIErn-vlOs2DmD1cHI-7fWVJWYk1B-uKfLTfA58c6t9qNSWX7YuYl2pzE6gC1PQcTQtAb4r7GWnUpkeuezgKDslHMU_H9Op6nRN3YHNbl2pMpept46ViK6B4MfV6e4XbEK8eWy_4c6cg3ZX7eeEsIfGlmqt8-69Z70=w1549-h372-no" />
+
+</div>
+<p>You should now see that the field now states “Control” for all of the areas that Forest Dennis is listed as a TAAG area. Now clear that filter in the TargetAreaActionGrids field.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_3xYER8d01SyHdKzTZEZfQhYT3on8FLS9I5512raBWaC6rHf25eJEGS9xSL8IdUih806Td-QzjbDGdaCvtSaSP6sgte2H04buD8t6Uvo5Fc7bYXfWLEiF9G_q2OW4XLL3lzB8mMVsDGJhvddZBSeQX-IPJqHvx8wuswMtkKXedTQ-camQraeXNie-8h0mynAXhmf8v9Zq0BhK9hk_5c-zi7DzO2KTJBRWBE0V_J4J7bnfePh_O3kVpWIzHUxywybEd4Ix_ByJod-UvXOI9TWQulBid9L9vhdaj7CqPrw_C6_uj_4fQ2X4yXJKtoxMp1xMg1DAVuR44KnkmCTxrg1-4ZSt0q9eKVQY_weVJ0dnmJvL-Lb0j8ZIJcjClTzH5-Up6Y-N2JF3YeTinGBWpjz17ERIVD-kRNxKwwsBesMszIqZ8wNRwleziGMtGNnwvbPHO0pdOfGNFR111MNADlZo0GCYFcLRtSfWKReZrX4aoKWcVy7VaL_dUYJtVA2rBp7GVBA-1UGD3_lJevQR2MCYYYzk7QwzgQddG5Dyyj2StPzH8WF8XMwNG_Pa0nAghHmmGZSK2Sz_I_R6Vtk8RpKjwTmD6G_SSR8RydRF4F_byvrFkFLA4XS7NkZbA0NNCBD-qw-1Lew3otmpkyN81ws8SWXFABIl3TLkZGeA0beBvUMmQfTeXKJ92s=w440-h530-no" />
+
+</div>
+<p>Our PFA treated areas are located in the Community field. In the dropdown select ForestAudelia_PFA.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VUJvOx5dVhrwzgnXnb7xyelRAATdvufFuFGdc4o5cJcU7nlV2X58jeA4lC41VH5mGT0pyKvrR2ju_W548r6fnJuT4_lXK-TOWP9y0J-Lkk8Q8L31BIcgDZ7njXGZLs4pIm67BcxCiGAroO2acnymQ2EQtdduwDhh4TA3pf9WRmFRUvVR3KNib_soCAOgoZFmMS7Nq10r-hkm2N8Pj5V-218c6ynx4e_S_lH_QGsY_lyWAniDIUfuEckVRIXk6zPkYWH8eV8htgmeYz39Hy-eQZPnxgvtK1bFHw-UwKc3z0rmVIcIdC_4amGoW5-kLjl13nHmK-WUJRWBnoXQ49GKoMiMqAyOpVexB5CGhsdFb8Zgp0LfxEuPrlF71iIBx0L343stKho4qOv66MDUoqACEBl6M95M74xGFQlyDEJ6m197OVB-CvbF0wftpbnW6w-wc6euFz9iwgDgb-cBaqnZl_z--r7T7XW_tMqduxY5yvoasbjjpGjX8Xhf-VO6wWJCN8CSVLGhuiCWm4nG9DZ7eTpH2chEp22FzAlkTJeaC43UnIrGm0ZHxegBv-whvDm1OT9HaXncipKV0dZ1mCq8V1FlGPUxO2JTdIfHLZJpVBmkqFfjR1e9uHz3xU5HVRujop07JZcHCHo6IrTbbH0G6eV5eAy98pYE1ZYli5d9X9Z8OQSYAzFLr5U=w389-h479-no" />
+
+</div>
+<p>Now instead of the <code>????</code>, we are going to nest an additional if statement in column AJ. So inplace of the question marks, type in a second if statement identifying those Community PFA Forest/Audelia areas as treated locations. In the end my formula looks like <code>=IF([@TargetAreaActionGrids]=&quot;Forest Dennis&quot;,&quot;Control&quot;,IF([@Community]=&quot;ForestAudelia_PFA&quot;,&quot;Treatment&quot;,&quot;Other&quot;))</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uQNDW-n_uJKn-pZRjqsUTXVt8tKGXWBQh6ZBg12gOtXP2hMqGqOj5kmFCxdSEp-WvzsWv4DFvxzZ4Uku6ahg713MOA_HM7n80YxGZuzaayhx24KENqyddP1TYd7rICwPj5aUv55UeqfEz-BmMwjbMbvsx8Ua37SzArGM21qRpWR9CzvoWAuKB_pCqjBBF1-I2D9gK_orOO7GMm-gLejj_FZptlK1eHIgwD40f5R46GXgyPlNxbLbP07OR9QT7paJTkV0bRt87teYeVb4QB7R-wMe0u9cU50odRHyQ75g6lePnCsyTFAoedQ9SzxDOnt0Udgdi1FBhuR-27CUDnUjmpGiBLYFXh1Y4PWYl2LBbp0wj6jnXXZ6QmlBlQK-QJISePXW19Zd0I4O3LhhbU7QPj5k10CH13OHY3CRqlfT0y7Ul2uy7hMx7B_ZTV6k5rfXLLIkkjWRBsR1lOGtxQCA_y4VxmRC_ouQQ_CEl_AByxbLrXh1kMg4mUZTLn0huwQlPAyOf9ei8eHNG2mKEJTy7r2OiR7gKpx1PmfO79elSBbXQQNgpUnZhEe7gBe1v2ILLDttJLMiRG8JBZa6ogQMvdytXsDhGzJCvXzZ69-ICdfG6nbN8BPsxHaj2tkm7B6-suUnoaYgRFHQAXD8fseDvwJ3Ne-9WCcXIaBKVP6K9Ta_gS1nkVGkBI8=w1546-h292-no" />
+
+</div>
+<p>Go ahead and rename that field column as AreaType. Then create a new column that says InterventionDate in column AK. In that field type the formula <code>=DATEVALUE(&quot;1/1/2016&quot;)</code>. This is when the intervention started in the treatment area, and will just look like a number currently (42370), not a date. To fix this, right click on AK and select Format Cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MGh7hdhd_wlcYl0UYJ5sMe_Fe_0cM7khDIU5OfTlnElGLV1U52XXghERcQ5NQ4zJGoDbvfQ67k0cYpbsxbUFQvU37n8JQPCzbfTdFtMCH1cYqarVP5zUGMN0JtoPsvoVqJhs02IVoEAeWIpkcfTqtRDuQV2mFrOwS6lMbDN10HmJa0hW5_Qz4wWq9Hn3NzGzaY1X0g-RxK9TVc2-5lZyTArD-DCmQLJTF94wmneCxcoxgWsL6ysCuIob5_f3y0olyn-AzT-2G207AtMNPV_Nnx29LzrwQWr2E-6McKHUAxFB3M-ji9TYHYAPMzPA3kBnmGFV3ENP-9BURQxFD-t7S7usvWQavbpzDel3J6T9Zq8w_KNnJmvv2Npdx8mJbyihBtD-PDtNQe0zJvKJP0PKZQsRsAacBETEzHRKJziZ5jm1L8hE9kKCxk3qqTwwm2ZMuxF81dQt5t6K-t5uBJW474meqFpesOP-WI1mAGBOodHtNVZbAg0zLHdAvoCTkwz9VAb1zDQUpGg8a202hCJ39YhLp8tc3vsTLTBreKKfc2az8-niXaUSX3tVtVzhoEIAe35gNm9UswikSnsdEUIZS6eR-DC9V37YEvjEBRvGPkHjbSu9V4hMmuKtZDUG5itg8tBPOysUJIRUwenm6WZLCTC4qwIR3LeeedkewCmtbBukPA8WKTizPuQ=w786-h561-no" />
+
+</div>
+<p>Then select date, and pick a date format, then click OK. You should see the cells are the correct date, the January 1st 2016.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Jn3NyyHFPqx7biT2cMeufsFAft1LXBH2CVo5Y0vxWrhFsViP50tQseSvjt30FIj26K9SOVfBCn_NCfYp0dRcfcwdC1oqn2sOdUOUnqbnuJ3orfKrEyNt6Em_zauC1uiHwcYbI7bsU0C0QF54mKsqUanz-EYyKhjxhY7DF6Fx7wa3PhO3jFsPlG227v1sCnGmvzuN71ymLdFW2Oxg2ncNmQG41WegK8RywUtxKkJfZncFYjp3V2Sj9OORHWSF0wmWb0lgQS6mYH4UDbvgVO-JhUW6TuJbW_uFYgF9QJDwmMMIpUgXoXzEKT8FLpg9sO_83LZEewYp_FjYN0r8px4wPIFCbqtNoJ2p5dikUemsjKtkGgQz3wpR3hVpzVuIq4LrM6T9aUzfsvvdKJ4wz6tY-boRDOB-yPBT4jk_wUp3p5NvK9p5aXtwYsyocGl069MP-tfnsNDhou-VoxjgwTnej3O6Tx_rJuMAtiNHOcVV--TYWX8N4XVIkxiia8C-zxbLzbkFnN1AZuIBOO_BzFO17WE9iUl3g-QCI1avEK4C01lW8-2ORT9hnarwgZ7DhH2opStrKuJhI6qfmtgJJg6EFHVNK_4rgEj_0alxvQizoYOHUwjoaqLguFJaJh5r1V3pOXC8-eiUYVsFrqPILZ3o5d1WQCycur-xPBDxBLN8vSjhZJXXTXIG29Y=w863-h563-no" />
+
+</div>
+<p>Now we are going to make another variable that identifies whether the incident occurred after the intervention took place, or before it took place. Name this field “IntTime”, and then write an IF statement to see if the date the incident was reported (column V) was before 1/1/2016, label it Pre. If not, label it Post. (You can do this multiple ways, but the screenshot below shows how I did it in this instance.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mfznPFS0pQz1J97DSNm3F-urAKYbWhdCorcBp_UQeNgPbg7RrhJdgnllNJVwoifbezztxeqxY9q12pynLRa86-Zt1RTeTJHOf2F2xpGhXw0KANvJNDcCm-jO0OQob9WemLc70sBo1k71wZ7j3neBWX2_7foe7fymyLOk6jUYLXzCYBkIs_olNlIMR49UCo1-mpmKAu2UKkvV6cgOmXSlq6f11Mj_1jyG0iM_7GFk8Q8m5uSRgwRdqfpmzypnTuwql_zawKCZCyqBLn-UEI42NnRdJDIy5-yObCT5bmsZ3dCBVDDyioEM1yMZ4Te-j-H-8m6Wpmh0AqnrRpnOgRMocoT5sOiw2zZmQtM8S3ear22YJbGZ62RnygG9WeLt8x43b-mhZWMOEiNni-7kLqJUJUC8nPtMDuKm4QtbJDE_w2sC3lNOvwQdi9_CgV5IQBu6covgd_M-3ZXm6F6AZuwRteeNW4cVX_odpQw1Hh_TsrjOKixzRT0LyJz0-JfU8xv-K858-MIxXYa4A7V4egb49R0BFAa4_ptiLRs7QbblWuCCW05CqfVNygepgS7DH3iD3CKZkhLy41rgxlE7NXo4dnBBIIJvX63deI7P1E3MtCEI6NVN9mtPyM3GoTS1a9QLCHIoZDqQneU-LVCPzE6sXSb2M9Tu6YZmyw_XAY5cme0vz5n4pE2LLdo=w1840-h369-no" />
+
+</div>
+<p>Now we have all of our ingredients to get the statistics we want to calculate the WDD. Go ahead and insert a pivot table into your spreadsheet (saving your work now is a good idea as well). In your pivot table, drag AreaType <strong>and</strong> IntTime into the rows area. In the Row Labels of the pivot area, select the dropdown and click off the Other category.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fC8xpAnmX8j_QGC9hmn3xY2xTniBfcb1MkvC82ZvyRSNGz1TeLhp7YOWnuRIqdnQ0Eatpa-6RPzaaJKTnMr57C047jzLG3UcIKuFqncReZrY1Y6l32TFmYbR1pyPyvvKTzMeQWJRJ0avv8THPS5rbTKWdQ9ICBQFAXHcbEwnmHoZQzbD59b5C5AAVG4DROk1YjqAJWpcA546wx2Z8yAVZAWDQNIOmu5D05nGWI_-4s0GTJc26k_g3EGhJww8i6P2mqDkpb0AhVJk05nVbUn1t1osLPVVdNaVh74xCzuTscKcCY-Cs914Lj1z38Oc5f-qzmhGoRu4pdymRTAZyJk_P5KifkO2nWyyB_dnhuTDS_6dLfM3dISUtBw8UzLWrhaX8bYQx6K1KZSPTk1A8A2hCdvlm_iMxyQvJMRww_N4Gotj8DjOHowm45GApMaijYhjjBZEh51ki4VNb_1oX3SjJLpSGJUNI4mbJgzABADkSgr2Cd_bhkI6D0bPOjo7XV_xKfzQOH3gd1lEEsVWGC_XQfODrrvzqmC6gBd_fycNfMVc_nWAsQHEFE-8BFgnS6MrLmSiRoyualQ0nFQo7_K5FTd6C_d0gUb0MU1PxLFLf0bVfFCU6U8gRRZFSaLKrgEVDr-uqT_KnlOPk1MBS4alJxuKXFrxbrD-EGDqRalh8FM00BzIqpPPV10=w1749-h689-no" />
+
+</div>
+<p>Now for the columns, select ucr_redString. Then drag this field into the values as well (which will default to counting the items). Then select the dropdown for the Column Labels, and deselect (ARSON, MANSLAUGHTER, MURDER, and PART 2). Arsons and murders are too rare to do analysis on, and we are not interested in Part 2.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0achHulE4lNI5N-NhKvZ_Ir9WIgbmTwNKtUpnxqZizTkywsdXmfWx4GP_D1YGAJlsKexVCaLu0iEa16vt7VfGiXWgx9JwdnqxYj5gQ4surMC-Ei9eMq30IAVD-TPws4Zc4qfUQp_AAkHA625OZBRwkJN7Ff2Bg60bLll0fc5tosY3ARoZshx3dy11-m6YcvI9MgEsNXl7tw_90oZ3-7o50JwqFPd_IWRhGoXhNBZnn8ChsHUcENrERR0RpeLmVLKvPC3-Ajt4ea5VQY9cr6IUN-lAhdZQDP_TDpB-LQFUZHf1y94FbQL9-61JpuSSTSLj1lRqgbAbX4VaodWn_64Zlm53m5PzGpqHCwuJxrDzszI_BGW556ve9XwDKewKvGCQLHJCkfgc5xL1ZU_lnfFZRHRjc5CuK2Z9__wWmf-ykQFrG7V6XgEQrB5eq95tHvdtcWk6W-x1JHpfo-LfT6qbmW5Zi2n2TD8BuMGwbWN2fgRxswYYt-4T7w4JcGETIIrO8OtI7d8rmlsAwT26lf_ao-nmR7DP5R5WiEoqrl8R-7L_3h0U-zoxcTQcTahY5uZzCT-idO4225n4D9TkUJ8A4TOT9XwanrK9GlCCwvrYwwX4Ehzip_TFS3wyUKvKWQWlLprwNbZj2C_sCflvHy5XeJ-G3rXbabj4ppfSeFIXZ4Nduvqb7uHXxI=w1913-h730-no" />
+
+</div>
+<h1 id="inserting-statistics-into-the-wdd-calculator">Inserting Statistics into the WDD Calculator</h1>
+<p>Now we have all the data we need to fill in the WDD calculator. Go ahead and open the <code>SpreadSheet_WDD.xlsx</code> file. We now need to just fill in our pre/post stats in the treated and control areas. Since we are not doing a displacement analysis, we can just fill those cells in as 0. Lets go ahead and do the analysis for thefts of motor vehicles. It should look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VfsEFAU9Je3McgMGxx34LY5ZLENlcAKI23-0zRBgxh3F92ymgBOis1LXe26x_CSVt2MxTTnbck3mEN91MPrmOd1KB35N8KMgHzpwwLWVCTvtXFieC32p485_8j6h9YaFIr0txwVuHSJ3fap_NFZss1oxrCFDl2afLTnRIE7mgRSvRcMSv_KoU8xdJ8X2BpI5SAYSPmc-pnl2b2vq0yZFuqTt27zg8S8r62oww66z5eBqmf1MT_YbIQSBnh9EiRJ0V7U-0vjmg0yWL_WNzdfuxa27FqVFg98Eur1s37X_rdxTU5gX-6oepgXCAHqscwt_k6S5ITweEiaZnXXZge3yo7HCC8IE9ZCZhHHi5Z1tPk_OiONJtLal7W-NHx1tS9mTqGr6Wz4NrsHY_IXssBm89Bkg-izMzs517B2bo2XLVYXaEzwBcEwWjRFhafh9WrZMJ1F1KOGUEMGeBa6aFOtxBrmYNU_dRLuNr3ioSLRrLvnig9QJfxzMJsbBi7TwmT8WmoSifouj6uAAT1HYoyvQbLPRhixnfV8YS7PyMVu0ZOdmsbb0tFPmM5S6oFoAFP2wjx7sibW2YrfbnF5KWChOcAp2JtGI-fy_JaQVz13zAfeZusNzzX4GfNGoDQ76_WWS7xfUL0jJZceFgNZbGc-MH_nbMMGnyEEdY7LX1hpU2jUEtqBKR_2DGhQ=w1781-h581-no" />
+
+</div>
+<p>So we get an estimate that relative to the control area, during the treatment period thefts from motor vehicles decreased by an additional 14, but that change is not statistically significant, and we have a 95% confidence interval of <code>[-55 to 27]</code>.</p>
+<p>That is it! Easy peasy this week compared to prior. And that is intentional, I made the tool so all you needed was pre and post crime counts, and it works even if the periods are not the same (in this data there is more pre-data than there is post data).</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, conduct the WDD analysis for the additional crimes of Assault, Burglary, Robbery, and Theft. Place the results in a simplified table, e.g. something like:</p>
+<pre><code>Crime-Type  WDD-Estimate  WDD-Low-CI WDD-High-CI
+Theft of MV     -14           -55         27
+    .
+    .
+    .</code></pre>
+<p>For 5 points extra credit, I want you to check the parallel trends assumption. Using just the 14-15 data, make a chart of the <em>quarterly</em> number of <em>burglaries</em> in both the treated and control area. Interpret the whether the graph shows the parallel trends assumption is reasonable for this data. (This will require creating your own quarterly variable, and doing the aggregations.)</p>
+</body>
+</html>

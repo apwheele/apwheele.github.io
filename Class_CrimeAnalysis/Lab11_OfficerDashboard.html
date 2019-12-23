@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Lab 11: Individual Officer Dashboard</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Lab 11: Individual Officer Dashboard</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#creating-a-funnel-chart-to-identify-outliers">Creating a Funnel Chart to Identify Outliers</a><ul>
+<li><a href="#prepping-the-data-and-aggregating-proportions">Prepping the Data and Aggregating Proportions</a></li>
+<li><a href="#adding-in-a-series-to-the-funnel-chart">Adding in a Series to the Funnel Chart</a></li>
+<li><a href="#extra-funnel-chart-notes">Extra Funnel Chart Notes</a></li>
+</ul></li>
+<li><a href="#creating-an-individual-officer-dashboard">Creating an Individual Officer Dashboard</a><ul>
+<li><a href="#conditional-formatting">Conditional Formatting</a></li>
+<li><a href="#sparklines">Sparklines</a></li>
+<li><a href="#exporting-a-pdf-for-multiple-pages">Exporting a PDF for Multiple Pages</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week we will be using Excel to create an individual officer level dashboard. I use post-contact surveys from Lincoln, Nebraska PD for the assignment. For the assignment I edited the data to create an officer ID, plus did a few other things to make the responses more interesting.</p>
+<p>You can download the data to follow along either from ELearning, or from <a href="https://www.dropbox.com/s/f2hf1bubesy16ji/Lab11.zip?dl=0">this Dropbox link</a>.</p>
+<h1 id="creating-a-funnel-chart-to-identify-outliers">Creating a Funnel Chart to Identify Outliers</h1>
+<p>One aspect that I commonly encountered was looking at rates with varying denominators. Imagine a situation in which you are looking at the proportion of arrests for an officer that have a “resisting arrest” charge. This is often used as a bad signal. If it occurs at a much higher rate for an officer than compared to their colleagues, e.g. one officer has a 50% resisting arrest rate, versus most others have only a 10%, it may be they are not doing a good job of de-escalation (or they are adding in superfluous charges).</p>
+<p>But if you are doing such an analysis you do not want to flag individuals who only make a few arrests, e.g. you wouldn’t want to flag someone as problematic if they only made 2 arrests, and one of them had a resisting arrest charge. One way to tackle this problem is to use a funnel chart. Basically this is a chart that plots the proportion on the Y axis, and the denominator on the X axis. Then you draw a set of lines to illustrate where you would expect the proportions to fall even if they are not different from the overall proportion. Here is an example chart I created showing Use-of-force rates per arrests at the agency level in New Jersey:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0bwwFOB1qvW9WuV_ulBFpeqX7xnNe4jRomeUBatM59svWhTUrx-1bXuCO2dPH6QMM40IyJmEHl7XX2dSQfCEZBL4kGTfNuLQvMY4RPqdztUb1Rt5sCs9X1glQo59D0YIYgfwQbrdebafOW879B7fhEkOo0ANcUzXfsd0LVAaSSNBMOfDCFn-1pDOgcpU13Tyy8jZfb-64HaCIt4gVE1_3lFffWrWy9CkOn2OLNASKoDoZpH_CGiwRmIMMOYCCkcloLLqjzTEA_yLHzHhcSOFDKCTo6-7jHmS4jaAZkN_rbtyWeS_zRop6W1TeMnWRysuZqFaHUTDkZy3zA7OLze764e7TGEk5QyHiF_VzU45aJtwbfXNp5_VOHTb4Wm5eVkjoRBuRxTih4c3NZEsngR-Yqr4YeLxAQhcvFQrHCc3pOxmxYbh82spaOb0suPXdp58iWBs18q-9aiSn9srJn_aY9QhCOLSueQAIjquzrVu8VzIZBHSXqM6u7g5Zhn_XeB_chOuB8Oz0yH4jUFaAyF50x0ofvAcoIYdP2EBe5Oq0WQFqExgRe4Pn0YAOav44AUzNXCGtlrtbssNq4gVj5eoMPOeB_dEZ3MFCY3sLa2VnjvEV30jCoGZ7MC7sRUn7xTOMx2r7YOaV_LKVpLfMnknOT4g=w897-h820-no" />
+
+</div>
+<p>I will be showing how you can make a funnel chart like this using the post surveys at the Zipcode level in the post-contact surveys for Lincoln.</p>
+<h2 id="prepping-the-data-and-aggregating-proportions">Prepping the Data and Aggregating Proportions</h2>
+<p>First, open up the OfficerSurveys.csv file. To aggregate proportions, it is easier to work with 0/1 data instead of Y/N data. Select the columns E:J (named Q1 to Q6). Then hit Ctrl+F. You should have the Find and Replace dialogue pop up.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iAx0yGTirevyb5lIHVQK7xs94puhXIPPW4kji-GSbLmm3Wuvnl7fZieITa2py28qa5re8MA9XKBnne5_hBMGuoROSrdFnmMs9z9lVFYdJk1BuJYH9B8wHnqvxpE3RiJXspQc7EWYiDIPT3nf9Oc4mzIfIi_GDLTr84APLlMhAGTYxb_pKR7El96QYviEBlVosoIfevhd4pJZYpdL3Z-ZmIrpl2SEfxYT1cdoMZsip9DTWDv7RCIGi4-OSMBIWbaAlaVDswEUkfdZGRBGosfx6tpBGLxEkIM6JZ27zXZ8Cg5WOycTOzkdl8psqSt4OYNMkQ9tdSs_4C_tUcOfY9-6tNOreq_to_saFl4QZpNiCkQab2-1C5NEoc0hhQEWRCoHWuitlGixJyhOq7txKY3_mChKrB4cZj--JvZSlsnJk0_haGpvbFJMqoWLBojRR7A8MYtVcGLq-FKt6LpQjAqP-_yJMEFB1I80yeUi4T3rfiOjS-8VKMOWZE9ManI3ZiLZatBYK5SGZsDN4I4xGO3AlLzjHt9n6fqBfBN-1kZDiBwjrPnXrICT7-oY7H3iygkS7T7DrvFYrTmrImCvuIRHD0zjNtpw9Ivz34Pv0I9u7W8-8P5BxsKcvYKRtLO_cvvcJEj74qTOALHHmlMalLhgcM7R6GQ3wq-VsB5C21LMDaiyQK7DOeMjUik=w1170-h439-no" />
+
+</div>
+<p>Now we want to go to the replace tab. In Find what, type <code>Y</code>, and in Replace with, type <code>1</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3mx4clj5U5rUZQGDE5tJTR0ZQ-5PTqEk7zq379NqysNfmKNDx67D_63e9Exsqsc4HH9b3osIqTVQg3ad97roixzq_i_A2PWLfuf5-6h6PPBAKD2dcITrbuaXEBqUadN7BuWySsVN0EovmPupGefSwkziixa8E4GZ3b7QLki8KcHrHVbS9FchO0dHBU-sYzn7eeKNoQBfAWKmwa1cVtXSI8owdYxvDIiYpAxn23ifWps3acqHpQkCA5X9_zrLkkCApJ2tVL_5VocMPsHK5L65qFSZlZOaBNgcpdG0LrAH8KJskAdvsxkh-wAkC1RkufpcjIfbMWc78oOmBdF4YHynjore9vrcdY2UMthPNjsPpSkhKm5JKduABSoRIcDDgO5JFUQiqXsqhRvrxmUyJuoHl-YHS12RlV10DZbGBji6_6h__AMZXEwOyB3CAZs_rO7FRM4NBfPOQ4m4OcbEFs3akSIfU3Ty0D7dOONnBL5D2fO5CdJqRiLcz2UFmhfVBRlgMXDM-BzG24Z543aNz61AAHbEP9z95M2U5f1PBKex9oFokxwGchTJc-DuSgha5-eFj3bNLbPX3-cpUpX1rRIsSSZIe3TjDyGiQZRZ4rnQ6aTbg_KgfIwOUpGRJ4B0hq-OQDsd9DipsNOVRLQbBeDs3ME57in8gPUeb7h4kc5omcHSM8mI_d849-A=w451-h201-no" />
+
+</div>
+<p>Then hit Replace All. It will take a minute to update, but now you can see all of the Y’s are replaced with 1’s in the dataset.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_G4TFrXLnC07CH-b1XwbeYJzbd9TMqxKGQJLw_OTgrlBNvQo8l3K02xQK0bVAaQMpc-k2biBoY5Rsa8mk5CT0vJgOrEEhqA4nPE8QFAS1qoqswhttBYb1yaxxjge3IMwXgfggK3kva3dn5-q_yrvPiIs5eNkZuctcRYr7ZMtlu767zbd5jkZS3YHCvpdAlf5Y1D27CjqDmzhbEerx5X8ATfWXdUQnAEL-rRARDBjt27cEiH-lL2Mo7mbmGCIuC9P8nE98oksUW9RRB41kzlIdhd-o64En7eO92871lmVab33wn32ysyQ8vBJ-bTc-kufSKIA-FmqPfbeun74ttIux8OAwfB0olINrvpzd-6-Hy4LOQSXIK6keZvfPiq0IWZsLIgTF_cS6mKW_ZE-ORqnYHrhRu2PHBVbofZJpzmfbErI9EhLYUqeoisBby4yHaaLtg4cpDJ9RaLDZz7XvZYlezTsodlYnTHs6BQmVdLjDK9GFGWZgxVu_Fzyv6k49aEDNpxBMw8t5fyOVDDLKECJo2tGiPGiWd6oJcoHRfHZ-rRR7scUsmQmLAiSE8ETzNsQ6hEG07TrvCy_4Z9EM0uIVcm4L6oaCK6XHvi2q_Uw-11oN6_Wa-harHFlCfTd-4xwdrbNaACkFojVw04e4CBdv3xwDmvveg4d1hAEGfYGXjnNLIDnSvC6LOo=w665-h372-no" />
+
+</div>
+<p>Now replace all of the N’s and U’s with zeroes (for now ignoring that U means unanswered, as they are pretty rare in the dataset). Go ahead and also turn the data into an Excel table (see back in week 2 how to do this). In the end it should now look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Tl96LSJyw1UYUia5bxUHRtuirtd9-nJGo2ZvvPnFE0opmoJcv9te0UlWcY1jxQfFiT40L2uvzoiw2j7uD4WZ_Wb-oDkAduRr0HPFjSaJG2qUe7Y0vbhwXMAAq8A3mM03TNfIsf8vSljGRlnVpCaLJNarlEaeaOBiFD_iAlc3E9X3fbO0R7qNlS8HRpa4NoRUZVVhEGUpfhuhpuCFaRzTMZcpnHGcLboV1m-OuKFMhVPHkpWx2zjPOyiqdeZHFuRuc_f2NG12M3aZJJUVqS9l-TJX7UnJKJVJ-cu_dk5-HXqW-eejY1DSbcanjIGiwSNcCHyjv9R0OmaJ2b9r_BIpvcePB0vt-WVLFTOCdLTILLODo2p4CKdFDiXcOrXlzt8rZAYIgqNCDeoTGguUnA8Tz-fQcwbVmvkJLTq8vE0qeEOHoWOB9BbZBGxxSZAz7hUCe-hkXjrH5TZBGfctu8gO2mgaLA0aTiPztunEvyiJZ71XAuAP7uGo3eNhzh-3KxaL4pEF4aLC74QVgiXaYjJG81BibB_OoDdCcIQLobu73iJLFbvikpxxmLl8x4AIJkCXVxgHCiGwBdI3KBc_SqiiJ_FyuZw_nZjtNwwXXhOQV_53IvfUymdOCbVemMoqx15M7PXUiOoFao4CFnwrCbAMXqLqOTVbpC7jbuE-c8iT6OQGxa5RVR6my44=w1223-h485-no" />
+
+</div>
+<p>Next we are going to aggregate question Q2, which is “Did the officer listen to your side of the story or your point of view?”, and see the proportion of yes. Create a pivot table in a new sheet. Then in the rows drag down ZIP, and in the Value section also drag down ZIP. This provides a count of the total number of surveys where individuals lived within that zip code. As you can see, we have many areas that are either data errors (e.g. 3), or just zip codes with very few responses.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GM-0ItaRGfDq2I50FvplexnODz3LirgrxeprhBp9dsr8kqeLKdJYjaMVgEtp0ZqqD7uvXTJp9_Lhdbio3lmagnjuG8HEaRGHlucEN0O1R0r_LkDORKUqhNUBa6Z_Qy5dBKX7xzKXNRJnTZDYHJoMqojlNUwlJpojgaKllv5GK6YAcNFZJ-ZqLt-1yZdmDee777cXcwgMQBj-tJeStvIBaRUDGKdP8KMORebAsGonHxyBeVT76cgD2JxzHuqYmDv9pKK4Ts3t7XhP3Wo37Df1gi8lBz2JLmQDlQYEJA6SvVglFhHpFsdiohQgWSO5Sfl_LohxpWQqNA6MnBwudkOxWh0TRZrpHOJNscXOxqvXpvEReedXRMFY0qrI6RZjkL_Nkb_BA-JCr22yprcJNXKJpa2rjAvFAIRGkYzTJ_xR9mCsbXMejfgrd-Q4Kx2sZNPQqcGC4WiybDHrlk0a7JZpHTk25pcMKkXWWLDSeJx3U1Zopl0F1GS7cIN3PYuZ1uydv37TBMdZ5aISZhT4NukG_muGJxNy-85fzmrW80TqzbpWkV4BWp6qjaSKBeRm8kL0Kg1Z2n5PpUbOfaKi4v55qGcXmTj6NXvBylRZPu4YXzoGqEsXfUxKMmG9rAj4DLGkHIV6MOFcqA9U2xNNPKHEyJigOVhuDkqTIsth5tKnzMml_5KZF71EfLc=w896-h683-no" />
+
+</div>
+<p>We are going to get rid of very small areas, but keep zipcodes with at least a few survey responses to analyze. Select the dropdown on the Row Labels section in the pivot table, and then select Value Filters -&gt; Greater Than or Equal To.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uO_yGwV-wHqkTRmbXwA0x0wgfB0m4BuSMVLM5am2Thr6PyD88gqPkxzOm4BIlx4xpAGigiN6F_GrcH_4VcKtVoRcIhsfoSp90qB9C3CtlkkOTMetCyspOZi7HnQIAGPoIVIoLHDXPUASDzMNLdW9nhnvQdqYjLqbN7r_5I7mrsxNdnHcakJD2Tk4ViKf2uSAro8F9obvkaxLT0Nz9B4Htm8t-b9-OAGzAwxkOoHkHdgZ0WgpfGOiqubZ7AUvp0FQ_sZ6EMtpndOI2wEE__nrIeISE0-x9Tp1tUbdmGCyN2LqAxyvvuxXKp5DAjdSlsh7YjMKuf7jYy0kFHi2E37PWPFO0L0t3WVftzj2F3iQbyqq1kEvI9VrEXQKR1Cs8CA1Ukk5ZUQaVi3wUxJJ9_IoIxBKlyilXUrHIIKmqXkiEM0RiJ_w8SiV3pniE10YNVT3E9n_OKW_3hI4TmXq5d4MW9t6wYIlXu9hbD2Sh4FsVcOzfrYvvwTJxikliYh5h_df4Gq_-S6jVzT5HH8RV40BWuyr5FCRGFMpXvqQFxXx4j6sSJYWp8suuiCjZnj43zTIAg_W_iejKlUN9BhMGJnXam4keESvydtkEDWhysjm-1qfISttRWt_PL8yX8XAGIcxPSWk5vM4745Um_Exmj0VzYbocsIuU0zH5rYW2T5JrhqbHtoB8O3Eh8I=w593-h475-no" />
+
+</div>
+<p>Now in the dialogue, keep the defaults and type in 20 as the lower bound in the option box. Then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/za9jEfMVY7cQXsRDUz1ynq5djEJpdmoYcOm3t8Am5tZ0rRkZ5BptoQMrrO1WqU1JWGoma_T-w1ab2a602ix6sZOPYSCx6I1mtrgOp4KcvhXOTJpgqD2z6D4QxJdUJ9_6lIaYpmzrsSzSkLyYYiyBePzTj76D_MbnJHJqBGmnVKniemV1xCukZ46WZWJz9Sx2emaO8alTuxfoAoLdFhf7b43YREEJtFSooiiCQXspSLhqNrBK2MU4ObxZ0pb5wMbHfULVf8uD-x6igBCuLzJ3Zrs4sO66UGfjk2Re2vqtIlf7StT-wDQ0uXW7X1Elq0_Oc66pJK3g-i9dWV8yQv3NL7axoSP2z8icv2_XCftEPTeU-BhCLwmL-FYgUwoEsCmdvXDj1FDSBrm9KEjP7UwAwT1fgUYfYmqRm_SQO-oAQM9BIbH4_-_zLKMjRuZbvcH8dGn1r5OmasaRfEkPnDbgWZjXLsR_ehVDIuepVPWQ2LtBg6uex09h0qKTaz0Icwbr6OuIJ5L23jN0dfkmmG14ZsDP7cmq4JW_CGK1xOew1AK1jtWrDxdw8wEIiGfsUNAHtOShrAFoH80y2evpCLsa1gviyzKoaoASAfsQMI9UPSRO2Cb1yPY-OydYnNDapDE5PfKoOQPe9pjJCtDPFgyASCr-wKavskq8NfZSdQGmVWH6JI1Gw-u4BmM=w527-h139-no" />
+
+</div>
+<p>Once that is done, go ahead and drag down Q2 into the values field for the pivot table as well. We don’t want the count though, but the sum (the total number of yes responses). So go ahead and click on the <code>Count of Q2</code> and select Value Field Settings.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BoHN4QG7-NxtkLDA1beKFTwJo10x78q_d6hiTHDDyw73OEE6104klcPyKvRi3nrVW_hgsqe_94SVEEqvhsNkLof-p5uRYWekcRJUNSC6xn6HobPj7ss8XiMApVCIE2IdK3JSY-U8SvM0YtGXXfWzdtspjVShA00eiFUmCaBwpz4jY1mffS0veFDO3a_-trECFwW9FIykY1IM3OVZDmagwT74OUYN2BNgTz1bSYnt5FhvS0-tN7QWZH45Z5Bptzu-nmPbP9Xey5iRshiERMyHVHA49jKXf7-DMXA38NsoaSkc5ADoJtprgINHNjJgYl9Fh1l7P4hhPHKosrPEbgEFn_nwG_iwJ0B8AEok0amVc2vuwlDT18GoRox7H-BkVtxfVMo6M_Hw3ZsKeHwpWDyRrZxKHwP4g3Dd7dwbNXeX3q7x2vzWHBC7d3-sfGeCUeTkSyfa8AzYruvnQxUoEHkbPRyMR7Gec_2VvdSJadzYRCN47EI5dG3KhTTdfn-Stse9t3BWKdYoWg_UwUqSL5X390OfZd2nuqPKuooFKj3KcYwFvzjLSyRK5PxdrDDUVf2wEWRxoEcP6lp1F6010NkguTxRBPjGXuq_lFCmIgxb9nkjZeLMzN-dOw6GceKTb6ZJPq6j1Ovha6ZSHKJFyUM9gmglpUNj-txKhtckn1qBsPTuf02NefHNWN4=w908-h672-no" />
+
+</div>
+<p>Then select Sum, and click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VUWoZpvSRM6v6ZgC9nqG9AbHzHlW5KQD2BTVQIcyFI1JycUmcuvfcSytRZSk1whxGBNqYRLVBGhsGnp1iWhdkZKJZ-_PtbmTyHEt3PjeZdkiM_dzE4fHo1fm0J9OBEwpLeD7dpU0w__7p8os4CACrwvNMFlNlXUjcwehlhFmnV1Pug-x_wlRri5zi0dVT-q-pDPcBzjYV6PL76jtiexf6fFYz6kLUz7UF7hXeVNhTh0StBpQ_Zga3EiwuCCh_qfrQaIeVuTvtIcD_5z_-9-l16ElgiCGFcDT9bXifkUJHdFKAkfV6UdTmScVILtSq_Txqjcli7VFZr81t9gJLXiYjjvR6jtgsKk-ANLgUgkKtx2aexC6wpu4yws21-d0iqkG1HciWG8t7uUplZTL9QPNcnLXlgAZ5tXGIwrIwnxIEgphxjG23XBTUIjTZ7-GiNuF16aPcpRkhRs-yp-fbwauU2SyUl2CM86zrDmYAVfLnU4cFKv6IZf1qVoC3fu8xvxLLnOa0ImtPWEIO2WQP5CYvT0NSD2c9Uf84sb6fsDKJibDeLv4I117tIBp6FWB_aK7uRJx1KOfZvOM7z5y4k_ox04WISDVaQ3nhHNGHFcVNrm6mDnd7OajvIEuT5C6vleNHqL5toxRtWKRj49wYDM8CeuOmNhtcGI2em9Px0rf0C3M3GXpkpgfytg=w377-h325-no" />
+
+</div>
+<p>Your table should now look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fnFAyKC9UHs94QbVD27xybPbtMSJNjG1IqG96mCAjQhL_x1aaqF75mSAbKkxTAs3jOoIcB8eUkAGajciHcAns3zZ_P8Jn_a70_1Yy-rhOoHR27IBXI828mUQe5Iid44OcVEpjmRFSF77OnFCIR47RhllvcEtXgV7RSIs2mk92mqkVBESDvhPZ__AFLu3ppwT_MDZqxlkL0wsMkGwVi5wBFIYmea0SMS9gTd0Ica0StFNn_untt_ufFRA9lVPGACMhOqx7Bk_pSfQ4Fc9fVQo5GK0kLAMp0mJ7gX6qmqzyIDL40uIL5hMGYJv2T3-XwHqQFc-sawBF_qgLjmMYy3QOjSlQv-lPPjPEygd8juS_79AVX67QNYluBy478Nu0h1hLXg8Mfvswwv2KE0MVfiEDeOtvxsOBzgzuMO53DZscGtruCXcDWM7Esf8CqyfeU9MQi6eohp44eWgG5LLf_bum4e_RzSwD47valG9Pwwi5f6PIwrxi3TjiCdPuB6mmOau5YyybW9m086rBz1il-P4jLkqdDQmv4nX0IBvjfpQA-MJXZxyGdQkMkQGUGlMHvasC30M8mLwXN70lTA4-uEv2Kmt-hMLNswQF8YTZzgtRkZdTW9sKMrGwnLyH7IkvmRhga1r0XZOeIAA1qFxxxYpjhc3Fro8NRqICuUgAr04xBXx0ds49myUchM=w900-h671-no" />
+
+</div>
+<p>With 0/1 data, to estimate the proportion we can simply take the mean of the column as well (or calculate it ourselves in the table). I will do the former here, by dragging Q2 again, and changing the value field to Average.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pRgqsC8ZpFH3Qh097jWm6xGEtCAX1B5Pydtir2w76G3g2R0N8zJlsnANtSKy-neXAfyhpWY-wvecuVOStcnBY-XkHIcrJfJpWc5SOzCizzspQ3gfuNDMoQksWe8csxGydsFayiWSGdA8zZmkHKtO9_XGUKqCix3yVvMieN33htVnz4Qv4uNQQpMF49VrALeMxDHnDxcMleCiEcpMYYBnuLgrkWMp5EZx5u1ybSjviTSd31etiMxs28FuOgfWb_upFFMojyUYvpGpASNzRejKQnQG5dk1oIcoDOY4aymVz8AhFJsTwvk6PWgDYM48GYmFS6DX7CuUM4VHwbuF3U2lGOwDwuq_AgmU-bJygvbexh5R2iwwNuvLzJJXpFttPSPufmiWevGyx6l5btSWIMLVO49chpC1npafwgCcI5cvj56kgkEY476_B37Php1Zs3HHKscDZt8YnRGGOfHjuesSzhnjgAwyxF7sk4J19Dua_jcBdMOQX2kMpo6H16HDUfzblGVFp7CHOkv4iYQoYK84iLXaSK3OOIPUcbaJQhjOpPGQhWRl_rXgSWYPGSGRKPwm-mNCr9InEC2vCO2rwsCV68gvXvSk2YYW4DEQ7HrM3IiL8LzByrGk_sFhr2_Y_08v2Cp8jrm99bQeNks75aXxPDxde9utVqi1_vxWD9bBKFJgLC4W88NSvaI=w895-h723-no" />
+
+</div>
+<p>A simple way to do analysis of the proportions would be to sort them. For example, we could sort the Pivot Table, showing us the smallest proportions (so those who answered Yes the least frequent):</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9O22tJioccFumRqxQ64L8a7WTvAm-JHqblkYkyXrCXrV0yu71BKT-72L1JRk8v2dPx3Pq0OOSIMOcd2RFN5axe85tUvBCKrYwAZWzeJM5XGrG2HlZJTAHwBmG-j3IVkso2ehn1BaoSOAzz3QnZMv4mNo7JrMQsmMcFUT3pi_1OPW7_NgxNglKdf7rc82bjx513aw8kjjufFMZAxv5sCQcKRTaoo2jFUTeUTiBQNCuQGBNL4U6mQ6OQB6ahwCNiR0rKW6HfzzKL7mO_iFdNKvjkcV2tiA7LofC1cMHxNTeMt2Mn0d5-y81qEx7T42Nm1Rd1XstwpLv2GvUWy4DLIno96BXIz3HCvKkqO6TQkHVEtu5bWlkiWm7taGFztLLVEV5oNdZ8Qr5O87W3GEtforZlkKXKD-ji5SNhLvOAQ5ykz6bDjzLfU85SGA4qElVLelAbDYWFH4khrAMB44k431C04WNdEYJYowR0Wg2kWb6sca80FY37lJd94gwCrpXn7Cm10Xfcm1KxMtXUvpM9XtCfYE9fuiNYtWaEpg0_JJp8yRnwno4IC46ZSinKA9CnkpU026PmHXQQH21oTwa520QSgAfAoHdwozq5HRckHS6ibh5nuLMOoLc2wr28L5-z92RiORpPp33hb1rdR15hTWJBIcFtWGRiQ9f76g_TLF0WKb5i5VaYYiAGI=w420-h463-no" />
+
+</div>
+<p>Notice anything about those zip codes? It is only areas with a very small number of responses that are either at the low (or the high) end. We have an average of about 86% of the responses are yes to this question. Next we will do some analysis to see if any zip codes have outlying proportions.</p>
+<h2 id="adding-in-a-series-to-the-funnel-chart">Adding in a Series to the Funnel Chart</h2>
+<p>I have provided a second spreadsheet in your materials, named <code>Spreadsheet_SortPercents.xlsx</code>. This has formulas already provided to help you do the funnel chart and calculate the shrunk rates, as discussed in this weeks lecture. Go ahead and open up that spreadsheet, and navigate to the ShrunkRates page. You will see it is already filled in with a particular example of what happen to be officer involved shooting statistics.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/x815SyrSvs9p_nuA5IGAZPrwnHzwirm-3UYLG4g6I01yDgh9auAogz9mMCaKnYZk_pMNPgalT1PQ-KonD5yyQSEX58OiRSvs6C5lWg_h27PBT3yKekbyflZQJ2YNscXThxoXDi2bWVPmaOUOT3SJYOMNaLhDcIp0lIU9URcVPq4EgvOgABDVoPr5iwU2raHQugEux6FOpaHP_tJzEtPO9RzrZCG9te2969JIFf18vVR6on6Wpbs4c-E6o_sMQ6efKtsP7zR9Kj-TUt2rcKlnC5vIXW7lW_yvMSfdKQ_VjQuHOQRB6TvDHrNs-dD0uXC_9IvxsOhx_6hAYf5rskXVY3iXZnnCJ84haf2KPa8-7YiEDdJzQSN3GOePuGtZkaptuSbEg_inoW5AbTQ5BXIe00XffhxWj8-gOQc0MNss3h4jFK63jkIvpqF0d4aNShxptZ5nrjTZHNPri14qnBLBYprS27qyzrPPqx44104qdbYYy4TgazSgd09sbyZNMtAqCe-wVo6OYVMGkwQixRKjPn8W--nwvaWGB_1tPMPbncRZtPIsTjLUBu-n3zNF2tfgbDh4VCW3IRFiIY7C0bWnW8C933OUfnaGgOzjVlMe-1c0sU4YgqqJv2gFjBiu-YcJ0ykAfSJQQEsWwMdMF6cEzsM_gOmIe2Zvbz4kax26STD-bBS8mx53s8s=w1608-h549-no" />
+
+</div>
+<p>Go ahead and delete the data in columns A:C in the ShrunkRate sheet. Then copy the data in your pivot table (A4:C105) for the zip code Q2 data in your pivot table. Then you can paste in those values in the ShrunkRates spreadsheet. It should now look something like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ceUwy9KxR7D5cq7ZzZqALdeM-_0qlHoDmHHr9yMgFIyydFwiQC_NmNr9C89wyyIqSxgWdsI10Jq801IS8cYVx3mmdVgDPHmjLl8IDfcOIcftZ6EpHCm3LNVwlaGIjUm1sJBZkvuMUbWrpR_as3nDRobLAUcqUWSW_FqQdNHe3LRuvKvnxJpw2BqLQEy3ukN9uBfYaMiHZwoVxNhqzg040_4GA2vd_JFZMurI6lOd3Wx-wiHdPrCMeLAGM1zr8tVzdfA3RttYo7l-6ifgTyvoWgKRh19fADnwTM5dpuZ7rD5TYLjmG_WJ4NQptfB1Ofj0czQEEI-eTQqIk0xZlqGp6uItGME2dg3_497netaWca3o5u1FDoHxTr_KImWn_uQADRl_J_Xv1h2i_3VmYL1xwGTX17kaK7X7hhuMNtX85wP_ycEHJRlok3GTJU58bga6r-twR7a03EsUTOyxuPTPz6-Nbu6UjVb1XJLPrsGNWAuDIaClvCVhNeB1VF4SdJ82KNYVOHppUUOd4zmZdaqH4hJNRBWSZgRnS9x3du4rvM7XKkg6bo__knyRWJ2ou5KzxKUIIlJFSZaBVOz-tSFexc0hJ5udVNX4ko8bgdhtMSVanv6WfFsStnkMC5H6X5PXwJhQ7DieZqZFp4ICPGyPoAu-NjMomGuZd8dyeFCC4480qGxIRlaY1mo=w1562-h564-no" />
+
+</div>
+<p>It ends up being there are a few areas at the bottom of the spreadsheet that are not auto-updated with the formulas, so scroll down to the lower rows, and then fill in rows 102 and 103 with the formulas by selecting E101:I101:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/N-Rv9emmE4ZGZ12TgpDbXmNUVEYYAmfdbn0acJJN8JE0hzYM78Fn9SkOBtQVXhhfE6liC4gfIJ2648UgKufuR3LqmQyrHPGwD4G4T0mBnXXXXz7bTgeCflV1HZ0u_D1Mkq8miEu8XCCJTd7AMqm-JID-NuBujFCEpvcPuwSlD0kN0Iji1sTWz7pTD-SRJLEPXDYKXewlMDQSvQlrQchJovDF8e9m1kOeMIGgza9MDNYCFaX1e0bU4kIQKIey45ARXweBlNDURk-SzpPCKvNHuY7KJjBgspVQ_5vqLvDdC64r_jLlnZl4dYrzubo4uZY9kpZiJUDM_Gwg6kU39x8t467XWOoNPRh-9_YipYxu8yuSepGGdlcU5YfK8fkNVz1lkCEhPTfLaI4nv3EUpaMpCBoytOMXAHzZwiFv-W3gYvsM3yEoRrPYMC6zPq-iHyv59rmNYLiSc12dGfWN9-0DjueoXQViMKSUxndAOuljB6OsH0ngTt5WHE_SnE2km2bhTqvw7x11Q11tvdKOizWUBALDxh-KxsU2e5dZxuhvKIXChxq_34sWkNuqiE3MuCYf_8nNl0Ct0C09_wF7avI40r0GPkRyZU2V4Xu898IeSq9BDiPTCtn3JaWQJ8yksg4cDdmgnC8xIY68Pb7tCF3zRvqgLFDxytB8SFGajLZCCPpiaq2_jO54U8Q=w866-h213-no" />
+
+</div>
+<p>And then dragging the formulas down to E103:I103.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_LALM1nneQvkXFVbRfr5fV3B03VjaSI5ttFN9Q7tKP6QgRopHp3c98ltPmdlATD-fWhsJ2M_yWBgEQPatUFRuYgMHgkFt2zXhNSysYcclXo35rEN6hN_Ldxy-C16IbnHbJp6xTCO1V7mLN6i9lGBVYlL1hbuPJlkzzy1LgnzAlDiQB1j0trzPC68JaFhRjet1rwvKHuxbBpsI9v490f3G-jPZxyNbTKqqywxMyI4157DqzDN-m7PXgvg2KMcPO7eKcaLrpIH4wWBdeRjijcnhzqCUK9JY-8-zUcrQUwCixWOK-VRaB1u5slY3xiNofBSDUfUhtjg5ivZBMOeSNX54dJLsadtVBRXTwoAQA7BxG2EHTci9Hl_YZMBblHWPQWPFw3vUhLxSHNS4pu3EAN4QSd04LPb5bL1mlXZnODbLcUOvmMGJjsmhvGA7byVa4bjsmVF0nCoyCoCqNlNMPKzw-Ab6nRWNvIWItq4sFh5wVzvpymk-rK97FFZb1BO5_wvjcHX0LCRWHH8884SONnzjnbMBrURGGJi-Dy1IJeHLoHLEW6dDwFpgOO8rC_Fc7-wc8AGeZ6YRRR6H8AGXdBNmPuWDEc5JT5mYkeBwmP-jUkgMNH0yIqspKZXggJWo8xe1MlEAOChQ5U0E_3mG4bgaeb55V1PPevueepXstxX8INOZkPksTJycV4=w880-h131-no" />
+
+</div>
+<p>You can now see with the auto-updated formulas, we have an estimated Shrunken Rate. As discussed in class, this is one way to sort rates with varying denominators. Here, since most of the areas have so few of responses, their rates are shrunk by a large proportion back to nearly 83%. (I will have to investigate other potential options for default shrinkage, this application it shrinks too much! It works OK though for homicide rates in larger cities.)</p>
+<p>Before we go further, you can drag the spreadsheets between different documents. So first if you have not done so already, save the OfficerSurveys file as an excel file (so we don’t loose our work). Then next click on the ShrunkRates sheet, and drag it over to the OfficerSurveys file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nlUszq4b7EQ2EnqQX9iGVFsm6RAOos4Z9tRCe3WiekogxvpHHkN_WkZxG7FnGdi0vLvt_VcJxOl_oEOFPyntx6AwJj_WV3RCfN90xW9Dp7KxOmZMfW8ekfm8Cp82u51V0XzyveZZSv8ctzfdNCb6iN1-51TVW0TJF5Gx-MDDEgKlCbmcBbL30e8OUBi_rO4KEPE9uzgyygGYvX8vToYsn8fE0hpvdT1gyxxDnquzLws_i1oDW6JyngE7iuZTrALZ_g6edN4Y4ouauR3qreWeKy7WaHBAq9e0fioalEJlEW8N3Mu-xJhScVb1Ytj8A4P8R9H1HQF1TEh4l5HYNq9Ljos87nTnM2lupgZ18qdknur8c4F291qszMFrXpRD9UVlwuxV3mF0DTnbUmUmAN2aboVyaHj1Y6DeNUD-4ns0EDRurYkz1W-zApKuBzYp_WNXz94E_7n_sj7AfKNsqUTheMwtp4YmlclEqbsNqhMlH9ngA2c8X5BGj3ocJJm2MD9WjEgGOE0J2mYhLihODY7XSZpR5aDASe0RBNIASEP3tqwiZ25QLgfUDjxNZmW8CWB9oQEFVDcS6Js4_EORpkYBOm9jicEW2XBOKmkoLAr6rEulIqNF2hs9zBTYk0AXKd-57R3qnrJbW3-jW65r5dvOVKKS_E2zLHZmQWeIUfxG3WR-_tFwJXHfAts=w1063-h937-no" />
+
+</div>
+<p>Now do the same thing for the FunnelChart sheet, so we are just working with one Excel document.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GkAY52GtkfKi0lq6lIJ02HyESWz3ges-ce7tp7BadfxVr58d_fMYPZrJY4BOLuKEVfyF61EWtSrSoLghh-tX1A73MeXZn9DjkiC4WEVGjcWDWdgPMzFT0q-opkSsBv9L_xDU5RypB_zpKF4rsGYOxf2QorLqx0_b96bCfGC5x1jmoadscs0OdeK13SAVCYDGBUk1C3y-QjOSp9F2GyoSstg-umFaTOZyOzICTl7g2-vK9O9OjQNT8YEP3hSx-s0ONhKGSc2Vre2us4MUrwAICXZKmDi5uLgIso2syyj5aV9WDTbCrpw5X4kfkY-XNqLJbWkziUYlp-KwfMao_ns268pDhqmnoeCp0EMpNZBfx4oEgEE1k5dtOYQ9X77ScVGXdckYCJl-qOQ3SZ_0ZpHc-NFXNqYp5qI2_3PXmMZaSSXZEgQ2P5rRKkE4qVoIcnCJ05Nktr6HtyqIdg6lz1Snnyi2x0VpAMhjPS1Y_-uX28R9hoJ6sATX5PWDxhkawrq8k8CocGrm_KsslK3ND57Uw6_wBlUv_fKu9PlAn7O8g3lZB1WEi6ZzsCRcYP0YrZI464FkU7xlWwAP-eLVYpgMSGRupoImc7JxGLmxfNI9HU2CmT2L2WkNpue454tH-bjckbjHnvpmUScb6Eb7f1ic-DQfRMDBsIOPuOm2Tx8yA77eSpvivVtG7cI=w1399-h937-no" />
+
+</div>
+<p>You can see the default funnel chart I have created. In cell K3 we need to change the default average rate. You can get this from the ShrunkRates sheet, it is just over 83%. If you type in <code>=ShrunkRates!M5</code> it will grab the value.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/glkid6dK-uqMz0Rf9SIGXmMm9p0LpwBjqdbNuk7R06T_vDRyg6NT5uv0yM1eV0MHaGnc6kbdqt98ipO-dvVaeeII0gecGIJQbQsS9-12Mf-dd7XZZ-n9sQLc3hPZSmFhDxhSostTIEMb373jQcV1BFjsNDjlo4o09aoymSMn3CWh0BtN62CjJzgjZZ1Gg8k-5QTnUvkn7AGSPa9vpWTBIl1Z6FmMuBuk4LC9daC2CI6oRtfLF4vFyCDoYiM8LUTevEqsxRQGT6N2yEaD0QA3ql2XaFdOrQmEYFfXA4OZldeop6zo5La0GhwV-VqFCySdCEK-NgBii4fO-A4etEqgDCgpD3twaHj30S4zrbhPHl3_AvnBsNoocCjBYndVi9LLGrBYat6-NBm4tP37WSO4yht9mCMJyg0Cs8H7xgF9KAQp6gLUiaP3xtgMthFfgd5ShMhHiD_FL_zJP4kty4hVKhS5g4FFl-dZzIv6lo0VFf8cVLpZE2sQh6q6eIe0-EQwHsLheFnlM_9RuqZXN3OOkJ6ME1QnlyuURBvDyxrFKoDvLzKmHIpun2Say3o8yq_olE_w5lElJWKMbXskE9Zde5kakURlkTOsNmllHNG5jw-EW7ysqx2blHj7W0phaUnxk-1lLXmIA2Bv_e5iSq0g0-tor6txRehEwqbDeCXKKnpWWXpl9iJx-K8=w1128-h347-no" />
+
+</div>
+<p>Now we need to change the Min Den and Max Den values (K8 and K9). This defines the length of the X axis in the funnel chart. This should correspond to the denominators in your file, which here range from a low of 20 (based on our own filter) to a high of 7,359 (zip code 68521). So lets make the maximum 7,500. You can see based on these changes how the funnel chart has changed.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-fLXyQgNtET-rJR7FdocgNnxjt3w41eY1tbugKSmjNmnDIQH4uT5APx8VODbOlIYf7Apbow7lOxmNq_pVdtCazhLdOhmm936-kjx8AErK7gaVkwBp7F-GDOxFXeO6Q9WWi4r_yhM2QO-IqXyihzDUyEgGGTAsRRLeIK8UMNAz8dmSpJTJfg8i4SkLVIgyNyyy_HRxocunjT_zHGvcOBS8S42dvafMrq5z3my_hTsKjHNjdae-9UCYcNZjJb4t4sWhLEgSzJPdH13zfDAIyoH02Y0o0tInn4k7joUjVBwdEXZcg_35s3dtr9OsFRhRK5HPPK_vBIxZXfjo65hDrvy43DUxEimjqGtrUbJgu2fGHS1JnIYoJGAOLAs9qMpZrPwGI5iA2IJo5wYcharsqxGwH_oAtpetPH0HcuqSwQGzr-aWC05qSyISIPw72KoHKaZZ7WzsRG4kwnMeLuG-TSQ4XUWNQyh2uLXwfMb1q7-Qj5nprH0RkGoVmKNTExPFD6mZqpQ0olEMOW7EJ84tuEybjbthgMBq9lkB_X8gc0LlzFTlh7yQN_BgcuFNyLeda-rvyPt-v7TPmjmPCExzR885paT8ir8XbRKNFVwesLstdqwbwSQvw6Hg4KAYbLeTMcKIM5TB-bHCCLAC6Nda4vcrSJPoPFPW7XFbeOPNxfqFM5Pmex-W-YjUlw=w948-h667-no" />
+
+</div>
+<p>Next we are going to change the chart’s X axis to a log scale, as it will improve the visualization and make it easier to compare observations with very different baseline denominators. Click on any of the numbers for the X axis, and then right click and select Format Axis.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ESSkhr4VpclGLsQqrc3T3hAguBfSJRiFOiFvFqmxBUAlJ8Cq7ah4rt6aVcU1CYgEthMrEuaX5ZyDXU5SM4js2IcRJlLSlwzlEqRO8mpESxgeVgqf5gpv13Hu2dzGGrA2HqzEkDIoYdLzn3TZOVSMYZH9q8eP3m6XZadFPdQovz_pEk1j-d5-Wjcov6WDU0s5nIUrr6zL7mLyE-WL1Le7cKCOIxXmZSzDD_Y9N7jT5rosF3rWee-2C15REzeWx0Eub5SHKLX5ERivV9GiNbtrN3KQwaI7uc80Dv5S9zcgx2guE5Ep8PY0KJ8VKTx6vl9llGGTbIyS6_eq0sLpNUhsGrEZ584ZWzJSbRwF-RXgXCgWXNJrRgPtyiWVyljP8gSrWzMhc6Td1XSTqecm5t39MNNqQ38IPJQG81TctInDIkvKXET8TE9r_iTHQMzeyHQWRxCZMUvJ4NSNQ6w92Kck2Pjc41gTc5zgaC1R6hOc9yJc8D1vQNV2lHKAXDr5qfYquZuIec9HRVdRcxuzTyubXBI6oyzeV08i3OiPGjkN08ZXmwHEupcTY_MrCKBPX3KTbIZhHuwV4_EYGKOSFpy60UVR5vVq55Z7DNeScgKC9o8B8HivtCSowZA_-BzXcXgSVwzJTluIbNo2dbAEmMGRbVpOnwM1rqrQTA-6MXelt74Lm3xaIdl_xwk=w909-h616-no" />
+
+</div>
+<p>You will get a screen on the right pop up with various options. Make sure the bar glyph in the top is selected (it is by default for me), and then select the Logarithmic scale option, and change the base to 2. Then in the Minimum bounds option change it to 16.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VpizOHWwWhvJY1-koMZ9ybpKt14uHfow3LRH69sMKsOrNH3f3C5pT3XUbhMbTuUgtKB2Fnac5TIeHNhkaaCeQgPMXFZIp1kzre8PDB4_2FLWRgfZkOsrvRU7GfYtwPZ79GPENN3bDYrWI2JFOG4Ik_6_2D74NHnjFWXcjiGoM0SWqF2qvuhScJ4mCkeN2643xG0ZY2hn1Y9hOlE7fVOIGFSEV6NlknORT5i8z77SUaHLym191INMwJ1YUIc2ZoGKUQiz0Q5nykyYP7aYzscVnGdXUazcL3aaPXLA8EtsEUxRud_QUb7yGd0GxNh8rfrnvyaQQmnMQFwVxgNNIDlE78HrGjWTX5nZRlbNZe7uMLzWgrpohJUokEVNV87FmejhakSJ8kbc5ShTWw2MHTt3Zws5Z2S3Nzx2fje0DE-k__hNxP2h67uiB4uvs8IzPSTdFFQjDZDqDX5rs8RhukSeJp5VhE_KDJojigX3Eb5Oj88-pQzKjI0q-rmU0zcJRDmh4X5GBsCXXu5CRTydpa4eu7u07iJZNCXrjG2NFC_eyMO6GoXbUasqg7Wkkh7OH96NA74cjUL8zGeO33FqPRmcsEPaTeAa3VVQ0Sv35zatQt_hplTmtC_NIslLsIbKfrkMjaHqgFceHv9E3ZTAZ0NDu1S_iCNa75PLnRIQNpJ-k-NpCs9TfNREqN0=w1361-h708-no" />
+
+</div>
+<p>Now finally we are prepared to add our actual data to the chart. Go to the ShrunkRates sheet, select the Proportion observations (cells E2:E103), and copy them.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/54f3cOzfZyJcNeo9U_D1XQNzFRmv_8ZL5xUDtkEWCkZA9mR9L_MtnKkV0tqcIVP49lPE1l4SfyTW4ZoQ1X0q9cSaJjKNAcUE3jodRTAwx1XEjV2K3vMW8QVTxLPVKR3qE6JqZpbxtteQND9JSePAYlATIFJevUBwuexDDvcF2GoSy9PyjbQ2KRd4NIMXXBJTTBdbCpk7K5dGV5eotbLrVRh8zEIaUzbx8AIFKk1IMGzO1WMuVIqaDVI-Qp_bfYqrF8dC0HhJqJ8ICvxwKnF5wxsgRTPYMBqOk8w2VkJRDgADClWsYCFnu5ZlzGbqloNs_FexXlvvrPhQRkyOwLDCQk8jfYZH0WmX_MKfyLaOSNEVtbOM1Jc4zNM8WiKLfopaR0F4ROA_MVAY4Tq8Ji1eqREzLcQAc0LeMZK7J288bCXnzPNHHQCCWhdmiEvdJqoAHZA0d26TBg4hmIoRkjVNxhq23UHynwXiu6w50OflsExrbp-bjRizg2pHFKnd4KueQ7P_AYl8-Vd2bk9A2KTnbleGPjwPiHuObrb3F4ZfG3Mt5fI-nHF33hnzZpfeMP4HraVMvtjlpH7T13iIcfHmG6xxq28LDpFFcwYJQvVXne34K7huIkHRNgwEqR-OAKpU15V_0oBbqTq5YZIH7N7QOyCgHsKx9BbaObn46Ar9-pFEvK6q9B9iv6s=w744-h822-no" />
+
+</div>
+<p>Now migrate back to the FunnelChart sheet, and paste (Ctrl+V on Windows). This does not do the correct denominator for the X axis, so it does not look quite right.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oUiuQrw-lFHo5dx9U_qseTwn6fc2zMDLl1-57sPI15utjq73rYLZuIe_Y8y1rJxGDws_R08aW5tRWvVXpI7tUZuX0UyayHrXsxAwCe3oI1RtiZzu9LBWPZaMn84YTEQL7qkqsFoys4NFS4sEisiep790u_QsppdUOQnUM00wmwptVVD1rrM6UktpR97oL2mcxa1_p7QBMpb6HYCV8WAXFRuXONSB9NobPm6FRMGBA8lkimwiNcqVSVYg9j7xknKNJgyEWiT4-GxLaOirFpwGHPYK2oF-qTob7r3vHWKM9GR3jbJNRPFySpSaAuZLP-rK4vH2vuMWe5tYixpiNYueNVRA_R8kN-U_NzYHVTcVTz2rChxOoC3RxaxN_FNGC0pk1dt_XvCi3wX9c7RCMXSE-I7YIS9hjgK3OqPgMGIRpafU9genucPADHt-_FJ7suzvc3_KRDOC7LMH_riIGebTuxhbiQhDaGA6dk7-vPwO-f0EGGEGHq41z9BaH4wnbJQCd7sYRMcuekFHmmOWBKtREpXx7Cf4x3VQrb-4PJc0RmjVG6XTRjgdUO7-9SyUvcHiBi5pT05KC4cilGE1KHbh6sz1NSijGRj1RrCEfuiMwK_Q1YXoQHGsDQkSm0gOdzGMC5e-dKI7xEeQVfHQ53zP4nvz5fdz-8SODX4rlAitxzskMumcEUrbXwQ=w887-h618-no" />
+
+</div>
+<p>Click on the orange line anywhere, and you can see in the formula bar it is taking the X axis data from a different source. Basically the way the formula works is the first argument is the title for the series (what shows up in the legend name), the X axis numbers, and then the Y axis numbers.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yERDvYDvekmGGN0-jdtL5aq3_7ay5q7T0XNW4ojwIKzmqNjbxY52yPqur1j3YSIoA9fhUlAD6SGwt2jxLjxtmnv7a5s_-Or7SrO2bQhJs-sF7xWOQnGUE-9NOpW9zLWSQChzLE1yfrKSXyf8mdCHQphOSWP6qpUH6ZeChMQRLOAFOqLT2NwG3XIvimNuQiV2kO13a9L91BAMwDa4-5YhuTvm46G-ng8H7Vk6guCVbqIxMF9bq1pb_OonB-xYiplA_dp4ov6pB_uEKXVDUkTXYaWQUreUw2Osb0ELAbBC78jQIAAcE8jhKIPOnTS7hyo3a9YN_GiWqfNTciazOKMxBQOEbGrJnqsDpt0Gwu5eaLV6mLgMcZXFJ6yYJZotJBnvAY1-pdvh30FOR0D6UOh6AynlTLsrL4n5Ko_FMIonXD_XyTYDVw5ivWp9j72lYwREiytmrvkiadb0GwKxf1yN297KrNfDL8tsmE53ogKPCh7RmYnqqruoPPRNmV6dcMv0UdiX94lkGAbO1sgO_mxnJbhbzYYayhdCA5ENau8Nk6PgMfuYjz7SOKJJAisOGKH3OsA27TFfYZRfjBd6TGT1i4ElYqljcBMyWO5cQn2ua0o9kxplVuKpYKpA-EEQkNii-3NCliBdubFrJpbHAtVdD_Hhi7NbHCzmV2tjVUZ_CsEW9gmLtxJeilw=w992-h604-no" />
+
+</div>
+<p>We want to change the X axis numbers (the denominator total) to line up with our proportions. So change the second argument to <code>ShrunkRates!$B$2:$B$103</code>. Also go ahead and change the first empty argument to “Proportion Q2”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5rDWhgkyUrwBg2LpsVWsp1Jo1Ts25mUhy8NNOm4-NOFoRYA8MzLL82GkaB3b8Dgk3elG8tzsNBVmdSh1YTVRmtiBglreoVM30OAIFPdwC-5NKdotvr7UORnUcyJyyyCvAiYqfMkre_f5NgFHSAuma6hhFXGSJTck-b6STrT1p2OLa8KbL3GTzrOHplQIMgoMmPpLBZXhT_-jdXwBDDojClqTggZEonYYzfBHu-k1ieobTkiuLb0_UIWQ7pJ1Ti8FKqrxB1WnC0z15OFMxSFYPlPCqbWiFJm9FkZuErkzIu-obDOdcro670wzgzHtK6FC7b0O8jWoMoHJBqBAKmqmdYbOQDsH7YCkfOLTPkGROYBvToAEKhbtbfVDhWfPv44dy_5u_df5ER11gqDH58z2LsKX4P6Q2nR5G-zzwd55rm_JCaAghenI3TdTRAV1wpuI9iIH91sxA7loXsnTI5gKEftTn9L412l4jq8oNPYNbaDO76UaivrWG1ejE8qWCLscUG-vJIewJV8DCHAuSXlzcCwluwzKuRAPC31UIlTt7sQVfjK7huGpTGDj07kY4GOxCEXEGcfad_1tY8dclWKUmhqVwJrvIDxNBg6D9ZvZhwbadU3ErKm2zzBRziGnqFQl9zzMVNZuanqGT73t3sxU9JuqQmBnTOnb8KVZkZssWdQH_Jolg7HDpM8=w831-h126-no" />
+
+</div>
+<p>Now we have the right data, but we don’t want it as a set of connected lines, but as scatterplot points. Select the chart again, and right click and select Charge Series Chart Type.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IFKcRvJpcwpDOP87R57CxHwOD1aJ0RBqjgqDFok3haLjHinz_KfQBAQICjq6b7cLUzswnuNyF-lsekhnRM8XJNhlBbRTWiSZYpHMDey3V2L6vThwuq1R8-7xdmF95f0JUUj7x_9Bbj0hT9wSFH78944bstssmC_KB2Xrd2Sca1-8Sgp4lCwGuy3oUCF5HHL95X9WsmD2bqCPfkJEPC0WOc8Sm8L5gH0yYc4hqVIRdu0ZiPQxb4Hd3ZzJi_r854F2X9A1hcdQy42yz3eiGI-Fs1J9XZ27Ukex0lqTGAUx4MnU7pposfY68uRaKwnTMEKbJmFzFC-fHV4d2EbFObv99ZTAZQDqQQK7NIPW7lPSrdSO-cGeQwYy9TCHTfNXzbubqBNhpYkaieEJ6cTH_uH7rkICkBPklOL1UXAq86gYz5dcMj_NJ5-lG4_DsD2w5To9yDNIZD4MRRVRyeX36JWtbGvZthdYVZzY4qepgA3tgSZcvlQYRjJXINXbzO7R1OJq8SchGz7FFPMHlkBdSbTaPI7P3PKkBGmxvzU_-mDqJdo3oIqu9fFJtwUFQagnxmf5upKE4byIpEHiRsPNpEow0zNg2WzKCM3YjlTiLrmcvjglcJFiGjyGP8vzYYghatIzdP9dibNIDn4T8vkZ3QYb22hmhGy3ytUJNSea0P9SFmUR0J-Gt645PBA=w915-h634-no" />
+
+</div>
+<p>For the Proportion Q2 series, select the dropdown and choose the XY scatter with no lines option (which is just labeled as scatter). Then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/423iSLOCUdddx4bb-DSD3N4o2uXFVXPcJ88S26IVVKtGyNI4soz-FxIUyUJcmrcNahjWmjhdw8g0E0zUFdOpnRCHotHAir6WLkLfxwFDfkeK1ReNgn90lTL2s7IFDGi5cri9bkgKy3Gb3iPitvg06441BKNL4cbjZUCO9IKc4RjCfDqCGWHLST36dlBNTpUIKu5kmHaLuuHFutpcW_2ACF6aegobsTKD5-tEo2QLEcvbaZ6XziMKkPlSvbTUdND-ED1ph5sPLWGk340A3oIZf4ZPmwCtJOx64V3uWfePk8itHPckRba9G4a-eWXZOH51DoVcsWhGb75_Js-qPNQYzOJID1FGwrD7Nj3sW-P_jUCuD8pbEjFq0jr0kXPRgUAso4OvqtdF46Vw1dqWMOtAfTV3TwbLebiYa0izwWu3gaDpGap2uSrX4MMjlP2GgsYSJXsC4HyOEnbqNKKoLT4oiKGge7Kpbj8JdeafzFwywiK86vIfeGG14TUSQ48sQk64astdxT2eUFslo65Z8nbMHbRalKzmAPxda5iFqZMMgNCk5Vyn2CvUWLgdeNiUF_BYX0qAAzXvxbqhS_8H85tx8TJ3ehErFh3HoDHs5CnmSBDWc-tp2LVFyfpRx5MQYTcs8hzZX9ZhxQ-lY2-110QMF5YzGE1O6VC1GVcC3U4L0I8arZyXVa4n7mA=w856-h667-no" />
+
+</div>
+<p>And voila, we have our funnel chart. (I also edited the Y axis to only vary between 0.5 and 1, same way you edited the X axis.) We can see that the spray of the proportions around Q2 are as expected for each zip-code. The only one that is <em>just</em> outside the lines with many observations happens to be when no zip code is listed, and then just barely outside the proportions expected with that many observations. Even with 1,000’s of observations, fluctuations of a few percent are to be expected, but the funnel shows how it gets smaller with more observations.</p>
+<p>So based on this, none of the zipcodes with low or high proportions of yes’s for the Q2 question show any difference from the baseline 84%. While this is an artificial example, it would be reasonable to look at something like this for patrol areas for Lincoln (so can see if certain shifts or platoons are doing better), or at the individual officer level.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1hqtUCd8UjZDtCNPFm6xaEKUk1ZxehpiAwIRZsZvNYgGVYfzAQP3T-Fs9TILz8wSn62FA1XbhLTMK4dCbQCxNzOuFtGFewOn3M4EHC31iigNO6rUdLkro28zW-1som_LClBbqPP3bXBZsguaMFGQK-VxB9Ol0d-udo9HDtvnMORXarFKCG3k9Q4kU9pwKdbibsdUwH3JIVdlnP2zerZ5ZRRH6SkA0F1P8uLg5VJxh09jyl9x7k4Dp8HeDKWCTTrhiSFSsHjkGUUQ509MYndJ5924sbEE30bcqGPycPNeZ5uG8LYH2LiFDlDU_2K-_qi3N8BwxmLX6aGCfEcezepUExIUWmgd0VFg_lzR2I7Lc_MBXpLtXskF0j1mV9oSLNnkcTys7jUXibsDtbfOgvcCqGMoZrbe_7Ah7fvmaE2ZTU5vZZa_wGjTXjt10hsYJ64Vs45pSmxmJQZlFczw1H1ucYnOMHO9sTY3plvD6FNAHxGjA3wzyA62GsrBZ-TiQeHCi28k-03X5TcQ8uz8N8nsws5uPb4xKS2eQw19kpjRoRSWKF5fymnjNo1V_wTEwBm30RSHHr9ot6Uhmds0PNt5law_f-EKH4fBO2bJBXafTTRDfBzIPUR8BbbEaG-gtklxGho3CKpZOMagKvZQPgvcqyxHOtCx7svY_S6cVE55GxbM0NSt-D4gwsg=w864-h603-no" />
+
+</div>
+<h2 id="extra-funnel-chart-notes">Extra Funnel Chart Notes</h2>
+<p>Other uses of creating funnel charts I have used include:</p>
+<ul>
+<li>outliers homicide rates, <a href="https://andrewpwheeler.wordpress.com/2014/10/12/using-funnel-charts-for-monitoring-rates/">blog post</a> and <a href="https://journals.sagepub.com/doi/10.1177/1088767917740171">journal article</a></li>
+<li>outliers in Use of Force at the <a href="https://andrewpwheeler.wordpress.com/2018/12/02/monitoring-use-of-force-in-new-jersey/">agency level in New Jersey</a></li>
+<li>outliers in Officer Involved Deaths, <a href="https://twitter.com/CrimAndyW/status/1143164369766944769">City level deaths</a> and <a href="https://twitter.com/CrimAndyW/status/1080870855679324161">State level deaths</a></li>
+</ul>
+<p>Note that these charts are un-adjusted rates. For example, you may want to control for the type of incident (e.g. arrests are likely to have a higher proportion of negative responses). This you can’t really effectively do in Excel (and would need to use statistical software). Eventually I will have an update to illustrate the use of those adjusted rates. (It will take use of regression software though, like R.)</p>
+<h1 id="creating-an-individual-officer-dashboard">Creating an Individual Officer Dashboard</h1>
+<p>Next up is creating an individual officer level dashboard to monitor particular metrics. The first part is old hat at this point – creating a pivot table to aggregate responses to the officer level. We are going to add in sparkline graphs though, and make it so we can print out a nice summary that spans multiple sheets directly from Excel.</p>
+<p>First, go to the original OfficerSurveys sheet, and add in a field named Year into the data table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IkfcKyBUoSLGZzYhfFT6GKRJSGqJa5tGc12zarkUT0vw7xIopsFhG_HJrSt88lzQX7RbC85O0GTzlbgawpmrneoHvQK82-SwhEY1u_oZBDpoZq_qEFkiYQBKObx41iVu39iMobRH73DEq75qgFbH4Hnh6ZziT6smOtOcxo0n2BQoHyyIgC7IFnZPeYlMiKmMfoIXHPuLpHlPZjrgJBA31NQ38OiOf12LFsZuitK_oHquyNCk0fBPPi4fvpOoRwTArZGE27dTW4fakQqpd8HMW20qD1hQDh2c6PHdWygh1oxTJvAbgz3M9PafCjFhNMqsMLUmL8P1S3lEcONqKNYxxDZ-HVdKmdGRB4cJwtroB11Wbz3JDYTKGw7q2ZQlfZb1QR9ICLALAha2Ack4o4Izmyt97dIJK-k5n4Wmm1TijTcf47UMdDfE7uAiXewwwU7AoovInCnbSjVREzG-bOyyYZg78B4tUYT_iqK3z-GJHjqRQ9i1zYD8RpcGaDHnzqIDn8MXFJ4LpER6Ts9_DlDMglDbXWlUH1nXRxD6aWn2dp7sSxi6Bgae5whvt22Mhz2ieHg_-Kc8dJqEA3uvBRhSDvHbayQa8HiA4YT8DWEzjXeFLpir2MDleRqqATpOt0Jn7EYe2YuomGSN64d-Kb-8RwB5ftiqNzYENgpFCRQkVFrg70hPS7sz0Ec=w1296-h342-no" />
+
+</div>
+<p>Then create a pivot table in a new sheet. Place OfficerID in the rows, and Q17 (“How would you rate the officer’s overall performance in this situation”) in the columns. Then place Q17 in the values field as well, and keep the Count default.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DfnkPpPCNiOqbeGh5I1V9k1H7ewcLAcIcEgQrkX7ZqCjxHR_gcj45ltvQnDN9ja2eh6SkgP3myShCn7IviGAg9slnAqWZFx3xBvcQKpY1skj5fc2Rp5aiy7yMMDmqtcAy2MOw7Xjx9emezw_2Kj3awvx7scCO3u8HobIEmSIIQ2n5qVkNTJzjEsZx4Ct1_kYzuszX_P-U-Yl027oyBZdluRPGcTTQ2Q6N0U-FvtrPjaSPLR-_gwKZC3xOUf4tI7N5k0XMg4zUsGFPhmHZ1Igu9xBBemasPsd0UoW6VGwdDO02h0G7L5eHimpyrmrO-Sj0oK7MVkBl-yvmTOKMUUlmhZBYNJg2c7HNAV4U6wYG2eUrWNh-BVShOq4X66saWlL5e1Gkv7YcUpuoK19iDyHLjETSyw35_r_HTvMnUfzAY8DOU2IgwwoQr3yXn2T_iGWPoHPnpJKnFGedDXPE4_cBDTZwE1io4WvRjABLTz4uW53ZfRO4n-8Tla1LHG_Ln3B-w6TF5CpxU2DIpi04d7eFifoHskR5IIoTAfiBw7gG61Xlt1A4T8wmdoa8ovSwRSmyrKNDt60ooD9oSI3t1Q59PlJbMi2rR8Sgrv-NNynJky_aQecwEVGCeYQcxQeUrhQLxTv34O1b1SgokwXjx3Wg7K2M3hEFzMIydPzGMEKiW4xUavczoEnnYk=w1630-h751-no" />
+
+</div>
+<p>Now, we are going to calculate the proportion of responses for each category. In J4:O4, place these particular labels, that correspond to the responses for each numeric category. Then bold and make the sizes of each column so the labels are not cut-off.</p>
+<pre><code>Officer ID  % Outstanding   % Above Average % Average   % Below Average % Unsatisfactory    % Missing</code></pre>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3yH9byQPlmluHRSVdELsYWNfnnp1s7evCVkU-vvHpeEr2btGwQgnrlPq_yKyy4mIn_K2wJSe_b7HBKNT4MlmKMe7juiJM5NJWDU2vZmCXBeIk-TZvJrcwQ_HZsnr_t25dGgwDvWRzQsJERG55wpPny7BAbL-sc8749TInEi40Da2I32j5ZljYWq7vJ9k3VYuAcVMB1GgOzX5a-6FNdQTHELBzgD-VJawlDoWiWb-t55YSLoM-s0lyO8MQqgxrO8bPoYjUO2qYorMnZhFCbiNvNJnOiTgibq6ROFspz-bqe0N68iJ2gIXb9Xh1fAJ04iRFs7FYZrV0vbiS4fcjrS55T3eI2sVOXb78DJHp0UlrPL1Gz81Px0Z-I8o3TMKmsN8VvGEtU_ZbGk9j7ttFQhHO5nkB3mYaUpI_pVSA4SohAI91ia0Nga9XrW-XBG-ENtQ6JJyQXYGaVLF3t_7GmY8JTBlLi9h2KhqB9kWHxIVMNd6skZ4K7tbcqC02xKoRyf1p0Uca6n1mTX0WMKGQxLJZJ8_bkOCqgT9tnuti7uFr-aIBx54ytdPBYQgwgfePR0wKQ6KaYLnYwG_gdtXJyp_iEm_zh65XXuV9HZiUVuEbFP1sMMHLwgJrHMWb0F2mc7xaVdlaDrrNUEd-I3RM9uUlHmhkEPFRWOvkZb0pzDRVOLELLH4vhunUtg=w1237-h324-no" />
+
+</div>
+<p>Now, in J5, place the formula <code>=A5</code> (to correspond to the OfficerID). Then in K5, write the formula <code>=(B5/$H5)*100</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YHmrE_pBhb98kkRQ-_g8yQqqxW7r0B9lbwT98ko2TIuPsCSMDLWM_xoswi1FHnaF5UHtCqZDw03lqvvI2d8frViL54bDIi-0YGk1fZgL2aMbtHK8ektvzMhS65fK2stZZse9i8imCeZ1etaG48SX32s1iu5MkHxHMDSbxrsz6unhaLI_OigFwZrzGFkkZufu-ToKJzqNE6afU--7-EZSGLg2tfUOZCVbD0mUGG-ZpKoWSjeT1rFaF09uD-YIbLVaZGBRXqcC1dcnN-B9p8qNppjcv5lj7aws7RnZE_0KF2AM0kv7ZUY6Y7N0ILBS7b8m5fZRbv00M4QAvKxUbcQod5IE6NvesbmYAkVqChbfrxOSlyvRvXvQ5RJRrn9TcOjRCaqkUYEIQbLwx_iWw9v2c3mjhWt34zvMRccwnk6bEvoCC8y6lKyov0zIrPvx4i2KKMoBzKp9am64rBwVhWP36w-8glddAW1LomlE6EnlIP145NvnpS2AJsYZ2oHeVe1rLedTvAQZlUjfX3EsEP3nqqXK5OqvYYwH66kNgwZP8iW8l3btWNbtUOQV21HV1eqGc8zI8q5UV0uuBMtyzmVwZqLAeuNa3EmBMiHebtXKbUzwnhj_LuqiBn_K0vSJBcyuNOCW6-U628jaEE-12t3N_6DHe0k0fykKkpeYgybtlNxDXWQF8cMEKxk=w1241-h275-no" />
+
+</div>
+<p>Now you can drag the formula to the right until P5, then drag it down to the bottom of the table. Change the columns so they do not have any decimal places. When at the bottom of the table, note the overall proportion of responses in each category.</p>
+<ul>
+<li>35% Outstanding</li>
+<li>31% Above Average</li>
+<li>23% Average</li>
+<li>4% Below Average</li>
+<li>3% Unsatisfactory</li>
+<li>4% Missing</li>
+</ul>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6yxok8shyp9EwaHIN70s-FJ0Bg4RavwfI_NAl62QUCSngimcHcCRuTMDdSVdEvfd3GSHELjTZ3UF7IUVuT_N_51CWKiEoWpRn1DHUh5Dyt0hJGYVswRwSBukpqxX008_dJaLerW8V0Dvl2rmZgIVi6AWC-0ECELqjgmTs8cV2VCsQk5pDpxc4p4hj3sTQ1YZuMrpk7dVwRWUjbL9Z2GJM6Ww-F4X7TU8x6-ZnLzzSuXg8U_9yMZDzp-bew4a8AnNARS7GMSVy4ZaNdnpGjHhaQUNrUh0VPBzaQkaMEWEmYdee3sazMItLo08jGm5RiE0uI7pAL0A1dXtJx9d5IacpKcBfs1EtfUjNpzzf6j0YBUbJpr9wiqS5ivUlWJ8FPF7FpJTuC1WGVg85aooLRDrkADXPliqblGW9ZLPBV7dT_UDo3lR7J-EF6TMZjpp29_ByLiWwzc9GJw7npvc0LCgBKTNP6Id9UBxJ8sGLKyzXxCezm3S0bokacgBNXD6jhSv8yi8eVddW5905TsH5dgnIT4GPCs1IdRd8RYLR3oZCw9XY0TjftjUnn3moGA4n9sV_esn7pQ0cEqFqQnQS8OlxTXeZmpRAsZ5HKAlep3hOoMhIXqN_S_MupgTNIdAuvDwQSZRxPbW9H_Ne9Z60qH3e9eTcZqr9TakxdSiKPPkTVf_tTYi_XjAX5Y=w1250-h665-no" />
+
+</div>
+<h2 id="conditional-formatting">Conditional Formatting</h2>
+<p>We will use these baseline proportions to identify substantive deviations. For Outstanding, Above Average, and Average, we will highlight cells that are 10% points different than the average (either below or above). For the negative Below, Unsatisfactory, and Missing we will highlight responses that are 10% or higher. We will do this using conditional formatting.</p>
+<p>Select cell K5. Then with the Home tab selected in the top toolbar, select Conditional Formatting, and then New Rule.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wa_AzjZRCjyAafTRIB7yjbwydtTw48_p2-fAFEaf2v-fSO5lxXmKLgtcI9ahV--Ak4Rw0XtkkhMmUQm6SZfSnzGR4YLKAgsmqVJLsPqB9EyRs5CdiLRRiiz8I82tLtmzKMK5UGoAX7Yu3MJsOFicl9YkIIcjmUiM41cL6xLEpJB8_isk1cggBrQTgwSVkkHyqy87e7ZdwEhZ4ulp-znOlYEkJyZqrtgDfTec_F3NpD4D_AXZKtv0R-GLG8y_cTwOsEcs4jg1McyYP721sgmZvfthcqEm-zr6rzAPuDGaa7BFeH-8FwlFOOcTafHXDlNq79G9Ug_u9pa4g-Lc2e5kxvlONhfgdoW77VkY6TKhL8eFTWk9W2SDMYUT2TQbu_9UNacFXu2aSemfO5PT8Z2LdKArte6-NRBIbPVY1dW4lSfZJFnFD1o7I1MRE7JtTv-f56HcDcV9CL2r4W2RsVYcAtjUHMpDEA577gCe9jkmnJGHI_8tVLvUenqGgo4DuwGjkjoUFMpEc14VXjHBq5B14fAkhCIFKuu5AOyFniok-zOVVU90L2vgs5Ef12PmdNCLBgBGde0dj4bavVsfeDVaagRqUs0bRdD3WUfPE6PyxfzE9tOm8EehEDRfMyrkd9HOpKWxIBZnTPkYgMDh693iAte5PcBR0Px4T1zuLTsCbLzYvAF2KOTYbpg=w1029-h461-no" />
+
+</div>
+<p>First, in the top box select the option that states “Use a formula…”. Then to set the conditional formatting, we need to set a formula that resolves to TRUE when you want to color the cell based on other information. Here we set the formula to be <code>=K5&gt;45</code> – which is our 10% over the baseline average. Then click the Format button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1z-UN6bNHkdzbtBxnPUzlVaR2_5XlINPCSHLxMsxYMt7e1P-XCytHUMbZ-T7nvj8HObDuIz-Ydt_KhlHxkVy3DF2PO78Wit3MHh5_fMYizjHEBlcUBCQg2qHSgZWqqifc0Z_HfXwzwAv_YMpELr_cUUx8SaHH64cTik20OyXzd_2Vk2xVbGW-KNVp_xE36-SL5FBzLAZOxEIJZK1qlPd4gfWaoqTFnnjFF5cnG9UGR3Mbq9Udx8W2MJBWvOkrAqG42Ku7yyqB6t2WO6VGOnmIuCNImcN2ByWzIofx7XV74oC_MmleuY0VWWdYBeS9e4Ycs9feGvwotx2Uk_tqkTr9Nbte_6eHx1F4aCbjNDWiGFhl74IG3ibJdryIheB2lnfqPZpUBHecZoL0dPSHDLicS-YEtX0j3maLi2oe-0kf8I8pfjsEj3kVDPKn3_YMItIXBKD36Xm7p1V1wfcSvUEgGrJ1sRuOUw7lNw0Kh2vv5xsD3eTuzgQhKsUYy7g8MkH9avORyQ5awRBwZ36OE8JLXgEet9JRshj5hIHRAMO5GU1JZGz9N1WFtJ4zbXj4WmbIm9roQA-6ZwHR38kTcnPgyIGZwGGNdnJQpcGARLI0T0wxowxhpYf0Lt8zbUzDoscDEEHdcGZwEn5GItj8oXo8A2eEAuAVsMe-ovPpktKpza71tZMyGGmy2A=s381-no" />
+
+</div>
+<p>Navigate to the fill tab, and then select the base lighter blue color. Here we will use blue to signal good and red to signal bad observations. Once that is selected, hit OK twice (once in the Format cells dialogue, and then again)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZpWkLmRV3H4yVL9a_e7O35mcGQq3mvRvsHzSvayhEeKzS959PBNYpC7jAVz-ydFgBwP_SFUMdnAXb8Om-Dr8ECvAa9jtFIESLAT-tFmFLFO7Xq32bReCjO4R24HRGwIFkGTBP27DDYbDnsN-ftbJj6Su-4cGFQBgJuGT8CaR7wDZaAsYHyfnmqNrRIx7bU6trOVtg8eWZA-sf2tDyZI9BYzqcrxeIPuR4HfbI1lrCX90NoBcV-iqE3DGfCv6gZtsBUVWkmZI4TbqUxc77XHBSw13vby4VS1cGnfAlmtQxF2xGZDf48rqWlf_SiakdqNZcshqeoP0IlbfftvaKKlwAnqnMtI-x6CaNhVoXYrYRNB2ASjRlEXiUGoRlsgcWPxFwqKB7xowCKc98gr1J4id5rHh06BVLb-ZoWiKCwg0sqo6HztvwUlTrr7CwyyNjXsLcuT8VCKVcfB_DnlVf_MmrpIWIU-tHjstl099nt2IPPZNRDxolXthXFBs2xszMV4TeELcWBu7gtuxdL2IkWwrmIndkTP4-mUj2C371HppLGTPLSC7Fh679bn5NN5e7IAoMkD8NHk_8758qYN8FQ7keYQb7Wwale0G0-vfrxgcSBP07mzqzw3gClWt9LzaNWRqQ8ke7FoexAXsfdgkR_u8eZeJ8v__FVufXmIvPVwyRglf8CMcCvq9S0k=w536-h507-no" />
+
+</div>
+<p>You will see nothing happens yet, as K5 does not meet the criteria. But go ahead and double click on the little square in the lower right box of K5.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fuVt6zkhUwwL9gIsE7gWOnZFyoBUV1W3vG98456nUqzTxnaS8PEl5bugHpX1OkSYqz6wtEgVDLCLK59iUo5JvwjPEoecuUvn0yIIyCEBvuPou4gqpFg7q6BwYMOb_nMi98sjW0O88BAA7P3sS9s-ZmcnlEUJUve9Xzcjwe9YWllBr2YcjCg-jRG_3B8yY0XTeGSM5lpMsI5L8ck6jEM1fmLDba-BpurlFDBzovyNp42QkClZBIQ9sPFaegWjjrv7wMtGYI4S_jMfT4KFUtUQkk7uLfdsTYidh7FOl0eZ6-UfIHubK58PDc--TfiCrzICRvIdD-ch7ZxHjfHI3wgvd7vAgjhemMsv0DKu0fBVi7uLeaQcx2mVgdeQ2xm8XAEStGk5wmfyJNwWJCvv_t8ETUjVQZn_unmHhFazG-th3u0gnicMiMjIKXDGkTWS_p_vetArQYEXKZPk5fa0gDz1gh8vOu61ClOZEkDAH0-bUkYAhrROFUskdCoF0GXDkvPm6DVdI9Xz0wPJ4UxEdGO7eQMbtRIFa4Z5oXgzgRrSgnXXMnWrfzT8zKkQ60wIAN2_mTlEYiuiGB6YIF5jpUZbr6OZKWCEkm-0e3TcX7ftqNloBa3GxdLuLaF8-g9OTVAn_M4ziyhjPIKzX2qJJkRw7URfGC_hoM1UFv5rDqZihidbo0AgGXspc20=w312-h197-no" />
+
+</div>
+<p>This will apply the conditional formatting to the remaining cells in the table. If you scroll down to row 46, you will see officer 42 highlighted blue.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/u_DWbpkkAD3CSuIhjwW0QafhSx94-ka9zLw4_HPH0ZrsehioJPh3UstIBXwQ8JpqcAir5YKjfKVSeuYLsUxxi3u0A7OZsd08IvwsjUEQ8Hx43T0wGB0Eh4CWxyPNWq5er8CkRJUNOv5_tw3lUpyhq18WwxthxeHYtj-8uwX_vqCk5FGQyYzpcuLw3wbcxPwwI0LH0a_jbSMavaW2lmCXafgVatF9Tj-Uoph-vjOeTQVUYpNd-mrz9gjoA-MMf4iF3ACAH2JyFPEWgIai9EGbSoFbTUc-NlE28t9NSmWhA7uUP2gKKp-5W1h-UP4a5Ko3-Zwb33T8SHfyUjiCPBL7TvSCDES2MaJsmOowGhGJaq4DRy1QMRnD4AA7kcNDB8bQDOKX85UbEEr3oK7zCP37sWvWS084Rr9rjZKMCIYLrksFcLwhfntz6--ozHfwPsCpFbwOXa9LXd164RG-Q0kK7RzGRHGIsq7cAQ0v6qQTNci3XjOzm8-kEuNUkk39r_1T4Al2ebaZ1HhcYB-he0L7HR_bc1CyGxUmAuHajN_BkRNkxxEBqGbXAY0kZ_74qgH8FeLZeHYVC4PomNjoU23S1BnhB89vbllthUNZzsxuTVqe02p02flelhsrt3-iowq7hWgFFYao2S6FPNxyA-hwJmZX9Uqr0HggbJ0h13XgHUs46T0vUKHkNO8=w764-h558-no" />
+
+</div>
+<p>Now select K5 again, and here select Conditional Formatting -&gt; Manage Rules</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3iBqlqinhlIDaHYyPhZPZCAr80kkDuaHYCHzDo_sRvTq3hb3_F8Ei0WLMpLPtOCHhLmz-evTa3Dqc9wW6pAO05ymb6BWssEsF1ok-TG1GTartxG8kMN6tT6q4TUYn7AQrJLZjLjfCdIYwEpN0xEIdAbyQBge9gUjtlM-Upce8YHFG-vG4EWy1WLpk1n5Mf2KpGJinty-Js--nlLMRLv4a96xvKd5T6I61-hp9l6b1vdL6VOsYyLeqSOZD2i3Y1H-gWuPGHj44kd2Zd90JwjzOPW9ChNNNjaMGfvCI7ZyL4gFkMuvayxl9vBsMFH-7_03dFvaRrmaEs8Pqf57_OCIPpV1mOBoTYnu5VmhaqcFIrbwcpX8qolCdzqCwy0dGxz_ELSOTUQsSQZ3yDyTvQDI8RZztODhCOZ-t1xCsKGmb11JtUCxMWU3lbiMu5gbOHnZxsBXoL0xfZxNjBheSFXM7yagtRbSNaK6G-4hp8_hOT8UrMr2-sFgXvjXO5xQobnSDBCTgura1g8NjY-wq175suMIyRwemqLoedNRakE7ezt0rk1RZUD2kZZ6doFJkmhb5Nny_KOEBhsqIdCad8oVGrFNZCNX5G1EUBpxPVFAiDi2oaGSwTZ8_fcDBLDOUQFhrubm_nBrvnmjnJd_Q0QmgN1ASGF7IQOE9k0sS4dw99xC0uiVArac4gU=w992-h483-no" />
+
+</div>
+<p>You should see the first rule we just created. Now we can make a new one, by clicking New Rule.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Nlr-Zem1NY2CE2sxZ4J65S5bEGToXkewlsImkQSoqpNkDgLUjp6W7Kr0Axrff-1BoC759G9bFLj89Lrp76jplrCDJaXyrXm3TW-OBIxqxemRpqxwWaskXrVTTMdp6fF3bfGZmpU1Honzt39aOqTMywFSeqTGjy5e5cplTHwD28-egZu1Cu6GhWFbT3boQq4oaZJe-FAx9NbmeaX8O5xHYgw0-7Gi-GDstO90c828PWbiU1hOaKAAtIK_jf-E4PJwNRS7X7h4MH0U4Cq2OrNaD8tac2EzsBDGm3qKpe8BDJfQpzXAzSiSoBCd68-6p6sKKr80LFDRLECsgdYD1eJapmDbkb1umXsvqe4N0gSQGXnbv5XBzPkqwbIuIHkSiCjT74Dq2vyYuNlbrjxnwOnXTFqACi5LcV9rYSYdKfwayb2tMGEjQlslIcE5hoZSPli3iRj2jfZhO2WVukX5SPZbZ-KTNV1Pfw8QvruVg5lgMnu6E8hnlOH62KyJuOGreosgusJUT2uKNL7aA8wE7xEueXEH1HODWJxuNddZzebLQ8Lr3rqf5gmQVTM5B12O46tNuZZX_XNAHZmzeXCQozsfUnkkQnA-WYMNn-uB1VPdfy6lFCqXNo8kn_Tr5q2xxhPkw2BKtckQtK4uZWM_2A3w1YJdohtnnJr2GLI07mVnbmtEiG9kzKvTu9E=w635-h306-no" />
+
+</div>
+<p>Set the rule to be <code>=K5&lt;25</code>, and set the color to red. Go ahead and apply that rule to the entire column. Once that is done, your set of rules should look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cR0hoCxjslJpaWit5APpPLR-j-7Ph99r_a3-Xmdjveuhw6EcSlzmpXl59JaRMpx-gJEm9uePu4x0YuVVU5F9lQhJjVph0GEkWxoobsVF0-KcGkcITzu3cCuKfVFQAMbKaoHSLrkM-7mwxco-XJizTl-CimrbAO6TEPcxHVCotw1sbW0CrvSS1wtBaLJatadBznYIJq1UCIaivPi36IPr5dzJBvBswLWsnz4cd45PZR7oMtuXnh3JD8_WKBEmlk25cD2DzV09bT9dPm-2Hez8_ho_46nLrK6N4sKUY2LRtRzmApsGdahGs38GB20P40iOtxFvlncAAGWekn7jzYjlQ9cNzmNXh88JjJWfhHdKzjI-YTjt_LRdndwfbEFTwwdOMwhhgUZ359SJlkygpHCketpgzEEHuqoc_vus0mqHcjMA052Gze0z5smHMt671ElKYheF95pilcY_kFBdVbCiE6M2D74Tibu_3g4m1pKFhf3zbmMI582Xpy4u5T5DW5P_hkgu9s6LOgDTnDsTzSowbOL5T0o40JhZLdPud3TmieBOjSHzdMPXxMWHzAnTkAM7d3g5h0L2xCT8iCvUTafImCdPAznOdoQG_qwDoJXQNcZahCa8Fk-2jUhF0WJypGD-Y1UK6Rdps0QVnc-x1m9Rm3tMh2IWIfWRzDMw_mbxDd7lupkPxbMbtto=w1449-h667-no" />
+
+</div>
+<p>Go ahead and apply rules to the remaining columns that meet our criteria I listed earlier, with good percentages as blue and bad percentages as red (each column the references are slightly different). Finally, I want to set a rule to zebra stripe the entire row to a light grey color. To do this set a rule that is <code>=MOD(ROW(),2)</code> – and set it apply to cells J5:P???. In the end your rule set should look like this (I also made the header row a darker grey background:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KBs5cB0v5Mv7jd7YdPGSGpNh_cy8bZzNJaAE51LQJcm9FDctNJF9BoehpZVfw36OQcxGRR2_4Ahw14D2XchMs5axvHVC4QllGa01jdPrvZeFfwHt3y_FvO1_TRwR9cwqD-vSDvoh7OZ2_8zll5juqeeLwy69FlE90M0jp5T9CUSp91rkXs_JEv18q_4pS8CIR-l8QJVeaYeJxxiaFhqQRQ2KUgV-MyzDM6ZKC8WA86sohKY5Izzbd4k0dcCUyWMvkUaKqFcTgjRuI141r6_DKz_Ub-LAqo8yTOE9y0ON0nCLdlp5EmMNu4_3E-iCcx7VHkq4lp6MSzMDri_-OLESlCJRDXsJQmi7MCXTzF8pPlZKpoHbCKCy1TdOjXHTCDT_WhoWGm2rGdJUm8lmxRnvqhMr90qcnIU_l0fzBmUrjFOo4qSp2lybktX2AWNVoPxRzHE7iicHZXcaIrpqduYTUd3DdnymQyH_VtY_wOr_sqfyAXB9Ue7QFp_9REfMgszJPeUC3tJSzsj3cYwLxZ9DUc_34S1-o0X9kv8NpfpC4s6vt4VeSea8uY9KEw_sWMMSq3U0pR7WOWElRjtposAGueMBTgXB3urHZcszhgNTqAc0xYw55KiXb97j952uKbJN6eJop76dOzILCJz5-795wh7TAxNjg5yvFaHfpbppC0ml1C9IVcyxoKU=w1082-h496-no" />
+
+</div>
+<h2 id="sparklines">Sparklines</h2>
+<p>Conditional formatting works well when you have few data points, but when you have many, another good option is to use sparklines. These are small graphs that can fit within one cell in an Excel spreadsheet. To illustrate their use, I am going to make another pivot table in the same sheet as the table we have already edited. Select cell R3, and then insert a new pivot table (specifying the Table as <code>Table1</code>).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/p5bRwsxE3Dledxs0aPoUOidoEmRGCgqCVlY6PRQ4qJajjAC8h5DTmF_wbI0CaVIw7J0qa1GhldfvfYHaV9ItrI8DEjd46tRRsxRBeRduhEcxPDno4Gw8Oo1pnIG8AZmRngR0Vg5yvynBX8qD3CaTwEKUZvo3H_RM57xcrdODma88ESMvgtdHZ-RLoOXsk7m9XzstvxM2WVTSUNd8nHGRV1_CEaSyDHy7RKM7SpPUxKFgf4TSFrGwcTlhRNOWhz0WW6qxec2K3Cb9pd1yL80Scy11i-zrAFnIM_Hf0rzcI9bn9DVZL9DBnIAyFD6Dzi358r_lwx0K-bUDsluPKMsgcqX_EXQD2sk1WJeBZtojPbmKOxq_GjkO0jPQoohizQT8gmLLVz78_RZcrpNAJuSO7OzqPBmMqF2vNHa7rTL1kT-1mC-zfiwIIx3kmh9JT6lZX3pA1-IS0pYRchrs_jhtE9ox-ev7Or4jlIu1BnyBjwAd9zIFus5nzkXAVoCAF5YlYNwaB0mkbcWMsWJgIGY1wRdT6FYI58KRg3Rq4QsT5Ur9vGXSOsY1ja5DIuny558Uiu9UVlO9CavAtxVW2DQty8iC8X0LIjS76mYAwpCQcU0FKNi5bEy_ZXRZYUm5GdHelsR0lehqzjkKBHUUXrchp53ofmeuTlzYhJL7MIaULNmFVamoVN0Gcso=w1005-h549-no" />
+
+</div>
+<p>Then for the pivot table, place the OfficerID in the rows, Year in the Columns, and Year in the Values (and change the value type for year from sum of to Count). You should see that this pivot table is now lined up with our other pivot table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/C4zgiO2lhUSwNIKacLNxD8dsI6uCvIxZzA3HWdIZoRg6FFPVBIJD72mY85_4fY7lGpldixW81JVTkbuiHVX7UZQgHq3lj2Oly6P_nb3jiqTsL-nePsHeyYh4FAn6R-CCGBM5GYM73Yp1o8Gx5Y21qr2uLTLbOhGfZoh8DTNqQYqsKN7BQGIavECHrcxLKsDFyB91LBGb3ShIiyBAvdFTIXMG9qfNLQaZyXkQq272yRjHmu6T9y6z1awsDzvwfegNXzq6zNe4owSU5PPwCYSu3wNYf8HYf4R27Kc3TnQoX8gTdFIKfgt_2D-F5yWRQOJBeL_LeFulodB0OP2huxNIJKHEwSQVjwhEPAoIwTh2fbJCLz_rJQ1sZTLSWHdCxywOGWQgrNW0JBltTd3UiDsCovJU8czJTU-cRdOuEtqtQeJ0Ydv0gbn4awOi4EdXKpUF6MlwAkiiLGcgUpGvVl0WpoRfTp35wA0gqxeg7IcPYqtJxfEfVc_0-_gHU68DdUciE3XbVBu1yd4lHWI8MrWRDIed5aRA9R254riKIIgx5myRvN-pYr2H2Zyruh3s_qdJcAFX4C6GhpCV9tau7bAezn8JXHr89EBCFV8EstmOKkhQNoPCZ4XteS_7TNm0dwfwtrwt9cc-1toxgGo1MF4nbC3h-7KCyGCXWpE6kaa9cnZXK7DDbC_qW30=w1913-h826-no" />
+
+</div>
+<p>Now select cells S5:AM5, and then in the Insert tab on the top ribbon, select the line Sparkline option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hxDZrhTHMgdKpHm8_8aw7BeNj_uhhORTMENZslNC7f_LxHhc7L4JUj6ABovBdL74tAXAk2KpqNGAoSZRNu49uURdLh_So2naQdSkcwcOalr6_EouvOGCGdYx-fJhd24RqoAu4COpuIMEBTDjy-mAGZYfDvTV65lbwkfcnU6fo34y1yH3MbpjVWI8JqZKUB2_xBfuP3SmMz4ObQXnGNnokJM3H7NZoGN_mHOurmhZT6apR4czkW0wUqkuLIItgnunEaytRaSUfxD8a3dT5r4eDOR8FXkBLrk6pUSbLjWGMAUYQ7rOQBUF-Q8Huif1rb6G3LBwV3eN7OyVcPcFng-MbYhxsIVHKOf_KXsylPXp21FfTTTeocFuGb4vjKpL4HJi1wiQhvNMYHpoKrL8u9BiToOhaEPd2lGzCnXuHQbTDNmzQfz4wswkKmzZvhf20dzElbARb6c29elul6rx87Koqmf_nXzCO8q06x_OKHrmuiX7imQPAAO0rRn1OlGiKCzX3cIFkB5N57nJj64NvZHAsJyAin57zh1m8ogLe8kgGNvlol8yvm26qSPB0-5S0d-JBVxWlXIw3ygxTVlkbU8SMmhfH4YDTyOj4qfmgApevzmak7DepDIpO7BrZex9pAUasZq1r4mXtqIdxDEscJjHxebPovpBiR2MA-2Kd3EyY7ELNXEOei6jWeU=w1521-h361-no" />
+
+</div>
+<p>In the dialogue that pops up, for the location of the graph type in Q5. Then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4rX9IxMdO2f94qNlD6GWW-Lfd6iFJ-t2K8pi0aMq2oLiTsAwSlT4skdOfcM3kITdha3XxPfASQqqW1NX1L5qTsFkBYuyOu3oODUYgKC07-eI7xmPC4ldqNMsnKQh23DreAL1ZUucJ4UQclcr-FBAwN1ig5Et220jvuloS41C5r-K0CbXxkMDy3Z8xdPwhhNajXj4z_Y_RX2kaU5EU5kGLPPmY7P0VjM2ATyLRm6XxGpeibAg-tNpnG4jsejtqgBvsKaw5tgLrZZH8zQ-MDbjqoIo3_Gf2dj4o_1bNjI50-zekZJndeOq8035xbZrQRGCXh7Z3K2TBKV5SeYPbzFvw2UQFN-RBZPP9mZpq0l_f8VCKmsfIJOsV5qF8wA6hWeYzD9V2yKEqXXPzfbGMWKHhPJ7FSiXJi2NKZ55ZLio-45LsHx04PQwI01aTY2xcNI5jLcl1ODcusZZ9PBiAiDmLpa-vfm3j3DtVc7jHgYo2wI9UFAKRduFxM2QFY9dHDotrPk930yNq86fK2pgjLl4RRxi-Z7gglEFGl1tLvlctgMYZsl0LJXrMIAAnL2zFNzQHWio8EKAydo3SolX-Bbt_TrPOQcvfRzEn_ZnLi_X_LYhtFGpkaQ_BOyh1u2DdhTLhsu2pcxLew_sAT7HMDf3OP7sUc0Rh9PY5taxr-EC4iZwSggZSbbpgzE=w476-h489-no" />
+
+</div>
+<p>You should now see a sparkline showing the number of surveys an officer had per year over the timespan. Here when there is 0 it breaks the line apart.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/QbOrMDWUQBaecCWp1o0qTrCu6aXnOQUDdeGBkl-tS8dDqfJa8rxBo9Z6uIvPJB-obczwNj1Qo6ZFOc58Hz8oRLq2LDqBjwiOKwNq9wqaG9NRQSIJID-VHwDFGI2AVopJOriu0QwugCGTe-RyNtTiCPLO2RiP3Nil92Gz_jAQIlMIi0RJ1wt2kXzqEeOzLr_NpBdq25vni7EAyM2SR6d7XWfhnGfNmBaSHY-TInS6shT3QJByIEro_juTaSuU7GLE0WrzFnrZT2wPj0rP_IEjy0TuqEvu7Yfq-1eagDuFqjtZIR0cbsTyQiaD-JWL5QgMcgLuY28q8kj-BdnlOYfB_qlZwQomObud-BFzPWEjFmUwcXpNQOPqMoWndT-WsB8k2cwpjhmF41I7ZajhWZVPVD_cX-4TCOfN46JURB0C7VH2vurYSQ-NNIhd1f98HDyBkIddaBEwvZXoPYURm9ATzJ7r1p60xg-q7nbGiqc4KxT8Z8G2mc9Y2KlP1FvULXOKMO6kKMNazUvwwOZYiLTZNcy9DyrNc4o6H-Lh4jTvHnwK_p2IKdsc9Ratv5EkiRPrk29O62PxgEXVlaOxq7pe0zUlICPqMHB6uQTmqK4vof0JLFkgK7YWpUZsQ-M-g3XCM46GKJtSKk1ztlZT-0ZPFDqxQ_vjTx4i8FvJeM4Jd5v0SwCxc1Suvus=w582-h155-no" />
+
+</div>
+<p>Go ahead and select cell Q5. To apply the sparkline to all of the officers, you need to select the bottom right corner and drag it down the entire sheet to the bottom (double clicking won’t work here unfortunately).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SNPBtc9M56pB46-84KzA0Z_9jfD_vMQoINMekqnGuEnVECrJs0xPTCa5pJ8BwEIQdmsq5q3fzBvPq8DJQoNDyZGkaRqEEblTbin2bwHbw9soPRG4QyDuO_N7-_wG1kRRyGhu8R-cCX_lu73lxXmYRj7iQJUY5TSeYcZWUpI2r3kcVBAI_3VhAVeuZ24qlnsV4R0WG_t2ONfxG8BcIHx-UDvObrDXrmh7imIU0oqigyoB_UpGwb8wxqJcKP_J2-3Dam5M2r2L_AZoPFMlf4cOdP-YK680QLdmX5l4DPFUNXCwXXli6P4zfuAOCAiqOLTe9HGmq7LECK6Hj6UpCv53BinD76BCVVhiKZNDJTclZCEKfW0jG2fT9mt4nhMh5nGfrBRulyR5i2E1qWnwfvfdwEO72WT8nBBC9dCzPyzgy7Akiod6__gTo5Q0YEuOS2lYyZhv8u4h7Zi8t0_0GzjpbHoxQjyTW1QoH_sG9-dwI-a2lr_kgbHh7Y-1MsgyUvGaTMjzd65nN8a8tORs_N68KXXsrsuC2dfOPj_Fl5k55tekLRqGTew90szKRzBFe3kMAo7WF_Cy1cy_n_5FAYOr5F5XeZ2EeJmtI7OujE4XecIAE0hWRK1-bGYX2kyB5w8ChpU8n8UWOpcT6IZcFF5Wnu06xXylju7JJymBYRWZHo0qhyP6M-jmvws=w1039-h724-no" />
+
+</div>
+<p>This shows a relative variation in the number of surveys folks have over time. There are additional ways to format Sparklines, this just gives you alittle taste. Given I randomly created the officer ID data, there isn’t much to see in obvious patterns.</p>
+<h2 id="exporting-a-pdf-for-multiple-pages">Exporting a PDF for Multiple Pages</h2>
+<p>To prep our dashboard to be printed, select cells J4:Q804. Then in the Page Layout tab for the main ribbon, select Print Area -&gt; Set Print Area.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5Rm7QT2gIGZdXdKhX4svYT-7RnIsdRtYNKErlOgzrhyjGxbpdqBneKADIa-TYJ2Ll0r-BXV-oZecUFDzy-j-cPelfZ4hN6Krm-Tl-kUYJ4nevCyALYodiebQHlcUsKWWezHOJcIzBxjAtRYilEr01gk0XypJczjjX1qfDL-swKaXU-56I9MFQ66a8rKC8M61ucdRMKvB-NrCfH0vQHI0NfTL-5oYFuPKmtN0NN4KInIPIYNWmJnb3hY7fANdczFP0IaCkv8byEGfwoOKCznGZS84D0XsXGEWKHrDDTzNp2Onq-_kjvsSAputN_T8PDE5JRta3YIOHwDKaoDBJqgvyndd1pHyMjsmVXJIGnBuT3cblCNA8SRZRRxkwwmVj3XbvAffkNHUwbGbKbHysQbgnXtLFE_L7SiN09w_GfDm7idExRxk-qXlsHb_pREfoI4hzCdEERLCvtdBvrFKTgdUnNNTrNV8Xesf4FVifoDKe2HiNjqC4S4qzKUnL3kwpwKF3bheynZvjFUjq1WJETxWxINjHAkUYGo7yEFjI_oBYc-kBcfSTlLWUW7P-q4bFVAENdAuQOaRo4Wy_H3qakywsR-qADbvOHqZSzlsRT6u59dEgKwzwECX9uHPeUN0TprXhCgl4tzCY9sjnZD_Lf9k0oOwEtMo13HPNty_M5svmTDlvLSYr7TM2vc=w1185-h923-no" />
+
+</div>
+<p>Next in the same area on the ribbon, select the little arrow in the bottom right (below the Print Titles option) to open up the Page Layout dialogue.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UDlzHQGIQZFay5rqiAusm-gY1K9iw6lga_fGnFEaEL1rLh94lgFq6YXCnUxfrXu13U6M6_3baJy3jWarbKRu_EAlTyXE1SB9oDyk-42IMW5cx8H4FfEgERtemAJQNqmJ_ayPvkzyhBYSgN1vRh9vDmk5XuvcCdr_jP3W0Oyv1039omS_43oq-O_X-JNemMS8qcRPGHFZOH-Iq88gasa-_Eo4ZHEh_sQIGQq8cT4AuL5NXJUJ3ikahWRRPKAX2P0rCh5nXvWUHn1AN2hJNbFbCS2L0avbvA3Y0EdDCR9jhRNvOJDVdkH4Pj1m_Qz-8-0uBiF8IAEFJo_pmgTIMhPz_gAncOmCDEvHnB7t-V17LrzvTKrovHJoheyE2qbZ9uogsqAhkQNpidicD9w4vri9p--I8YdQQw8yaLVYEa44DkzgBWJhQoI0CMlG-ycmv8Kz92lhBfWYjLMiiMfwhysSTLizpfGpt_GB0vxNODol6_PB7k5EheXYQ97JqJ_y8M5fEDs6AWXqTR5rTHxkuQNhyKJsfqgkbMhtZTPk0NHX7ETtkEu_xnvbQ-vn7XKvMelCxVGzTMDlhZZ2sicRY06Wz-QMD_s5iE7oZlLhA_EpUc40o8BkTMEPrhUR3_rfoTMsuPs_bOpXe6ZsSrEt0lApaAeh7qVJiTNxHvHLKlp6gMb4FaxFr92SfyI=w536-h178-no" />
+
+</div>
+<p>With the Page tab selected in the dialogue that pops up, select the Fit to: option, and change the options to 1 page wide, and leave the page tall option blank. Instead of spilling the columns onto a new page, this forces it to all fit in one page wide, but allows it to use as many pages long as needed.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9FmKnIkhMT1XkWUquSTvAiZj7CD58GMTpq992GISRSG-Pw3H05hR9MUHB9Wd8LcoHkmRf7z8iNqR2AOOmzfnIXKb5Be5suuoc1U4qg7dXH7MQLilVJCar56fo7M9OytL4aePIFUHDLjxsoanaOcOf0FQZmJK_Mx51DHA4dAi-2ZH4c58kkxlxjvA2LTwRC0l12EDC51KZrS-8JDqjy3LV0UFgbBBx2teasPB9vk64dSUp7iwelYR8tGuzl_kQ-eG4Ym3FmHMWaolVm7FMm6PU1pbgC1L_U6D8XoCL6q-CTk3QssLV7ypdXnOq0r86z-C9-aP2sk9DwYUcJTkKf9IUuSyWQmyKIjwqavCwYZeYAW0pbAWrYpLGzd2AVzyrT36Cx_ayr0ggbr9hN2Y6c6ac7233fE1lPanZOur425lCS2_YJ5kQ3NAGTvFnqqOd6yDJ9_3kGniAlwPRzl9k4Awd39wDOG0m4Osq8piaqkjMf2eZdbfcrVjqrfvn3yFbfau7pegySxZ2cn5oGSX8zKifk4le8DUxJdJKMZbjORT3SxO8oWCc2utnf7JNVmLSk2LnaGv4HFjz6WVUwCZyzj2uG0KtNUEi9lwF6dnEky_Z6jZ2b-57-zHU9AAHiOE0i4jIcW3Th5sMV8Mqa4MkG5q2ygKGT6f5ml_c1fveYMl5VpS8672PcYoK1U=w549-h462-no" />
+
+</div>
+<p>Next navigate over to the Sheet tab. In the Rows to repeat at top option, type in <code>=J4:Q4</code>. This will repeat the header row for each new page.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NfcM4IdpgRbQwlmIBCsuOEYPq7dbBgDUY5ZkwWvzUOkXFeI6mAGitz5CgklsEHpK7vt6fnhghyAj_7HgduRJncT4D6IZFtz5LAcCh9z6ripplXPoHAVWHW_KbFx_GY60NGBhueV6Agcrav-6VYYLYuRiSY6nK41hlbsRVot50ZT5HXJJVQvdMB7oUdw6xebVIG4lgpsaEmYfMz9PSj7cpbJqdk964nWbNEAKGEZY_1PPigAdycr04TaOQWHhAp13iORu2HAmnxI5sRvJsohok9XFbo5sa11gvBm6vzcTiIEcEgzeJjdu88pqfNwIahaYhuNGuyme0qUaJoY7jQicx7aVXDV20t2UMu1VTuGe2y-F2c4eXDOpeyInYXvOPIMKMJsQIw9Y2O2sgP91t8Rxsp4Pu_Opt5KXZ_YJaJ_aXjnAqPAkwbUW_7OcdBcEhSs5k7zpjJHvVn4-yJEeQlh8au_oqdNZ9guN125E5iTYRuMSD6gpUljIpzvTyXAwlpb8p1Z2b_dIhkhkZMGuRnEjifzBuFQYNg_7OokI1j7ALwOA057RjTJZfM3U7PCl5MpkMznQo_oDTwXoEuTiMJy2Nq4jFZbK56xv2z9mYUWxAO7j02p7SF7SPCyWcN5OGo9ylXjSfHXdjadr4MIzs2K3Me-hk8k0FDXSgAEFdLoYLGxS7uyI-INtL3o=w846-h577-no" />
+
+</div>
+<p>Now go to the Header/Footer tab. In the Footer tab, select and select the Page 1 of ? option, and then select the Custom Header button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8Ty3VevBFWTCxszI8iWcrpwebOWDAl52H-I8s2BNjJrAoiy3JPIVTQZFFag1DUbKUXs0rVOPPKkTb2jEejPUXWnvq14E4gQCNzme_8fTqerX9TuUESI3VVvGBu6Xp1Jl0kqLjH3_nurWX5Hv-Pyj6LRhQ28M7gEc9Epjsa20J6IMl5rRlyEo1OV-pgFPF-kr5mdb7uZSshSInPqUYsJoKyzVHQtcrj_B_2fWV5fb2vYarOjljFzH0oHj2iKQp1uPfEJevSSFPIe-bWWDKdaCzPoiH1jEGUh9voRtlm99ikHceGWSfdGDUl3kz64_6zjd506fS38z7P2EiOOAGpdGNbqEtQpfpoMpJrnkxmVE5rxpqCC6zvaW5elDb0pafikItfvBaB5XSMrCULXbSQEB43OYwngOxMZT-CPiJSlQiw6BQ24jQ5c3mv4HTPtSC6ga2j4t0FF8ZwfZWY6cf-fyGC2eeOZYFI1bRprJEOwNnlhxUrK8DEU_RaqunR8pIH-E580yQxHu5SFoU4tnKDQg_qTLYIF4l7v5ZrwTtImhqn1svn7mIWOYnq360IdTSmWH7S4CVe2I2khdVLDPcYy9EDVILMBHs56IukKFMgejz4URKFgqsNVI3ICBxrw5JZ210l8F4s_J74Aq0dPo1knROV5iqBQwvpa-R0KTj8U9rLSqS9omNkyREA0=w551-h466-no" />
+
+</div>
+<p>In the center section, write Officer Satisfaction Dashboard. Then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3cShnJKMrVqsdW1HNYh_hsi6tfC98kWYMWI74BWt7vYfNgpUDbwjO96jKGmj_1sFohOQ99hsUfWG0GKwa0FsA9on4IKf6xXQ9Wve6FZxwM2TbtM8KetU_AHgaphQS7Msdn-c7ihP5-MRIIC4V2AVsv5GK_vMTty046MZ76rqgWcDYR-FkXBz3fZPZTBUkuJY2O3GwADtGC-cVxDxunuSExEGKEkHljlzUAFl7nX_a53RgSLUJqnhzkVltloaAgvf9sfT0cvhN6EmG8xvwclbXYVYcfV7fwZSI5UsLDoUihPUs__J1PZ-UByLBmmDct81i8TLvXp4yovj67lUG-vorg1BhXdUJyVyoAgtVYy0tv_Y5VNBkOsv6mghUNOcFmkV6Qlu02jmYoFvJECykQUFD7zOUL_JkE-3qKd8xBVLv45HtxO4bltMwopRUSSwV8u_X7ZjhaqaoQgWASEuSezjrXOeX-b4RGJ_sEnY-5SyEhfYP8yUI6MmdPeiC5yh3ljdIpRH0Xvb86V-YlGt26uwofpUQukfYXmQetSBGuYvr6EeZw-DCBpbv8Yxjdy2VBcWAf2msWnbtQhIzS_tFNQ3cVMOTrT3ntVvbUZp5_a-2ePq-cmnqFRRZ96Nl5GFotCpwBDqqxad3ZL5-Ow27y0UCAx3WXwMUwM-a-vEdNh8plo1V4vtPhFtpzQ=w673-h361-no" />
+
+</div>
+<p>Now hit Print Preview, and you will see how the sheet is now fitted nicely on the page, and when you scroll to later pages, the same header field aligns with the later rows.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ugl36uBOL3ygGg6FdvCB85PrOAi2QQLhYCmfp113yUin6X7bLC7h3TguF6AYVIgbdDSoXtmFYMAMNCfxP37K7fjvXHRKEXEmKUi3IjrDivQg8AEKuDzIgfqD0Afswag3Wmz5Bi7t-fecb8E9VWhHttw2n2d55lZ6MqAiQ9DY0cjOwOb8SQDIbheNA1RR2LWdvYtICD_e-SxOQFymLV_gj32u_0bJadnUKI72kW-rS1Lv_RKz2HxuFwrfNxAyySxSx6iDwpxETUlFFsbyKm7rWSETnYRcmZAd2gUcZTfBOVXgg9aUTVkAAGMgoW0FIfULvfjLyb1_aS_P_36B-WQ0r9yaqG_FRKhC5xgA2TkJUCeeSz-fAWkr80cEdmfYzxtTID_bFZQfkBm02zpYzgXoYOUGznO6crOF3rRqbkuD1Wi5ymf4-yCnaUaP2TDyIFgEUC5saonArRcZZJFtMNPGbTXV0-NaQGKvsSKbQrtR_CvRKb1VeGtg8rYjJc9dnHeLFzPCzklMo2iRxTNg20kL6QAs61Ks4HeZIAEOfOGifrP9l1HG-9SGXidARkaLDKLNcvWyHbDXd08Z3egk4pv9TqG0yCV8X5sJFTrKG-lrkT4nDie-UQmXFDY154sg5McCBNhizJ1anWjRLWLtNSywL-jG_og3cUKaTVFLr1kl9ZFEuoOaNOr5koU=w1431-h937-no" />
+
+</div>
+<p>If you print this out now (or save to PDF), it will automatically choose this print area. Many individuals will not want to work with the Excel spreadsheet, so saving to PDF to disseminate to others is the simplest solution.</p>
+<p>Another pro-tip if you are actually distributing the Excel document is that you can right click on rows or columns and hide them from the users, as well as hide specific spreadsheets. So if you want to distribute a more interactive spreadsheet, you can still make it nice enough where folks do not see a bunch of junk that they do not need to effectively use the spreadsheet.</p>
+<h2 id="homework">Homework</h2>
+<p>For your homework, I want you to construct a Funnel chart for Q2 for each officer. I’ve edited the data to have 3 bad performing outliers and 3 good performing outliers. Create a separate table to illustrate the performance of those 6 officers (plus 3 other random officers that are neither good nor bad) on the Q1 to Q6 questions, and include either conditional formatting to highlight those outlying performances. Extra credit (5 points) to create a sparkline that highlights those outlying performances as well in a clear way on the Q2 question.</p>
+<p>Place the chart and table into a powerpoint presentation (separate slides for each), export to PDF, and turn in the PDF.</p>
+</body>
+</html>

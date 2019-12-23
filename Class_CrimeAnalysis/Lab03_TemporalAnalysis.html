@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Monitoring Temporal Crime Trends for Outliers: A Workshop Using Excel</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Monitoring Temporal Crime Trends for Outliers: A Workshop Using Excel</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">Assistant Professor, University of Texas at Dallas, <a href="https://andrewpwheeler.wordpress.com/" class="uri">https://andrewpwheeler.wordpress.com/</a></h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#examples-in-excel---monitoring-calls-in-burlington-vermont">Examples in Excel - Monitoring Calls in Burlington, Vermont</a></li>
+<li><a href="#finding-the-average-rate-of-the-series">Finding the average rate of the series</a></li>
+<li><a href="#creating-a-seasonal-chart">Creating a Seasonal Chart</a></li>
+<li><a href="#creating-a-weekly-chart">Creating a weekly chart</a></li>
+<li><a href="#creating-a-nice-year-over-year-table">Creating a nice year-over-year table</a></li>
+</ul>
+</div>
+<h1 id="introduction">Introduction</h1>
+<p>This tutorial is for my workshop at the 2017 IACA conference. To follow along, I have posted the data to dropbox, which you can download <a href="https://www.dropbox.com/s/ngq64tu7tv3hzdq/Wheeler_MonitorTemp_IACA_FinalFiles.zip?dl=0">here</a>.</p>
+<p>I wrote an academic paper addressing many of the points I will go over. The article is</p>
+<ul>
+<li>Wheeler, Andrew P. (2016) Tables and graphs for monitoring temporal crime trends: Translating theory into practical crime analysis advice, <em>International Journal of Police Science &amp; Management</em> 18(3): 159-172. <a href="http://dx.doi.org/10.1177/1461355716642781">DOI: 10.1177/146135571664278</a></li>
+</ul>
+<p>I have posted the published paper in the downloadable set of materials. This walkthrough is specifically oriented to recreating several of the graphs and the table in the paper.</p>
+<h1 id="examples-in-excel---monitoring-calls-in-burlington-vermont">Examples in Excel - Monitoring Calls in Burlington, Vermont</h1>
+<p>I have provided an example set of data, calls in Burlington, Vermont, from January 2012 through May 2017. This is data they publicly post online at <a href="https://www.burlingtonvt.gov/Police/Data/RawData" class="uri">https://www.burlingtonvt.gov/Police/Data/RawData</a>. This is a small city of just over 40,000 population. I will go through a walkthrough of generating several tables and graphs that help to identify outliers in the data.</p>
+<p>So open up the “OriginalData.xlsx” file, and you should see a blank table (Note the other file, “FinishedData.xlsx”, contains the worksheet that has all of my final edited parts to it.) This is meant to be similar to how you might grab data from your RMS or via whatever query. This is call data from Burlington, but the logic would work the same with incident data.</p>
+<p>First, before we move on, lets turn the “OriginalData” sheet into a table. So select cell A1, hold shift, and then scroll down and select cell U47283.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oz2EmPtPPwvT8WzIRsMSyu8h-dFvnYDdewY85cEyNS2Qqd-wf-0Z24EH5B1rXAisXexw4A2HMWauHkcaDYLSc85klYUSV7PMDic-7F_7oZVR6W6nwOAJ1DnzicpFEOKUPbLd06hkomKIxUozWPORc_k7gZXCqbZ3j4eJHxsTcWbEz2Uvrlt9RhwgTqt5J7R5uRhJ01xFid3lh547oX6k5Eh1winkn7btQTqsTQENrr8YF63J8hImW7BeQCZa1N64FU73vhqLEbyI2iZLWbFdxsfy_ttUX4USo_VuNQBC5Xnq7-Ww1lq1C3JBu99KhdxAYMY-0UPtj6k4amx4zUfY_a6PEYZAdyYPmfdV4uPUKiB6hf_8aAJp8sIy76BQuZw9a3RblGrGNBQ3peFojAMttPF9-nMHj52TVDzWjZyqxrDDI-tCE4VcTHkSHJiYKRJQSY-vsabqx5d6zoPSnd8p7iLtxGzfs70qAy0onvcIRvwUmy-Xz9V6fAV8ayRRNoMoS2uSapduWSBU2W0QmuFwxrHgIF5Jwjrtamn240xV9YKtCiIXU7aqF62WDDn4xgCptrqBagyJZ5-_Hr8_b5BUcFYHT5l9e2Arv9mrnoVbOv0XmF7WfxnX=w1291-h901-no" />
+
+</div>
+<p>You will get a Create Table pop-up with the cell range filled in. By default it should have the option “My table has headers” checked, but if it does not make sure to check that box before clicking ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FZTS4HkS3VXpfjwgthSEhvH9IaMSrzLRH7YotjtqnDM8SGQZuuT4OguETf_PFKkKhqSqleNomqKIAnc5UNdSWidVyhbObCPd0MBpde_AI_mW6Hf-rGyk4wOm7fMp8ERm4rw0NmMw9p8tHvE7mE0kwUztd20XVErqiQKuPSvRRI3Jf2SHHkzaK716oEVRwbKe4ZT34I1Y11xKqfWl1UTbESg6jc4HYtB9lXuwteOMnUYgV_1jh4AYQbLdd5LJdAjvuYqK-THL3KEdiyEW5iavNsIR2vEN7-ZrA-WmUdy5UjYzIpAOD-vkEOIUaxCDp9ouAXZe3OX2kA5vuD7zhUlpy85YAbCS-y-y4qve6PatjUuNXHgXMJzMh-Hku6Ypp88UgJ7XmChoJJWQ6oTm3VJpOZMHoeO0vJy_sKWtnLQUmOnoJIakGfZoVV-Lh-5c4RkijzHOmlhQyq8iJdlTjStU-RDv6ZqAMPcLvGUGEm0xb3dVS0Pu5wUwmJTxmNJpDTK4Q7d1mFeWYUv0X69vWnX_AIihWE1hSq-_QZGZRkXjNfVzOa2vRuolITnztqxQ6K3ItxaRje3Uu5i_nFqZYsfbdCkqpT7QKJUEQvfojN2VROvZEuVMlJLB=w238-h158-no" />
+
+</div>
+<p>You will then have a nicer table to work with. Here is what mine looks like, after changing the table style to the grey option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WG3fwjzwrTfdxfx1Jxu7Wxa_k0Db1m0M95y1r_DYIllRJ9EiNkTbJZKkqX6oGiNMaVbaaKkJWX0iTCguZmhKMWgU2moBGhRDn32imAC6CUAxSKwNsIOwUdeZ8Tf1DzhPPzVFgG05RDtyANZkZFYkvDZz569IVpwQC7blSoAajU2w0oxKgNidc6Mw8n3NEXs4uJeduofrW1laIl6SyXm044iPVr8izreNQcMOsDGOkN8Jfk8vP1mggRSfbOhIs5K2YZ4zUh7Y_HxuAiAUE8h71k6oN1Q4zdFWvLOx6xTo4HZ74KMGylUVX5eLIeMquMu8g4RMDV-kHF_fp9jNR4q3UAFwJ3G4dJNy_hWbCTJ-OMmof_jfPccQtIfq2oB1_tzLG1XgNAodTJD3zD183rbGC8r01zmuxYuQunf36fDcB0z04iWQoHX8yZ0W_d0qY4ai-F5crqWw-o9BFGGAPiTFJ2a9s51tBg9sLku38lVvImGQtw-QDVpXX8pyW1UnAr2v8g6RFuz4dn3-qF4RW1KxCI-S22Tv9xh2ZNOaw4AS769GOJoh2KOfG8z0vyK7ta7aRoihzGllNZO3BCXM4nORkaWlrWKs9DQin-EBXpw6XMIj6wMSA4aG=w1839-h901-no" />
+
+</div>
+<h1 id="finding-the-average-rate-of-the-series">Finding the average rate of the series</h1>
+<p>First we are going to calculate the mean number of crimes that occurs per day on a separate sheet. This will give us a general sense of how often a crime is like to occur.</p>
+<p>In the ribbon select the <em>Insert</em> tab. On that tab, then select the PivotTable button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yqPZcW4kZweSx6rH3vYhL9_aYudzmNKmRF2ceTIw2Bw4T2gj-L-4Zfz9Hb7HZocP_zVdihtN2hGcE_qO1QaArBGYHFdnn_Q-s2s1-NXFKs4F3_b7rzxxzC-QFPHoqN-JIEH4gA9WmZBPDU1sECEE3kmk4KSUVGzPGD-CP7f5fNypjqc0TYuPds6dKUcxG8XzI1MVOdYIVJ6xyCxW85ByCR2dHreE5178rzEALj0I3HWDH1znBBr59CPlMkb9N6oDoia51wgK2-v3Yzj9EK1m6_a7XKDX3Y7Z8_iEsQjTskFixXP3nFHxsb1g01PXF7gd_UgtdRe_FMZjzBodCKlHrZNurrIWPgJypmFKw77d-TiRibT5_YK3MsQl5X8-04UR5Qk8JDmSQAzRvfmqSalo_geJfp5apA_3CkoEfoXFicVsAPCA0NFqJWkbHDm9jED1_qD-dS_kbomhRhYk0vg_dt68jCA-wupT6--QdYDqtmcNiSp57POdi2otu79UpyedZaam8gC1qUaTAcOjTUHmTA6cJXwHRbtFB7qADKlGS08P9R2s7No877pm3ZrXPnRrcxDGKTEEh1dGkU57m7HyKrP6NoNCVW_SpTDJ2wKuOVg98tOJ_H6N=w962-h172-no" />
+
+</div>
+<p>The dialogue that pops up should automatically select your Table that we already created. Here our table is just named “Table1”. Go ahead and keep the defaults, we will place this pivot-table in a new worksheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CW-at_1-Guo_J0JjZGpAhvd7vEI948mvtoQvWWyiJAeWA8CblsFCMEeWKcSbo0UYBnLcvsISy38p-qSUckOMBR4CSj3jf1a8bWGb7nw45wN6qNPzYCMOOTg0JTHtCkKIFo_wXwazhZrX1P75N2RyTtuDLevNqBD_qp67VGjfIml1m0wSQJs3DHy3df2g2d1Ih0xSO-_t855Bi3SPRgJicpc-vyqSOK57Z43ciLuEBiAULiVjZOziw8sOA-Qx_Wm7KJ4zbVBnV9CFLCDl4pTOguCE50XCJchCI1VY9g65kZ7GqXlo1YSpXczwYPfuib7Szb_uYQWAwZyfaknZyIEaCUb7FquJA5jM2atJT13n3eiWOKcgH43yaBxnqmzqcVmLn_f1Qgs0Mp1NEVNTFY3XMJqU06um35cMI4e9adMoTJTMBieT5I_B3z7xvb07VeueWttDsSP2NerGZWBhLM-_0FXD9LIywqgmwuL-HWA4RNHHimrKGenlKlBHpn13AM47zmx1r6bMn_4n6s-nOUuUvdVCkVVFDDBJ6meI-up2yJ5r2wk-a--By36jCfLIZMHc-EuWI3FLWPBxpK6DDQL8paU68OVVKhrLbzKxZeHmCBdJ9HYhSo6c=w387-h346-no" />
+
+</div>
+<p>I renamed my sheet AvCalls to keep it straight. Click on the form on the left hand side of the worksheet (in my screenshot it is named “PivotTable2”, it might not be the same in yours though). Then you should see the PivotTable Fields on the right hand side of the worksheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zc6P9O9VT4fzW_0nwKUnzPZ8dg9KHY4_zY9W1tjxrZtz2e4q3vD0Y830-1fTI35mfqo5Vmhk3B5uTCvDwmB9_wxo028c8BMmBVKQlUZp3lik4JfvRQC0R8fTl6lb0_cOZGi2mQdm3mkAVl1HDcD1F1w4PxQT2OXgyt2HCMH6ktT-s0XIhcGUStohoiacI0fJj9lxK4XCzqO9sNWHHFIq7S2_iy8--Sp4O7BJXalIV7O4si2Lffm6cAuV0sZNnZX_GV3tNYoFHFfMX2RQV6loshW2wPkNspgaUnQYquUyoxcaQGRqfpUNQMM4Z2VpUP3qDO0TvdH2zLFi_fDual7nHS-eX37QzmAjMxq0riluK1Ed5Gvy7TRSpuncNq2-apO4TsK-rqxs0-R8iWHTjKmeeyWhC4J4S_j4WY2sRrsdvyof4EnMVTIPFM6ZDY_IbvVAlvziWxJIBQQKHGJup9LlKtIqDu7LIw7dRyIBS75MiKk4mTKGAGKIY-YKhyjRMz57igkhMW6nKv82EMoj5FgNoL-nPWYo0u3Z__xMjYdqfUJYdIOYp5VweWWlbR4ZRSOzji-gWOteaP1yLlOiC3hq5v4Ele_gug6gJWCApGBf6F13aRRkWFnC=w930-h901-no" />
+
+</div>
+<p>Drag the CallType field into both the rows and the values. This will then make a pivot table of the total numbers of each crime type in our worksheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gxUu9Kx-WHJC2wm31gxdiysKaHVFsYBu1TdDnlpk-RKToplTQe8hhNY69xXCv7x97C-9XnX9avJnMilxUw9hDALFQMvMEm5Un6mjQdZ_17mM0bwDmG9NpIaqYBwjfFIUdS4kjGpgXD3-XKsz8_9mGhL-2z3X_DTx4ASCF0g4WkTdSSXzRhL6mDHq1Tg8EbmIFtL2YDYePGUM23A2QXkBmiN-3p-HY47D9RBQU-Vdob5zNtKFUVz8dq9362S6VAhuU0vdCXMc9XA_DrhbLLrm3zOYP50a6JnK9rLZ8KiSA0ypd53RZCtuurF6VAFx8CoRo8Syl1bXIbF-sXqUGqZ2mY8xzrmeQlZ1Ypp8d4r4eWYJupyR1OrF5MJKZQscROvMuSig1IIo7Lzsi8exsmeQWVDYkzbrNHrbNzfM-TjbC0fg4D2Zu2GPUtS_2PgQHWOWif3NonbIlHK2b6EBTUIXZq5GKxVSqT7LJqNgWsNwOhAsk9ZQ-IveJoacCwRg5HW8cGBDUTMYCI_tcJwV5TmxqSSTWlKUDPibLQgKvVwK6_zsOqnwfv_wz_I3qno6N_lWRZt7P8lkYo36CoEZmzhyJHI7v_9uE-P6_21AUSTs_dZdLDaxft5t=w930-h901-no" />
+
+</div>
+<p>Now from this data we simply want to figure out the mean number of events per day for each call type. To do that, we need to know how many days there were in our sample, 1/1/2012 through 5/31/2017. To do that just enter those dates into two cells at the top of the sheet (or use the MIN and MAX functions), and then calculate the difference between those two + 1. We end up having 1,978 days in our sample of not quite five and a half years.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cuz5Wbe4pcvxcyc7cmKhWXJkrQJPWmkXPY9Ki8bVY6m4fFMSPk1cNoZ6X0Uo9G2ZxIfVQL_cs-GsD3NgU-nPKyesl5RcuVpvNEF0XieKhpPRtRMhnw3GUGTk862rlJvMzVWdoQwdOmyEGZ_VOREEGRpj7r0feNrIknRUrpjODvWdt6Vr_Nylcl289vC_yAF6jMt1O5OEDMtKg_sFxXLV0Cdx6XR9uuP-tEODe4mQRxvPBY2rFu0kpFQnzXf9XCF6RXs_hxtIOOfR8DhhTCf7C-RIVAmwCJI0YsrYt9qLvPoZXoxV678EZ3WJJLV592qm2iN7_oAGcq8RPWgdhfUxXugzuyFjh57l83ndVgvwNypMQLldwGwO2gyr__htibRe79cB8Mo5iE45IOy9J-4n636yqYMhJsqZIdEfImN3Lrr5dyBu1KAefswVPuzwiWn4MfeO6CEqIw6NBUIrPsJP4bjYC5UNOSPHucmxVej6iqCeWDwNY0POBBvDzRqUb8ETXRkRfCihcKO5qnlN2eOj1g_-ngRAPImkBWjYsEIwPxCvp1s8Evaa-OS_KjBPhDPnHyggYqCpiEmJm02Tv8tQ-qmkLN63J5M6df6h6qjDsSYUz6VBjXB6=w696-h652-no" />
+
+</div>
+<p>Now I am going to make an additional column that is “AveragePerDay”. In D3 type in the text “AveragePerDay”. In D4, type the equal sign, and then select B4.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PKu13rylqCLyFcnLbsJg5XJ0mU4a7vEdvQQ0OiHAJxjmBfayGep5_lP_ulQUKDK9REq86KTxEs4_20YCIGVKJEJfaxsVQpbbBHax5GCELHicpv_Na7Bd3dFTOAZkgYi47zNESV28YAKF4-M6CrvuKjKLvG-qsSuT6p-D53MxyXyGBP3NAI75HwWVf47sbQ8MSTi0bppyJMddDI29B28IuHioHw7F_Vcgp8qHWj7plaUolGDoy2dpmVAqWygf60yKVWGtJLdvp0bMA9vec-HLXBrMPrVd6332qAdQtw7nqiqjc-bcoZz6sxkuZNICvk65wEtnXf-tZmx0bDndEOKdSUGftkdvP2S_ylz9PgfMP-hUylxaZJGYdJORx8eB5oJCECgTT6F9UJJjGxx7uqCRDw0wPhZB8WqpdJtRYMDuv_z93FBR61TD0s9EkKdO2RyeTUT-i4TgcNWDAlelbPzDJpndcV2aQT6dhUZB4kkV-Gmj_A--u8J3wIjKCbmy88hIUxMtfghKWxGCMtlf7iel8Kshb_GuwlglB0GCgfmm3KpZ9A1Kw2WwmI4A2FJ0Mb09i7QKdVALIx5Tbh31jDV7QG8FWdNbPCnZW9HLUlN8_WfaQU87h_74=w862-h283-no" />
+
+</div>
+<p>You will now see that it fills in a pretty complicated formula, <code>=GETPIVOTDATA(&quot;CallType&quot;,$A$3,&quot;CallType&quot;,&quot;Assault - Aggravated&quot;)</code>. To make our lives easier we need to change some of these hard-coded elements. In the formula, change the last parameter, “Assault - Aggravated” to A4. Now we also need to divide the total value by the number of days in the sample, so at the end of the formula add <code>/$G$1</code>. The dollar sign makes the reference absolute - so even if we drag the formula it will always reference that cell. The formula will subsequently then look like <code>=GETPIVOTDATA(&quot;CallType&quot;,$A$3,&quot;CallType&quot;,A4)/$G$1</code>. Now select that cell and in the bottom right corner and drag down.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mDKXbLPAuC5PlBUYqec_nCP5NfTk0VnRvNAs5Fok_3WEs3LdDAI-5xKtpb5Wu-aE5lTEkz1nS-LknlulEui0WjqGLD8zjU-ENcDvIP9X7YYawNTPQhGJAoGg1IhNS1WcKdurgt5wPY5ecoRhHjwW9BjL9nkmFBPkMW5YOgxOgaD7x8t8F7eDNUhMYdvuUmzQtkBSgEgoitR1zy-pnAfPW7WaWTlwtLjBZNplUSWZM_f1mGLWjIaRM1gJylfIKT7O1ujgfKzalTxhHMLbN0EccvvS_r-vB6I_vT8fcjQoXtncM3MZ2RDR0lbQx0yNacsa6_Ij1KHbjY5YusZMRGbiqdVvaOqmcSaTgzzxMFj7sbpHnDEQ7LfAwLZPeFPMjZzoYG1YtHWcvLFwKEdayjFT4_JyyokTFSsApquXSkelI2WONlFTEWNGW3VNmvtVAivrm2LFuig3LEx9gzvMPrBJJElbGw2bnOtgyX9JjB_gRv3BrpUWp33SaNnXIc2gPnzdf_OYHCjaggRLpSgrX5BKO2MLpNxbWQUmlr7gKGtHsm8IPrwJ0aRjY28LiJSL1epWRITVNhBc0hkPXaCnxktFy08y_-Uj760KrnHMKKkaT1vkz_9tomnn=w592-h800-no" />
+
+</div>
+<p>Once you let go of the mouse button it will fill in the rest of the fields. This is the average number of incidents per day.</p>
+<p>Now, if we are trying to figure out a quick number to evaluate whether the total number of incidents in a particular day is an outlier, and we assume our events are Poisson distributed, we can calculate how often that number would happen. Lets go through an example of figuring out what would be an outlying number of incidents for larceny from motor vehicles. It is my experience that there can be sprees of these events in one night. Often times they are easy to spot because of geographic proximity, but what should be our threshold for an anonamlous number of thefts from vehicles in one day?</p>
+<p>Lets make another set of columns, call the one PoissonPMF and the one beside it ProbabilityLMV. Here I place PoissonPMF in J3, and underneath it give the values 0 through 10. To figure out the probability of 0 events occurring in a day for LMV, all we need to know is the mean of the Poisson distribution, which is ~1.06 over the study period. In K4, type <code>=POISSON.DIST(J4,$D$12,FALSE)</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3JW0SjuDuDyfgxp9Tl47OvjFpkqIzp1vJPj2QSk2pxyfkzJ9hDAoktSnHbN44damIHzDCzLsdbJq_2L9kdhPh5JL328ef-4y2L0U0cJHFyGk1GnuxXpoOhsFWS8kJXIdoFYu9xEx8-rrzAWuHigryqjRT7nxjlEBvHP2PRLTi-pU96vRQv6GJwdOwxi7qrAihU6sv3Rd7ndvQIZuIvawsBEmJSJA2Mq7x-E9wnHxBZeFqx2SQp-D4d23yjTkFojxvlaDLUIvvf6ATKS__rliqDCB7edCVkERUZ3THL7FqY_3j_BSU30Ds-yoYEWn_5j6gEsAYyvdcPeCrGLBTx0ppWisaF7Xw05a0rkf3CLDrdFv9-kITtePTCDRUGEz2bO3C80v7laVPenI_YM2FygU4TX6gn71pwLAG4nNSj-sj7c70V9X6vZHP3f_NnzggUnun4PdtTz_0-IshhqgSWGbNuOEn574W-MVqiWP5BveA-6W0xMEX_K92oxPb5XUyZILq-YPsE-33zrJVzS0D6a-zBfwpr0rExbNmF_x5WHfjehyEblIREK36UVhuMQLpqhBZAWIz6Jn6oNSLTBoKKtoCtVnmfRaB9NOYFOy4XaAnxELJi2HLysU=w1108-h479-no" />
+
+</div>
+<p>When you hit enter, you will then get a value of just over 0.34. So given that average per day, if the data are Poisson distributed we would expect there to be zero thefts 34% of the time. You can then drag this down to see that even with an average of only 1 per day, you would expect 4 crimes to happen around 2% of the time.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Lgq1SPO9xlL3fmUj85QzAYNdKavKyilaNEm4QrwfVps4RYbpSp1vnm7D7ANxP1-wuEg7h_G5kxSmnmhU8UbmStNejtsEUoJbWi8IU-3ceB9BurLLFFrpUq6GYEJGnMZdXUeSsLDdJbOmxc4_I0xJuFlk2i_yVw7ra1heRcAmv8TUJKsNL8WQq1DGoyw7D-amnoqVTpQ4eiTbIsCPYKbZSNztD3FNc_AR8v-9by8fvzSqZq5pq6L28sjMq6_miJgBFBOw8c9u-0a3NA1sLC5VlcR_XTFs7XYEA8uHpxyb6D0b1y0bZ2PPTjCpoD_vy9Ph0jPAtIDZ0-2ya_p-CJCqDTe-WyXYN9N61CsXTkOhP2jQDxNjdbiJyLyUE6LXZ8jT_-5tY-kh4WclABftAqy0D0XsuEEPiNuvCsF3lPk8ySLbcNQqAqZM7-zuMRCiVH1B5bdihu3lkKnLmYIDe3cAmVxeRdHAsArI9OXjf8C6nI8VxwxBg7PWi9NB_Dprrp8LKJOu3Sa8cCXm8zAgXxzQGLHrkTCIo409Dbr-JJLF33Vhcf6OHiVuL_vmFqKLADurdr_udbNRh2Vdd26bkJFPhQntIbDz07zC10TxNXtV01p1sRQfG8Zd=w336-h350-no" />
+
+</div>
+<p>This may seem rare enough to make a note, but in practice there are two things to be wary of, 1) when you monitor a bunch of statistics every day, you will have more false alarms simply by chance, 2) crime data are never exactly Poisson distributed. The way crime data tends to be distributed is to be bursty - and so have a higher variance. This would make events of 4+ happen more often than the Poisson distribution would suggest. With no other information here I would probably set my “I should look into this more closely” at 6+ per day (at less that 1 in a 1000 chance), but there could be alot of other factors that make those numbers less or more noteworthy. In the actual data, 6 or more LMV’s happened on 20 days, or alittle over 1% of the days in the sample. (I will show in the section on creating a weekly chart how to figure out that.)</p>
+<p>This is simple to change for different temporal periods. Say we wanted to know the number of robberies in a week that would be weird given our historical average. Since a week is just 7 days, you would just multiple the daily average by 7. Doing the same excersize for weekly robberies, at an average of ~0.6 per week, makes it seem pretty rare for 5+ robberies to happen in a week.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1vRpyJI1lOpf4Ephp10NzaohP5KvgYwM5YYgHXcbpPMikEcE-R9YHddTUGnsKHP-iNuWAcyqS6uqcofyjVuaBvYWGjTWUfCZaKNKQpbjHzZe4XVDrFDQZ3G-PREETfzvGyLhO6hZt33_qNgM_Y_F3_HVl59mFw6tph7177w9Ey1xonpjk-p0OrzHhWEV5OTz1H9F6pM5oCM_eY7bVyv0CN-theyk28P0gei9vgSbHmOhVPOGF0MeXgm5RtSz7lOtd5KS4Y7BHjq0ZcXBuK6kGvTtDTvaZg00hIqi915PmES9wEtkKRdat4sbrgdZe1mU53ve8-oJAV8kX2ArPaj7Y6WbcVo_GrK9RFdDYwpJK1NydWaKs3PmPD53GOtl4N57_nv63yvGbRtKoyhZ9-e49pjmV7dxs3uitvRuS7oM2hRBNQqJZfarQ-uUbegyUb6ZmrqvynaGZjoeVp016Z39JHS_oQAwZYR2V8ZFbbn_qs7OXGkovPyd4Fuoqo2AgSH8svZhrZno1CWnCvULxheR0o7Z6GgU_z1X76ZvOLlfFdbtOhX3unF79tbHV6swtCBj8zn42CDmVJbVfN2MU1-8UUQIQp_x6J8kQvGFaC60VGQ0A1OPNutG=w1237-h649-no" />
+
+</div>
+<h1 id="creating-a-seasonal-chart">Creating a Seasonal Chart</h1>
+<p>Next I am going to show how to create a seasonal chart. This chart will have the months on the X axis, and the total number of crimes you are monitoring on the Y axis. Then each year will gets its own line. Seasonal charts help us evaluate the current number of crimes per month, but take into account what the typical counts were in prior years. Instead of having a hard referent category, like in my prior Poisson example, you can see if the current monthly value is an outlier compared to prior data. If it is, the chart I show you will automatically jump out.</p>
+<p>If you are not on the OriginalData sheet, move back to that sheet before proceeding.</p>
+<p>First, in the ribbon select the <em>Insert</em> tab. On that tab, then select the PivotTable button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yqPZcW4kZweSx6rH3vYhL9_aYudzmNKmRF2ceTIw2Bw4T2gj-L-4Zfz9Hb7HZocP_zVdihtN2hGcE_qO1QaArBGYHFdnn_Q-s2s1-NXFKs4F3_b7rzxxzC-QFPHoqN-JIEH4gA9WmZBPDU1sECEE3kmk4KSUVGzPGD-CP7f5fNypjqc0TYuPds6dKUcxG8XzI1MVOdYIVJ6xyCxW85ByCR2dHreE5178rzEALj0I3HWDH1znBBr59CPlMkb9N6oDoia51wgK2-v3Yzj9EK1m6_a7XKDX3Y7Z8_iEsQjTskFixXP3nFHxsb1g01PXF7gd_UgtdRe_FMZjzBodCKlHrZNurrIWPgJypmFKw77d-TiRibT5_YK3MsQl5X8-04UR5Qk8JDmSQAzRvfmqSalo_geJfp5apA_3CkoEfoXFicVsAPCA0NFqJWkbHDm9jED1_qD-dS_kbomhRhYk0vg_dt68jCA-wupT6--QdYDqtmcNiSp57POdi2otu79UpyedZaam8gC1qUaTAcOjTUHmTA6cJXwHRbtFB7qADKlGS08P9R2s7No877pm3ZrXPnRrcxDGKTEEh1dGkU57m7HyKrP6NoNCVW_SpTDJ2wKuOVg98tOJ_H6N=w962-h172-no" />
+
+</div>
+<p>The dialogue that pops up should automatically select your Table that we already created. Here our table is just named “Table1”. Go ahead and keep the defaults, we will place this pivot-table in a new worksheet.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CW-at_1-Guo_J0JjZGpAhvd7vEI948mvtoQvWWyiJAeWA8CblsFCMEeWKcSbo0UYBnLcvsISy38p-qSUckOMBR4CSj3jf1a8bWGb7nw45wN6qNPzYCMOOTg0JTHtCkKIFo_wXwazhZrX1P75N2RyTtuDLevNqBD_qp67VGjfIml1m0wSQJs3DHy3df2g2d1Ih0xSO-_t855Bi3SPRgJicpc-vyqSOK57Z43ciLuEBiAULiVjZOziw8sOA-Qx_Wm7KJ4zbVBnV9CFLCDl4pTOguCE50XCJchCI1VY9g65kZ7GqXlo1YSpXczwYPfuib7Szb_uYQWAwZyfaknZyIEaCUb7FquJA5jM2atJT13n3eiWOKcgH43yaBxnqmzqcVmLn_f1Qgs0Mp1NEVNTFY3XMJqU06um35cMI4e9adMoTJTMBieT5I_B3z7xvb07VeueWttDsSP2NerGZWBhLM-_0FXD9LIywqgmwuL-HWA4RNHHimrKGenlKlBHpn13AM47zmx1r6bMn_4n6s-nOUuUvdVCkVVFDDBJ6meI-up2yJ5r2wk-a--By36jCfLIZMHc-EuWI3FLWPBxpK6DDQL8paU68OVVKhrLbzKxZeHmCBdJ9HYhSo6c=w387-h346-no" />
+
+</div>
+<p>I renamed my worksheet “SeasonalChart” to keep everything straight. After that, click on the PivotTable form on the left hand side (my is named “PivotTable3”), and you should see the PivotTable Fields on the right hand side.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NPi_BjHd_pQ1NFqs9xdY5fUciTw3SFosB2eY6_bhZx01GWM38UTCQTKkHOu5Rf16TDmlwUp4C30zNoEESJHMgaunq7sKSx_yPX9cDABufKuLzKdtlM3zeaiL0IICMqHKawiUvbvizYmVfZ21mm9H1UEcd2S9PohcqNT38ToWvvEA-VjUMplOPgQ3ok_5LEwMPttNMMbPKAasuHBWaxh5NABnvTZBHNEQlbZ0NnHVFesLmHjgGuBKzSbMPcz6Co9ILxKf80GfWHoJGLfInxrAbRgWnYtIYRDD1tIwZqtbwrDk2rX5YPDWrttE5dydrCoZBMK1A72unWQJCbh56-P5u5RzquhJImn-8BAXmmdATRpJQ6sFNALi4dduxaKpvMGa66zDgwg4ENpqS62eevTdHK_DUfv23q_s55Xr0_e0-4vPn5IdYrHs-LheJAgomoir2heG4oge8Rj5L7Dlo_f3I3oFaGcw0zaEGbDhw8PKEm1_AZwhS0jcdjumCP7gPpfbng8wyB4D5TMRSD0foQmu2FSYlogYZ9yFIyzArC3mY_GU2qPphxEHwQAIIvxHMUnbdPho1NMDQ7w66fqcFWoduOQ5NZe_gK6WKuQwMGwpkp3avTj5tDf0=w930-h901-no" />
+
+</div>
+<p>Next we are going to drag the Year field into the column, the Month field into the rows, and the CallType into the filters and values portion.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4U7GDy-6StsvNsjTS2HgXjzrJVwBWO5gjYc-Na0EuSqpmvi8Auf_J4pPPv5WmvIjTbPRQNv6DgNgxriXahRnQJ7pFIfijFoqyBeI2bKUL1kbI5o3jTt3OBWhlxKwgatQ03tTaEuQoe922hyEP6e13r0IDymMr8Wk1uSxdNvyT_zSCZZ-iYTyDjyQTIArkgX6tDhC0SeMPGU9mOwyRufBD7errbycTZfVJrFXuP6pkmJlC4etFz9LHYUjFQEYr4m9Ils8hwOvU-NoL-_6sDkjjDqXX6jg8gK3oUpzx_njA-zsgUYteG06BhIh83261fmj62HlamCAZbi7rHX8--r6xQblgfLm6iWf_vuUWmhf3b01mhcDI-OKBq7P4TgUGKuFN92j7GnHMQJR7wzcwda7MmnDXIwo-T6yDw_PMY_comxJJfcDd1p6hPobSoaYGjoDqCDcxNOfRs6OSGRlDneKwGBoSaPIvWp5zU3GLHJJEHSN2rTDLmOk64fzshRj39em34w-Evf9sNsFvrKp-JguGyqAhMdqHAe_S6IunM-ckvN98WfvYcJ8UXR8-O6rtTnkNm1jDGmkNFqyHn2IPvuUMC1deiyzKHKKbyALll0lLXRxZBrdWvPE=w930-h901-no" />
+
+</div>
+<p>Once that is done you will see and table auto-populated. This happens to be for all calls. Next we are going to create our seasonal chart. Select any cell in the table (e.g. B7) and then in the ribbon go to the insert tab. Select the line chart types, and in the dropdown select the very first option on the top left.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_DHIkd1otk1F05-vcRUupt_-KA_NwVV7D0sO53h4_zr8WodXsIbgieL_UdR1lKKPQ1YktAbtcvrzSNp6L_NpjKjFL_A4E_uH26Bs8WbZm6lfAVOHS77v1y2garWQLcCzZwtTwSd1G9f5rkOCeJB7mXpMcJ_dau0VvM04zYXbGJkELOFiDT-C5NnzteCsPGHIvzm7kZwz3lU7gNYq3wfF6CSFqUGniyvj6yZHwBUvQqdgCxF5dIYAOv7bnDU0epAuIWdHLf-97Rs1qMEjqcROW0v-AIhyZEECbGsQ7rTA4kmtZX5Js4TPDtHWoB1BX-3LXln35abAAk8hQDIfqrROBFY0qGozJS5fb2xC6NdA6F1IXNCIE6Ru-0K15ZXJalJ-2d7ne_SVdb4-yWNsrIOFtsw6OFwgYvieaQsULp1EO6evfsveWSn_zHoozGcqlw1GC7ODWXgvx6kqEWlpbovxZhMX5WnTriHy0kamyOjW8nFDgOdjLwd5S2JPwu5Ch2jcLycrlOmjB1JsTeXCB4bWOb1-fITZSjdytfx7c86NFDyl0HmtCaWuKP3w_d0FLnthZYcnjnncBmI-iCNcOlm8koVjsJ-MgEVtRJxAPFsVvTwpd5s6U9g-=w1088-h672-no" />
+
+</div>
+<p>You will then see a chart pop-up on the screen. Grab one of the white dots on the outside of the chart to make it bigger.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/E_379K5s4mFyM_fpX34WG0jCf0NgoVanl-UaAVdFuFBYI01GXiWu1lvmQYEdNJWT3Bv3YEs0-O98CKkFYPyYp3LndphO8jvoNfczWE1xyEyHHv0VanQj_T7A8kxeNT1tj5zH6oRn_4wqyDll7yBJlFDIBekzDMl2LY97Kn2McvwdE0b87Jk0fMDjh-8cf__v-aF0Of8Pn3VsQU_Ca3TYMuT6BmdGD-qugIZzg0lJdmU88p0DljNOku25oXkqw3sUn_41iF_lJhVAr_7o0VIRNid_inp5cmZuMlN3jAIaEng3fa1EzUH3kX8VpD390xncSqY8tS59_NLdu5499HJEOmORKwWuAihDwlUDhCw4Z7Leiml_7Evg01U4vVCEE3sGzWf3VuWS5AeVixXFFUZs7vHbSBpKvFAUK8qoQR9Ztl2qneu21G-JeuIK8UWkSIBKlt79gkFu9zflNOSkASBdAoONTSe2q079T65-iiIRsrjABwHzPZsotaTfOP3Eq6Y_Knr_buYjSY02sbtYjoeqVsLLE6ptj2LJApY70oMxVvZUJHMqt9udR2smuG2MGq9gypT7IaL_xvaat4wnDCYgO-rbVJvjLZoAeop10PJiUsQmstxkSpu8=w1176-h452-no" />
+
+</div>
+<p>When made bigger this is not too bad a chart. We can see that incidents in 2017 (green) in May were way down (maybe an artifact of the data Burlington posted). You can also exame prior years, although here they are very consistent from year-to-year, the darker blue 2016 calls were down in August through September. But things are generally very similar from year to year.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/S26itnLw2fwmzLFkQgTre-n534EoVVVj1tzpjaOE_ud0VphCOwFK3Qz7tdZ4JHGiadAE71vqQiUByb9otWtbMsMhR9Y0lMAMzBRyNnwZ-D7EnjiA2Avtmfq2XGAsg351H76EFHogK5t-DwZsYTw2IMT0wYUMq6oMPhKCH4eZ2UWLIcUJbgifsPC7rQ6ogLCdzjH9RQUMGu8cdVSz5fPar20KHQbMDdxIvSnioQK1t0biqKaZy91lX_LCKhQWHiKTOyTTu96nZuR0XciqJ-vOy1JVzUBTcq5EAkPcUZtE22_rDva-_Yp3lXvVLl2PUR4vIgXOi7o3od1b1ZWbzdUxp2ZAqYDHZ4B3V651StKYn8jeUYeMNtIq1yy8ba51xXNlfWoAbhUb9g3sAHZH10OoYtBeX6BqbbTMjzq0-rwPUdbjyE19OcBTXnRJ9Qm6PgI7rbEsZ8vGNshAxFYIgriDAEw7dP5neNnSwgrGiIQnrw9fgyTaptXgk8AHDxPjv_RP7CuUXjMyiFcs7OeCgknRKSzULIpTqInIRVL86lV2hsbkQ5PkqVqDF6_54p6DBj365ZUyRudYEOHqNgKm2495UDS8kGqqBURxtAZ9x7S1zUcKXenCdoDL=w895-h549-no" />
+
+</div>
+<p>The power in using the pivot data though is the ability to subset the data for different crime types. Select the B1 cell to get a dropdown in which you can select different call-types, select Burglary, and then see how the chart changes.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_nglr9FKtZ1tcoeHi8EPXJN71JK_y9u-uKOyXjBpmZRX77bljbss0Eiecek7nGyMw4bVsyHhLjzEWY7PqbxFqKK7_FOTIgSoJGNp6sIHPMm-SDxRZIqpcVsdHTj1kxfupLcNtjGtlr_ZGaAYMt50RJufiWGoSvRE6KMumv0YUK7WSoMALKfm51EmuJi2McDq4HfnTUfLmQwVcx-3UhhkQc6UoLdV0kDkBYwwGnBPfnSHuSVlv8jP0D-p5TsHi4RQmQo1OfV_EGhp6v64-VtNYBi3ev5MJgpvbjp2AVlYU4nHmpADurMEsJ4ePo5HDY1FmaMYAWsJrxbeqU1_8_0-jnW2p3ZcK6iQINOFy6zjltVaLmYpPhsF3fJGiuxBw-cz-_HsxSBwbQ2W-HoRvHQm6q736npsU5xEOP7Ul1BJKskW03F3PSb5ffHhW1z0sXSbouoyjm6rkqN2CNrAs_pGtsxbxmbY9lh8Q2dvVCz9v4znEeV1JA_gSGrYIKvnWwjj9gvJDm7b2ktoIt7dmbuG-ygKm18_EpITt1gEYtpHh-OA68YW78FeBaXkxDmk4ANZT95zQXhL-IFl0ipuG-55iksJ7LmwzORZc-8Ra0A6wDC9_e-3nISP=w1448-h832-no" />
+
+</div>
+<p>We had a low of 4 burglary calls in March, 2017. Although there was also a month in only 5 burglary calls in January of 2016, so it is not too weird. You can also see that in 2012 they had the highest run of burglary calls, with May, June and July all topping 40 calls.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CCNAWOxevQpwn2W0xsj0JwESqCio54uj_ILBjzQ6CyxLdhM8SBlQ-Pl5skQfTD45VXHuJGINs9cEFctS-6DHyzlkAf20naxsWKzqtiI7MpxRfSgC4z2nGjXuCkcIVvxK8GLyY_XagDktwWt_tLI-F5AsCTuvHP_CwOtFnA4Glechy925J8lOGwqRlxjFHEcLq7vd5lB1lEu8-h8v8h_-sjYKeQq4OA8K-704Oz1Xv7THjyI_hVQU2KEXdNEE1JfXpi9hRheQrFLgOFj4WfADIIx1qg2R9BPZGtJzYAgqqH4HKgCc0OvnmF89UfcRhYke_Z45x5foX8YAZos7RFNPc8b5oIXWim4HhVaw2pkM0jRo-fEXawvjXSoPWPoBv2tv19sE7srCo6Ej04YAzXibGEiWmyXPhm1va659vUnM4q7BJi9ylDlpns0EKMKj0ERPSZQc-pHNgb-JKxPkQRHbmlZOrhCrbZw82HVVZW2WT2guPPtrK3bOrVu2jj7DXcZrzosBDxlwJuKvtkPa16ybiQa4g95svnBxWnXXcJv0dNS-87QT8KTS3hE10DO7NMCKzZYXuZ9_wBZPQGEL-cwka0-OWiLAi2UnpryqFkuU5GXh5aP-EjD1=w1455-h618-no" />
+
+</div>
+<p>You need to watch out with this chart. If you are aggregating incidents that can have zero in the months, Excel is not smart and does not fill in the zereos. Subsequently the chart it produces is wrong. Go ahead and select Overdose from the CallType dropdown. You can see that in several months there should be zeroes, but the chart just produces missings. This is annoying default behavior by Excel in this situation. You can fix it by selecting a cell in the PivotTable, selecting Analyze on the ribbon, and then in the left select Options -&gt; Options.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jv64vUR7LyixR2EXqJZ2jcYJ-IQr0uu7mWipH5mz5h2B9wJ3jY6gSUIVqBa89ne0e4wKyN0I5N0WR1v6nYFIuE8xCvhzNkko5RyN7pr2A8hT47-KHE6IRCV9rX4fX09x7v3rYyhU7Y6cHUhkRjU6VBoYPhrXsphr62ajiZsZSrGYNwBmq_-4zWITEKsHLrKp2DGgHhCnV1jWfGeK4gtYCMGLHotS6y0Ln-SUz6vJ5F72jz1sGox9dTs5N_NMuyefiM_-cHi1LjCShztUBVM_4OEj4vpTuHWiQcLlBqL7buHXVhQSoeUtGSBemu6X0ywwNBNuN6dfI9jTahEjr8KZz_Y9ayD3QyNkPpWgNA0ZWLBPrEHbuZFppPwJcO6PAgeKlf2kv93f9g7h51kSZMkVrn83U4bYIchy5H0fx5kNNvEBgaXTnHwlpkae45uaMu4WrNu1IbN_wlzZc5ZUr7CWG_yZ9AI5r-Nvv3H2wWoUmu1vNlxijXkSZtYoxrgX1b_qRkbke4x-HxGGwUthvIUQ1b7pLRHXfZpZuMOYPF9j6sG62GtASDbQMFYpx-VkB9FdMaezM50TMtMdjvnxLh2Gp1l3c3y-zUzrDEjWH3rYSXi8vffz_62p=w1464-h856-no" />
+
+</div>
+<p>In the dialogue that pop ups, change “For empty cells show:” to show 0.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/__sw-MAmPxUsRyvrY3tbfwijmcz_C-5idQ3KrnGGQFk75Pr4SwQHpOE_f7qaABi221ATaLZkJ5tYCputv2FnDUlEAkymvBCyJlUjMnOs_Ax4ks71u_hWS_0CPyZiLKZ-rbIbUwT5FZN4hp9L7Qms170mv4XXlwJEOHcA4Hhndq5vzfet77eh867LxgsXdNV-OA6Od8XJ3UKCji0QjnGWVEJ8K1xHxlUm1d_-oGC7wmcRXaeBJcYU4JqM5HNSBBMWGsB2GTSf26ZKj56fr4LuImLtu8XGsc1dB0TtgTfHxDp3-gzNfZhI0gNOM5AUftaUL3QhrgRwSyGdsQHNk-CFDWwUmiIYZdRj-g6CfNnyKiu45x_nifY0oQvh_68DPYh3bfCJQK6nyxeGRG4t5LXzisaXaNaARHMooxVPXOf9Er9uKoUztGbhDTsVxjVnLgBqjgr3LWJwjH7rq_O01B-QQOcGxAHwqJxcZwp0XZlywA_b7EOjjBSd3ZW_VsXiStXahk2g1wazOlh9pvIonwlxYbToliGF3NahQKwrKF3BPIsw0fxww7d6yCayjp1WcbaO49bVJk_57rvQmDI3uNCuNtgkTS-LantdZL4DcvqxfNuzIFIdgtNb=w456-h477-no" />
+
+</div>
+<p>After clicking ok, you will then see the table and the chart updated. This gives us another problem though, all of the future months in 2017 are filled in as zeroes as well.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IhIo2iZL-Cw_sCnkOwtMCP0I3Sn7T3wdHk_NFjGWpvF0f21BJIq_sXUI2v_z1JDn8d1JcYLU2PmdQayaYloilaSjFaaRE3otFFH7Iw0hhI_-aYjdAbT_-VkQ5KWyr2uA6yvSXlcy22dYx85YxKcNklTDMpSuRRifAZ1-0VP0EWzgK1QZePTTgsvQ4cCXalULCdH4OmIYxjYnZUU1Ck_2OfCNRiZDsUNgkIP3QbD9jec1Tvi3GjDON7VTYBKr4IErbQsZhHaSqbcBZCtcec4A0F1Hnpyu6okhd-_KpSH1HzH8vacuT2nDrXnVxU6lTdIqI2dYO6aPxGbKNbksUMPRGDjNJDW3z8chZ00CcbRzKzBYBs9atokBpemzww33F9zUO3Io6O7pZDPuZjJ1IgTFgmWh-jO70VR3cCuZqx3Ed6D8gc3vXbZTZ00whEzn4x_v03fznDYh9iOvV68anbxbVcFZE0NFJqs1DhoPPcRXRM9hn7Lcs1MrZEIxZLZzw0yeHxpMtrrK832WRHs_I5eCyIkvIRduFYf48eYBQY7p6ZjkO8icC7TWDxABSVLRw7SSkgMHI7Fhwa5DnDNqRKNeJzyE9uni41SZs10ECGU9UR4swOEA7ZXT=w1484-h638-no" />
+
+</div>
+<p>We are limited in making the chart nicer at this point when pointing the chart to the original data. In the “EditedSheet.xlsx” file I give an example of making the chart nicer. Here I made a separate table and pointed the new chart to that table (You could do the same with copy paste-values from the pivot-table). This gives you the option to make the 2017 series terminate in May and have zero values in the chart. For these charts I like to highlight the recent data as bright red, and make the prior years grey and thinner, so they are in the background. An extra touch I like to add is to make the most recent month have a marker on it, to make it even more salient in the graph.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HIEJ5snpDaO2nBXd6PsHAjpL79u6vPASK4Gkr3lcWfJAEeLBWYds1QudBkU4pl1zac4k8GlR5onn2OycGuUJCHHIN8kLBlFcHEsq1OShNHB5x6PIzoZhij9OBbk-cgL1RhNsxWJbxTJ-yRwZ5dCYvqLv3G2zyPjuZlVuMpoeKsIYKBfShJSG6NKLPM3gGwkY2nCccSls70mGLTD7bnGB3uEGtw81fmWUEM8Y1wrHKZbrxlSk6VAU5zcNXQa9wA9wsCcAglX3JeyQd7j9iWAFkuu2kXzDtTExpnpKmOPrcnFQuOFVEl0w5HtvFMB07cPt6tSDYK-biCHMbyFKv-1E-2mR_ukxIu9ilXsGyS_TY6qV3vDsJphMo-4mpVbkmTkCYHJb58k2VfMcAm58pl2AQqTZmXx17rYGXGNmoQ-A0mVN1TfGapZXoqDidYCl0cyiJXMqnl2MFXZOArTMnkcQvwfOF32vYymOd6EaLXmWMT4QnAXbqT8eaE3h6ocIoD26XIajtnHN-G8xt7UGdG2aU9zjtof9hmVeDQXKJSJBBdB_Xvb_GvUYpzZdwBsBA3MrFF96VUGsgLL601rgqQW6-e71gnWYSrAeTZNgVWFuzEC6U7GysNOV=w768-h434-no" />
+
+</div>
+<p>The way this chart is set-up in the worksheet it will auto-update when you change the call-type in the main pivot table. There are some things I would still edit for each chart (for example for overdoses I would make the Y axis tick marks every integer, but that makes the chart not auto-update correctly) – but it gets you pretty close to making some nice charts for a monthly meeting or a monthly report.</p>
+<h1 id="creating-a-weekly-chart">Creating a weekly chart</h1>
+<p>The zero problem I showed when making the seasonal charts are more of a hassle when monitoring shorter data spans, such as weeks. I will show another way to make such tables using the COUNTIFS function. Here we will be monitoring the number of events that happen per week, and use averages per the past 8 weeks to identify long term trends as well as short term spikes in the recent data.</p>
+<p>First, go ahead and make a new sheet, and name it WeekStats.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zaSgIXdpZD7904AMtFWdQ9gDddmtScx73U-pFT9ZXXrgEmoRFTw6x9fqd-kalAo1ZONQPa80oLhnC06vphh_k_wQxYGhyNddU4IJ1twFzM1EZcJs7n1OrvwvvN_bfnetqeiVFbrBL5CytrflhiRcJ7mUf-xYtPV-KVqTa0QNR7MKs0yjRAVE9vw6v3OoH4u-FL1zEDWxgax2KG24gHiSr2J8d2MeZ55Z4LIigzUtS1zPvFer5x6C8Ap3MzGqu4ciKtoDno7CQHvQSQL5PYs0UYOB6XEkwzZSkYYB43ZBe97ScbIt_0stopV6hfxb4ZgG0z6x9UAXCLUtw9KiYgwCPvM__nyFJ4_Hv0KZDBY1hen2qOvhqWmUjrDDSxfF5NHe_8XTkkRVpfwUCO3bVPEjwa73txjUWtVQOvKVGWE2TXnhAGURwtoJql7hwulBhyBcliO7AvSzgjkqLASuwcvTvJkIJjS3iOXehldm-Pc8rdIJ1FYHrheyvS1HQNQqh5mHwivA0hyj3sh83ty6iF4jaVRNeeiF18wXz5Gk9qt2_RViuAA7tJZq7_nXrLRf4y4N2LcU2AIBWN8Hm63bvQfD0Zux_wI_EXEVSbaOnn-DXOOUgevH-3wb=w930-h901-no" />
+
+</div>
+<p>In A1, type “BeginWeek” and in A2 type “EndWeek”. These columns are going to create the begin and end times we want to examine. (The same logic would work if you wanted to just look at crimes per day, but there you would only need one column.) In A2, type the date you want to start the series at. Here I go with 1/1/2012 as the start time, which makes the week Sunday through Saturday. There may be other operational reasons though you want the week to start and end on different days. Say you did a weekly meeting to go over stats on Monday - in that case you probably want the week to start on Monday and end on Sunday.</p>
+<p>Then in A2 type in the formula <code>=A2+6</code>. This gives us our start and end of the week.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bvGtrW43YWzaBHOTdVslQa5ql4nYH9xLHLIRPxC_SUy0JPSB7I8ItIULDchnEaUuRdCneTIta3oQS4tIdbmGewT0bDUmSjxBhmKxbMe-XcDUXS5pujCLIXPrWMIy0kYn-6kB1DBNitwOMFUhd-2jmE1SzMY3dXB7aTs1Yg7BYccGez3NMQ9acyFgFUBmQECvNQMgT_xOiJi1-MnRv_LKuEUELiH6k2Y-tCbfnlD0BuFglMwz1FS-UUdT0JWXK16GQCYgFhCxJwQEM1Xa80jQpFJhmkaKK6b69kCMOL96BVEe907xQGUqgCv8Fhcz0do34R7jU33RNj8MYrNTjAk3CRMPkJFlHRZxli_v9eqjGeM5aBi3fBdrdLOSOSnA3dWnLO5ns_DGnB6yZJdiUZ5ZcRqE9Nx71WKub-7zdMgGZ0Pc_BKrRbVIEE-ETsHs4bYSCcm99TUN68ykLTLePeJBATRt6d7tnLq4y-WLHimk6nR8mNYs4MhxJR7B65xU9u-6zIAUk-gmSXvYc4woBrzJ9b2NWIweKmG58We8eTSMMcpuwTay1iFqhDLdvMLCbfuLcmjHDtx_ONdOuahU-liDpi4FGzFnOByTifD-pEnkwakoUbP3t_TL=w374-h193-no" />
+
+</div>
+<p>Now we just need to update this to weeks through the end of the sample, which will be May 27th 2017. In A3, type the formula <code>=A2+7</code>. Then drag that formula down until the 283rd row. After that, select B2 and then double click on the lower right hand corner, this will propogate the formula down through all the same cells. So your sheet should now look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DOGAdwnAXNQQglDlV9Xs0kntFWDiTrbIjJjo_SvhEtK7DfagimeSu4rYewqIe3hCoJIjPFy7D8X2G7w7HwMIl8oPEfUqgxRoe-NqRCT9jCMIRoFs8EsJSLG_KotOCuLwmvxEcClp1N5UYqwTugty9DLyswa6cDDXEVsTbPZML4vxNhPjuQig8adtv1RDJy0e-ffAmjHLBs25o2fjmEJ9okz7KPo6tlBHo-C_BiqR0ZnRocqHgLFlsORf6Prn9OUXJsvfF8xyVhL8OYUuKvyZqnE28SBrM4oh9zdkbVp0oLIeuZ8SSTZ8ZVHK2iydI3ue5XZ_PntzcFAh9xwQK2XeA08UxUGnjZDEI559Qg8f_fV2uBpAzCndQsaosuvqZXh_vlrVavGgnSQEwQx5sX9mOrBc42V_WyC8VV81fGRUKAft2JJx9Gu2QbHr1Jac_REh8uMs1Pxi8kKcuUXcarADHLvfhfStlxW3H6UBdZW02dMJc5YyxULcCveXAhsSRN0-ARcyF93f70SNw3o5verNE91nRMLNDsN1300OPdAVEP1QQFcSXHy4i8lDBYQAs9eHsQmlKeDLBlr0OxMVdydldTGBnxUvMpfU2JnBD6gOulYdsP5eOAEo=w398-h314-no" />
+
+</div>
+<p>Now in cell C1 we are going to type the calltype we want to examine, here <code>Larceny - from Motor Vehicle</code>. It needs to be spelled exactly the way it is recorded in the database, as we are going to use this as a reference in the subsequent formula. Now, in C2 type in the formula <code>=COUNTIFS(Table1[CallDate],&quot;&gt;=&quot;&amp;A2,Table1[CallDate],&quot;&lt;=&quot;&amp;B2,Table1[CallType],&quot;=&quot;&amp;$C$1)</code>. This is a long one, so lets go through it in parts:</p>
+<ul>
+<li>COUNTIFS, this is a function to count how many items statisfy some conditions. A single COUNTIF function takes two parameters, a range of cells to lookup, and then a particular condition. Here we end up having three conditions</li>
+<li>The first range is <code>Table1[CallDate]</code> - the date the call occurred in the original data. The condition is <code>&quot;&gt;=&quot;&amp;A2</code>, this means greater than or equal to the value in cell A2.</li>
+<li>Then the function repeats, it gives another range, the same <code>Table1[CallDate]</code>, and then checks if the date is less than or equal to the end date of the week in cell B2, <code>&quot;&lt;=&quot;&amp;B2</code></li>
+<li>The third IF statement checks the calltype column, <code>Table1[CallType]</code>, and then sees if the call type matches our header call type, <code>&quot;=&quot;&amp;$C$1</code>. I use <code>$C$1</code> so it always references this cell.</li>
+</ul>
+<p>After you fill that in and hit enter, you should get a value of 5.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dbiN-jh4zpnu3aamAkYg_GR2Jkvi99QQIBLXjYeksq1Qk9WzOqM9uzZg0eyo3WzAilvuumWP_LmxN_Yl5jsDYuNEbBif-Of2p0CGfob35dsh6C7058B2yVZxhDeBzeFrSW7jIS3T4ds2SWoS0EIQMyA5Vv0Z9vG2k8DpFa6YpRA73dVQDm-G57-Q9S0JbQXYTJgNSd9PSH_ZMFXU81YfUz7svbfvyHF8mvatOsmNmd0WR1BFmFMwe8YrCHlw50sg25BvYHoSK4nouiZ3rkF7ZFysSBNYbDmIWOOw_Y9U2pkDb0XjL4rS8pfFre6PSZsjcAIrwnnTflGGvuauOWqHMZD8H49FM_0-8pjPcAZ2CW8dTr9WCF5JF5FyOl4HepF3O_b8qVuKuGpJZpB9AOh0ewPjdEOjGTEfmVsU7LBbxDR097HpBWHy2Ezwsvu35_Xyz53CStmAqHkliZZOUJV8KoGde8DNsQIx7cBT_JM69tsjUOjes2xyWR7chgaSCNRCWXCxK1JsegXd36vu5Sp3RAY8c6A1LZo05txEL55o9udCVZD1xxgUYMP9UIZMaj3iW2mJ8pnaIpZPbnXRFy10xJ7CBPot9pCP9Q0E0mk6OEPf_qksUkdu=w877-h280-no" />
+
+</div>
+<p>Now you can double click that down and fill in the cells. Note this example runs pretty fast, but this calculation will be slow in bigger sets of data. If you have much bigger data, and you really want to stick with excel, aggregate incidents to the day, and then have a count of incidents per day. Then instead of <code>COUNTIFS</code> you could use <code>SUMIFS</code>. (Although in general with really big datasets I would suggest using a statistical program, like SPSS, SAS, Stata or R).</p>
+<p>Now we have our counts of LMV per week. Note we have zeroes in this calculation, scroll down to row 106 for an example.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/aXeIxCOSiHLsc8Q8BCs8jn9LXDBXDWozjoHfp0vH6trq5iSRQvUxP8lRW8V8kIbqSV1ELHn9Cx2pzWVr0rQX36aCNtSKUqy7MDjLrSZ46kVNcDVrVny_SpKsc3SYKs3j1a8YjCSws-Dpo8AO6V6D532Mr942dTJiKStxA-XlzMOcFYB4iqA5XQhNxhtLNRf4Shr8j4Ezsf4mQk7pks5omzxIoCVUSu9ekUr7tuuqiysNra46DJ_zRrojNOGsYWDE5VNHFjoLAi6wW-52RghiNvEMnGLrq6WFdIEpIW3sD7W3buA-Hh0aDbe0VY5hiIhF-ZqJRRic6B1dEzPXzNRUYzGwJZI07Yzt_5QeILOS8Zpz3t-LxHk-Osj2O6DSnJoMblnKAC_CKomvRr2ybTi50cgv42a2rbCTNQHWiNS9HfM8olHzHDpAK8AHKpA07V_Lx6wyCCSkkhXmM8i1Laf5sYBZEckUq_rb5h5-Qw1WKYips4_fDnBmsWRE0Yoick1kIPV0ckH37ooKmHdNlwa3IH3N52wg_fiV5ngToMktjcj0tAAqgfsUp75XV3cLbBWI00fnbXhV5aiCd-6A2j__KjNIfBusOl-DHLUJI7qILq4heAWOynne=w418-h272-no" />
+
+</div>
+<p>So unlike our prior pivot table, we do not have a problem with zero weeks. Next we are going to make a moving average of the number of LMV in the prior 8 weeks. 8 weeks is ad-hoc, but worked well for me in the past (see my paper referenced at the beginning of the article). While for the smooth part of the chart you would optimally want some sort of real forecast model, I try not to let the perfect be the enemy of the good. A simple prior average will end up being quite close to an optimal exponentially smoothed forecast model, and will be good enough.</p>
+<p>In D2, type “P8Av”. Now we cannot calculate the average until row 10, so in cell D10 we will type the formula <code>=AVERAGE(C2:C9)</code>. After you type that in, you can extend the formula down to the rest of the cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/AdO9BMMhyVkX_FLPGlA9oliVYyI4Cmj-HgE8pXfIrB-VFf-PY8bmYcLGsv3A0jDaAUEZtxpWSZ-wafUu4Ae1Ykavi7z7o_v61N7cbRoMi5sypqkorcG0J8BeZXtFKUf1qsjqeWf6PobD2gyIlEe8vlFLEa6EYGbHZxa0IQo5Q0kGnUsTSSs-4weaDJN8RIVQduUYPAwVWFCwlPoNLApQ6U7QOaDKQxiE7Oqyv-xt8HAAMFZHl0amzgjEsvrFIhR8ek8uvF4WAEKr78kV0fu7k3R81kpuc2zi2VF9ADsath4yztFshfXPzXW131f536CsfaO8nrel3F0T7mIOz3AmDDQ7kZ-wgLey2PsyBXH-DJeipyG5WZ2uxcpmw-1n9_-uKBpmWUQl7vz3g4Brhi2FOTa841xz84MSSRavcNVggq5vNFttkkHg7TZIITXO2VxHX64PgY_ob11ArWyfp9A0tOiGuL4HnUP8JXYUjKgTSV9hYfAIPAczEaxgigPhZ2Bsw8QAWr-KnRiD5B8BeDGX9XOM0ZXpBXGoOyw_x7TcvkbA8OxP9vpEHW_kePZsX0HIe_6uZyRL81yEteXFGgC7_OKEiJKK273HpA_1PXpGgGKiwaZG0jXP=w499-h471-no" />
+
+</div>
+<p>Now we are going to make some error-bars around our moving average. We can use the Poisson Z-Score formula I talked about, <code>2*( SQRT(Current) - SQRT(Historical)</code>, and set the equation equal to 3 and solve for <code>Current</code>, to create standard error bars that should, with Poisson data, only result in false alarms in around 1/1000. Basically we want to see what values of Current would result in an alarm. Although crime data will not be perfectly Poisson distributed, I show in my paper with an example set of UCR data it works pretty well. So to get the lower bound (lower than expected), you end up with the formula <code>(-3/2 + sqrt(Historical))^2=Current</code>, and <code>(3/2 + sqrt(Historical))^2=Current</code> to get the upperbound of our error bars.</p>
+<p>In column E1 type “LowB”, and in F1 type “UpB”. In E10 type the formula <code>=IF(SQRT(D10)&gt;3/2,(-3/2 + SQRT(D10))^2,0)</code>, and in F10 type the formula <code>=(3/2 + SQRT(D10))^2</code>. (The if condition is for really low averages, the error bar should never go below zero.) Fill in the rest of your formulas down the seet, and then your sheet should now look like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/QChEkwqWQpyZQ8Zb361On6GkH25bL_4fF3CMi0M3Qbo68XXczH8DRH6rd-nfdZFL3x_RjgHvd_BzjSVMz1Q3mOw69deOT3C-TdorxPfsZ8Qrda1qInz2joap3T0h7-U6sBVEP8YJJ2WdMGlA74_WM2lga8asNSTAztOnG_JclYVX0IBjNRdK_SHtKzKNF3vJxdVAv29b_WqJ6Pvyqz3WF3Oe_SjL0f95pib8sGiOShCbnim3Nepykq6LzJhwc2lRaXullah0u964lQX8YYPcMh0sQNx0bogJMi6IdF32UKM7r6gL6xm6EdJildHMW1FB1NRoQ-nllqkXyR70-21p5scJ9MtgUpMqXrenW7oA-fuzBcsQJcMTJCwJJDoAO_Naetv4ltErBISEzNMs4lnaoUn3qaH4qRtWcnlbIw1FLQ9F2oR7PGq-gFuvASvdA3JtMrKOIysjRPqcY7kWFabhnWgU3XRfSbd1GhLYwL6Zu2kVAvUw4xIjpiR3l4r9ZPFHs2gkzwGlMwbjyeoDsM_s7xw65UpTqS_dJYYXIetd6-p-JrSV1VbS5nA-qRa6LEZ8Rj5-ux6tef7f7JZ0SQ424vZWBEKQGYywct9ouLYnLw04VWgR6hfS=w639-h408-no" />
+
+</div>
+<p>Now we are going to hide the rows 2 through 9. Select those entire rows by clicking on the 2 on the left hand side of the sheet, and dragging the mouse down until row 9. Then right click and select Hide.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zOOsa5QNvLs4l7guKZEPpd7VDewbfWB2qTdQJr2lqZ9V_mEbvg4o4lxQRU_jSZvLN-jhd3JS4yUexg93o-T67x7dYGzfeWttsfEWWr53mefjcSyifMd8xf3lpt4VBWeM6Ai0z4WDOjDj6bpgF_E--A7KnMRP-S_zQFc74wH28orcW8LiIicgLq4-4j8nl3AvoxWW3CLHfLBbXV0AlxwsXO5pp_LMt-PbVTLzNY87_z2032CazsjDTASD1A9raEjKlVzG6SkjiCfhFJHo-Q4dl4F0pVKlqvVlA6oQtrt5wQ4Dldv10Q9zsJkP03iywziGfpnabmpAlPfSQ6lfWDhNnjFCmXCRNvgrQ05B4xGeM80k6jFoFy8tq1usZRglX_nCdZqg61VpzLENo6z2IjfIxeQ5hGTArg52QnPdhahDOb9WWd25jJav012jbyzRyevIGcjnEFLoBzNMxItyDtFvs2xeQtnG--pDv8Yk-Z4U8KZ_AP6nxcD7am227xLRPv1P_6rAmTPZJL9vt-aLbu16_LgVZK1dJIBYkjr1mxVFza8V9snJAwjFT7D6nAcg0eLChrOJoEnCPTY8JYE77ykVTkp371qHKCANX7pfikNQJPc0nvXPxkb7=w764-h464-no" />
+
+</div>
+<p>Now we are ready to make our error bar chart. Now select columns A, and then C through G, and then go to Insert and select a stacked line chart.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8rp6vVeWICJ5SHALPIBUfaz0reNqHrx9rIb5nJAggwEusDpESr6ozC6H_N9auILCp2fZ8ckru440HTHwMwavD46xWMugtCbY0r9mOdwbyt019SXRbQuzW7yFYZaoGet4wlVgC0L5Z-xBGYyQ3cyTEUqDR33n9ITZuN__Z1kwGdrcfYRzTM3gdr0oc1dspncU0NhxgQqI1gonfAnBTrVppMyWDJvzH4h7yETFipoVi5wI8tsGyzynxClosf2bJZJ2HZen8vNz8kPeYESP3-sTBntjlfGJGLxW7YkodddBtmQHwxQMLZw7PJfiJozEZcsp1hPj-kRCWuLlmX0LUjlgfFHLuLFjJVLCnhmh1DFdlMjIFoH8L6QgWqrIwi7bT6AAudxb3eDtUL9Cbuo3gpRAJ46tZI2JeHJ9I1tEYEalJBhP3Bypt-R97X0fHegU8gdDQ8tO7CFz0zFjd8OlRK42x4iwWMfECfD-_SVtoNF1xJ-HR8BeLSzsGllF_M_rRldk_7VQhNbIy8GISuXM2IoN19t-dedpa0mjH02onJNeec_ZQHAcoQFCcnDjnHNwnoYcsXsLBCbie7AhEtmLFJwaQ4sDTFT1Y0HjUi3_3j0kt180Cwi1OXhN=w1104-h774-no" />
+
+</div>
+<p>In the chart, click on any of the color stacks, and then right click and select “Change Series Chart Type”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jQTrordDRyRIYk3s3JRXD0NoF4k9JHL5FAJGFFqk3Y-7kUt-GY8iOGxxi5I3RVumBzHs-IZgB-hfc52FArrcrhPIs6N-5goX85ZlmhUwnXMUAImtlSvGdmdJg8LYr1vR4-CMqU2G68SZ2YE96X28vtB5ExRNjZ9kob4qxFpaJBHHSlq1vfqGMMalMcFti5KsttVzOd7yVfHCv7_SD-X-r93Y291Ep8TTlqmJV3TBRjwmPgvQFZasqIdJbdfT9-KXKhU-AGuf1kX6BBhIYI28EMQ5gH2m77V5yfsxGfzA-q_MvXjsGOlXrXsQu93Dixq8BfrvD4Hsx3SRapic1jdM0IpDK6wyHXdHYIlxeWUiUUCUl6nA8l2zIHgPlSdihDfIztzr9Tdxl_6na7exGX9TeAOEL-UZnSilvVNIlweKfu6Xi3eoMtrgnXmesnDWo78DH9YMxaacpnlq3m6eATQVy132KuNyIifCIvPXYVYspbFmRWpAqdUeajCMi5pLrMcu6BBKQnm9Z2nJhhaxJeR57UVacUtokGSankPUy27k0h5mjudsSXIBX9-mbzA19Efc4Zb-AxO_CZvFsavolQ09fm5R_5XhwqFn4OYqaI0-QffnjAt-iZXE=w840-h536-no" />
+
+</div>
+<p>Then for the Larceny count series and the P8Av series change the type to line. Make sure the check mark for secondary axis is clicked off. Then click ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rMYRYjm7ScK4-qOCmAh4mlFGIEnbz8ygy8WwprSg_Nab0bqtNN3C0jjPOOwH1GbJnvHsI8kgV0r_g4KxOHee7S8Qtx9KVoNwtVtEhliWT7sr2oAuGemexL0tWQbFyqayiaCm6zC8A-S1CK3YSYwlyYuicf5ejOJxRIho2p2zCeD4X63ab7aOYCb1XnK5hTsNkLA8iU7RkUH2dizmtfd5-WoYMYYoPPOK7TSYRELMRSxPiGrv9dlHK5fBbmFgg-AFea0_UtKXb29ViAtjSQXfKZ6wlkp53KmVxBvQp_cWqwYi2h7qoCPA5UI9YDxp_PjpfNWoA_jCyWduDfFPpwaMBDLBBvHYUWIeVEew_y4T4Ykri9H_p_scSF1uizPDdxGbM0I2zvywZhZpAdWRNb6a51Qn5qk2dmaY71Em72xK4gKiH9O3nH9aRXiRAirQgNfBcLX7UiGTy4vaWuJ-GOtklahj-kZGlEyAGrkPhivjhGL8Ge4I9Y-M_VHu8YmI7pHYt5ceC_vqVnyf9EklzkzlhorZQpLM-ptLMMocztnM6wx67Clu2_cmDjH1HUT9HAJn0D7Q1ooVwJ_bSn2Ht5yqwPCWrighjYIhjAp_XuNYo1dIRG148Nlr=w825-h801-no" />
+
+</div>
+<p>We basically have the skeleton of our error bar chart now. We just need to style it. To style any series select it and double click. First lets select the grey LowB series. Then in the Format Data Series panel on the right, select the Paint Can. Then set the Fill to “No Fill” and the Border to “No Line” - this makes it inivisble in the chart.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mnPrnW7wXWJH2T-RXLpPHTeVijyAXXN319baLKlBGpbCbDvf2axDI99ucdtZdFBD_XCJWETZtOosGnu0DONmloteIaIYnbJrE4_dsEFL4ZB7X_CEOwAgq_vilqvzLpd9_QBLDZuRb4ZoS4qGqRBLnjn9yQ9dGQMcKSSXeLhzJXhYJiBYgbFr6xNspiCWwg72cSo8eFRd_0Baqy4NVTCeg05W19PdzdYlwzw4HpaIKMTjz__aXSlgNH1CtKEoyVyZgkEuLeXyx4AARl4OzdBHORMSkAGSxHmdkD98Zq3JH3OhtK3Vdst4DLWiodu00EX9ZL5e2r5kOx1L6hWl7MlODxsfuN4d4fKx-ZHOnM8qvnR7RE_fwktFSqK623zJIg1R3ElzBdGyxLpmoPIvDAFniwV1vNpfU8DmmOLJ3xx5UdcoAKettpDd55SSRDFGVYO2x3fWiSgn8UsCqw89enCd6Kgj35ME_-bYEiicsjRBFonajcdGdjYRnlEFrYCWBwb1Bu_UmEDUIFlef9Hm1F1NeuLtBqmaAghoGWefbeVLpawySBeWhW3fJeBGpjH6F5lSkvTAVo820vxQgEJ4PhKLZ3WvTAUjzZI8tbOvBFAov9c5QyUlt_V4=w1313-h668-no" />
+
+</div>
+<p>Now select the yellow UpB area, but change the background color to light grey, and make it 50% transparent. Set it so it has no border.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/G-gYRoqynkwxwIKetd7EwpuUcitYa8FxGt9_j_Z9vI2Ceqhw7bHhmvM2zPocCZy9B2i5I9vQyx9Od3oijXXw1uM5prPzUsc_uBPAfLiqmnfCirKlKmBq4tiOu_ZB4nFwBG_y0bmHdM6v8ZswWFhQNTZo7qYtmvEQJibtjSXcFvEGUMLfh1Rx8oGwwTGwKRnXEq2YwR5lLH2AYQr8LuIZcteQtHDN9RdDvKS2AIhUeQi_uBRzWVfGLQWEAHFIF1kHQT9qI_fEb9mbGTglVMTbpCzzdFOUrF0-__GbeTwLXW5mZgzLNCwp__V3F23lf2kEF2UVsMehPsj_jcztFGT6PObNzpOCRngfdcQgoEBDAbE2lN6rHc7D1Yjhoq8Qcv9II01QhAnESrL-k6GgvwGAT-HAEWZAtZVucqloYrCo_5wTV2V4uKGp7tdUcFkpaQ9LTPs8m_R2u1hJOvn-XXL5Hb8iFWfz4M5Ji_e2z1HQYjnpMjDDF1_F4KxQaU6P8oz3uEPUG96eic8hsj8ySF2kstiwKJ3_kRuNpRve76VgDC79184GAPFbA-GKi4d-qnZEg5YH_hxCPghxbaMpaT99ZiskeCmRKWNb5S_inzJqUn6lqFCWECbL=w1328-h714-no" />
+
+</div>
+<p>Now we need to style the two lines. Here I want the actual data line that is more volatile to be in the background of the plot, and the smoothed line to be more salient. Select the blue Larceny from MV line, then change its Border color to light orange, and change the width to only 1 pt.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uuEzkdbZ2jvGxFqoIIrycCdn-TpkmcX-YP1EPEDctc0TfxwUzlzR30jWGEIbd8YfzRpGgkNrKMURzB3OrSNPb7C1H4SZ9VjIQwYWRRjFr_YaVZnG1YjIqjsl2CpbtkHQwk58ayfaSe2LQAnveYM8HB45m8IqrGBVPqnhkq5hdmWuEboicZqyt30LiWV2lc9_aGNA3EPxD5_Pd3s5GQJqrbGhBV_pdyxxdhQjpfs8qXgRSr2oBlnuarfsDh-1uBzNds7r3uTlXEvyTsZbNgKsl0gscavs1HXQxZx__I9hjfC_gcGbDlWzd0CL-faVyGNPBL93CM9HRHo3rzeVNu14Uc5eyUF6hw2oU214gCyfhD7QaejnRaaN4A8JHh7JBkvnasjhvpmrL54m4gmBtnuROj3NfwfnA6pJQTvFzQlGoRUMUFoHJhi3NLobj-xfWZjhYKv60M8U_oVC0gDoTjC5ua8OrTFz82MxvaprECMXmTUboZaRKvq1PFURTw1wMwWqNT3DlET63XxR8kOcSxTthVpSyZdpu9k-4Ih66eOvmpC75M3dwWcx14Bqpu8XZsl0eyzUUZV8cBBUUnCetoENOW1kPq22Lj3RLaE3VTAkrM5JSKT0exuX=w1142-h791-no" />
+
+</div>
+<p>Then select the P8Av line, and change it to black. Keep it at the default width of 2.25 pt. I like to also add a point to the final part of the line, to emphasize what the most recent value is. To do this select the end of the line, and then you can add a marker . I like to make the charts nice and big and long. Here is my final version:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TJm01S_rL8NKG8pMrlEF2hseLefVMksaL6ZkJvZr9W8tvOfMBG8ZsU9Ff4ou8yTNU7WM0mVcq-dxEua7k-bCOF49AAH8AJe8avAxDtErvKVMLq932oDcokEZpWZ5t7cz2OAh444dTpR-tDEWlCEGjsfnO0v4mOiR1ImLJxUu9C4NwYurJmxC58EKSXwXpuXNtPzQpT_M5Kxck9bc98yEtqLCT5HolKI8XozjpIKEb-1uCdyX1TtLG5QD79IEg505iwr67j7SC8dn71cxzuABLAl9BY_p0C8Tla_3NXAKVEYSd6Fz7jW6VvtFOpPmWPt3nx4jEQKzFHNGXBJxCVGk3uD11MLC0Z3crAYIVk3B7_eV19zeguOSfq-I0UMwKexFNZJ_rSkY3RZxJyzz27F879ycfzdc2udEn1rMIYPz7iZIX6-9yPwZ4WYaDd_9-vTCHwEmBiBqhypE5u345Fai-dZalKPsiJHUF46U8JKtq5zq39-Bt_txdilCo8uvY285GgTq3TlQJRFGOyjcBhYZq2Nc6ezHF_WT09HUtT59ug-XexWb3cuSkgp5c0k0gXzbAwONGP90W6Ih2xJuCRJm3TiNHpb9vrRk2ToUVX_T5y2cgINxS2PH=w1285-h566-no" />
+
+</div>
+<p>You can see in the final chart that the error bars cover the observed series (the thin orange line) pretty much always. There is only one instance of being high, right around June 2014, and a low run around Oct-Nov in 2013.</p>
+<p>This is as expected. There are under 300 weeks that have been monitored in this example. The error bars should theoretically limit false positives to around 1 in 1,000.</p>
+<p>We can do two more things to automate this chart to make it auto-update to different series types. First, select the Chart Title, and then click in the Formula bar. In the formula bar, then type <code>=WeekStats!$C$1</code>. So now if we update the crime type, the chart will update to give that crime type in the title.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8-lryusx-KViwoWLtF_n5SqviAsdj6GrqNJ3bO1Vt_I0joIoZiRPFCV_8-1TfcCJAuueILfMOzPJ4r8b-y_GXoShnmlX0DUyK5_1DumrQQsOMyWqyrsJoy4LS-xD9x948c6_2MzxLkOEBvSmeKodtOSpuvjtKCNdkMww3txqxL0TZ8WpdP9TxmNtCLbh5YWvzGhX5bCYC-zwrRnU4fjQSpKNn0Uh7f9nbE7aJCRtj2XNg0Thh-xcE3rh8Ojha0Wwm1YLgUuZG0FFcfC9ZttXGmhF3sNkJqnbaziXIcAYbGx2mUyFK54qdN3TZk9DsfL5pU4rE7u6VW8DQWPhyGVjRGK7Gcb9AArc-C8mmlbm7H_75fS2wJaj7E1X2JxcMfFHAQkrJu2CnzcgNGsIYG1lF8wSAPefJR6bdMaAsLMmF5tFhFw0Sabyqom4kG46ZYcAC9Jjpjt9c3y5IXJvL2JJDowPX-cKvG50s3X4qmSc5xXRsH0RnyCRv6LrJi0AsrIBUs5Uk1R5nMnyI4AC6r0uElnPiGj155x8ofjCTdrZTA7Xsp-QrMEcgr0jdjndI6sDJKfT18kSDCCaPm6ZhNqOKkaZZqNWP2NMr9q9xEVDTg6EMCCMb1P7=w1437-h757-no" />
+
+</div>
+<p>Now instead of typing in different call types, we can make a dropdown to select them. Select C1, and then in the ribbon select Data Validation.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6UdQvBaR42yMbwVMrJwG0UO1-buH_L4GKF4iT4YnPaqM2roNpswF30-c4O_GrTd-Fq7vz9G3xV9vyHewlIbXF5yHZfxOJvDYkHraMVBaea_4avnQo2ioQRlU-pWKPWHlGP5_5v_3OL1R3kXzVWuQ2I1l4bB_bdXV__Z1TsrgxBcvkKTglZJRWGt25vndcMpqZzLuxsy5X-AjbmCVsNfyPftW4zZl00S_-_mrQOt0nlir_vupFb0cNA0UM41HgCO2vGfhQbk8neBV3wWW6X4p_46BNvi285V-3HQUXcZYSKDC2YUXwXqzwUqoUxzmLREU_-j4kMHaa6a1Vtc6ORaMUL6C27Sv_62SFlnbrOm4z8cC4aNKmy2xjxWCLrffeP5GjseycLtAMdUqDNdWUgHmtkoXtzARrYBFmfOS_bB8_HCUoWB33szi71ZkzEkKis7xsyYTfl9IXcIBdT79_XBilYaPx_Rug22eWE0DjkEfTjBfPCTD0FM8L-F4tzJDJROHv-_pXcheheincEfFwjwLGBNrXbFVXfS5TlvUJXvy8hJ_tEpJ4mvAi5ZMj5ttPXqL_GfrU9-5O1uWxr3hYxRhST8ec8si9wtbr8CfIsrXrIhpeRAgzQ6a=w1366-h418-no" />
+
+</div>
+<p>Now you will get a pop-up. On the Settings tab, in the Allow: dropdown select list, and in the Source: cell type the formula <code>=AvCalls!$A$4:$A$25</code>. (This references the PivotTable we made of the different crime types earlier.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1BMy2k-oF05vm3nh3fQ4mh1AU1dnkcCT92sUxa9gh2NlvTmtOgsPxyH2TKjqYCmLrY0CxPc3s1dztryRUWOxkEHEpsG3643CrimGI2s9zGbP4V9EiuZKOtTQ7Hlv4dXryLD2yQHiGFDFNFizou8w1H9_6wRsUKds5eWe4c0rjrqva0R_8_Bz5RyOgs12wi7WI2as-9MwYgm07wAcPzMAPF7VW-LpXAsF_BVoWm1W913Xn12IMIFLjhsszLmqnK7hocbVsojD4ymoc_YVqwBzoWAxnkPXIqMyU-2SfnphSpl6QDP6BNEZZ9wXDzrupkugbnfsHRJ7D5rpfgETzoBUaPljIywpyF0r_PMqufz0XX6fFC8nSySrCcdlaDLyiKrmX_S5mR3YPBYehzUkMjDpGNSV6FdSsfRqvcRswuNFpyWM3oBgUPLRDIIaV9tdqEokWgQOHIxTnP9ytgP_MNUE1mG-7Ql85bWe3Y7RtG0DqfMRhq9LCcOV4lcaTJdmfgzlBzMejbmrSv4guVONF2Kti-RszyJZ8OirPavKaxii-22kkyX6-ZXs964FNyMMvm8RA5Ug5zEZnU1gE5I--brmhyGsPsi222w12H_D0wxIvMYxAkc8B9Cs=w394-h319-no" />
+
+</div>
+<p>Click ok, and then you will get a dropdown for the C1 cell. Go ahead and change it to different calltypes to check out the differences in the charts. (After you change the dropdown, click F9 to make sure the sheet recalculates.)</p>
+<p>This chart is not quite fully automated from week to week. You need to keep adding new being weeks and end weeks to the end of the file (if you know of a good way to figure out automating that let me know!)</p>
+<h1 id="creating-a-nice-year-over-year-table">Creating a nice year-over-year table</h1>
+<p>The last tutorial I will show is making a nice year-over-year table in Excel. In this I will show how to use my Poisson Z-Scores to highlight noteworthy changes over time.</p>
+<p>Go ahead and make a new PivotTable (you should know the drill by now). Insert the table on a new worksheet, and in the columns place Year, and in the rows place CallType. Name the sheet, YearOYear.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hjnXFFymUDZoN2ZARTedFZ1gBptpImmOezIjCxwb-t23qCL1nXvqm8MIy6xc5WLkBPbdZfqZXRGYXCGbcJBO993S10orwxj60RDBCQLiTX4VU0ERbmX2ZpSip2MdP04y9Un2HxwmCAmzF1S1DCUIX3I8rA1RDsy8Sgzhe864o1ficJPaoyPgLf-tJIe1n1k8oELub574es7EWDEXZAhvMtRgAznQ7wIG6Kh0kofaHKwIgeX66yknxgNu-VywNzU9uBKPibGtjb9M2hYWwv_2iQkEoNHUVT1ge_uYjrrztD8lPP0XEESuIeV3PgG3_IAOjHNrVm_Kv5SGqCd_WpDFOMDdW0hPJDvzrdg0HatPBEMlnKVINAQXYvYrXcjPXuw1xubS_X1FkHfs18m2DmUg--erldyw6qcS9QH09G0HwucMPA0jIEA4Pk_fSu6yIiEols1EEHg0NGR-QFuWPMQan9GqGSToVyqb3bIulLU2SWNKVX4Rw9JBW84htZo8jx9AYUnW0ElYtVr7rjBz7WNm8G49xJDpRNUflFsREdPC_uQiCFipKibyNYmlyOvXfQhUpek6w84kkq2zynSnIw_Fh8evDkLYmgJQUa-bp1xtLpozDLtn-Ppb=w930-h901-no" />
+
+</div>
+<p>Now lets pretend we are just making a report for crimes in 2016 compared to 2015. Select the cells in the pivot table, A4:G26, copy (<code>ctrl + c</code>) and then use paste-values after select L4. This makes it so I can edit the cells how I want them.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/QKwq_kOD2PeVEhXlx6FuULPiEQO_oYb1ulGFOEKY_oqdzV0oDjnkVajYAa8g5EgSg7jhkK6LuMu3mJVriy9sJuNm1dcmRpRQ8VkM9s_ceOn8uOtFnx53ty1K1iKOFl1BacGscglcjGJVBPayE49N889CD_jNs9-jrLDAjO8zXu9rXL56PLb-ec1BOc8y4oDG8w3gOkfyfL7puFk_wCINCH6UHorR-a4DhnqDprdZsFOWu2mHJh-OXDeaDz5SDI8q0XJ-IJkEZM23G9X7Li-iy3ASvdUhATkxHouZbq9XsaEf3H0fJIANLQCs24uU05FFdwwXkKZLqdwTCRiR2JV5FOgFtkgTbHIZaAbNRwltmCqC9GzM5xVHoPOJC8CHJo2rkEhfjFl900ZgLigbDiaaDWSdwPqp05kcznW0tTbQT1vVuGofv2-OElDFvWSbN1ds5iJOwnWuu8Kgv-FrKviuzRLHXHXE7XRI95quYmO_6wKBjX1Gui-u-5JFzTI8CFh5psGH1flKO7M2ISxw2KWdwmBcq_5Q2PuU9yeNyZT82GQyHOLxycTJR7HMns2nR8JdD_75cNlESYh2b1Z6ARMmmEg9xfyXNSNQiaCjQRM-D5hu0EdxmS6A=w1493-h602-no" />
+
+</div>
+<p>Now what I recommend instead of just looking at the prior year, is to make an average of years past. (If you need to only use the past year, it should be obvious how to apply this though.) Select the Q column, and then right click and select Insert.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CMqoBts4MficzqtxFwx6WhJKoph5UROZcfEtXkm4PDVoRXRBC4gPVDKfpsp6aTkXGuNOILh6L1mMOWV6LtkAwcFjLo37ayWJIexFC5rAFj0GFjiaa1u6qPUpnqYpvJAZGNS3F1lvglmdFz2V99hNoww7X8-Wp6lh_yhl8LSkstiBmlhLp-TkWsM3KRoi62sq6SPMmpJNaxL9X4jgh3jEbDRDtH0Gw-sux1wKg4AP2GV5XnGd92AWG2Z28ZJ78Gt6h_mr_ZWGrpIKNyCQtUOOrn6Gh3AURi-EDLEN4FydCuXaxtfSRMoVWw8TpfXXTV-p-xG0RwVTWGWHW-KPNEFL2hIDibmXx97dgDXTiu4pNDWKlp-gF3XK3-00KvWZKSPI4nF2iIz6x9VruC46Zljak-Ce7DbLSCN8i2xj3xuQCkmWf4eRioQU63EZknwj4VWnlH87fz9XvDyquPl939S3ouJfMxt_Dv5wat0LSdccc4VAEW8OnTFIzpRmDwDBWhtHLPs_lvOqDD3bSlpZyCPb2yKxX1Q0KpknkXyN_kASuhd241UuqV9quy16_BUQ2LDGlQIC9n8ce98Hd4ic4kYL399Tu-u-FkrcjD_pRLmMi3kOEeSPKOWA=w836-h708-no" />
+
+</div>
+<p>In Q4, type “Average Per Year”, then hold down the Alt key, and hit enter (this makes it go to a new line but in the same cell). On the second line then type “2012-2015”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/08kR6wtAxAdzwsPE5fL8DrHcdznyEWFEQnnv6WI5r-OE49bHyJIak6iLvRgZToXMOgEJyuuDtRG4BXI_ypTT1AKchzesc30_enYITlYCszuVDXRlKjTM4vLJA4T_tscT8Ye0kwoySGT6_XhXdONx0dfsIudYpKFiQej_PWrGYv4d3ILIcPk2EMhfmW2CKa2VtC8BSp6XwYHpfNhxGiYt7KKRRERhuHDQXzX2NiJ7FUnOoWjp3zKbYrqcPeb7oJA0xdib6NZthgF4OtzHLy9Op4sxB2mxmTevga1Ps5ZpqGqqb-vCMLgoJJcYrOLa665XUVFzsqjrvkNMzPcGBQePJTElKz251dUvIdmnFd2XWWl-BbHuDWGKCDeeCXJLVO_dJXTkREK_DcGIGFqcSQksK9W6cjoqxsch1c7b6O6n9TqJV6u-CIfsrYei5cOo1oZevijSBnF8MQ_GHnpdU6r7NJswNOqfO0KL7Wp6ycVgK93UE5xrfspJjUq-C6tpi_F5oOXimVXAlWTSuwxqHn-uQ3M4UmAdylQj7NQWJAov8zxZMmNLYhQGtuaW-R6NXNp_cPpfKeCZfybcFyaL5-Ju6vf1KQ3G-mewo2uUDNTxkU_wbAvT0NZ5=w1134-h706-no" />
+
+</div>
+<p>In cell Q5, then type <code>=AVERAGE(M5:P5)</code> and hit enter. Then you can double click on the box in the lower right hand corner of Q5 and it will propogate the formula to the rest of the nearby cells.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Xj_HgLqPW0KedM2NqjbrPc9eXhR1L1sScszTkys5jwlmF3XS6OJTotBcxQHmxYOV2wSq69y_1oUCxNCNcNZc2Qp3Y9FfbeoAKHkF71uVPk5KVjPshmvxGDKhPGX8toKKL3I-Vp3ImZOsuhXCgAEF1FgWgFqphojPthOmKTJEM3hSjpNe4zrliKi1J1C1d151jPNrHzQo7YLVUYoSGdAtFDjjGOKcxLBBxdz4O6H5TzDjeMbzwt_J5PcmZmxNlfpfbOvKpvDfvKwoC74NBb0xTaW_w83f3HcJ_NTdAmdzQp-4G3Ivfq6ZqnFRE-QD_7Z_JMLZ0LLq158w6UxjvcqfweNHzg8DY6EmBIiQhBDmGXIT8JBqOakAiUiOGvwoRqezQpRR94fG5mToRY0IbQ9Nir1NB5Hqf8Y58b3D6X1JtVG6brYO3KMbnMzTLmakCg-4vExQW4I7BwB_yheedy_BpldYBGRCWeEowsHeXskIBbr4CXs4myX3EOpjB_6lTZ5OQG5uERAynvWc6h_8sY3VSdrGVaxlDb_j-ngiK1Asp-PCySpqmRiAgOpprIBCMRrW_OkfAog-1C1wqlE18Q4t9a15MaTxqe36xCvJ7FK1vLCZaPBPsD-F=w840-h730-no" />
+
+</div>
+<p>Now select the cells Q5:Q26, copy them, and then paste over the formulas with paste-values. After that the cells won’t be referenced by a formula, but will have the actual numeric values in them.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ke_llYeCSoB_827tEXxSZtxm-JMwdIKC-3x2bsmsfn-Y7oZPVWhvxnm7M9tuXzFnZIrkwmR3-X3meRIVg8_iDq9M9ZGWh_GZUANXId0_g9XKIpLMTwwJToQ57NP8N6eua3ELcJx5_nd424jlMLoRw4hzPbqjSvKLa7AHFHkqghXDbZ-lP0rH2yOa71CJWne9DO6-1wAUO-X855YCZip5W8UTWehisBtG2kP6JM1acVJ0WrloAV1scI0z33L5a82p6nLQ-exISqQulEx60FfZQWdi-OP19GpoGA3WQzWCGVBMziP0PYDBlQzCTAcg4hc9e5pmEUlCMHyPJuyed7QSJvVv8gwmI8qu9suiEbqONU_3g2eU_gs7oK4W0rNFKUeQjGCxw91LeYkUAwaspYe5GeQ_H2sa2QJiHRdIxw7ZSTwhVe-ZxgYwF1W1Mq3q8mQKG6JnAi43e7LYldD8MUyz2rTMz4zg0nMc0ZxwfVDX93ixOMGer-873W7yKTesbQd8Z-X4OmQuD7irl2zTzdytjvn4sLrlf6SnY0sBZuyWLmVpv4cFI8vRRwngv9D08uPvu28oXN5FRT06LAj2lURPMtAXychsmKyPwUJ7fn323_8Uoy4UkLwN=w871-h710-no" />
+
+</div>
+<p>After that we can delete the 2012 through 2015 columns (M through P) and the 2017 column as well. After that is done, here is what mine looks like. (Note if you did not edit the file the exact same way as me, my subsequent cell references might be off.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1lk8QuM_EcGOBJsMIHkLKmBFlSMyCpIshEWfShyyynPX6wxvh_KAjuM6lMaUDGY-f6Rv2JOHQWcqxNvN_NuoD6t9oNpjceqZcldQnt4ZukIdkSXBd12Yid_N97EYT0Q3raUY9RJD4Lpt-jyaGqPpMZnk33uJ0KDXPqhdhd2263pkI4VbvdmS-94CJq3cpdSIYHn-sxkpaHnsbcoPoGtgII0lcFg9OifzT_jqI4ixQ9C8olPafHYt0FR7avpkYk_K1e6Uy8RnxKr-lfbSmirVA1swtTP--9K0cuU9y4YYM75ox0Sm12KHgiawznnLYYAkLGP4oSXE0V2UC78gjQnc4OZGK63xhA6kSUYzyLwd8pO1sB_AztvpPL-Y8GlQElLeMsbRd2pEU0lmt1sUmgRsJMw3g4jN2drCCUU6InaYFvsYzC8Vk9hCqUAvNY0J-ebJ1uIfp0pKbVN7q8Eu6Fq7ucG8FD1O_PMA-HwJbptA79r5Gu-CqJU3uq2AAUIgUnKaZCQ_Yjn5dyFl8SxZ50YPWnC5Z3Y7u0r2i_1eqUfC40xnloZGTREx-n449RXH92svuw9wc3JX8YsYVEtBNhesP7A1eIwanJqw8NbMpJUmnyvFGxsnLzQR=w472-h672-no" />
+
+</div>
+<p>Next we are going to add my Poisson Z-score to this table. In cell O4, simply type Z, and then in cell O5, type in the formula <code>=2*(SQRT(N5) - SQRT(M5))</code>. Once that is done, you can expand the formula into the adjacent cells the same ways I have previously shown. Your table should now look something like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0f3Am4BUbtCmmgi_VW-EvkMmbSEpcIaeKw9BsRjUKrxdF7AVR-24jej6_SgpRXNCjmxfWwq_MJ1LBZnBfLjG02FM4s8T8snXpBYnEj5CTMtMW3chUBoBOoJuxbc4sTz3OmS0n1HqPTeeuY8ptQpn17s15_KOGqUWX8tT6sHRBFG2GitOAEufY8bZxS6mBjtHP_B_NK-yusRxbMwFReMmqyGYvoxqkfno0GYp7T3XbRs82WwOHkYaHhr5YNZBtphCK-7x7II7lNyaArN1WxdkHAUiNR_tjMd17Zcr4lZvQY08XO7psUn3_srtqAyubsBfgP1bvwhgip4LxI5jOQkYpHkvO857yex4qjbCWrLlpEsy36Ob_lIbNEz0qI45CIar5lcgK7ATTbkUmAf2yo9fGJctwkL8ISRIo8gWmVVFA0is50NZjtCpvlkC3GgUkukE0B4Q_UXwOEtKhganjnaBjt-AT2FJE4ZgtR8LNZ6wg9ooh-Qa0lC2kk0r2-I5ifbhJxeAeufi0BV_EeVoxDkYycBUSW7vt_-gF_NxMG0ZZy34QqkreUtWxjxzJLg-lVCORo-7kmVLjhnVRvCp2EndsJYLGz-OxBWkmILwke6D8ltnSHJyY2zj=w545-h727-no" />
+
+</div>
+<p>To tidy up this table, you could select L4:O:26 and select format as table, but I will do it manually here quick. This editing of tables is pretty straightforward in Excel, but here are a list of things I did to make it look nicer in my opinion:</p>
+<ul>
+<li>changed “Row Label” in L4 to “Call Type”</li>
+<li>made the header row, L4:O4, a medium grey background color</li>
+<li>bolded the Z column</li>
+<li>made the number colums right aligned (including the headers), kept the Call Type colum left aligned</li>
+<li>zebra-striped the table using an even lighter grey background than the header (note an easy way to do this manually is to do two rows and then copy-paste formats)</li>
+<li>changed the formats for the average per year and the Z column to have zero decimals. (Z could arguably be useful to have 1 decimal point, beyond that though is frivolous). For higher counts use the 1,000 separator as well, but make sure the Year 2016 does not have a comma.</li>
+<li>in the View tab in the Ribbon, turn off gridlines</li>
+<li>for the number columns indent the columns</li>
+</ul>
+<p>Here is what my table now looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LxxstBOzIwxFCnSULjpmT2WuRcyEU67tnR-dcNu2j50hPp12Usm4sKXwEWmAcAuJdmLIHtmDFaH0RCV3vxC3uCFozOSWa_5JGqMbyguWPz7vDeKzovxLinjOcz7TFepwUABETNfsJ2MIP41JMHT9mN90d8vo1i_H3r4uYg20bF6ciBspgc0f_EkHmtjxMO_ykYwMPeSK_abH0LmbYLFVETMyNTNWIcgvP-OPTRKgxgEs1HUXJfUtMrra5mG3QHLR1lZnhow6SfYvH5RmzoDtqXwcyE5_QnQB2nnbZdRYydEsMNZsatfHmahKjJvKYi9QRydRif5O7Wv6SxElrlVDi7kVlzRecAWOARLjltuoGwvWuty3DAnBH-lm_3H50nCh0TYuZDL78h97wNzUp98-qKPiJo3jb_7eKbzBnex6AB1GqWIfNUJ1gg0VoNgiqJudL86xVXzLKDrPUgZpleyzziey1EvrNZeOJky0XKcCMz8lX8P1_tW4-NFjv8yd289cjuttOBBk__LKVMUVL1fZgVvaABNOdc5L5UqZ9xgcI9sWGd3nv9VZsZBwbinYE0oJW7vGZrYWZo2gsQAC1LLNNxDP1SKLLhHC5hykl6rrlRhRja575a66=w753-h609-no" />
+
+</div>
+<p>Now my recommendations for highlighting cells is a Z score of plus or minus 3. Here you can highlight those decreasing rows with a light blue, and those increasing with a light orange. So we have mostly large decreases from the prior four year average across many different call types. Noise, Trespass, and Burglary calls are the ones that are the most down. We only have three that are noteworthy large increases, Overdose, Mental Health, and Retail Theft. Here is what my end table looks like. (Intoxication actually has a Z-score of -2.9, so it is on the border of whether it should be noted or not, you may truncate the Z score to round it down if you don’t want to flag cases less than 3.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZeH1PAb4vCuAxFmFRiYUIBfLFGZSysc_rVv7nO-b4k-cDdVDcRaI8abt7tQygbWLNMd9ywpmXum_NWazYn8xCwXS0bw3OTa1yy-CuRWHGZS7NNtduK2hXAtQtj1CwNoQpU3677JjlmXeeE5xQydPerxE0NWwdaHNu3yoBlm3FWjdLsbT6E_F9mMPjaNFEMzoLXzX2tfCx_gummPEhxkR7hmNkbM84mjIt8OIIYKHvf9wGFF2BvxMdweJR9sj_nQIGaejxchItZGKc2z4EgYoDHthgkec4DxrV1iANZLn9Noi2eceGuy_ujsXG4Wn18DQAWb62MY5kVH9TXSVYqYZJT6zxxkARJapUl_wfUwr89gtpRPfLmtH_rBDnHcHpC0-EWpkJTbw4oSEyvGePYTZRq5BYvaM_QgLstmZpK9Ika8YWW_Eicc9AcLLUXFxmCpPv3WadTRsGZyCPZ7thvbWEBlfC3IR0_x38OK4KrqSjZCWApjWlpdqKvk7F2HUE50-qi9Q7vOEDm-LjkhWjaqnteMXl-xVlHSfbh6jZTTWWvQ78a5FMX9VBs1A2qr_9PLMuz6W2VUDu4-u3YVzpi5RLRDyV-BOGxtrMPEDjw6DrMc9830-smIB=w731-h645-no" />
+
+</div>
+<p>Pro-tip: When importing this table into other documents (like word or Powerpoint), you can copy-paste and paste as an enhanced meta-file. This makes it so you can resize the table to fit the space, and make the numbers as big as you can.</p>
+<p>If reasonable, you can sort or break up the table so the big increases are at the top and big decreases at the bottom, etc. But with smaller tables of Part 1 crimes you may want to use an order of seriousness, or keep violent/property with one another.</p>
+</body>
+</html>
