@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Introduction to ArcGIS - V10.2</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Introduction to ArcGIS - V10.2</h1>
+<h2 class="author">By Andrew Wheeler, apwheele@gmail.com</h2>
+<h3 class="date">Week 2 - Basics of Mapping</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#opening-arcmap-and-mapping-a-network-drive">1 - Opening ArcMap and Mapping a Network Drive</a></li>
+<li><a href="#adding-in-data-and-saving-the-map-document">2 - Adding in Data and Saving the Map Document</a></li>
+<li><a href="#styling-vector-data">3 - Styling Vector Data</a></li>
+<li><a href="#working-with-the-map-layout-and-exporting">4 - Working with the Map Layout and Exporting</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial introduces the ArcGIS software used for making maps and manipulating spatial data. This tutorial uses version 10.2. If you have a different 10 version it still should look largely the same, but if you have an older 9 version the location of buttons changed quite a bit. Make sure before you start to have the spatial data we will be using for this tutorial downloaded and unzipped on your flashdrive. You can download a zip file of the contents at <a href="https://www.dropbox.com/s/9cg4f2j159kuae6/2_ArcGIS_Tutorial_Basics.zip?dl=0" class="uri">https://www.dropbox.com/s/9cg4f2j159kuae6/2_ArcGIS_Tutorial_Basics.zip?dl=0</a>, or go onto blackboard and download the data.</p>
+<h1 id="opening-arcmap-and-mapping-a-network-drive">1 - Opening ArcMap and Mapping a Network Drive</h1>
+<p>First go through the usual dialog to open a program in Windows. Below is a screenshot for Windows 7. The general program ArcGIS includes several different programs. Here we want to open up ArcMap.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tVtFCChGSegZAM7bUA4nH55n-aS2087xOxD8dx-1ZKvGw-cbcHu3bodjwq_Ey5qcX40rTX0V4RnffySxjcESvYkAttP2kL7RI1lKuCRVHfaezH8ogdOuZuIjD9T9r3IkoCaXzhuHn_j4bKI8VL_ALbkeejAsKEtVs6sE6mlWCvjo_fZ1NUSk4zXmyyhcXJBAHk_DSQ-WU871nb6v6e_LjZpzz20VlxpJG0trRdH7u5OKx8cjZdtYguJ9jtGouVV4942BuGVuuzeXm-LuxFj1QoQgABn10MC6ttT7umL3fnPcnwi_aTfVxF1q7yYxpgtmrcI7i41EEfFbE4VC_l4tzaj963wkKSsLXzlaO3-Kb2ygH-mHIm26HcKF3HbHcD0hlU_Df1LLGFbtwcqwrfaZ7xEIY7Uxe5Aa-7aMHfXqAr7SqDOwmYKwdxvZsJkSyMQDeBBCL97xZpaPHK3gzU9fUV2lZFqzDPHfhvk3T4lcasv-OeeK19eKG2mCi4a7kWBBWmP93YFhiSmXzvgFgu5vAb4vT0nKt3YQcf3BwwGdS2Zx8MDaiBt99AePDiuogE6SCVFWig20EcGqkoNOTpBCkBatyVJ4n85pdqLQC461ZsOfAg9FZLHH=w408-h393-no" />
+
+</div>
+<p>When the software opens, you might be given an option to open up a set of prior maps.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NOUdYEL-kLzwC8sLy3yqQ95EqV4TwJYSguH9JrbQw1Nx_mVeNzsAZSxyscjc1JQFNmv5z85L96iKI4u2a9bteHNF83EbpugMZrqOEhANqLECGR9HnC9ULWsqdGL6CsBy_NBA69uQun_bT2djzXl4Xcya470huVHgKitBiLkMvxJqOb7_NVlyvug4HJ3YOk8Oz76rmC0TU4Yu894Lw6xJ8u3bOW36Jy5BHbbQUhy7oGDshQ5gcELpOfx4FBzCO-oBak4daeTbycW3y0jwZpW8G-BsrkntApoLtyw5J-62NT3_fRpDjyE0ozTOPpSbJ2oMzWnI1BrqC9Rx5D182cqwgh4CYWcDcazXQso1zUIHaFLh6mXuDjVHmwuNdk1ZVLYl-zFX5goiisvWgepdmck3qcMrmqYBSHw_yFzbPX23V6ihT8oMiJX1FH4Od0ENC8zv7qagW47XFY0GZRmiJAxTF3WZh7zitEMDn9qs3q4nOHpcp0W90XHcZQfUwiaZxKh2r5SNWk3x843IbQKgLU8lbTgvwo5LaEuXfLKvOGnwQTbPMkY-yrUZPAmgG4nfu110Tt6JWXqX_Z_70C-SSIJtTXaNgYy4rKvFxn9AAoM1r74iTm_idJRz=w807-h525-no" />
+
+</div>
+<p>Click cancel for that option, and you will then have a blank map. As a note, if viewing online my screenshots are sometimes shrinked to be small to fit in the page. You can right click on the image though and open in a new tab, and this will show the screenshot as a much larger image.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2R-W2bxNp6KrOdQFUe5z36P74ncqxZMgopNfqBGW-XadvD_xPSoOvF9FaHpnf-XXmwIhiHe1p3xQOeg8nO_5dVzhAQz8wWABhet3EYFYvg2iA2rUcRXbMZf2YSUYxXXLl58Y-QdHf9MQerRQNRHKT94nfEuYBvzsWN7y-FQKAdOeQ2myhjnMt67_bdPWJcO6EgO6_KazbpR6xwwaL4neGhfxT7d9KpCCg_p_kLABuyl1vvduLPDoKi5cGbtUvYJa72wg4HGJHZoBgt1VFZXu_PmTI_eY82mKEP7JFHbromH3MK6G2-x0bClTMLqu12YDpUwjzniRTDbhJsWHJlsDm50MPUiQj6-YEFx8MI2FteSKdMoDCvNtawKxGwicl6njmgmA9Iu878KNASLdf1qE-C0m01TXYkeSGtRIdk9ufxC3TWY1wD4IAWiuAgEtTpy2nQAADfGE63roVY6kGdSzPAGK01DNqpICOOf91IPzBhe74Pv2MeXxqgkrhvcoSetL6ptK9VmepvjcwKVTPgmbLsdgeWkKdgSOzxuAAp4ssSiCwjaFV4J3pyClgm1cgr3kM7Y1p5RDXFTmpxGJT1fhcg3AXefFEWBX3J6wQx3wnjcOjmrf5zmL=w1188-h950-no" />
+
+</div>
+<p>The top part of your map, where the toolbars are, will likely be different than mine (I have a few extensions installed). The screenshot below highlights the different areas of the program I will be talking about. Highlighted in red is the <em>Table of Contents</em>. Highlighted in blue are a set of <em>toolbars</em> (they will likely look different on your screen). And the purple are is the <em>File Menu</em> (same as in most windows based programs.) The big white area in the center I will call the <em>map area</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/z9_5ewN_J8NIHNiQIS-5QoLe1F6URnjknYeEbnrS6JYAw_Rz1jZGg-UvG5Sm_yctuOKPeMKRPj5drNxZUZBr_lKavuzU0PKXmHdcQqgp5OnAJKbdc030H4LhzZt-ulKRSVG4S13nviiMKN_X0qGpdA7bHOSMLyEFDlax5zJ-s1Oi3mSdbiNj0ChsuXnhQR9r5x60yW3VIFfwCcqjznKgm_p6wtOTjeu8mWZdNFfmkT1dL41puS3oG47GJFB5gZUQx5P4GwELm0la4Y1XKNEb99YlQn3GwFJTawny-63_rSCc_6Wc5P24JM8xjr61vQMFORkbZovvrrk6LCHVGsJ4qfzwPhcUpyLft2-UYJ5QVlDHzv87j4Rv15GbuYBwrCnln4kaU2kCDNtb5wx5rg8b2GfVqDuyAPs7LFuW_DOQaySCReeJWvMxDCeprLDitzdbTNTSu1wj8YWp4p5jymyUSFJanrQnu2m7DG2O4YgKEwmCyNABlCBUJ2Rr3NTMx_2p6wM7kmPxksVWWD13zsoWdLl26QhKsEuv_ZdF1kxGAjdrseCDbB27AADAkxfrKgX6xHF41E08_r2HkcUR2BrMoJgcu13zLJpA_W0837j_SlXcgOCKEE9c=w1188-h950-no" />
+
+</div>
+<p>For the next part we will be adding data into the map, but first we need to map a network drive. Click the icon that is a yellow diamond with a black cross on top in the <em>toolbar</em> area.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zfu1hOscOEETOei7rWQ_pAAlPfErCCxi5g3fYliIXKHBlWZLw-ZmqpfIzvkF44JHNIhAtoAl0_kRRp9-fdsaw5rardlC_ZKKzuT4EVUSRwu6nOl5WS8EpZzyoQhT8CTKxcAeW6OePf4Gvo7yjIRnBz8MdQJBgSGgk8rouEpsk3OZljtRKnDpGVx_jxiHOa9N4LO-X08fNoFmUA0YgTksHgNFsW-Xk62FA13zJS4xFLPhyOf6dGbJ2fY7CuyUoM9RBKkUbfO5TFewyawDvbOOgOBihEM4FbsYLnLWldMArAhnYTKKLXicoyUD7Z4TTPg0vrBu5opiVuGmljBAeFQLflLtCQ7Pgrt7sj-vNj-aDZ-eXKVOKRmXh1bco7oc0gTmJ77VmPiR6xGEXGfO1BFZg79xsXePZxIW80b19PJtjnix9jsNLYAfF42c97BxuV0zn6S-gA7i0epmxKHmchw1uXfVegfQKogBZKXb3ugTQ6woLYKwf_z876ctKD6T0Zzrkfpu-4wtbRwCTG0brsIqu2q_By-cdHwg1i-2ZTGI0g87-vmpMvyBalpuyejeN34KaIbjfjfS5rMXrssyut8bmQ7oGauPuhK3SfYd_pJ6maCum0lV8ZG_=w577-h153-no" />
+
+</div>
+<p>This will open a windows dialog in which you can browse and open data. But, by default our flash drive is not recognized by the system. To add in a path to your flashdrive, click the folder icon with a black plus sign in the top right.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/M4v6KJZXZiTLRsqJRA-_vnWBOaDlVhxFMNvyrISE1WNEFCE_NaUCXBCu4Nmmt1usWCOPVOBO99W9YgjOzXyyOLk06CWVEJl10RJpBFnqH_ZXe8BxIqfxlYyEdLu-S2HRfUVuLyE_-7dU_hUFDZG8ZW_6tC_jgRomL5ymzghdSwVLjSZ2sFPGxba1qi5fwwNos3_wW6M2UwSZmkS_Sls6KkGHFRwb3G4JoFk-hlTjebIuE4v4NrZ06vwkdRoG_XuKmMLNxS9GjN27_SdGeOnJGtn58tQZVLIXabwfcxBLFqkfzEvkMU5Ws05dbHvVqylooytQPKWozPYdLiNJ7xXlacxeLI-4R032fKrHY0FROTFXB1cZA_DTKwxr07hbjOyclhiC0tP6AIOdRb5DTBo8EmWJ_HwSn3lLNXF_uVGztFa5roKJDWLCaCTCKVPk92gwjT-Y9qR9-rpd51Thj6B9XYkJNR5LwOTpNsEs2k8jmCsewdKBUH9HK8G3QT7CYKS180YMse6T-86w2NszbkMEePZhm5COkd-x6PPwF2OfjiDPXgx_unkcXIs2nsranbzctD0gleicj0L1pqgJ1-hxhbBHJ4Dhl6tp6vjOPKqn_dun5AFBbW-w=w497-h330-no" />
+
+</div>
+<p>Now navigate in the windows dialog and select whatever drive your usb flashdrive is associated with. On my machine it automatically maps to the F drive. Now click OK, and then you should see the contents of your flash drive and be able to import data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CijGSQlsVMgwyT6cNv5UGFifwfgCZF8RFIZCpRhisBEhkLH67o_1F-znYjtTjnyRSaXV854vVHixHpGTeLISnsGgRachjviPvdyDRg44IUNeE8AkilIl_hc0p_ePe2wimln4TQVmu-hwRcYeQMA5akPQPBgGvXJZf5dc5kkH7kOG3gX4DbUaXH_XOUsx22MDcdFEsaee3zCcWeHG_AJNJILpI8NI7Fb8VaaBtS3-5PoORRs16wuk-NuUgkyJEcIxCPeuZBODCbOp-jgV_KMkrsgeTVJe9thquZn42ziQU1qnZSy-ethjPyRbUYZAKiAfSHoi394U_9S2zL3eAVng9kMqmD0OaIPRxpcfhCnl6UDbAvFiDOFgf5bJ0Es0FAmrSxtpZNgdGapEmNO6U5VlvCq4J-8MKNuT2gNsYZKxGyqQC5M-yApO3_7kkxPfuCDnJyBPNooe0-r5t_47-Ncwnarx9AZFmhdHpq6gRUBu3vT4XVWf07gvHJEDNYoH7c8v6mhahJV1bsvtIG5ORun9CDxyY-ZN0nGR6C6r2W7xnN3QFJtCqgQKbNJam3d295x05bW5lNRXMXTtn3G37c3DgdMBcQ5QnNCbDTjL9EQ89dxFyHtMErkn=w464-h563-no" />
+
+</div>
+<p>Before going onto the next stage, close out of the Add Data dialog (by hitting cancel). Now we are going to save our map document onto our flash drive before going any further. Go to the <em>File Menu</em>, and then click File -&gt; Save. Save the map document (file extension <em>mxd</em>) as <code>Albany.mxd</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DemUJ2YILtfcgMyhaATKPrH3jsEKYAQwCfoJXFfPGw0OnNV2ZP0acOtkhSTq3RyWExGwmlnaMliZfr4St2H-AFdD3cehtDteuGdShfV-WAtx-chRWCxN9QTKIEQHgKdjPlWMLlyXVZVc-Ixko4sAMUjm9BmQazuhbRvDDjbyN8C_oCFW3nrRr6Ij-uEom37ZX7CIKrafqaGfgXNcWSBkvWs2QkUObQ4gYfevwSxSjIP_avySDmHxNb9R0npR81AKB0LI0NDptkEHOBv7wqB1j6_pm3ZqPJ7-WadK-AIMTqoN-7yficlsZ3-N1VVxQQaSNC6-gRSBX6uox6GfnNzGfxcZ5GsVhiqXnUzwmmFeDtv7eZKx_sWD7ixY0juFnWDXSAvxKn-lbKYBs977VCPZJ0X_fXXX2GB1nJZCPnVFzlBz58SsPU87AK8BIwso4az5gfyCyj1JrVYI-81WpqkYx3K5jMxUIqNalRGHSov72Kmt4OKvOs43mGcHmTps8OXDYqFAxpGLvW_mp2j0RBtQ6Jdpc667-3qQ-zI47sdT1aI6dktsoBoZ0xjg37BC8n0CASTGgYVkhyAbdXY1_bQOI8pETlMYgkPcBdafWSSnzs1Fj23LFqyT=w470-h630-no" />
+
+</div>
+<p>Now save the map document (file extension <em>mxd</em>) as <code>Albany.mxd</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/L66SKQXLLyOpFAzkqhnue8bogtMbYqQmsMjSmc73h_48ZiCEtO5iVAK7cifPDjiSMBIcXcWPY8I-lq2T7ki5zAJb2W9cu8VXpJEr6AO6FMuE0LHQRD9KWiUmi6ckBpR1CDKo_L-qcEjPMr-UWnrcPBxiry6WfUd_VCO68S0ZRWMDM41IRlUuyyfG9IwgXEpmhZtnBUm4H4LGyLWkc6GwAODGs6-OGQ_Tc5FtSU3L2AyyTayb88UlhFVVYwW1Q0_C9TRbC0EKUKkpf-SXnW8om0jUS_D8-aJ6nLZncdnfgaFLNrakMp4qhyxMfqwvH5O66BCp4IOMGDZVzvoY0iSMhyHBKHXM7KQn9PVuIkiYJyW26XC9Hi1wuNFM3z_7x2JPqPQ3E8p5qL2NMgxXakvJj04bc-oSocFy_S5X6LSv4f0lYQSZsa-cp0aiJNHpb8h_And2ezj9SAJW5AvhOoY_jFJZaqBJ7Q0LFtV5zH9d_upa-DAcVOITmYNMSUJfgPjYGfInD9o8Psdc87MvWMKLwjG9e71Mm4ut8sZ3MaMgmU_rHN-MHyjVWUq6z2FeCGZ5-IWQCUv71-jxrgCUCx_xPTwcA4BEHRB5n1CssPTRAphjcErk66Es=w571-h423-no" />
+
+</div>
+<p>Once you save the document it is easy to save it incrementally by hitting <code>Ctrl</code> + <code>S</code> (ditto for most windows programs).</p>
+<h1 id="adding-in-data-and-saving-the-map-document">2 - Adding in Data and Saving the Map Document</h1>
+<p>The mxd file, an ArcMap document, does not store its own geographic data. It simply points to other geographic sources of data to draw. Once you point towards a source of geographic data though, you can tell the map how to render (aka <em>style</em>) that data.</p>
+<p>First lets import some data. To do this, we will click the same icon we used to map the network drive; the yellow diamond with the black cross.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zfu1hOscOEETOei7rWQ_pAAlPfErCCxi5g3fYliIXKHBlWZLw-ZmqpfIzvkF44JHNIhAtoAl0_kRRp9-fdsaw5rardlC_ZKKzuT4EVUSRwu6nOl5WS8EpZzyoQhT8CTKxcAeW6OePf4Gvo7yjIRnBz8MdQJBgSGgk8rouEpsk3OZljtRKnDpGVx_jxiHOa9N4LO-X08fNoFmUA0YgTksHgNFsW-Xk62FA13zJS4xFLPhyOf6dGbJ2fY7CuyUoM9RBKkUbfO5TFewyawDvbOOgOBihEM4FbsYLnLWldMArAhnYTKKLXicoyUD7Z4TTPg0vrBu5opiVuGmljBAeFQLflLtCQ7Pgrt7sj-vNj-aDZ-eXKVOKRmXh1bco7oc0gTmJ77VmPiR6xGEXGfO1BFZg79xsXePZxIW80b19PJtjnix9jsNLYAfF42c97BxuV0zn6S-gA7i0epmxKHmchw1uXfVegfQKogBZKXb3ugTQ6woLYKwf_z876ctKD6T0Zzrkfpu-4wtbRwCTG0brsIqu2q_By-cdHwg1i-2ZTGI0g87-vmpMvyBalpuyejeN34KaIbjfjfS5rMXrssyut8bmQ7oGauPuhK3SfYd_pJ6maCum0lV8ZG_=w577-h153-no" />
+
+</div>
+<p>Now you should be able to navigate to your flashdrive, and the folder with the downloaded geographic data files. Once there you will see a screen like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/B4KQ_FxmQeoMgNjSnuod-C_5L4GHa6T3M9jeLUKwUkMN9t7MTxMdT6XLZMCPXnjmwrtwgjXkSUMaXd9ZjPFS5SqipHhZOC4LC66K3DSbbn0BHkcZH3kLoySvZJCslbd93yQwfdeSp7GZFzebiRyKFj-zVNmF-ya8c2ttVZqQTSS1CP5X4x8GqQlcitJzaMc4UFMdOC2TWKD9pNiZVwbYCgsahr7qASHVUOgm9PPwIIB4BuwaHjaXVQ0IynlZDbRV3cJ372GeU4yvlIF69qeR740q1OoCwLr1sViW9pAQXS2AQwsPdynl1nIXeSPcHEuSINnaIfscSZIua1Wl4bPYMqseYInrkj6PZ88V5S8goSpPIJTCao6Sikz1C3_vEQE1JB1KsWVjvroOfzaAlY9_Eimc-gBafBy6A6lgFGTSd4-wZw_VQyuK6fb788KwlxMhdmCRAM9fJgTo-EHtZJSYGQiwrhjhedXVSPXHgcgYWY-cg_EZOrO1P0N0s-dP5P02D-Lbxn3W-9WhQuWniw7mtk3uOkJHbAHynVpW9KeLFdKnT0ArIPvr1OTJ_Va6LdXozpJ4_OZnYeg2z8IKu12ySIPj-gAHzB4BNc0jvwXUp8ob5ndKyQvZ=w497-h330-no" />
+
+</div>
+<p>The icons signal the different types of vector spatial data; points, lines, and polygons. Click on the <code>Albany_Border.shp</code> file, and then click Add. You will have now imported an outline of the city of Albany into the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FieCbduQAdr89ryxw5T9U4dVUakC9Bx1skMyFZ714yFEAghxHI7l8mhWA2ULfUg2pszXZKvyKlJYHH8yqSdV4nQppZkx7nntrN7emBSY44v3R5nMlXwttCYX3Mfb5NF0-vb9NX-kZp2sqIdAg45avlmFMfempfHfwsga_bZ6Y5CR6umEoF-t2ebKx_jRBFvyMPp5Gq2MEXcIDt5vGySkSrxEKeZImK5tTWWjIyScJVrykcPQUPaoNckKFW8R_lEcu7rRYM4UsBK0bt7VCbMPvu7SjKb7eHMDbw7bwa-lAjG85HtU0y-i9nD60OpVhM0RP6JJtgwWAf1MVtAy_6pxDPRHhBtNSfmvLPrs8_NcCMFqMbxqTxxtqEXmO6H7sbOK_x4IoJ2UkW96BCt5NKeIzQzJAPuQCxzjKmlcH3ffLWvtTHMDwTgJLIIynxaPrTNiNv-NqHULImKC18fD8M0lmtI44TfbML390AVR06YyctIl2rNkU49Dq2X9wssJRZGdabjs-nxEM4TTdUVhAeZ-DLAAkQrvKi-cbgVM7r7TKUvr-wvTd6n7QSlXqvPF0iFPqkWEMadAeR09jN-Iq3B7znCjT0n4B-5kaGkYJfylYNVfobLAbpmp=w1188-h950-no" />
+
+</div>
+<p>Before moving onto adding in more data and making the map look nice, open up the windows explorer and navigate to where the spatial data is saved. Here we can see that what ArcGIS recognizes as four separate vector shapefiles are actually made up of multiple separate files. Here I have the ones associated with <code>Albany_Border</code> highlighted.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2B6n7CMOx0_8MNv_2qEWDTCja1K2sd7i--ZDt6_8dRbDIFMW_QScsMJExFO1YZhQSAtK4XAVjV5c6fO1y1Mu-X9skQgePa4lnbX4y9moSlk0KKv1yIvpgItY5rVH17HdWs7AzinZdCf19W8lw-hwJpfMyxCpNLlz_d2lrnWF9jqJYu-i88n3zpwEUU7x7Cdo409Voyd-dQJWftsd4F-bKyawmQGfV0a-UsuNwtYPkAo6yTpA004TX6s3tHIk8lGkW95OoxYGM8tZM7h5CH8ujk5CEe1LM5zLIoTsAvEyC8KmGVaoPBrjXtvOYP5JOHkfRPn34i-KOy21ToPerx7cUb59YBArot4EXh9md3tJfhgYS2Yxo6jRauPPvomnr2cA_G_IOYOCYvHq0GpT-2rZj0gzmKSTXsJl3VGBpHZP9pXi8on5IuiiZ6dfJyZevbgqAk2E3YmpeEGmUMxfHWs7NS3QLTNeTDsvkFQr43QHGroCxR5A9srv7jqa_gkXuCrJJ3uE6voisRkl7IhRqH8JumYOmn7EQFS7eJbBFvPjds1ZTo2t_tDLQGIctoJTbFm-4rgS7p1Q-bxr4MJP6PYmhQtVcPdk9nEaStsYYCNNXoEgkYYdvYF1=w905-h919-no" />
+
+</div>
+<p>This type of data format is called a shapefile, and this contains several smaller files. A brief description of the main objects of interest are:</p>
+<ul>
+<li>dbf - this is a spreadsheet of attribute information associated with the objects in the map. For example if you have multiple cities (polygons), and each city had a population estimate with it. Another example would be crimes (points) and each crime had a date and time associated with it. DBF files can be opened up in many spreadsheet programs, e.g. you can open them up in SPSS.</li>
+<li>prj - this contains the <em>projection</em> information associated with that vector object. This is plain text and can be opened up in any text editor.</li>
+<li>shp, sbx &amp; sbn - the shp format contains the actual spatial coordinates that define the point, line or polygon. The other two extensions (sbx and sbn) have to do with indexing the file. (Shapefiles are like little databases.)</li>
+</ul>
+<p>The other file types are idiosyncratic locks that ArcMap/Windows creates when you are using a file in a program, so it is locked and cannot be edited.</p>
+<p>Now navigate back to your ArcMap document. Remember to save your work periodically - <code>Ctrl</code> + <code>S</code>!</p>
+<h1 id="styling-vector-data">3 - Styling Vector Data</h1>
+<p>When ArcMap first imports data it gives it a default style - for me here it is a light grey outline with a green fill. You may have a different default (it will change if I import the same layer again) - but it is typically ugly. Here we will change the style of layer to have a hollow (transparent) fill and a thick black outline.</p>
+<p>In the <em>Table of Contents</em> (in the left hand portion of the map document) click on the green rectangle icon below the Albany_Border layer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/esjFvccvZXkTReawkyv7rzNTLI1j0rwK4wgr1X4uvlxCE6zUOxLrQBuu7UC7iWI1QwfyzXLlRPxI-b1IfiW0kv-50qGvU9TsYe91b3YKTxIJV36m8EwPhyEWnoj6BQvpslEaaMNo3ESmFikA2Gv1b31q5wZ0oVx2xl5VPZ_o-6pGR9X4AmysRojDTQ5XUO3iNWkf-Ft140lSChYkhhsUiQQ5jBBJ3-dV0BjpVcNjhuje9eSACnrUx2eXv-vAwuRmou_aAM4QALER0wID03Ftscb_cLVl0cSiUe4Cl_0Nxv_nmyrPUjDtDBFCqDDy0-9FXq4Da8fu3Uctqp0I28j2D7_m-jEWLiL6NZMA_GCyM-Gpj8a2FFzuAe2yhsqw_RzgpFOc9GSONIaQoKcCqHMyxPCMTCqeYVIzV0Tgb0OREHEdMcRPYJSCEtcQ8ek5MnTiqHZbbAYrAT8FNB7qs7i3BTQ2tW8oI9_WhCZBH3N_tVA1a4WufYe4zoP_u1w5Bo4hodYZHH5ERAvNdNVetQq6ZQc6l6TBCQS9PcSILGODuXb56pZLY-M8CQYqaSbus3SzMUWBRe3JPKrvmezFH985LZxK0r2aPf2nbZwI9hO4812dOr-AX9tD=w1188-h950-no" />
+
+</div>
+<p>This will bring up a dialog titled Symbol Selector shown below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BUCfh-IqSCMVabDyTHma6lS-oeQsV0pExKq7dOK5M9tC28lLansx7USHLlcxX702YCsfT1WtUksxDv5p5-cxSt-jqQE2ouSwJQPYde4GkerS_wVKeMY1zbEkKqplE56hLiR-MUcWmiuH6ED-bVfIT2Ka0da8RawA_qrQOh5zLmt2bA9mOZzwHs2kyNBD3e7u7svOpjioH_5S3UjWOxoo-54LPHXkARUH5VdF17XHq6N2zUZYoUsLyXcsUqLoACNk9S9fJzp5-At0jYNjLEvrwWG0Gt9G7VXUeR3VUyDJsfCM0uBHCsgnTTkXEPRZAcc8gl8dDudAdACBsRcDt-j9J-l9HhBhZR_22gjdEYr8iIhgpXLmWmiOOv1ARrOjH-6wUNBeyY-NHLGYInypE7Z6S-XIkbZdUAYR6XtnxwYvZdw8y9rGEC5cERqYSqTiPRIW0FaBQTXM6QLkJ3H7sBvfIJajl4cB93XN4ecvmTii2FWJC0lIwIYBUdDr-pq20QjJwLtF6qmLT6fOXwC2T7XOE4V8cqM2DDWVqvUOswcZd9eTLxySAGaViJ0RVJhKyQfpZ5cfSYBuom-10gJe68zHQaTieERb8AZDGw6tSU5G-0VG1CSFDbXq=w523-h500-no" />
+
+</div>
+<p>In the right hand area, click on the Fill Color option that is green. This will bring up a swatch of different colors.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/H74m0nMxhuZRBgEy13xaT4ZOUn8jsYLBZt_tlc9KciWIwkOlHPfmAWxdtBKImDG5iA43IU8tvyJFxK16gUzBNjMg6zgGOTR-7z3X8NaDEsi4jW7t2N0zlKNuYcviaogJeRgadakiCAuXXTon8btXJNMqDV1ipqb_4hSEUVvTnzeTdMfSTbLk-PILbJZL8n52FoT0DFmgO-gWbw2J7A_ujUaayFcwtx1LJuiqI2AVQ2hnY7lZcPoQyAC8S2wQpAxSrSvB0FrkpS2d2iPniJjPeXj6iW1WuTodsZfNBUyN7jq-6Sl0t18g5LnfWO_yO9YxXExCRDoQZQP5zPVCXj0_BQ41e-2_oXHg52_ZAKTmFQDMMcX1X3GqAYK7S14bacQ0TKapYcS2xR7HvB4aPGUg2GZ80hRCO0Es_FfOTbrTeiJLo8-Dlqt2x3ckPhflrIV1RUsYCAIUCQDeONhg9vVCBuYNXgXHvAOXPZQ23VuBoBPuVj3UeB1BpeYlHDHaGed04_S-Iy32JNGO_c8VjXgaBrwPOETE3X9AKWVd5-W29JEzPbA4eMukvETiv6itqozdIUkOV98FwIQZDtgA8afx_MxsFcBshz2FICghN1ZBQHtq9yK-GoZF=w754-h589-no" />
+
+</div>
+<p>Click the <em>No Color</em> option, and you will return to the original Symbol Selector dialog. Now go through the same steps and change the outline color to black, and then edit the outline width to 3. When done the Symbol Selector dialog should look like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SiE_c4TZB42QWr4sFJQGQyneiEBvfNZk-caZuabLnlckrrei5jN26_X2dzbx7gqd9emscXscuwVh-asALYd4sC1Wei1vmOnTe8GsVCqB0HH7uvcnP5b_AfrAp9hF8Y1dfSf8RTB-AYRNx4E6UkHrZwjOSLuBsOF0RAaQreDVoAFyPBWC1okzN1ioFOYzgF1IK9FZr_JMqBXQY0hQKs46_qH87GMaNF4klqA5usCLGj8XdGjh-f7yl9bShY_jNpBxM5g1Ut8aroX-4RvJQ8GnQ2dnbXUEO1T9uoDLEwxEBUdbu3dXvzs9iuU23rddozztlT1kfDkGr1p-m23A_BCF5VnAct4Mo-O-baXVloBUpROkRPVt1X7CaWKhWzE7LqKeYheER649kqilRXNXjUHhXUDF4jkMMij9Icf6AmrwKmqMRALq0dOpkJ0JOC5bZF3LLZ9ezIc3cTlmzT6drnBnvEAnP7WL1T_Pn8sCZtJGti2Zlbq5mVoXmPMm_e-6PNhqDH0y-E8quQVd4CAlclEmdb3d8rgDPWeyzEaUQm8PSD3mbBHSGMlVzqTy3VUlv1OKTK821qJDCovw1WUFsOicHXLdAjkEz50dwfSQRoNK_9kF7uJLh5du=w523-h500-no" />
+
+</div>
+<p>Now click ok, and our map should be updated</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/go9mIrHtLf1iV4Dtr1ofhBUhhVkMQkuzGN2-vpglGtiTkN-2c5VfIeETtuG3RvChCqi97Yo4TvYc6ek5v-_pnKVM4HTqJJese5BIO0FwCrux10s5RLxdmEehRH5jugEWQduWGLLGbjZlcM_Eql6Avrv4-fLFzxiFT9isREBU_zPHhtk6S_rYQ8uEP_3uGBGAcgH65dQKgW7MiafPKy4R076npUGXT_l8evR3yUan7NVCw33U29_V50cfYtNQ_4duZvlQBoEE3mNh3Z91VYQsqW4qCd7tKeXl0ci2TPpD7yjDipfCCs2-7tPWjowckTmMVsqEci-YFP-SK-N2Gz1KNMCAGEYI3HivhemH_SJ3L3TFZGjCxbu7u50PktLmnhJxbMok2FPqbkMXonNvNPQXrNKsnp1lgktd8rvVRwdJ2wHsBf3snGsinhsNlIITgOgCfgx6J08q8uvb5QxqTMBBWHmzE_qnpCKmExNcN_Q7XfsfSq_3ncn6nKJbugEQDjH6QezZ3Uo1IrFW1RuV3qia6kuicXvsYBO6nE_nfL2KI6iow4vuzvb-dqOrwqSeKIlaSnktcdBuPmDoPwjPEcHooua6cQrPLt_cgkajIv-VJcSKy-Kfpzde=w1188-h950-no" />
+
+</div>
+<p>Next we will be importing Robberies and styling the points. Go through the Add Data dialog, and import the point layer of robberies. Mine import in as small, purple dots (for future reference when you import shapefiles the color may be different than in my screenshots, but point data should always be imported as small dots).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/x8O1aDBzQRaKEj87SuGvfTjO1Gx7BNTSLVDO36CCP7ghSydYcYT4QvG8tR5KxWLe5nlbCVVnkLe_m9AMUVTUZ8Oi1C6QRk91xUwpsHPJshitJgy71hLUXrOVySKyBAVmiKhMk6vvS90WdL58WeZODSA_NrDKqVjGZ9bEGBitAi0PnWlBYsL3HIcEIe_47NjjndERlKJrLYj4cAdfNOQXsGm-OwnWgFh6LtWw745qlNXjMQUQqkiKg33RtuTIQ-gcV_L-FV9M4k9tl0_WNUharo4hFIyYTAJPdsrxJiSW8AN7DjU6wINwH2v6IfviGoh03_LDOn2QqrMdfb8WKT0V2HkPwybH9hE8fUjFeeFC_htC_Bs8xCmpczWvNgC71hTXc2uHcdjNtNNfvd2a933m8E87aTB-sZ5VnaGWLWHMoMZiRlkAMC8zjKbvOtjiSHIUsQczQFAe98IHDWG5ujHkq0qmXLa8vibkXFCncFzx2fdkWrNlCvyhBYvMsPm8Sm4QyJziALQiQMBwveDPMlgh3tIjLRPkPbiYkokZFigZO955K0w2vUU7JvbQ0R0qc8Cyw-rAB6FPp1QRRlxeCrxqqP0F1rOuKVkZdC9m3QIsghmNNsvM-dkm=w1188-h950-no" />
+
+</div>
+<p>In the table of contents, we can see that the Robberies layer is above the Albany_Border layer. You can rearrange the layers so the Albany polygon is above robberies. Here it does not make a difference though, since the fill of the Albany polygon is hollow.</p>
+<p>Click on the point icon for Robberies, and you will be presented with the below Symbol Selector dialog.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Wvj2_ZHW01ufqx_7qaJtiYpnqp3RDSKrak2Zi840YyVO3IPYoKUwcNVdwFfqwlYWP7-uY8x8Kifz-q1EvZy4D7hUFDJrkrVtqFZEkM7OWIBvct4VY62OYJueTUa_y6nTB_4IKIDXpF4ZKWkqC6pEt334TwCABIVF0YyDzOjkLX4F4SIMwSiptNPSfErDTcT6xa7xNIN3JqvHPaLn8HcCuW5EJJcWJ5759OWLKs1m0zxhDtYknKpf5QuH5prmtvKmkWq9g2ogA1WoVyBbJYFcgfKe9gf5r_5VNdhGwfn7pGGHz7I8W7LTFduVYQSoNIJ70DtAqCAZBJrJ35rf3c3lgtZlSuPsOlFXgovxfKMqLFsxZLsggwG8C4B9kEN7IOc6X9-ThvhU6d7ufPnb-j6YFU80-jVIL6Dkr-3BGhoQZgfj4m6foMPwRjsmUJauPyZKqZAjV01shISKhYu-CDjwjeLSp-pm8-Y6sc8UmLL3J_Mpk3zObLRnwxhOxYP6asG2RQMSsa3JeOOdWOvJ83UzFlRSOcN8dPi4e8qcjTzZD_6Uhi1GlAFK_ZVi3ZCX9CUlf-tHY8QwFJow9BDBi8u1aD_TvfczacZ6amcaNcP2EWz0Jt6u6b6w=w523-h500-no" />
+
+</div>
+<p>You can see a set of options for different point icons. The difference between the first entirely black set and the neon green sets are that the neon green have outlines, whereas the black icons are one solid color. I personally prefer ones with outlines most of the time, because it provides better foreground/background separation (i.e. it is easier to tell the dots apart from each other and from other elements in the map).</p>
+<p>You can also import cheesy looking icons like little guns, murder outlines, etc. These I do not endorse for any maps you will be making.</p>
+<p>Here I click the Circle 2 icon, then change the color to blue and the size to 10.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-Rv1u-x50RAoP7V6FpKcEw8U--zkQoELJsAD3ckqCZCCZxTqtqU2V01nZdAsQJqHgkIta6_hLtdYHzY24P0FfIUF35QT29LZAsEMxanyXsYIx_gJwrVm4KyMmxi858i8c9__VT9VP_cD1tmP9AOESi227UAeW8pDUEzuQop00-v7J0noN_BuFypuEuUAPDfWqSn1D_ExUz6A6Pb-9KL_gmmnELdi6uuPbF7BiQBknFF4MkCV4vWvvaX3Ms2L7r47gf03SHTqFwQrgXUd2yPKUFV24UGE4KimKTBn663HyhHoAfv9uMPovK79dpXMqFe1D3NJbcFow85jcymRWGLOr4cfEwtAqXqaOIAZyZ4Bkd_IzWtb-qep89ikhSLDKIHuwA1QsK0JenlptKLOVoWFqA1uIAMRHSe3pyb0Ep9v7Jg2skILqSLEOIIfllW8NOaiTPX1hQYkkcBZabYRrAiWK4_9hNTaqqaEzzNxM3xoo1CTf2j6yxH_cC1JWPJClFpQOvhm9GaBPFhoaLuIj0jOy4eBOiVkdkCJv9SXHlSmca_-XgYWBQcSoZjsJjOF2dPd31LSVy2hNWpwWC00nh_ZiSqcqTLaSLxLI7D-jIELineJe6El2KjD=w523-h500-no" />
+
+</div>
+<p>Click OK, and then the subsequent map looks like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HFQjmsL5Ye1Z1q_NyZSrvK8dgAFNisRCvFAEzadrzJhA_XgLZj15p2eY3FZd9H9M8S545LAz9xCsLKVtok2Y_rkovmnm8hYh0LxuNcqjllqjuEpz-nP92rmsMl85NV2cxf3zeIF9UwTY9iV3qln3K9KGuk45geFIWyz6thHVWWKMIz5ELfhNpkgQIfNZr7kPcC1JX3guTMVKnebD-fIpYHlM6SUXJBCW1IojkG1VMT3mOzgncadmSB8qRj_JKYxqlRO-fr7tJ7wqEBxBdbdGNdjtCP6aKyqRKvgC6JTC3vnpsgc_uVIDdI3qRmtvt9bgdrp5O6dgoYEO_MCXh85IVo2SnibwHOnc09Ft2nAEbjk2q5_YFb-1TieQ5Rk5bdRjVv80zT9fibGZLCZ11f-Iy3TjY82NBuVKA0QAM5G56A7M30XbAOPneQIjZqj5HpgEzUa4PucfqchrCbN-RWWK5pnFcIfF982Rv9DyURz3EynMAQf5VjLFCWxXDFhPI0QTqHHMdQBFAT2_jwGyo-AiWZPdDqD5ex07TnFmLk_ODaAaGpaT5Zpi_yfmXtJkusdcFnmjFN3hnPCv98qPdpkorjM-xEjolaipEMs_D0wOkTCuKdyFDJ53=w1188-h950-no" />
+
+</div>
+<p>For the next part, we will be exporting the map to a static image that we can share or print out.</p>
+<h1 id="working-with-the-map-layout-and-exporting">4 - Working with the Map Layout and Exporting</h1>
+<p>To this point we have been working in what is called the <em>Map View</em> of the ArcGIS document. Now we will navigate to the <em>Layout View</em>. This view allows us control how the map will look like when printed out, or exported to another format (such as a PDF or a PNG image file).</p>
+<p>To navigate to the Layout View, click the very small page icon in the lower left hand portion of the map area.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wHcx8FNlFRmx3E1By-muumOvraS5yJ5F2FBrIdbJpSgoVYbp2tAriKfM6_K332ENk_XbZ81luqGYhmatyWDfF-TYbIoo9h7yhOXeU_kedw8q9YILxD6xwdCJYkqEk-SHYswLz5GYglAEM-9MQvXYxhHaceYp39-tHHHrLTtM-kqXNKVDqomTptYmAmNNVS2rRww0cr8BwsySLCD6QMCWxl4Eeeab8UMe29L_ketG7zm-4cFhziC5Zr45keYK6RBkz-SKy6RYlI-BtpQRnZG52X14g7twO1iN8UFt_oVwYmpHzOmkmk_-Jdxa5ChTnXC68y0zeMv1qG4YN8AENqij7V-yQNUbqAP63Vv9uI0r5CaxLRw5VyzuiVUhUOrEgmI7AZjbaBBiLEVuT52x6SZuF304E3ASJ0rq8mATdVDjk4IYa67OFoubFtNyP0C0gjiA79DdbTCMLfZ0_xECduXxy9gDrIimR1mX_3RwM-u8VkrTGmXXZjDtS9Kwe2ZtIJQRYXUIu6Bs8RdHnozS1FnLGDQT0XnMoAfS27ESC_tzyMJq08IEeGa1Frwkr39jR37RBvVA7O2ONKlcB786DLST4A1ZMEwC1FCgcmg4BV24tk4yqVbRhQ08=w1188-h950-no" />
+
+</div>
+<p>This will then bring up your map situated on a letter sized page.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1n3rjB3oQp1rIFVX8w9HDMS0YaHQVxFT4eduaQHCji7O4LxQWnNV3ZJLV4AxJYMlZNEdf5t_-mXEKLgc85h2d12Ec_EMapVwvxc5zph5bOWAlSwu-iLdIIL-MdprGE46UTDkn1sUn_XZydp7J4NuOTwHXG_8NHI84cGkQ5J7XlL4Pjym3Z7xE5zhqlM52dqWgr5iHDuAKmb0lrxPWBPHZeLDpPTNZ4ASnRTPuraiTbJ3ZGOdZGhc3LIa1E_5Lx991gRdPP739MgwhE_xfm_UYE6Xq4LVYdKHKBdXWgPwTSEUgrFJak7fuqi_07vXt3Bodgnu8fXa3HGPFm12_DhLnNisVH5_IJVFJZ2BhlWUPrhJNpd8O5yCtEVIrVAvM74_Gj3GXuHE7iA6hV6EE3BSUIR6YRfwmTEP4kjIn5PRMoqxPEeOMKxJCchbjy4VKCp-yM81Ut5NnhK5gpSP56ztQVxxWpBo7qtCj9x5dotEf6Yvj078qUeg9MgW6TLikf_8hnhNXQSv5XMH1WG5zhmUcKyC5QjWiDqES__d96LxVJKpY7_NLr8G61gE4PXVDKEX-hhgfkEsd8CAoBWqk8bhzYj2EVMof-IHxKdcoh7HOIK18BDEYGC0=w1188-h950-no" />
+
+</div>
+<p>Given the shape of Albany - being wider than tall - I am going to change the page landscape instead of portrait orientation. Right click on the page, but <strong>OUTSIDE</strong> of the highlighted data frame area. (See the red dot in the screen shot.) Then click the <em>Page and Print Setup…</em> option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UK4KoA558pDFXaUc-tHPCgsX_F7Zu2D5W9MeHsx1c7qgqCy9VYnB0-5OqXMLsW01rvYQjFhGyagKK167EtAI3KoNNdyytIKqq8eWKBZ25XF8S7--oVGDCjf35aeC42JcxRbCXZTUtohjrtKOVQ3_R0w4J-3jLqQiecdca8tuXj_4KliWRPfJcEK5_FNTlwYAP76tPeqgzYtrFybI6ubvm5lrmrIO1yypTLD6Nq2Ywqxqf5e3lOi6ep_ULUlk-7FDTyh1X04THpelF2Kf-ThLierwh48WLsZZdQ3beAF2jglQeRLymgYZEKf_nNwiXDXr9EfFgvZxQkBqTv9qgyusr_URm63Pasd74KXx3VMzOqW0gXhxAxNca2WgqcGJiLLeQzx88baiZb7BnYw-qBo_aLQP4juh9HJbQ25DWiq3J1EyrGxmbrMWluNy58y3ZuJdU4Rlfr9AWhI4cnVrBzlA5ddlfL28zrZZ5ypliFkYS0x7yQGRpVTjqvr2S5W8E147Sux2WvYAmmdIWDcNv8psVJHBp37_x3hLMYlLa9kknJ5y04ubwHsZdkG_Vok0CHmAFj1FT9Pwn5fZa2Q8moecImKzKhwZm5Bx3M4jBkmjEO03gXPOGQ1s=w811-h786-no" />
+
+</div>
+<p>Change the paper to landscape (highlighted below). Also note you can change the layout size to whatever in the options below. Here we will stick with the usual letter paper size.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/U4gDnQPgPX-uEeD69SVjYw4I5p3hVbboBkWYiakajHYxfambJWZKStR1sIOZTFufksjBZC-m88gV40kjjLv9li0oST12dj_YhHmm-K3lE53nvOUq_B_4ORf-gt75edQ_xhWQv34s77MENckXASBsUFYhmoRfrix57PNuUgp1suqjY9637o6XbpnKiqtlhaD_5csoBib7jNuzQE7IxvfzOQhhOHkzuSpnrPP4ttLAg6ROCOfblqsvmJKIx0MQDxXVErzNd4iCE4DF3iELGJz1GASsGOgAXFbfFCtqgpIBB5E4q8AgcdRFKvrON3kSCiDIQn0n-O6sz-39mw95VCmE_Sq0lNM18TPCdgFhml-llXnHTsP4T4nB-BPdVvjmUESYEqWIkFHeWqA2c_g1tMoKU9nSCwo1wtnDyc4S-N2lc1_zmrr1iSabjYKlxTy5wzN5aGMQHiudSpTlTxil4Rw1LikK1yMkEUXdkQMX-q-Eh-E2vCEwBRBpYwk9c-Xh6KZ1fYtM6TDeFiQsaPgGbIpEZinfnyKHWXl2JnCIGUnyc2uh7YSzasQYhXztEq6w0qc-nijk67NOw1Ud7MYb1bjooGFB9lh9PuviDJqhlW6LrxlduFgRH2Oj=w516-h558-no" />
+
+</div>
+<p>Now we will see that the page orientation is switched, but that the data frame that holds Albany is spilling off of the page.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VE6NJLEB0ViUrMPzikraPuvSqrkpk_-s3DTbNsMxkAmnniMNs-gBGZ95Bi61JXm_dWCyK4BZNkVkHhbsB-6Pc8cN20W-UbwibT7VsIbPxeX8xhPChduGD9n-vsGDzSz3O_sFN-9KNyNf7fDaOEAFA_lKhHfFkE5LCb-MzkH2sjSMmZRWfCaKKeoaROr5iDWyKFRHKnqJbfLupEtWJFSVZ9yZHZYe4IL6tk68eWaQySK4Bk4cYy45FOEdp1rqFKva6_yAo0v43EPnf2NG0yg5CAJnYuxa-rhx1-W1XQmFEw-pQvRmCoqpqkVEGOZuhJg7MmrpwI50rVbjR3zpBm5qRrvtErvLtKmr-rW_xHDCHZ0LRB0EDWY84TJqEDitvcxaDREqYcXHsZHp3KUPDt-exVpItv46QN-gaNg8g8dzOEuZecv-UC1jPjABdRFE7D9yt7IjKF1PqTXWDrS23mfwSuHUUsiz7K1b9ZCV380hutDlbuuRPRADsTL9kAFUK6UFIP2G0I8KDavaGL9N9c3Ut1-FQF7g8W7s06ri4LG-gKO6d3Di_bmwXEy54eG6C1T5VGwtJ-Pu_KyCB_CkoPAKHWq4m0JeNi-DdTyjbP7U7O1Axhq_5yhh=w1188-h950-no" />
+
+</div>
+<p>When working in layout view, there are two sets of tools to zoom in and zoom out. I have each highlighted in the screen shot below (note they might not be in the same location for in your map). The red controls zooming in and out for the actual mapped data (e.g. zoom into where Draper Hall is located), the blue controls are like zooming in and out of the physical paper the map is to-be printed out on.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ko6v2TyE891zTLV3FIyveak03yasOWIc3kfVtQtrgLt0PQzVVHWHr5acYSo36OvrQhL6jtu2q7qsKF2rEzpVpaTpeRJE8qT1YDZvoR-gds0_D7ob-YfiWvt8U-C-slSY3sax1m5MBg5Yy0f7VkD_JARqTZcx2t-l74XAm8PwfriaroaF5yv0S50IqpmiaXOQDJcTekzLhzRwm_g4hZtHctDavdoS7yjWnYNcrkuu6yEStOrRBf6-1Ul1hBfnkJf2tERGkJ5ljzIREJdsqIejwhly2rHekFMu5mjtdzcq2T_cVeg6C294KbUaHwwp9mBrL_ywQqXrxLBlUnxmId0S_zg7tM56TrknBaPX3O9o1s-mGQ7RpyL4TwntUcYM-T7pCZdSGD3Cp4BW6iH-E5dJp4_3sONiFnWd-bsZYVl2H2fF_TuqEeyyESEmFCdeES-v1LJtg2v_OoWyouvShT7EBsHjCLef2L3HsN3Rr9j5fYf2dzBti1QF3Y6UlHbR4o_xFpZhCFXAYoaZyNgKrqtNmvPHYjyf2tgqKQwa6al-iJOmwZNfZZmxLr5z0M1kGrgu8pIJ7eRMMYmNourV0sxbPkctt4ixkSGV7dzpkoDGDev8WPnf3_UX=w1280-h470-no" />
+
+</div>
+<p>Click the magnifying glass for the red highlighted tools, and zoom into the cluster of points in the upper right portion of the map by left clicking and dragging the square around the points. You can see the map data frame has been zoomed into those particular points.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_3flHBmbEzNPAt7Ngul9Hu7ggT9PLZAIvpN-_Gtbl3h0BvszxlU1TRG1WYN1T7O7a0hp-5erEgZ6a_HrPWcvcabv33W6_lqImth08cNOj9DLACJlNr1FEnmxjZQTCB96DCraJ2Dc-Q2TdYjSoWL_Z0BmmItwjpMBJCAqlTxONpCI8tX8NqS3lI14ujb0a5sipyTTWOirUloC9INNF7MCin4JcDz6SXmJnXZowxLMR12xMPujD_KKFg96GbgmE8lgqlK6H9WItM3kD_Rdd_v2d0TDad4NNcoVp0Gi4uc9F3WiXr0YyTRrQfYn3dja5IzxNOZIz1wp1dqdZ5eHA6Fh4DFYER8cI3zrnLiu9lvit6iaA90ooqhVdXPhfsKkgph4nqGoYPHZyIw6mTk-ckOkupqaLuFyyICW_oqVJAXMTQto4YrQOF2LEFbyn_75-SUuXLmu37CeuNV9H6d1kz4WzrYm7j4F7-Y42E_QNTzagcs_QDciq73SnUdXGX4Vx5XKhuOrQnqHPEnRJUhi18_m_XG35CJO_HH9Rc4tbOk_5OEySlNV9fPjaC1XS-ChYUZZK-okAt_6Whzli2_zOQvLD7I6BNeI9ujvOAlnCw8_2N-YNjFtEBs1=w1240-h912-no" />
+
+</div>
+<p>Now select the minus magnifying glass with a paper behind it (the blue highlighted tools from a few screen shots ago). Click anywhere in the center of the map. It will not zoom out for the map, but zoom out for the (hypothetical) piece of paper the map is being drawn on.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4yzbjOqolUxi_SAPP0ACqRgDyqktIvqQVjAG1wcSkNAq3XBt343NhMs5xIJnAc-oVrFZAkclpiMzyHPljGS-823BDxwvRU38Lv86q1ZS1bolJVLvCJlvxg93UYm2H1grkhy6Tw5GQfsTgqEaLu6u95jBLoo-0Cg34LznNqiIo2ksJ3peUZdr35SMQtkWQC3AnflZFXRpt7eBuqEl5-SZdHsBERxwYPTchhHkA_bAzJ00f9wirGhAYwBmqRnE8_W3PeofXexGfEVSL-TtO4lV0q7x79cLLZg0_26KbRro4QQ_uteaPxU6W4gqRszKIHeX6SZBcGj68mHarRDnRIAn7wvoWTsGmq_yEMfMHJzZpY7CnKn07dMRR9ibYbCXdgnr5TAqvp9MRd2BN-z_IxutL7XKF1iRl_gAoyjs01r3AKC5q6XnG8yGTP7wNP6NEyqTsBJyJhNEsSHLCclSDtfemsc-HVoOwHEMHAsVOz5GmR0FzWsHQBSpYKZI91mwzHhP_UgjnKgXGfKXiI2OXDhFoU80V2MOQyQ8r3npZqXfsOYbzFj5FZevH4ZrZBIK3rev7Ho6x96b9OEWrz3z7JzrvQ5Mue2UJGJeGvhRPQWWcyN1CFXd2QMA=w1268-h950-no" />
+
+</div>
+<p>Now lets fit the data frame to the page we want to print out. Click the black Arrow pointer in the toolbars (highlighted in red in my screenshot), and then click anywhere in the map data frame. It should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-hDiag1RNbyPIWm_1MQjSKdHeNeNNY5DX0d3M8LXJmdmGZXW--JNG4AFGR0RFOC1Y0RkMhdvOUq5HsNC-IVgNPU8Sq3PtdGWO1NX4P1a0-lwx4owQeQnUIx-KdBGVvXXshgAlDYyYIQUJzONfxbkwFWSeM6GL2Lv0-MgA0mOTI8tq72c-LjgkOCOojgEezfSlkdTrcEUK140t2jfaVNJgUanCZnURrZbXY5EP5k1lwq7emKgrYXdRLiSrmfM6cT2OhBfjvTiIjxwwON0xkrp4R0QTqKeA1KyQeBO7WpGIc1ueaHkpOgbVJj2lEYzFjRmBZan4eA6_CRMemiTGAuFwDc-aKvmVYvms9grOhL9ZeP6A5Qj9gtjzqiVFcCIW_5HgHGezhjnIMHavGb1PA3WK6dWQbRA65V2ETwbsdi6JZpzYbcpiUrEWJ_3P0WjbNq2HcCpezu7riE1-6wnhc3Pvt2qFUyJoaIWhe730N6oxGhkBVHBIFXisC6sACHCxgUPzCOktjcxDjRTWL3EMqe3da-vnQz0rQOsRINH2zGudnnfwnEEG6z8Exr-tVSWW98obgLdBG8pDBDDUfXh4WCDJlmbDv8Te7r_QcPyZpZCDsK97HyiTiDa=w1221-h950-no" />
+
+</div>
+<p>Drag the corners of the map data frame to be within the light grey outline for the map document (what happen to be the very thin margins). It will then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/C3OrrUM3dQFjMw_8WbWrJ9OtvtKGd7m8HCbFO0t2KTHLBAgv2jU6aoxtZyvfNWYCbo4BPlh8OUAF_qZDGuzaOq2Tl27Ro5GM5DBQT5pP7_CE_2RFLzGSVGRgpfqlxbbu9rHvbugbdZlutBGYjLETXwy3QX4k8-qTo6GpvO29ljF0AJntK4JWgyvJSErprxq_embJIieMDAdRY4-qMj_FMss3ylFExmaANy0HS9W3j9zdXJu6zFM9QMKEhyOmEbH-MeWpoGaBRm8lqEbkIkcRGwAVeQY-ciCt0UQcfhyoU_crV-FDlXgL-kHK4-oKdG117s1ff4e0aSa-K07SgzW91PAzoRqEzpNWCShqu3mTtUTcdv9y0ybMRKETSD-jmzGj5WBJxzr8bDp9n9OfC9hvtHDOLwK5-fX4_oHi0Pie54u5nmiOKgIXYsxK9ZUYV3v-rH94ElgSyLLIfpwySW5p2sgvl_mmVD_-0AMM33GNBzHkEA7XDwWwVyxUxE5hCl2XAXR5-aQcHL5TD_3pshmhHBNSAOiaWI2Wl5Qk8WuHExEIWZQGPTi3rq_EU5Bish3tw9fHJjOvfpWsrYXguLJOpQQgrtei5itJ7k5ROFdkCoi0PwSTxWqL=w847-h686-no" />
+
+</div>
+<p>Now to make the map nicely centered on the entire city of Albany again, right click on the Albany_Border layer in the table of contents, then choose the option <em>Zoom to Layer</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xtKV8FhZ_KngH8jsmmygnqbF2eyvxnanpoaG9XmEc1a76ZC8SXJI2WwaFXiu1xo91ZH3-L0cKgI5gHdwXBg5H_GEorpHH3oGFtyGza40T-kZdbphfNIIkrO9uMczPAxdp5gp5IGLOt-UziXnv8t0YnZid1-POPvcw5ROLmyZbIJ60UR_ryZrx4F9j6PW5sI83PVZr-Uu8Marma59KDu8EkAqH_gJWFKwcJnh9gm4tibgbk5oGBCwFkWfBBmGp0XY3KaB_ZBTzCh5512qZP1vHKyILZHql0ThOMxjsNBS_ZS-ieC-Y9iHqhDHhr6qk1se0OIWnozuhQn7FODgxjxYSK9_KfR2jOWxS_Fjnk81MTyRkxPcCKWLaZ_xgz5-qA2nRzqXn7qv6pLR-JWka1aTwYri1a52LJcl2M_q2QTMetBgrAZXdWxyt5DbRHww_6jrbXmOfBZWQZXv4h6IDaoGmkdBL1eysoWLLdInmexGvfpxQnsFoAGDoYkfJ1OFppq3KVDVIb7Pri6felHmtME3cpeXeiplwr9SRaM-PQkr4XBfIeWhR11oP__vB9PHFnJ-wu2tW3wdqYAtnD8Ta8KAKSsKQboxrGLqi3tA0MP0YfMa6Ez4QLfT=w1157-h777-no" />
+
+</div>
+<p>Your map will then look nice and centered.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1t9a83P7gF8L5l5288dlYG8dk842K2qjfn0NQluFKVlMQspmFk13FRO7A9vWakDm5Sq63XqSxyQnYylwZRJ_YNu_id-tiGcawFFjTF2Gz6GcMrIct6O4HKuhN8lYa-J4JxXvvQEJDYogE4N1D5726BLhaMmLD2Y8zPJ82zvthM0wvUMXFDFTr4yyC11jE6TGqJX1pQUvp6O9O3XGoa2mUXRkbbjo0udaFqJeXJ6FPzaYtb6jWVHKfWGA8FuMSX8lf8YfoixMQsPQaIL9t4TLTgdYRHMMgEdT65437s7sfuVKnBH-9YNcljElOTpoPAX4B3QBYa0fQ1fpZHJqMo4p0L0IzviOySxWLy3agjnIU3d-ShAqcEgzaVzcB8nzF08NxcK7D8oOSShzOeTvn6nB2EdZN1xlZHBaSmQspRl2pGL7-_8m2uZY2fbUJBtd_qgBDEO_X-3bdP0sXfk1OI1R_GhafGADQaoognY8pZ0TazvVNzWnVNNECmDmvEvewqtnWzAwSEXcbrSUHhuZ8AQnTeRe32h6N5oEGjm-pjDerfMEs4nv4TejhJ3nMvGOM-S06mZ9NvSx1bnfjJ1VZD1chmj5bo7uCVHHmb4cepRGpxLoaHblugmL=w783-h622-no" />
+
+</div>
+<p>Now the map is ready to export. Click the File (in the File Menu) and select Export Map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y-4JmNCPo69dp_sKXeDxVJiE61RF73VWn0KKUQ_CH9PYddW322CjiaIDnGrW_h5fRT0Bc7ALSIkCUZdhvgLtALsZ4l9jH7FXenvxmQg83IHPsf0--sM8ouoMj_LsiPQIkGXmy4OGcJDtfUC-lkPrj56fryvJ4JvtEGqTZ6JdSwEh1X5-CrxI6DA6Zrs3ZFR-LQ_w5Co6A3gTc8_pW99ExlFzzwA0nV4YOB6YHOL8cSkvM2ga8jUS3glzW2UblNDLBNn9vjhytlI3Pf_YdqJZ_IF__82cjf5aiOFdh27yeYqgkiwdo8L3M-j9jsLyx73muSMJ6Ov7TstMqzrMzqBG926nsmf9i1898RDiekOtVomDtD1YzmXFHInckceLq1tIH0Ej2MYV1RClBycfdYUHEvWYb-qhYLu-4fKj5B-jeWd3LoiWluYXl99NnXw2UBy22djEYoKC7f_7DFePDRIG0wY1IIdlnkVuVGTxAAllQwFB4AjVinMP86tIJsX6T5K-zJVKo-RqPCBvdJ-WQagRwaDxOSnrhYPIWIeWvJiG5hR5QTD4l0qs9Jz_1E__gHk7KPP3t9fmril39pRu5--49PegNaQKg-FoGpimmzEhudmMgMezkPtT=w1152-h692-no" />
+
+</div>
+<p>Now in the export options select PNG and 300 dpi. Then navigate to your flash drive, give the file a name, and export the map to a PNG document by clicking save. PNG is a lossless raster format. So having higher dpi (dots per inch) makes the resulting map nicer with a higher pixel count. (I save almost all of my statistical graphics and maps in PNG format - do not use JPEG!)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nOinyvI0Fqw3qpzpuUfGRZyL220DYyW9hvuKZ5HA84I0wzAuzIxJ_rsMUxInb2kK0KzXqRTMHRNFKUhLC3FSLDEhKK_XQQhQc3AUsC3hPEJVXia8lP_e9Ck0IStJth4EOcOGnZJZWt67_uVPhd_-glVkx5QeWmp33FBUSNmmwzfp45qPd_-6BRAxOpsZ_BDk8wAu-2EHr9pEG5fd5UOaW-fAMZSsgCLsckmfNzhOAhihECkKvGP2cjBRaLEw0L9IbdOqtuwn_3HO4M5f6CalZp27wlM-zPC5MhpAYt306jzFtrfoYWvtNc10XH8x6ZKY_ICEOLnnYSmWrb6EMzWJcNWVp2brXE2-scztbVIsNZRsNXYdJf5Wt8x-DFDSNWmJmxcdCvLe8AMUCDNks9DPYF6tgHZ6r_GXOrMMn5ffpQQQCImDGMwDJfhx-VBMVTesCw4nA4C23ikVfRLYEmIWftGrjczTSuZU6oVH4Apev188y0ebTbfh0Y2uaD16SJd7ZDZefvl66cXszCwD3eaWJ6772Y0tsNaFTTTNbSomLndBAl5wx7OrEGlDa2ZsapZO-EVhhyEALRQL95TYEjua2vtRafPGaxrvhjcNHOh4JkboW-GJ5jlF=w571-h728-no" />
+
+</div>
+<p>We are now finished with this tutorial. In further tutorials I will show how to do more things in the map layout, like make a legend, import a scale bar, add in multiple maps, etc.</p>
+<h1 id="homework">Homework</h1>
+<p>Start a new map document and create another point map - this time of bars in Albany. The outline of the steps I want to see are below:</p>
+<ul>
+<li>Start a new, blank map</li>
+<li>Add in “Albany_Border” to the map</li>
+<li>Add in the “Albany_Streets” data into the map. Make the streets grey in color. Make them 1 pt in thickness.</li>
+<li>Add in “Alb_OnPremise_Liquor” locations (bars licensed to sell liquor as of last quarter in 2015). Choose a different color and shape to distinguish them from robbery locations.</li>
+<li>make the map layout nice, then export the bars map to a PNG file.</li>
+</ul>
+<p>Once this is finished, make a make a word document, then import the two PNG files (the robbery map you made in the tutorial as well as the bar map) into the word document. Size them smaller so they fit on one page, and place a caption in the document stating which map is robberies and which map is the bar locations. Make sure your document has your name on it. Export the word document to PDF and turn in the PDF on blackboard.</p>
+<p><strong>Pro-tip - when printing out maps, outline widths under 1 are too thin to see even in large page sized maps.</strong></p>
+</body>
+</html>

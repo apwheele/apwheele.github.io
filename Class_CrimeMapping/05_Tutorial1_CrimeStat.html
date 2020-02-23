@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 5 GIS tutorial - Point Pattern Analysis Using CrimeStat and ArcGIS</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 5 GIS tutorial - Point Pattern Analysis Using CrimeStat and ArcGIS</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#importing-data-into-crimestat">Importing data into CrimeStat</a></li>
+<li><a href="#generating-repeat-locations">Generating Repeat Locations</a></li>
+<li><a href="#mapping-repeat-locations">Mapping Repeat Locations</a></li>
+<li><a href="#generating-and-mapping-kernel-densities">Generating and Mapping Kernel Densities</a></li>
+<li><a href="#stac-hotspots-in-crimestat">STAC Hotspots in CrimeStat</a><ul>
+<li><a href="#figuring-out-the-bounding-box-for-crimestat">Figuring out the bounding box for CrimeStat</a></li>
+<li><a href="#estimating-stac-hot-spots">Estimating STAC hot spots</a></li>
+<li><a href="#assigning-a-projection-to-the-output-from-crimestat">Assigning a Projection to the output from CrimeStat</a></li>
+</ul></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This will be a walk through of using CrimeStat and ArcGIS to conduct point pattern analysis. I will show how to enter data into CrimeStat, how to identify repeat address locations, and how to create a kernel density surface. This will be illustrated using robberies from Troy in 2014. The data for use in this lecture can be downloaded from dropbox at <a href="https://www.dropbox.com/s/chtvx9br2u8peql/Lesson5_Tutorial.zip?dl=0" class="uri">https://www.dropbox.com/s/chtvx9br2u8peql/Lesson5_Tutorial.zip?dl=0</a> or via blackboard.</p>
+<h1 id="importing-data-into-crimestat">Importing data into CrimeStat</h1>
+<p>CrimeStat is a standalone tool, produced by Ned Levine and funded mainly through the National Institute of Justice. It is not like ArcGIS in that it cannot make maps itself, but it provides functionality to conduct various spatial analyses and create additional map files (which can subsequently be mapped in ArcGIS).</p>
+<p>I have provided the <code>CrimeStat.exe</code> file in the spatial files for this tutorial (see the <em>CrimeStatFiles</em> folder). You can simply double click the <code>CrimeStat.exe</code> file to run the program. You do not need to install it. (For reference though, you can download the program and its documentation from <a href="http://www.nij.gov/topics/technology/maps/pages/crimestat.aspx" class="uri">http://www.nij.gov/topics/technology/maps/pages/crimestat.aspx</a>.)</p>
+<p>So double click the <code>CrimeStat.exe</code> file, and this is the screen when you first open the file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sNaKaRCVQc4g7x-ybKGb_KHsjP2kUvLEVs16wvs1GGfq2ghmBWIkFuDzN5NOjRxdmY_Rt9Bz7IbDrW1ft6OIznEkNnCucVibUp94O4V-XL2xCt9xF49Pd1VCDn2nA6S7rK0-lHZWXeVlal3ehySRStml37DNH1_Nu7IMcVpKKvQrOAm80TbzdFcIml8j3zHc-oHCp0F-GeJZIwYjSAxugD3WKVhAtAvVAYSnz6FJlL6yiD8DnE9CYg123GBS9hgtjX37uTWQvbt-cwx5Lu8gSl9UqSyp1n1l2D_splilEjngRGDotNYtixjk_vNP7N7GjfXJ8USWmQFFqNDa2iXPLP0vR-smNEB_0-zzsfLHvZxQ0F2c4Q-PxMYkoASumM9GSA-oFpED3m5CpZxAsJP4AHfXLKCbGE-KuXAG3eqsLdtjIgtNN1n0ybF_4qGCIOpJ1Ep9bO1WsoxSvSybEa-cyISyUr9IAgWHmG8ZlEqkCt7XoX3G4jUvysnEuxO2PI1ULt7QdaYb-Iy4eYMIIqtOU2f89rEWRpJEew1wzbAUnN6JBcDYeF7AjkHchCeTdcxqmMVKLWe4t1gri3pBpA-bRp1KJNR8Kj9FOjgVy2uM37k7bFS9qiMN=w664-h602-no" />
+
+</div>
+<p>Now click the <em>Select Files</em> button to import the X-Y crime data. You will then be brought up a file navigation dialogue.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KpIWI2Ip7a2QIaDs_RqFH6h9XpuCAa6iafc4VMCsrxGb42bgEAn57hedqYJ0etiXPPsk9CbzprK3xUaZDwucJD3hAfYNrb9RDwEsSU10n-KNeFZCMjXzU4ZhVSzXLm9CyR192MVud0iy35QYlVw8Xzkr9HTkp1RuyaPZxYuwvP4vSl27K4O25CO_ZPst3VmNsS7F0AiekOPaadVtVn-u44OWoi7XGaqm381HOoEvg0cvPbtNmB2QrU5_R1DBK3YQ0ef-v6CP5FG4Z8pdbVyIqCl1tByLn_GKXybKl0zh4MHFujwRp1a08-fOsg-lsnYg5HDHKNfoExn8Q4CPvkVAO7pTQ_ql7apfSuaniIlBZOdXeEiMDMJAlCCWEB-1J5UehZLuBmMXdYc-2pIhmqkfP0fMQy_HKXgHoAu2DlBaEFRNoF5cZZWcWGSXrTrryECICfxbHy7QADPgOG4ueJMSYi911gHsJM_rqbJZVvx5Z6Bfi3V9pV0C-HFr8kILbVzBru__3SvIsdlyk-kKAcEAMqOj5VeyVPp7qcgVgT8v7f3R0ypCpI5O9HIENEGWGCyrnkvmbZa0kLgbp1FqPb2Q9sSsG3mBTCEAZwClzLCAG5RoAr0YACgg=w464-h212-no" />
+
+</div>
+<p>Browse to the <code>Rob14.dbf</code> file in the spatial data file download for this week, and then hit open, which will insert the file into the dialogue.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oIeJB-cUzYPMN8s00u8Uc7t-QwnubodKFUDgB2xZoqhizUWEJyiKWygoI6Y6kPUrBJ7Rtt83YTE2HXn17pOkBirHM0HepDGnun1U9CdHKTZqw4Ub9hObBfR0njjqzLdYBIKPTHBv1KbO8AvVqQKK5mKLbdV8KS9S1XMAOXETFls-qkqgHS6A4Cq0vL2IYKxUQ5HseNyrEe0GP0tb16B75QA733W7KVMy-OY2pJc1Mm1sP_dOGkfTclEjYn8IYfQGnIWR9E0SJKznu-El-yb4GrKiCsCcAdGV6Zm1eqxU2i7r4HeWfjy1zU-iKzaBSz7INZjgrRi1ktonu4t2yuFiAITPfjCKjRQJdNT2JdhRdSg_wNx2HUxsB2S-nnFIMJPP9CQCnJLqlpRFC9GSuvRK-oauCMhhu6FY3arZ58n_s0jU86LEAci1TG1SqKT3iv45U9qTklaOiCEbyhWW4vCk_oAKj3m8j9SueiM8TpOZ_kuqCtOAgyuMToWQ-JXcBLO0Z1GMtwALEf_Bgx6YJkL6reTDah8WplXqqOpuhKzz8ni972skqxoNGQEmOFaEWXckAVDqoTMFW2NALuznEc9iLx4pqhguOL7-aZ0iYPGf-cZTIo0uFtLT=w436-h277-no" />
+
+</div>
+<p>Then hit OK, and your file will be inserted into CrimeStat.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/trYNc_7ptZ_GxZAF3jJnj8TubXIJaZIUeV1edSL4pqKeTSmiqDYV3HcBJMs48_rsrqnSGodAXaEwtaXJ7KRq_-NvPleZmViBdOlhWpWtq9B-YEAbfkFS_Oy_hprcByEzYomxFhFIEQEZTfWTuCx8OwlU1AWEwSnvprTvD9F_nA50o9leJhoh4iu__rnWqMEHTkdYy8BeCLJrJ7vJ4-3rVEu6dQA5c8l01Z1hLwelKnrgIqNuAn9SeVv7EQe_y1DVJ6P0Qwj6bvl6702aXuffJRO4bqNh32vm0fUbQHqHxLoo6MkDjAJOw8K3BqxbAN6fCkZygy5htkLPtq82qCkxf364ymn3rpSsQbgBZTs9B1aNSZA01bBbc9-Tk8_JkvHLaGnRMlUlQkF4es9NacFaf5suBs7Jcpxdxd4kn5FqJO0qn_GlbbDUQotIMgI5wF1HC5oopdQRvIf3nP5Ur5BHNDfIaHB_Cns28YROsqyw_o8S6L348EvKXqd2hrjroeUkmmc3IaBQ5qC5Gj2ez7li6hW4PddS-F4zNUhoqwoUeipIKRERStC5mXwCqWl3gXJSN-AZnOwtbvRU6CRua6qMKWowfuTE2NOXD6cvgGGw6XRiSFnGjXIU=w464-h212-no" />
+
+</div>
+<p>And this is what the screen will look like now with the data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ozMsyu1tVjwZTP8RkyqyNl7ga5VXJPZqprvo62OA0QKQiJq-YCJ8Enup-bEWwuFL4gwnb297fXJpJgvhwGFfl3K8h2dlXjBm3BsFFIJDREm7Hj3r_DheIPkEFEZQAdEI1IA9qF87qjbd6WDYSoZvYFWUAfF-up3GhNaZKaR_9xF-SDEVg2sgLA_aWEa0wQUKGVI2PybKP2KCtojZVj_9adAZTbo5fKp3t9ePSDHiPn6wILtzbA2Ct9xKm18SFOG9hrVwXydT9bUCME6JhRIwF16LkAFT28cAuyYOkkOZuysCTqa3jhf0UOwJwmvKiGrGKUgteB4oSOn4X80rsaYMCg-Xc0yeZfgWxehTGKXZ7W90pdATwR4s558zLiyPQCt_NMslk06pytKMDH5uDJfdZze9RfZuTdNh3eC8IGtf9cG61uUDfy9m1QqVC0DgVwO4mINcU7Cs5F_4RnLAO2k-TJ8Ai1OHVwWKUd8l73zl1YnkR8wfnw37Jxtaw0UkcMNMDTseXo7QGXit-IhdQSFn8jRPWwplr5UCqIWXVqkGatfsdTAbY1Eh57GYrTGz8bIbKdt0mI9HiiV3gCn7dxm563ruExR6CJbW0Qx5eecD_fxNmcUn20pz=w664-h602-no" />
+
+</div>
+<p>Now we want to tell CrimeStat what fields correspond to the X-Y coordinates, and whether they are projected. So in the X and Y rows use the drop downs to select the appropriate fields in the DBF file, <code>X_METERS</code> and <code>Y_METERS</code> respectively. Then in the lower options select that the data is <em>Projected</em> and that the Data units are in <em>Meters</em>. You do not need to worry about the Time Unit.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PhQVxatdfrI7Gr6oTIXwhXuev17AMFWOdl3whrGO-Jnb0k6wZKP9EnZPYTV3SGzP-B5oZssZ8c-xQSv6gZlxxvEsJ4Dih3GugqPej7KKifEf67bcH3fen561E3m0sJcUYDVrE1jabOETY3eXuL-cUW8Z7ajI8RgVp3i_Jz2fQU3-R5QPlnKR5zqcwjhlrqtTOdKtgTftgLBovwu7225O-RtR8Yx41Ad_-Ib1LhDl6R0BZiiMAobzHSufp7bM1zZxV-1_PQwze4p6WF9VDmmWSVLB_fLOftZWCPoYy5qSFKNKGPkTP26QVBJRQ1FHhKtkPkl579FkCwZR6hi4CHHCayumQSZlVp5u7yDaMAi_vybptJzVMtYVQI_P9R8KrJaO-Zy0TVV8sbjxJC7eHe4WWRte7EDqNqd8Dy-0nOIKnodGtVulPo51XsfAJZMF3Ak5K2bdsHyqw2hDSGniXKtI-K2H1gnS_dflbH2-Z7OW1ubYnOZM8ZF4ztFQsFlIeoQgVkZ5EsM-Cq9hMJCxM0Z7LmHke_4zr7ytyz1ihXAmhwSK2fQ1H3ABqMCNFRdCW0hT2sw5GAtlA7EH1NS7RvntRrlRX2st7hDoJasayNVEEg-Es8ApY1S9=w664-h602-no" />
+
+</div>
+<p>In CrimeStat there are big tabs and little tabs. So far we were on the big tab <em>Data Setup</em> and the little tab <em>Primary File</em>. We are going to stay on the same big tab, but switch to the little tab <em>Reference File</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_H45_X91A3dw68cN_2Ht2dWsf2JZRJcmKuk9QI_d-dWcmIU9DNjKvWSQDdBbVwDNwTQ5ojzbuF5NoI8SoK-iaM7fxGpvkZA7EyGG7SeHt8dCePgu0JNPrI_yvMlGL-DXPMe_RHd_iFKeBzScJjgtGf3mzt1QTuapK6zTBhyLPGJiSxY7vB8Cy4ogZmz9ZsMhxjgD39gGJaR8YuDUHzoJgC6H1N6lsZb70gVro2zp48q36qrr9_-ejq52e174QyHHrgjpD4zc-va0tRW7Htw8MZ5vyU6WJvVwfdBiZm-jaK61VHL3CzHeSn4tVQ38obzrAwfKLXQEcyqoVg97bhA3ZPGpe8Dbs9BZqg3lv7S2qgNpno_FqyYcoYpf2PChxZUTJpu9E7YYepoamyzuJ03A1cPxqtO6-tF9Gqb_uXcEcGoxJumWVNXwQ1Hv87n_RNGWNxcl-i2fBFvMwZQ9TP0uw9Rn9ac0taehV-OxlKrqcD5JV0OB1XWRgz5KZyQVPcHAtby1SgjRqzWTnmkQYUDDh1YBfXTf8TFLaQNC45yGzqs0yhz1nRHSHimv2JP_2m60Vlfw-oX4wuTvPkyLEfridrZRjKdVXbrlafLz2IQZLga1sOUeNwnJ=w664-h602-no" />
+
+</div>
+<p>Now what CrimeStat needs is to know the <em>bounding box</em> of the area you are interested in. You can input the lower left and upper right areas of Troy into the boxes. CrimeStat wants to create a regular grid of boxes, and the number of columns tells CrimeStat how big they will be. Fill in for Troy the numbers in the screen shot below. For the lower left <code>215000 429000</code> and for the upper right <code>219700 440250</code>. In the number of columns option specify 94. This makes the grid cells approximately 50 square meters each. (Note you can hit Save and give this a name to use later if you close and reopen CrimeStat.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sBMfRJftaKZ4TkxNaPWn5kotnIq2mrIooKCBwg6YxbVXQVFrKAD6FIcCP9sAhcUV3NWGIzHF69geERuIuZw3EeXLgoDzOTe7LG3pMapAeszFlJa92HiQsAoThPw5Pp1wE5CnNjpoKpvm9jEfFMSsXKMIGsLwTBAhF9Dwix0qgz3s-wyF0GcXEUT2VNV7A_4ivEdZ2-CetfahhKXtii5m7d6N74II0g4f9HExBgfUXW18JN66Nf7QgZ8B7mbdO7GcPYMLdqdXDAhlgBSFwNXLp6x0AYOGLr4w5yylKIveID__tTWj_floZHfSEbPQVk-Mkk-mLmy0nScOFXyIGeVTRt-19_y3Rqg9XvBnxKbSAimma58t3efOT6MCySuM2gcp6LJ4Bjtt4ex7tn_TIG9pTrNmPkw_4NLqZiIY9ou7Vo2w3gays_OgUzCJf88VTgFUyomDySne48pa_sr4dwX3Ubol1xEcTrEdPwNoMOKnAerrHCsiIPr11Jo48Jcln8zAyZ_iSMm6iAg7-fSSHdzGbGUlLCXkG1h4I1eMl9XzYgGBiSXAfUuFuhqYpJdpjJhaL92lDKoNX9Zsr3XRaRNsxKU62GXmS5z3z_pHnmPj5v0w-8VAQQJm=w664-h602-no" />
+
+</div>
+<p>Note figuring out the correct bounding box in CrimeStat is a common problem. To do this, you need to understand what projection your data are currently in, and the find out what the bounds of your data are. To do this in ArcMap, note you can hover over a point in the map view, and that coordinate is displayed int the lower right hand side of the map. You then need to make sure your points and your map are in the same projection, and then you can fill in the lower left and upper right coordinates you need to estimate the KDE in CrimeStat.</p>
+<p>Now we are ready to generate the repeat address locations and kernel densities. First we will generate the repeat address locations. If you import the current DBF file of the original Robberies into ArcMap and plot them, they will have some points perfectly overlapping one another at repeat address locations (e.g. 102nd and 5th Ave is in there 2 times). What we can do in CrimeStat is create a file that specifies the spatial location and the number of times a robbery was committed at it.</p>
+<h1 id="generating-repeat-locations">Generating Repeat Locations</h1>
+<p>In CrimeStat navigate to the big tab Hot Spot Analysis, and the little tab ‘Hot Spot’ Analysis I. Toggle the <em>Mode</em> option on. Your screen should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YyLtNz1-90mewj1kg1tLyBAUoMmL97tkgtXlAj3h77rgg0Xq8JBvZaYEcLfoMbIji-1F1vg8JbNhE9d8uglk6FJ3wQUQBiAhn8Ee3ohLcaZWWBKT4UW-cm0Q7EB0F_dNCmdRZ4uRzyZWk2MelAaFjsAVRgYZ1JCVL3xs8dg8uMkqno3Jmn3o7_SeSUAGrw59nHy6UUq_9_urf2fBGdtSoerFeI1Sy8xQIyE5Z8S2r0uDS8f0kJdX4AMod_uH8d2OZxRgUzfE2txwxT5i3u8FPe3ZSqCxpNqxWwdHT-Kd0EcedldpI-s7ofHfhOO1bOxCqvdMBKuOBW62XrBL9JsZTZ5XxlUDuR2Jbk-IN2bZM4J_QVZPgDtXPYtC9CBQn4so-oWOf8S0XQDAAZXsXsqjzppjXY_JsggpdvhFG9tAXfj-paAk6KdKtOHPvIUUSV-7GLHY--a2QvEEJwXYorlZmbVPTkDJDuK4C_jJPKPXFyvoJFE_16eR9J3oVCGKhFwqJPCIM9618qn-zxTfp24S0UU0yONUB7HzqOc9WS51rTtZ_KEvDz4YX_lEL-erHFpAt9T5_pcaNhQpOg2AGmtieTAC2TQAy3hsZQB6meAc_ZV1YSxVj8DP=w664-h602-no" />
+
+</div>
+<p>Now the Save result to… button should be ungreyed - meaning we can select it. Go ahead and push that button. This will bring up a dialog meant to save the resulting file. In the dropdown select DBF (it is the only option) and specify where you want to save the resulting DBF file. Here I name it “Rob_14_Mode”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hB-augEX7joJ4-TKnEo5Cd_g3M28Bfa6aYn0QTDrhrQpxAMmMjtxN6mmDdAPEo54HT_0ulrQXSHz1ncA3xcpPCpt1gSVZIQgaadlFJIxh2xqAhRrpV-809hvDkxXF_lBww4eoaO_X3eLQItP6txTJSaSjf4kyOvBl21tZUk5ilASa3Z_NfZcDpwbMT4RKT4nKy_ubUJ2mDVuiXjAiN9y7OIQAAqFsqHZAagugGz_K1OAOGfkKL1eU_PZmNbQ3WKpZTgMATOjhAsZTW6Ud3kufMlUga_iU1hf2BmflMSweFySEGn65n_R6HsfngGJsB2wcbtG9ThHF_d7ezpfHzWEevAFI-_M03oq6oQep7SlTgpOm91JIL2Vo1YOHTth7_CaBs54b3eCZky7oIjzBbrt9TbJxDVeBlI37IPKgLfKk56eYxE5cXuyY8fnaVuHgOd6G6WBF4pN_DPmOefxggVUp-4QKWhggtwK97BfW1_kpazH4-3bBTKFISJS8KyHURnzBxuJ6wq5TrJcUktCP6ODVBs-V7SWjZCJMnBkkoUVuoEzM4nmJ1CcnrkIJnUpWYMkyQjVDBl_TK11WewQ_BzQHc6dKk2hBIdpWEeKLfC-KLUfgK-4BaVN=w513-h149-no" />
+
+</div>
+<p>Then click ok, and back in the main CrimeStat window click the Compute button in the lower part of the window.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fDJyqkEvDCjz4oaDCdXvsfMZjcViAbY0cjBeEf4uKpxwhcFkhGLLAW650avq3jLMYX1sdXtX4S-Uym0zgiQ9HiRRfuGHVmmE5utAeBjR1sl1H1WoUXhsS2K3EH7FJcl7wvkl7eVLXwdulkwsRbw2m9FgHBI5iJgCO5dhxFzaJpYiexrX6GDoDdjqLokJFC77wxQFX_yJRuJK9sVnZh1CzdiKiymeC1jqMne_fCUu9KDvEJT83RSb_zhQDIy4Nhm-noWCFxjqUUP6hY8dq39gqGmox4mNB_Cf-68Y3dx5pshGjQe2Gp0XQchNYCzW1xn90CDpu7phYn-Mle2WM3EvZzXjEcwQk0hf3KbkG8eG8bpRacNxUrudcH2hmTLzTc0Bm6rVGGNIxQlc1wYpzDgcbRJKVmRzHH8cCBPHkrucGZqJBMxlJ9zZNgcQHflTCLZJDgAIzUrl-QZiTCk7hMfdsGrVh9N8S16XPjLt85eR96CF9Hu8lsFfDw9aelELICnxgcByKxV-MzNuqUF3DqchUFWiELy0_baBSRZA5gaWGdKDRP5lgM2axZ0FCT_ZCGBoNMSULCoo3vzSzalJizAOhRRXGTVNqT8mlgOAZVkSUOdBp_LK6Up8=w664-h602-no" />
+
+</div>
+<p>A dialog will come up saying if the procedure ran correctly and its results. It states that the robbery file has 110 incidents, and if you scroll down (scroll bar circled in red) you can see one location had 3 repeat robberies, and another 9 locations had 2 robberies.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1-GDh6F1iCSZzGfxXv3uTN7gCIl-3t1XYpteo58YqI9IUTz_-PHYMZHoiBmSzUZbE-OZtxAAn0q0OS_3C8WHUrCIPXYdaXq3xBLt49B53wByDe8wO69GzbwX867GKVbKcGWqNdxfHfIm6H_wksmFmRCdATxcsFYX2iCMERPcexOt53UgBua8qUODgk-WYdFM4V8lIU0F5c8HfrI9qGbZcoWiFTpz5Qqp87p8o8_E7rXJ9gBNNp3EmMC7DQbQ5Ifcrl34OgHVE-FqsWT25fK7avfnFk0ywCNqHt4gNz0DZmGFn2ra0U6_JUkdK1EkB6GlStjzV7Wk0_9EeWEAITPbb_9dkS0zpSVfdfHXFhexdPfP9ZVfMPMg7BoqnUfYM8ANLyf3Rv_JuRihlzQV4j8vmK6zWVOTI450xcWM1x2bCF3x7KP3Ufayw_5mPrxx8FraNVYQSwAXoqCrA-n8m7aw73CPPMN0_OCRz8GfIT_I3fz9irOVaNLtR2xrsak1SgLXIJfUns5e89MnayJRtZXCMjvkhuU4s_3hhEFIoiaUJjdA1_d-XXD8xrq6HBQQHe4wHwe_Mwxyph1qTbp385DeRzSuVWvBer0NxvgHGf2ubYZSPymDfxq4=w784-h495-no" />
+
+</div>
+<p>Go ahead and close that dialog. You should then be back at the main CrimeStat window. Now we are going to map these repeat address robbery locations.</p>
+<h1 id="mapping-repeat-locations">Mapping Repeat Locations</h1>
+<p>Open up a new ArcMap document, then add in the Troy outline. Style it so the fill is hollow, but the outline is a thick black line.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mec_GRExVxsIWlAZ7EZqntVgLxrIo05FzuYftIirO8jk-gK3vqT477-2DcspJzClqdHQs0GOGEb9XbciP93geQolEQ81y5-3mRYtYE8KJtE_00quY4T4b8sWSOBErv-wlGeLsM9TQPl-mwwLdzgUfrWUCZ7gaA55hK4ouX_QeTYKPxbCT6ZIGtOQgUHmC4gsPxz3zDWKET2GeINg_1O5moXmhEGwKVjVpYHzvQq6bnA7dLE0qnBcuZgizbIRRhObHSuUtrgLeTZKVQGUymMywqbdwfxzhxqovocP5Wy-h-JekhiwXyAPx6yIMlXBddwZ3yGcR5D_OkH24L1X5Uj8FcGcmpCKhtL4dXUFafam20LclL3GgJexK_hyPxlPdYOJQbWip7ixZmUb21rk6_RQRfNi-7rR0hSJpexUcYFUPogWCrdLU6tUfgvGtHzYtMdywD7_pK9iH8H8Udi-kPU5iOLoCQYszzPNlBvG6jzcniVnMTtz6uCBdCWozO_SWSiHF4m-ONw0JNxAWmins2bZAX8DC5Kj7taakkOTGQk9pdcUTUwTSyJZAiqXaAucyk5895bO88iBVfcLyLceZgGQ_V48CMyv-ZJo0QYNRa924V3IPz5Ctt5v=w1188-h950-no" />
+
+</div>
+<p>Now we are going to add in a basemap imagery from online sources. This is nice so we do not have to make our own styles for roadways and background imagery. We can just import it through online.</p>
+<p>Go to File, then Add Data, then Basemap.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jragSeSbjQthuNwVS5fwUL7ZENwyrZofydpb3EVE5gbiKwJ7EkxVbyW-KgXUWkEQGrNnM7akbFZNZhPWVbDzKVmjlXxOHBWOrxLW0gpd3AJrbwPruVobS1PheT6Tsz1n6odYJRfhZQvePmBp_MgbdwWvp2bAyFgBdpNjoxFVkmN-0UVHB6uBNofXsbClDatY4cv8tMrwHrDGf9Z0xXQIVBzbAbHQcnY3ltsi-JEo5Sz3EXJE1qHDt5QqPN2elg4ThQvYjrkw9mhkcHQGBPJ4OM6iS0Teky2oy0FbBiHzeF6f1_1xqVaEzFdLzDnf--lktOUQoV9-q7EbWXV9jC0ndNvn4GeD-XjNB0h5g4kcQfa7rg8L-RSdHOxJjf5c3UDphWofdHaly2WXYOYEhdhVLsx-bqDpI1Rx5VhDQsv2zYFWBC5TwobViPEiidwRpKTVtwwrnFRC983mWHtJIJMPcxyKpsOxyLmD7auyUosAF3x8aOCLbReUDKTAFmDqAo4X2z1Fws2auV4f-arnLr3tFMX4Tj7cm8jAsGbtCfQZ18o3A_3k1pW7t35R-NTAqBqgQUIC3Vu_ffUgS3IFIADMUWLgsJraf0eLW9n9rOnLtxj_JZRvVkuW=w589-h648-no" />
+
+</div>
+<p>Select the Topographic map, and then click add. (Note if you want to print greyscale they have a few relevant options among these basemaps.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/K-nTFJ8uz498zx_BBfpR8hWYEO1lZc2TUR4jx6g-Jk4c0nT7n2U9f04cdUEDKWlXNJMwXow3iVwRU5Ma4xldRziacusFgfWAMfDTL04_Orm9e10IGeTQV7hwTpRrIK_OEAWfnrIfwYrXfXhVHCBjXbVcUsgC68rEpOioi4LDJ0pyh2wa6Tku8xWsZ1ZRyHC-DBlS9F5s_EeWFdBFHkga2LpWzvkJm7V4EIbXjv6Xg2ZsXHHS1bw7tbUrGdnU-KpQc0nJr88HoVyqJnvAyU9M1IMbY0iSEN3pDdbh2GylP1SajB2FhFm0tKe5ne-vZOXQo7Hi5x5VycV2j4-biXfNhnPwPhl-gkcawRCQpLTKoeCT0PD7BBGApSRQvejdixnsLwpnkRH31U4xsm-NkF5zfAP4CyOgtGVStlBNAaXpUXnpNVit5V4vCQ5T7pnSiZn_BbwXn3QDG6VoGNneIijz3E4Vw203MdLv6AeW_8elrKnpOtHA0dPDTHgM__mfAglStjz-qhcykxL18gKNzUGr_5GzL9A9FVZdzxzVYhqMTLSWZrEHqmJ8Qplc9SwTxIYE9ofZCUDXjh6igJ_IUUIQJwvPx_0KaicOpGOjab_eoO3ivNDbcE1x=w600-h530-no" />
+
+</div>
+<p>Now your map should have a basemap that includes roads, rivers, and topographic features, as well as your Troy outline.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4cyQSV7uRahRFCr8n-eEvssZFlOE2tuMazeMGBSZ9mfkOkaGDHMC0OFfRE3gsPgE7cE-ZAyaFg0PD-N4OsLUctQDRSaKsaaC4k-44auh7xiUrw3fRbFnCeGMkqFVVsnfNVo8dMBRBl0PIBVONeY2KOfUseDSr1_CBLX4-QGGlZNH_s19-mavl7I_ORaLQqYFV0OI5pwcR5zBqDL0Jn5GqgRuBIhzJDX3-lelstsof7p0UAXjk_27zVUc4UaSjWBmPcL69zGCShmx-x3hkNckP6Leb3i01drPk7z_Z-edrfeL3GtBA6PeaIqe0QAZgUIvyrMj79tzOrVW-GA_rhV8mJONb4vjHSYY3Ewh0ETreRviJPAoMbgjQaLJMh2Zj1iZFn32cxJxqy5K5mc0i4yqJJjoOh_7HD3f3L8FGZqmZYxS8KPRX_FB9_ZtyB2DhqvSE7rqD44FDa2bflxYRC9p3LRlLNy9-7zb7f-0-W40TKN3P4q5_xQunfZdjW0Y4Ay7FJGhdAFWVEgOBA-3MkirWY0O4Zaak9cM__aUuTrR4lNVpEbEOmbwLnja7OOmaWW0wcidGW_E_dPHYCUJaWg3Y25HIK2i_kRPeE5-GWVzav0dMvJoW8-O=w1188-h950-no" />
+
+</div>
+<p>Next we are going to add in the DBF file of the repeat addresses we just created. Navigate to wherever you saved the file created by CrimeStat. Although I named the file “Rob_14_Mode” in CrimeStat, CrimeStat appended “Mode” to the beginning of the filename, and so it is named “ModeRob_14_Mode.dbf” in my screenshot.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6wWi1WbNOtlbIfxvm3eDkyuvd3E5fNSOqUqy9LoOJF15fNWfR_cGL6EW4NgL14_R39FPfF5OnEIJWqHKcvYnu9-w4o1ZmJFiTnowgax0x4hsK1M8qsevhn7sD4K47bpYOnkHqA3RVZED5ws3seJPonyOy1jOLHGepP6rb3D1ZYB9CpkVvGdq-0pDmptYOyh-zHiPVXF0GqIl0TYLsrqFXHuqJN4BTzRxvyCEmAD2vHEzfC11klTfpMmIWfJLrCJLMClXJp-0qpAqUQ9W2gyJ9SVB320iP_hQrce0dU5KbyBKd0MD4FlMI1BnudjNNjCk2QruBLOLZ2ko7im5wl0NYLOwIX3gxXY6mKpzYrQTGp2yYjRNZCp2SiIiOvabW8RAhbzgnxK8ZQDasCKBCqSX_o8iaF3QV7wXR9VlF_gReOCMOxmqMSHxRR-wx-ap6oISciS9Key4vvq9AvGlr08t8AZPFui7iTt7YQgCWbvU7H2Xywm-UkEZBKRvC7m1Kjr34jNCfD2GuHUmo1qqQgr6JuSVIJ29qLYvujTFYajA5nansOK6T4qOjnHnZCMVSKwc-CyYHC5TdrMZXJWDmmEopYfY95HEdY-HvPslshUPue_EToXZTZAR=w497-h330-no" />
+
+</div>
+<p>Now right click on the table and select Display XY data…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/AKdRMsQ8RrovIPb5fleD5jQy1hkFoM8cfd3yb64HMH0FtMSoWKQULFFWcWis3oHZyn4lshSxukQM4P7rrcK8tTOhLqLqXr8Ovf8fOJ8SRaK7gH_eIgxyXfkMm85E6kmfoFuAgeZhYF5MEYkmplfezEpKXSzL7BMdqR4B-8R5fzcN0708r1R_iv9lTEI7nAOQEKWM-QC3_jYVZftbPiAz9kfr948fXOR2GIcvwlyoNGr96sFjaRX1iDYtIMvmI5wHpGq_cOa-Slj_V0iB5Kx0ISSB1VL3StAqtcRv_tGsdnYlhb6ik33Wxbsv6rkmSKu3ADp3r-iulXlZeYdn7E7IslZ10uBm5lPm5UlYhkb_6SCXzJSltz6AdSpxL8gH1-2R2ElvIcwpGFM4nX0IHKnagAKUFs5bs6RusGt6-zB52Y_8Jp84ZX5fCYYQ_uCwfPCRXB1y0f-g7iG6AAoGhziluENsYinpkOR6PBaJGxNbud0JY_s7zdzdKxr0wFbni_yGBgMmQ8hvYDm_vhB0hM34pCkE8uID9B83V_4vzNs2MDy4vwQNLydB2WzL9YvjUUXcFfOioYnfcokDhNG7EtFg0w7wHoE6-RgZxs1kI-VuEAGY5543NwvV=w550-h596-no" />
+
+</div>
+<p>ArcGIS is smart here and ends up filling in all of the fields we need by default. We typically need to specify the X and Y coordinates, and the projection the coordinates are in. But here they are all filled in for us, so we can go ahead and click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xH4At75CcTE_eMC15Dt6ZzBCy5PVQq0Kht4K_IirMqBqyQIVBI6quMdn9fsbmyIwFrixWEEZ6pTMvOoREeG9bzpcTlb1GeB0mAHQa1AL6wRizI45iHi77KbyZUuoG-XHF5UOTmZuE17D635XAhj0f5B7ObCT36dvMNvlHR2Jm918IwFlC-r8nKRrElAZD9VaOlI0Qr_INGwfJXWLWnrdkuDcUw-4vQcen1otCRVcbf_Ae3elT85JUNTM0ieCZS_3gsojq_a5r2FFgxZVhPwqkTATR9hNlN5DXcD1ozfrLeOVSkaISQ1LOZlemdLdX4PAr-V0Y0zrHiA991_97CE8KGSMTTZIjDizLXmSCYwGtMpunJv4aypVGn4DBc2ySORr5pEq0UO8_xZdAgNMJD89mMyIlcXxtxq6WJ8mkEUDLgpOp8Tc4bbiiffg9mWfYHMWV5ImB6iVmwpRJUzmIanG_NNsnZPlXM6m_nwT73FBmjAktG4ZAYSvuPgD3EWBwR9-UF-cfrEBAMJMNvaIcCIS2wuVETzg5UAoXzGppn1n4q8VvfE_bM3i_RswKKKZ0b726rQbYoqSvXjnbMpTx3r20sDxylJb6LdegcG-97n9OOaiZlwQ9BON=w354-h559-no" />
+
+</div>
+<p>Now are map will be filled in with the locations. Here we are going to use graduated symbols to show locations that have repeat addresses. Right click on the point layer that was just added (mine is named <code>ModeRob_14_Mode Events</code>), and go to properties. Navigate to the symbology tab (top), select Quantities in the left hand column, and then select Graduated Symbols, then in the Value field select FREQ. Each of these are circled in the screen shot below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/q4Rg2E-wcTvkzIpqnBo6mbhNk6yic91X6lQycPG8jT6b793vsAH_IuzJEP-RZVy-RtJqcSTOBoKYRbAdF2xjhv8eKz_H5SWty7AEewCDydzr36bF-Pgjm9pDKHI2_ygjNA-BAmkNrDSMYU3c6ygwzgKbwpwAhfuWVD27yzSwWxgVZIcWotutLvIt1-bT2XNPmANx2cm3VpnGIw8kgoLWl1t-DOV6xUiomZh4JRTxmzJF_COcIsODK0k5e4n48kR6PxBhniCppi2aRMGf5MkDvuKZApVWHd0YToT8PFNkaDie8gXm7yY4Ng3LvuOPpKctD3dd16uwJgQRDzTivKGEc7zWaqdm59f2jMNCjDDs0u2S7PXCoyzXTPeqohDB0m3zjC1tOW8vi23ElAin0i4Jugw1J2hPxTdrpDoBEIEbfUMoQ-rPPI9dvOMw45bvZfb_Q1fW6_IsRyLGqx2r2yMIwFdS0ZwEc_jFBmz9uy5Qn-1m3dsvvnQ5AFvXkFySSDm4323i0QDSUGge8GFCrOGoizqy6pOVIvzTB76L3jvgNF70xWWlP8nP08pB5IFllv9yajTF7OcAf0nE3iJu14atQ1Q8_WkixFyZxUKDhbXzb1K7dBj1KMpl=w1098-h820-no" />
+
+</div>
+<p>Instead of visualizing all of Troy, we are going to zoom into a smaller location using the magnifying glass with the + symbol. Now navigate to the layout view, and pick one of the clusters of robberies in the city. Here I pick the area North of Hoosick St and going into Lansingburgh (which starts at 101st St.). I also placed several guides into the map, I want to leave extra room for my legend and title outside of the map plot area. Here is what my map looks like after these steps.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MKP5nD_VdZjAgLxDC8tbC-yjf6RjT4WtITkvJTa9jGa7GMFgXHic7-IOLw7i9_dI5k7vHwkWfUqknX0yJ0EbmMGHCOzVXrG32SEoqfd0fImdh0Dtc45aa96gbp7ZzJNHQbxCJUqBcHLxj7-_HMC18iQ8nfrPnVw7GDA3GinQn8fCgCy20jCHR3GpS0Jz7YjtKXUL5oi2QxIpi5OHUvejIrskgQBJV-8agDnv_K2wp-YGRF9pc1VHEPaZVs8OuD2oojpxCVG3KNwFkpmlbXz_MQkNIPRED5Z9H4H3h4oLKLYwphxK-CqVJFTKnGuVV6oHuA4LPQm7dO6A_a4ipHPbb2aEH85xj54MpRLhrxNCcTOZWuvYb4HqTibgA01VN5u6IqI-_ycI9OQKdHkH6IYKoliRfVp40w2m7jWdlQ71gR-15mFdiE1Avmq2ibMFe46Mgbu4nADUFGjcrWjVhzJ1loqCHfteFuvMZeE-2mZLQLzE-H1O4KLVHWV7poHs--bCH-txke_PYirV6eb5m73o9O9VTJgWlIdR-9CUx9Qnbrr0Net9pWgWIO2Y-PjBhKt8sU5q5yd3kNP33bYU_RUTR0uSzH81wjf7bIBpFsmh1FBN-BJLVo8p=w861-h825-no" />
+
+</div>
+<p>The robberies are somewhat small and don’t stand out much. So I am going to go back to the symbol properties. Select the symbol size to be from 10 to 32 (outlined in blue) and then edit the properties for all symbols (same as the outlines for the polygons last week - where to click is outlined in blue) so all of the points are bright red. Now here is what my map looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0kqZCxrAKD7C-zRD7ulipXmpWeGwQa58H_DcYdbM1IjeKgHSt8pzxmL8opdMbdEzFwZlWgUcR7B4-ZxaRQJRENQbEp8_OwntxHK0QKmogOsyP-iIIv4EtFn1XbG2lVLtfls3Pg77Als9EXDAylnb3rXn1Erg7dpfhgwew5gMQLQpZsSgLnYsDZbrY47YbZsa0eHF2YMjphZQ38g1rlzuiKtWxFrhmQqRVCiZFAG_xtVTNJ-f7uMb46Kfc0oFOeC8eUtOJNIk__VwTQlDSxCBMGmTefNm0LWc26_3OzW4mqmAjqLQomUZ2u7oBpBnoWo3ddW3ce_vxlNzbIWW2K2spRCalzgPs6yu-MpUcY4i0Bx-Zxw1Bpg799hWK6C33x4MYY6vKN0lAJuiMLyBprWwLZI8o_CrXeiRyGp38RUcz0thfmht5WwS7tpIcVWS0X9_2mJ_PO727z-JbMpS_lSl5gwKiSt5conQZgdzGLxzW5jC0-iF0CF6nqhPjOKNXxjvZMYpJZH--iQfCj081arKNyUV_sP52x-gZcJ6nyrjJLw7KJdagnN6yimrC9gJKbtU7ixvyEzvjCxg6ME87ObR7Whpzp3gXVEKyXOXHKbPGtsd2ACabfoM=w1230-h763-no" />
+
+</div>
+<p>Now we are now going to add in a legend with multiple items. In the file menu go to Insert, then select Legend. In the legend wizard Troy’s outline along with the Point pattern layer will be selected. Hit Preview, and you will see a legend added into the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8ZYIXF4SSpWO64KUdOFLHTxEHGAkCD0X2k_nctXPs6nyjBgS3eWBo0GTkWioPkwNRDGUyceyzIA4WFHDUezL7LHuAzcL9mDbJru9UPKxfN0t05p2ciwD0mvYSTCDu3ow9NGkCXYiww_X4QTWFGF9qEDGxOcR5NFmuxSKPtIJqFqEvP2hqGoQSmhoazU7AXwPXLzz9niswwkH9WULJr2jv_7yjrVM0AhzcLDyK6rltGccBMjy46IeUZP8tt8wDvvrvP2X0dQWO-gro6macGx4o571Tyu3FUxUyhjV-9kIDHVzNy5uC3UCc9sYo1G4foa-GJhoh6ObeXLNC7Y7mXqbBuXdtg4FMpVEGWKGRPMNtG2228P2RHuqaOE5tdEZXmf8OibIZrsWc2Ixop_6SBWj66pMlnaWXvD5a3-WBRw7H0vNIJ_bQt7VICPFd_dpI03J_sbeHnk6KtE376ZgU4G_PTa0rzO0GFS3qWQbgta2d7VJrkp0SOkG7Q-_PZ0uQOuzUFSDPgACLFzWs5gxL-wxSnUOVZfrMtD41CW2YBvid3I7vWg2tj7A1nrwfPJTgMkHcpzMjsRxrralL8_5RWvlyseCPFqg5ouVgg5HPUZcrb-ppJqFZQjx=w1178-h635-no" />
+
+</div>
+<p>Don’t worry about going through the rest of the wizard, and go ahead and click Finish. Now drag the legend outside the map area so it is easier to visualize it.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DnHaE1QQvB9f_cDx2xEHsy16vm9PUChvISMEgPIM_0BCo77HtZw4eST3QGgpqv_XE3BcP1wsqHF8BwRVCF2TQP7wrOwdLtjX_nZy5RZKv9VPG5qGBejmwr4yzzs_OtkqYH1KA7EN1kaCJLtxissO35BV4dIzXV6JzQzJaRmu1EEH8clBZ2seYwNR6JiZYIx2tKwpxek4ziO6nzg2cNwmkueDBPseMCddYbwBXTLAekAvrzlTHyE1Xrhmu9TgjfRZG6oIND2e_yDWZKqftbbGKsQTsjCgM2EmB4RQ-_7QbRqHOFgAsmoTZ0_b2P-LUFDv_9xMrUktMoyuZ26i9S4oaAlyVolPnP-wO4LWUwxVScdaGQU0ZwfSQbx7olM17GbPJWGD_GlXzJZxUUPJ82-5yd7GzsNC6Q3GrQUGh8d5vKxzC3k82OZo5rWeim0upZrsKHsoTqpjgf_MKvI8Yl9ufZNkVmj6S_3Pnbg2FElWLrlrkvbsYj0nBg0RZl0of4Xa5L_F5FHHj2ZQiRjzDKqOB9XaGkmhdyGe2WIPu-khGBvzwp4JoIqzp_ch6e11cmSGD510PLCP7LPncrSFVk-6HwmrCklIcvgn2hbpGwilFnaaCw0TAFE8=w841-h713-no" />
+
+</div>
+<p>Now double click on the legend. This brings up a dialog that we can edit parts of the legend. First in the General tab make sure the Title part is detoggled so there is no default “Legend” title.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9aUjEl4kE5xvsVUIwYUcH621ARNm--YnDgfK8m-VzkqvEQx4NtHXLrMOGf6PCbZ_y8I2rG1ODbGtx_rmehmJ-pRwYpRBGgs-voTxiQGMzSZrC5LoY9AuHp4NQeX4iiogjJXFaZ1Rb-63lDgFFgC_ea1PTf8kit6kxElfaPwyPaXsUNJYWnj7y2aVQbdl0o5BAPu8y5deAkfVZgWaslcAaviqCZ9Nh6pbtr_xmo3cGrAO6wCR-dkEyzqYVwoGuEkWPlWpor9_WVpkDp6PFnfUqc0iujPsU50Ew-gsTcc1unELA9wzWaPsgAcEF2ymYMWFd0XS48awtbugUsxyWWNIqoTFsgJoaEWXm4jjxFeSsPJs-JpMBMbYnmvu71O-JUjszQ2XUWp0q765cjkDfK87Q6hl18kYwzPE9vh7J7R8l2XLdDQcg_6tF6aC9C1EVrTKCvayVJih0oOR-1mfJHbcqc5vx2oaO-ZssTERCI1x16jUkH24DFezzGbWTJFyPiMIhli_uYSs7tfY9nDj7qADRomE_DHfIXas3edzDf7VrjMqBpSjP3j8JJ9rzUA_zSjePGv0rSs4M56HQLI66AO1hQ0o2PNghefliB0GCRnqzORn8Vl9x-zK=w627-h525-no" />
+
+</div>
+<p>Now navigate to the Items tab in the Legend Properties dialog. Make sure the robbery point pattern is selected, and then click the Style… button at the bottom of the window.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7kzfMH8fEeCrgEOVLw9RDqRcrgOy6AapfSTsF8AtxOFa1zfyZosgR9GWenC1eC3l20uAh22fTnYg_NRHnG1LGRLCfmwTUqIVNl0hzQXsYmXMBhf5oQzJ8MtnUOr99Yp-jqoMgv8QekfOzWC-cVsOfjsDdiAPGzXjGHtK-qtL1QJHiFvn-Lb9aNDr6lg-REmlO8XeaBd5O8BzkiY7oyxTKmGGEzbHDlt_x6GgM7HxQ1K5TbaAG7fXs4azFYyYDs2Z1Xxb0hbWx5i6ftYDR4Oq7xzlV9F-BaxqT7jC3frEoDEegtZBwoNwe6Eckbj9Mhkh9gFfTAOa6cp_L4NmSCGtwpbKs5SQ39S5Sg_dRPYBI_EtN50HrliqLo9hSoshDyntn9XjSNHztlBxGhLlARNNRF5Iaj-xTgiCm4UST88xVfpeA4a0LotOdofjZ6RGuTqlf1SfSU3JfBsN7e2TmMqdb8AaQbLScmzj2HhgaQNLrjIOL-kzhEwqEExF39BsKF9EmixkcDhIfcXAtERl8W9ltRzRzD1xLhKLeB7GUZ80baEd9hT4nGcv25O67XiLaWdPM5e_H8cfi1zaUaFKKWZo57Ey0ql114EJmYPlthnDCG_VaodmrFWj=w627-h525-no" />
+
+</div>
+<p>This allows us to choose different sets of information that is displayed and how it is displayed in the legend. Select the Option that is in the second column three rows down.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ig3XJ6DoLBotywgRb25mTpltx_qQMNZJqIgCWtIZcCKBJdMpOvOb3QGW0ox9VvPZFqSonh5j0mFHgeugox9rzPLifI98EPp_7NPtNhHMQOvaX7FD3BrJoYP52buWWOJHEoHbThxz1KqvIGUxI6KRDeQIDjougwgB40XGmb4dtCUyp3npa5K5sQij0CT2tN8WGuQBQOpXYJA2qOd-WNGwIkOZGq3NzAh481CEPyxDaZsNPkCOy-aubi-6gsWU_L0WJi_5qbkbNsNAnGvpAKviCViV-4eLr-KrlXrIAkyM5iEGCWBbzJr-75h7Wni8gmy-BCU-RCVVzodhlgc6nPXgxqX9qyansibW6LHJZ6Ju9h-hufn4qbRITBTd1uLunh7q99epXSyZOnNYB3b3lmM4JDpzMCvMPUGMQYFKPecgB7z2kS6OOBQT1gb_ZJRhtPdYw-qj_SAfz5bWXWNkQO2VAUjjPdwU3hXLcT1uk8IepYwIoOUJLHnH1S2iP_XDKHjOUI953ny5bvHlSYuhZ_9PDisVYmW2uEf7_7hq8WIHx1-1ZZ1E57ZefP6LCcb3-qONYlVE-MnqljpGh_SQAVTkEmu7DlMPjzf6-SQShg1F1nLxhgqigRPm=w504-h446-no" />
+
+</div>
+<p>Click OK, and you will be back to the Legend Properties box. Next, select the TroyOutline layer, and in the Item Columns area toggle the option “Place item(s) in a new column”. Hit the Apply button and you can see how the legend changes.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pS1wQHFViWhY_T1B44JyVfe7VBflBh-8OlEIcmkR45VXSnbpDVRatlWoZQBF2V0YgAjAr7xcrFqf0Rsx7IjSV16BvrAWR9wewcK0HMUTN-JgH7QmdvoSs6ifPK9YQZwXGj0_FxOfEQwb2I5LFGXnlmaW4IuZR415vO7pz8JCunHQlbCHpTdaPfzbev3AgNiaxUDqspQwfFwvKaaLMz3UkcUAZGaUPmV3MmOiLbVcEIckhTPr9NbRJFhrsGFF0uk6_GpsbalPL5K1S5rWI2PjglgEnCDOc47d2NgEGbsBMpq8AJS2M96IFAYwlImeeFNYdL4nOBZM0lNpdb1M-n1TzZPlCH_isRfSMi0TMP2wi0s20-AWTlb-lNLlWEoiu0OmIQHcg9mnDDSE-LW7IlfCriRhPn3fGJ43E0FhXJb_Pj0lRnpDpxK0wSMNuZ_N5w6lyrKOYoVWTPDtLuzGEJ6tZSCNK3fyTmpLFvJjmgENxpsqk3EnFjm1WPoPfJNZRTwiLgHYYD8AQTFTfV0z0eIIdPRyf8CaznU86IUMcET6oVe3_WjyqbL90Aacf8K5aGfdNgdzvU8MMhSFxvO7TUB3AcOdf_mbrxIgL5rvIOGo7KmfmTllpFrY=w893-h604-no" />
+
+</div>
+<p>Now edit the text in the table of contents so the named map layers are nicer. Also add in the additional map necessities, such as a scale bar, north arrow, and title for the map. Also add in your name, and make sure to save your map periodically. Here is what my final map exported to a PNG file looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dst0PqF_A0-QCtqh3vuLY0dzxOfjMqLA_tQm4gZJYpWKUjeO3SmEcDEUMO61C7yxJjyiVIuLjF1OmK7v-pgRkENAneE1I1Ux7VpX7qOkcVCeTCAU4rinA3Km2_amxg7i4EdP0x1zkTbYuDpgpq8jzJYL_U3ZSdB6CNzIZAFXvnR4sX8Yc6DTT93yEI2T_IG5wT4_M7qFsVHfqwwmYj1ppBxOFqyGx9C4RdU-aa4n-oMFBASGROEleGlMaRi38Llm9zwe4joRiE9pCoUEQq4q0OVUzIg8KQj91Hbh7kpaNZhVCDaPa07pf3ouuN7tUJ5qXgxeB_MRT3hswGXueHsHxaV0jsDdNrMuRghaJZEF3JGwP5nOeWUQhWxvPnUwF8BUajsTfD1cfKgeGbeJqWN44RVY2sp3XKR8fbWhZPU2XsyuN7EQ6O9GGGeKvUENMyai242Pt9a3vs0eGBGqfrW5r4ea6PtR-WVXCJTR4nUH0n-5DU-ZV5SqrmxCAoaD7XXyVxGhWxQh6DqsTwz0TeQ-s07kZVh-7L7PwXikU8Oz8NYCqmxgmhqCZuggaXByn-gm7J0usdTvnCcCaRWQ195ofEcDq63dcr0Y21rLed3OZYdObN1PVKTY=w735-h951-no" />
+
+</div>
+<h1 id="generating-and-mapping-kernel-densities">Generating and Mapping Kernel Densities</h1>
+<p>Go back to crimestat, now we will be estimating a smooth kernel density estimate of the point pattern. Before moving on make sure to un-toggle the Mode option. (If you don’t do this, when you hit Compute again - for any procedure - it will recalculate the Mode file.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GOrfvstMLvLGEF5LJYnXjKalbsHzPYUuu41UQ6HmVMFeZdKN2VATsTP-L7xMVyzMytn5DRZiE0x0ZQO9eELtMyORYOGLIDzqw5NNAP470bEIDTWtl18kRbYI12Ur3BF8rxgHbfhewo2gkuWau83yQUNYJ0EBsVMWQ4gK-kk0QKMuFiawqcD0TWobEjc-Td_htJmBbkKkCwJw4XFYHO7bod_g_TPSEze_DWVwRTja1lWr8EAOi4Z5jq6VFW6dL77OWsMBo7Ts_F1g3uUiAJmp63EggNhWbtyC9vCvL1WljSjYJaUEj4tgRU7F1AV8etDVQd1lvt1LTJVP-xME1rCP6KF4xFcPZZlD7NC5ww8Dngb1Dy_Od24lm_w84xu2QQLEsp_n6eWCF3hrfJvXX0x8LGxSnQx9Wv2Zj_VKETw3axMArU5Dgvz6QISoByNFmDGtt1x9EOLwTTJZdSTYLjQ21llCZbwhcNhtza-ZmlDGomvuQq44zPDVkRZCJ0rWtb8lPhf_4Rmp55srvX-y3vMjK9_09PspH7OJnjOjgdPIBYQj0EhQ7MuTa8SAWtwQ0ZTDq9IKwuXEr65EnNIPW1I5W1Tpvpn0OTo9L9bb3FxeyBIc8VmWTCf_=w664-h602-no" />
+
+</div>
+<p>Now navigate to the big tab <em>Spatial Modeling I</em>, and the little tab <em>Interpolation I</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RocIKrDc19NDcrBvjo-j4RtKtrLcax2dto7kBkD7wcEj4EQAUOrNVU11nKFnbSHUTZiJbAvckkIVAh_2OtzuusVYsnU4nv7svygvGlIym_0ZFk7FR9cCyYMeJ6dNyb0mnQv37MbGEAWcQcuNmHFmzMoKXLVhdtFn0wzWIgv0CWZ-qWaO5RD42mS2f_KkX1VVemEKICNitANiK6EcTnhSDfIZbZ4rsMd9Q-oNVqZ9rptdmYGRiqfrNwfV0p7aD-M0Q3mCr6Jit0g3VYefOEBhhZAZsXSKZQOdOV5M2VPCd_lJJrCViV_SRFa5azEaGXD2C-5MYeDkFmLK_dFZAqJP_niqsgqb51YG8LS6Yy1ki0Bl8hhy1NqKK7Jx7SQTT4AzCCi5B1MsJdZJfcaS9XWp1l-a9tJucpqSZKZJhIw7D0Dmcy2QAwqTMW4dzeajC_1oLmmwYtVVcrL9AWnb2fq1V-HdfTXZ4S2nAx031jqk7-bdlW5nTR3DD1fkTymwAV-Vbq6mW5YxOOHB9Vga5QWBIyLsC7JVUUQlDlioEG3o6xaByNCnxgRgvPj94eQTGCCuBQuhfRKKfvphPET6tHaITfH3kgunWVpef_awIGD6LdGsC3SvEAT4=w664-h602-no" />
+
+</div>
+<p>Click the <em>Single</em> Kernel density estimate button, and then the dropdowns below will turn on so you can manipulate them.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/akLfxFTgVKhtxDjk_hNC_RPloGi3W6BexmJ9_PEqAdXdEUZwWqMSTLjAFcHrgpVMC2D5lPk-uZ6elXYPtjDY0PY7jv0_aYi23SmKalxaxVAgOiA8WQOsiJnChWB2vQB18M9Kb0LnM0jJ63WLATjy1YVk2fDcyJlS6GnULUX9_m34z3N6XH7yWBTO1Zt7FHw7JIbINO2VwF3G6JLWIqtRqzBBJMyOTf1lFCswmPR-9084VXXV8X1oug3FRQtyo9bDEML_fMtBoS2b671GpHiCI4eMarjV-tm2gdOqv1aGJYhLUmprBxaCbaIJlx3XobZaN0AaRok2WVO38YxdeFGwS7uWctQdp8GxItNMY98TVwdsQNgvcQBVGXDgbykI0QIEPM_-KsSDReATF66P-CmIY_b5Jv6Gax05V3GB19OYHpk25n6g-TX8fIztH5qpbpgPUb_BcXPK1vgMImZX07F0yXE4irZpobhAkquoDPLfAIjJGZL_FzbqrgIGnf_kXGoRbl0WcfpKfkewIHQQ_1v_NBrlMUUx6rL-QTrzjxyNlcUYl6XN_e2BDCDw4LHBO5gvVbkzJJfxnfL4ytHbwrtn8varcmG15TUT7RkMXuIQv7vYNhmI1h_-=w664-h602-no" />
+
+</div>
+<p>Now these options change how the kernel density is calculated. To explain what a kernel density is - imagine that each crime point is a ball of playdough. In a normal map, you cannot see when the balls are repeatedly stacked directly on top of one another with your birds eye view.</p>
+<p>So what the kernel density estimate (KDE) does is smooths those little balls into mounds. Then we do this for every crime, and what we then show in the map is the <em>thickness</em> of all those overlapping mounds of playdough. Places that have many crimes nearby one another will have many mounds of playdough overlapping, and so will have thicker, e.g. more dense, and will be shown as darker colors typically in KDE maps.</p>
+<p>The options below specify how exactly the little mounds of playdough are smoothed out, and then how the thickness of the playdough is measured.</p>
+<p>As a brief ado about them:</p>
+<ul>
+<li><em>Method of interpolation</em>: In my playdough analogy, this dictates the shape of the mound. E.g. it can be like a triangle, or like a flat disc (uniform). Normal, quartic, and exponential all look like smooth hills, but each has different slopes for how steep the hill is. This choice matters very little compared to the bandwidth – I typically just stick with the default Normal, although any except uniform would typically result in the same general patterns.</li>
+<li><em>Choice of Bandwidth</em>: In the playdough analogy, this corresponds to how far to smooth the ball out. The default is an adaptive bandwidth, which means you find the distance to the N nearest neighbors, and spread the mound out over that radius. I pretty much always change this to a fixed radius, typically around 300 to 500 meters. The smaller the bandwidth, the more hilly the map will be, as the mounds will not overlap except when they occur at the exact same location. If the bandwidth is too large, it will smooth the map into one giant hot spot.</li>
+<li><em>Area units: Points per</em>: <strong>This only matters if you specific Relative Densities in the next option. I typically do not use relative densities - so this does not matter.</strong> This specifies how to measure the thickness of the playdough. Basically you will export a thickness measure to every grid cell over the city. You can imagine as a ratio of <code>thickness/area</code>. It is hard to compare maps that have grid cells of different areas, so to make it easier to interpret, sometimes people normalize the estimates to be per some standard area, like a square kilometer. So if the thickness ends up being 2 crimes, and your grid cells are 50 square meters, the measure would be <code>2/(50*50)</code>. To normalize this to a square kilometer, you would multiple by <code>1000*1000</code>, which ends up being <code>800</code> crimes. This is useful if you plan to compare to other peoples kernel density estimates, say a KDE in Albany, as it does not matter what the end size of the grid cells are. If you want to compare to other KDE’s with different grid cell sizes it is much harder to use absolute densities or percentages.</li>
+<li><em>Output units</em>: There are three options, absolute, relative and probabilities. For absolute the grid cells all add up the total number of crimes in the sample. For probabilities, the grid cells all add up to 1. For relative, it is the absolute densities divided by the area and multiplied by a constant as mentioned above to make them comparable. I typically use Probabilities, as it makes different samples using the same grid comparable. All three options will produce the same shape of the KDE, it is just what the units mean exactly.</li>
+</ul>
+<p>To continue on, fill in the options like I have below. It would be reasonable to use Absolute densities here, comparing robberies directly between the two years (there are 110 in the 2014 sample and 142 in the 2015 sample). But if you are say comparing robberies to burglaries probabilities would likely make more sense.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9UYIA93zpk5FEjI_fnwUKa-AefPfZ_sHVpp0E1Uel02b1qGMMDYAB9Q05UXzSFhvLts8hLm9fep-IRgyGqb3fTK0J5jzhubQx3nIABZ2pP2LwKXCImDpbzauGpV1npoo6OexBczUoSwQYA2iW6cPJSyHQnVYHr9pOXxPiN6x90K-rGJMpY0mfqdqyZfl2XLKkd98jeere1eb885gtV4jilVMGBe5OSWuM_JBRd02S73psTAyLOeVbbEIEZKOHiz8U2zukCN9u9dioGED-dGuS9ZNuk8q1Vhp0Cg1q0CLUoJO4FmcN9v9yK_Brn5ytTPtV2w3fsFT48B-dhHp_4sNc4vAA3XKs7USVQZPSamvTwE81EZC9zGiMndjTsEYNtp41PF3poer4MSdthUrhoJmIu1rmku9Xdgmn_yDWrObL1RJBj2nLMdn9ODBpfFpn9qOJXMwkCz2PlMvDhGmT3lKygkxWkVdbmY-ITfxLEYZHdNVjMJgSc704P4Xdi_eoHy9jFUUtPuSTLwN4W7Y3Z0rK8b5yMduI0WWvgjb5VLYlyOlqCfmZ-_3EXrGNuz48f1Dc_vLrg4LL5v6I_KC-pgTQJ4lU2ZyYbZDlb733bT9mb3AGuaz8S1G=w664-h602-no" />
+
+</div>
+<p>Now click on the <em>Save Results To</em> button to specify where we are going to save the kernel density estimate. Here I choose the ASCII grid format, and name the file <code>Rob14_300met</code>, so later I know it is the year 2014 and the 300 meter bandwidth version.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CazDiiguGWZWb3e4sRS0K_hSvGPS6lSBbi5diGjebi1_SjEWZ7Oy2-qYA0Yg43mbsQ2a9qF7k7C_m0dahMDu7x8Rjy3qzchjvArT0kkaGS60JSbU7xwZpTkYHDLOcrEI4St2c0_un_uKPYqmPW2UAL6kpniDDk-Fl-3aIHE8xdgm8oPK3N_m-WpVCg8Dj-qHzM6zxBE8XZfDUJKmapwgNerRPMFl8vMqS3movnMltRgoHmWTYf063EWcmpvMKpbDF9UdR6kK0SisL2c5zhokffv-Pho-Vdpx49LQc0aLPPGu4ibcZhLQz-S7DcX2i4c43y0qJeMCc8BokU0qmlTA5RxzibH7fubEBRer6CYbTUVXOzIrh1edVAC1Jp6voyxlfZUe5vqXByavAQnZl4PWR210USqfK8ZXtth4g6-eJZTJrlxWDXtbzwYd22i9UeX4wfZ8z59mHM3ZGcHL4NcmPnbIUlTT1OFPZOe2eDfdUwG6yIlx-1-Y20OXPOL-cLfd5oaX5cX6LZwFc8vmAeZt5qIV7S7uV4UCKRJtJNk5gzCibcWWyG4Ym6O3YZtYkg2VLZMKcSvYe1EM8fT5awz65xijnbmyG-1fcHanU-8PTB5vc2cSBN-F=w513-h472-no" />
+
+</div>
+<p>Then click OK, and you will be back at the prior screen. Now click the <em>Compute</em> button and a summary computation screen will pop up. If you scroll down and see that numbers are populated in the probabilities part you know it worked out. If these are all zeroes something somewhere messed up. My two most common errors are not specifying the background grid properly, or having problems exporting the data correctly.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dS3esFIvP6O1LOd4ILXL3ZhuKHkjv7EYu60hH_EoqkK087v46IeeCBWpysud3n5iu9SnFCvn5pvycDpd13SjQUwEia2Pg5u7kvscvby1MwxJ4t4kU6BialrwxhDZdPp2QE0Yp6gOhSWNSqXFkJcP5nntv6Z59XCZqtIlQWxXvcVHGBk_UJ_72LCjY6WlJuO0ZzklqGMFi8AfPb5qD116GU_gZjj-ui7msk1Rsjd3hIVFzcDSZIWie7Fj4gBwcxWtkdRFrF-BSz2NmjfiO85RsqBCwLinqTyzD_I_VXfiI663BVTmZyXp3qBzsikWbZ8HCn5M00GSss9i0cl8_q2EnZvSE3d5HxqN-q1LoZM0OJyBqmE6JCbH74lyiA4QU1pZ4qu7m79I81eFtCi3LFUmOHC_8DSAJW1_XoW81Sal6_0eMzXk9UWlMgma4RHf403-Ynje5BQ_wZRBL2OrxTLq0ZNxc2Hb1qMeoleHqrpZG-QqZlvafZHdpf4FtNTaDCpkLXZot-kywC9_nXnDPJnHqraiAdAsET-KKHZuyCzsgPyc8Y5idE35yWpHp-NIZy3MedU8dJ2RL0jS1lQ9hPy4VUXrgL237nuh2kR3nDWJZ4BdLV3PmnPX=w784-h495-no" />
+
+</div>
+<p>Now we can import the grid into ArcMap and visualize it. Before doing that though, close out the computation summary window and go back to CrimeStat. Then click off the <em>Single</em> button. The reason for this is if you go and do some other computations in CrimeStat, if you don’t unclick that button it will redo the same procedure, and will overwrite the same file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CdlkA1Ne_M767gvlktRpoCxxbgRgf-jK12zhF9FUa2BIKde7r_2X5MUTtvbysrNV4JFneiA2iXhzOsZaHcsvHDQT-b19WDPdhbkIFOvLZXxy8l4trnnG3iuHErcAgB6Dq8W3WwcFCI36ZjIxCk0tLnzf643_1UyqQhpV7bYWM6ojpWtHURTL6RvHMUnJvb_BwNxsTaQEdcO3XyUEpX0nDnHdhDTpeF7ExbD0HaS2MUNJ26roNJmvVD10BXFQWeiNHAUj0Pk3mvVS39jDezT4ahSvjejdIG_DVfsU3sHnzDVj867j6X6UxV-J0U4_rguwOvrBKD7HqrfqaBK8WytmlZ0A9kUbyDnQZghBU7iPvWC_D5a4h1i52zF9eh276BopJV6h31itPXj_JprYDe51oEIhIAjuarwz-aYvMZnckB2H6cz-VVn_qRwieSZ-X9EXfFHqVnOKRW61o-URbr1pI5N9YH43SQqSwvsN-cMA84YatC0JXhtlcJntW7Zrh4wOAbUz7b5ooirR0D9LAwu1GicEtUPdw97fZGYscxBqkCQjYmWh3OJzIeCN4QEPQ9AJkReCVx2zuBtvoQd1HlvV3vKmrGiTpena_21piZmv0Tsl1us2frjP=w664-h602-no" />
+
+</div>
+<p>Now we can open ArcMap and make a nice map of the kernel density. You add the KDE to ArcGIS the same you do any layer, click the + button and import the <code>grd</code> file we just made (you will get a warning about the projection - ignore it and click ok). Then zoom back out so you can see the entire city of Troy, and toggle off the Robbery point pattern. Here is what my default looks like. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iAvoJlkcwOGh1dtNGHUk8dk-MLhMdByQQh_6dtcDtcX_QC-4gw46kgtL2GcvdD_DdCwH2j8-25NGX5iilSxOXFDpKX5QQC_PXhFElQcMkceAWZhuwP7M-IHjzM5crmIhYSlBTTBFINv9g5cCX1KVB7sH3LHCXJ60C-OcyJO2zOQzyT8U19LAEiyRkDIZKK0PAaaGrhBdJVeblDVyRkYWXXHL14b741W5IF06zyPHbEp3qNg6HOo2MlObhlIY5KaJbYM-7LhhFxpTA8aJVw7p3PV4BBJKjhR3cYBGaIg2_razLh3eAnrrXhJ3ug16UfB8-wkWQi9C6rVWfgIwLrzaIHjOeNSx39DStF5pyKZRPcXlKzaRyfrHyxbC2dt3jic6Z81W0e-bBuoJA9D36RvjCWBUbDVKTihbjMdm4zebi9r1kzQ-yR9_KQZKiAp65WwnwZo4dEUSss1hBNrOtE7YvtNHfuLDk5vQ6fp-79CfN9Q9r5CvT6NvzKKCc7zpJryXbMyMgVOlJiGVSB-6P6zU7m2gMFSVfKdvizHUpLJCL-6oerkEg_3H1zPmLXcQC2O6sUFt2Pe9ruEjTEFDuOGT9R2Exwqqk0xcgIXa1EQjPjFMY9b3zu_S=w1250-h826-no" />
+
+</div>
+<p>The default map looks ugly, so we will work on making it look nicer. Right click on the layer in the table of contents, and then click properties. Go to the <em>Symbology</em> tab, and then click <em>Classified</em>. In ArcGIS <strong>V10</strong> this causes an error.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ekz0YqEBO4bE-3Xvtj6GYjXPzcTVoL1_PJTE9zV3wZOmE5X2Ls1KTZ9L9p3KV1d5tgkpL5_uKeaYF_H4DjvRVN__HulCHqbF2eq2h3be8Bm1IqepIhC7Za9bYPvPMeFKoX7dgpVljrygk7oxy_sf-GBJEuOb62rJGZdjodvPY5wjOJQzMJ2RIl8w_LCepoB3ey190huyOYqLZXUZjW1m7T-Q5Ii7sdoI59lv3-VzoouozF-cRQf9bOD11EPJ7u1ESc9jAXkhO01mFBAvkrMEOhw9BUK9CXaK7hCIRVMgtyvTkezNjN9zeRa_64RGCyXmknG4419JttsvxpIT7ov_8AP-CpmCcdd2BjRF0kQunNhFe4ZKxRP3bzaiXQ4j38nFXai8Rq2ooa7cRla1hSLdvoym-T_6J07Xe6M__4jr06IvKFG9deN9doEgahTJiHw2qyerVxcP8ZhvYLJSCAkIIiHUMTV2Z6VzERO59AM2eD9MhwtHKHmeOzhBx48PNyWdI1weP6sNOsAg5RGpdBS2N8L_xnTleYMQYPUuBFTc0MXh0egg_CR16F5iEHtjkWuflouRE3moh90SjQU_L7-8BJ1I3zl4xg4h1qUqqeI2Dzi-xx5Kw-YO=w638-h491-no" />
+
+</div>
+<p>Before we move on, we need to calculate statistics for the raster dataset. (Older versions it did this step for you automatically, it may do this automatically for you in the current V10.4.) In the toolbar click the Red Toolbox icon (highlighted) and this opens up a large set of commands in what is called ArcToolbox. Navigate to Data Management -&gt; Raster -&gt; Raster Properties, and then double click on Calculate Statistics.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pVx2YBkEpd4q2au30D9ntEBMlI4qQOtinH_FaIq232l1637eK_gF4eqVFIwswMkFKcULR5jznufVOp2hfJq7W8ooPc04_Cex0bUlwmbbYkQroh6PzpXxsADDLWhxxs1ivkOw2KAQwtdNBq-PCC6Isps2TUMpxYNKE5R82oHEh324VBD5-2mHi2FK2t9nTGXOM0lNwYhbpTzl3xJQEq9YJlkH3Cd_rI-Pekv0MmVb8QhhLEfMZKt0jHE_MnANFA5i1lvbX9boBK98Mzbmoyt1t1omPN0cfgsbAOk0OF8vxghEXgtPxONxtv2nab26dbYA1_0equDV-6UzzbLCqok0UfKZjtT9TsISAKJPCL5O0A8rLCJe03pSSVcPV3nfZgIkZJLg9fVKeEsJfyOgRyZHFqfO4WtOJQjRSFMH_VCoPT8jOCVIX9vbrf0oEpAR8DtOHMAwvB3mRI69EwMXpugXfDTHEldVa3lcncCYjXF8Anc3fV2EN_TMYBWFrpMEUBluL8k8dGusItlbvuB28SotpKsnlOMO9oFOeoXRcV9x2TLorsHCbEkkQO4pWrxZBc62Cf1aqaOFXEYVtq2M1xbLCfgJqGltNIQkP3SzfRHW4UNbSzbnIlY7=w1091-h856-no" />
+
+</div>
+<p>In the dialog that pops up, populate the Input Raster Dataset field with the raster grid we are working with, and then press OK. (No other options are needed.) It will take a few seconds to compute. <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YfVp0CX2cu5RlMHxJQGQCCIVyfis4rA2Ai31EiNznMswP9BkIuKoWNNgiizjAZlO2nHhLbXd36qt5xDh0k9P7h9X6yfcfSNfYWVSXRSfCPi0MwURBsxJd0XPURPzDiCk0ovAfyTIFoLK5b7coXgrHsVvxn3xTHjmMP1-5JaLg21JAz7ouDd0Oe7tVgETTAP5U87tC-S6ncNQJ0S5Wi-8ZLlgedJSojN3cUQbOVb7h98RyJ3H4eKpP5U2mCBJiMkutPiIrswAa2G6JxRwtvH6n9qMkEGSWytadf9kJh_dIb4Alh4kInY7VtqEiUs6mB1v-0YGeh4aYpb023ELJxWb3Ysbl_47lFlFI7b-s7kSDNr-rLyDeZeMJKE7vzyxtewzzYeRWsj-stSxBXDR3U5aRLPrYbZLmWVlYunbgAP1eeTEnzLrhwjJrhs6gMswPtq19lYOQOSre21pwwZABDltGGhzahB8zFKSXmfqe2dtOiQskUvfdhNwvRURETUaWfwwmkVgrvvjEg8-SL4X6WQ1hB3QZfaJyzRrxaSnxjevo7TAdYQWLvKNYRQycbAb18jByDugg4L0QJjOxtWmrVbzZokKdfmeDxm0FltNkXgRmNCArQ6y3QfB=w1195-h652-no" />
+
+</div>
+<p>Close out the ArcToolbox window, and then you can go back to the properties for the kernel density estimate to change the colors. Now in the Layer properties, select 4 classes, and in the Color Ramp dropdown select the second option (light to dark purple).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LGii1K2YS2364_EKzbWZVJSjKBrOL-ZbkboeVLFbxoaQ6L_Goy3Em5ankiDpf2SbyoABnFvh68Y-7J6HAi3JP_vTXKBe0U1UnAyMpbXkMN-Wb12UTacV8GvMfzr-FFl96d6QUnOjG-PYrshCdr9rwYGYFb-dajE4i7Bxohc-VXNwakpp91LgSB8YHrQCXO6W5UadnXQxeSG17DqV5w19Ho2xtAWHVlUZp6qif6z7HSbFo8Gb-u7Jmm33m6-3BDP5_6E0ALbELiS3u25kCNQ6gvXvuQvEr4EkHk1uegRmc8NZsxt5sqrnXBdgQt-G5ZAdmOIgJpVqrO0DDFWzXuYs339VS0Bp1mAdqjft6t05m6awJc2GAzvdJeRQBR7fBzgfdfBZ5VBojkbxXZe27TEWOCixJuX-xXc4hqL1pe4RJE-q-L5daqWhUhtD19MbrA-KS4jJCMKo3A2_-YZBGlI0nT3_RvKy3OUH4qgXQJfdzcXzG4K6KAk9lewcJnCdhx8BQ_7eLCxkkepkRVXNJ1Hq5wui3gZiO-2yLU7dS-NAStF_s1drsVFNgeXOEQ2tcNxglJxCgKLcjJQtXgNvWxpAL730WtTKaeCx4ucqV3-u_WYW9wRgeYuQ=w626-h480-no" />
+
+</div>
+<p>Now we are going to format the labels as percentages that sum to 100%. Click the table header for Format labels, and then in the dialog that pops up, select Percentage and then the option <code>The number represents a fraction...</code>. Then click the Numeric Options dialog.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3NoJBSz7rJpdmm3HUmUJSdkKom8ro8WoXliewiZXZSXCakQA16y_jgnM0EnkQV2RPevdimBp7mb9EdQ6urYiRavofBZHy38XVhRuCwri-52DLZMF0DYxqHsNtCnsm7DDXxmDmskCsByeWuFy9gtnlxrPfocQVX23n7ecLoftIhtEFOMQC8HLusYotfRHkrYk6lLNl7VoawtVqjRaS94HD25eMamRS77qXqz_fN7Cj8KiEgs7fZH7o_PYQyHR5wlhrXLP57IK8fWkAOUVKQG2Stmjelf-F9Xwt03MY4ml3_zqsk4m8wFbF6MgA5k7EF8ptmpDna2rb1-mH3CWWJPKCgKHKVV-GhT585-7AdO11-SXbZG8-qaHyrJ8yl3NOx-Bl9trieKFSNv1zgXNkd4cTBwZiGOcpIcuyVdtpV7MpvRLiyb9IgbOSyXV45ErciCI3ZTUYqfw1tUPVZsPumy2KcMO4chDn6rwUfM94saRuG3dwLUNdLnzx-JFBqHs9YzNA0IilStasoxV3RTHPjkkfUtGr72EuI8w7-3Hp_FQ4TgIQIeU8wpCZUM8GL-Z1ciA2QUjad0IDO3P3b5P-qGqelNfV10QMcntddhgG6ETEC5tY4F-86U0=w1016-h501-no" />
+
+</div>
+<p>Select the number of decimal places to be 3, and then click ok. Same as choropleth maps, where to make the breaks and how to do the colors is arbitrary. My guiding principal is I don’t want the whole map to be a hot spot - I want to focus on the very worst locations. Here I change the breaks to be nice guidelines as 0.01%, 0.02% etc. (shown last week in the classify dialog), and for the lowest color swath change it to be no color. After hitting apply here is what my breaks and map look like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Ur3NoallwfOSmbRyCRGbidNdSs3g5orMuWBofJvUd_lb9d4ieQVuqiSTiNPcedGWYZynU83B_utx9byQcGTdF3XPBJtcoUlzRtBjAGSA6fNm3FbIDIbd6ndUoaV_iBdYtD1EtkmNTepZKhLVvxNcWnWxkQQ-qUBTWqpRWkCt4F4aVpinT1Rs9gvfbxrJ8SbetQ6JZtSbTSYt0XzlVr92f_Q47ePfjzk1Z5buQcsrvDvuNwO-D1TuiOF0EU_BI8Ta-Lu_T3X-sC7fR4e_PSmt6UJO-RQ5QhwBSIztidDdVVuNYIBz3UO-wcy-hyjY7xqAbI5r4uuyzDyluoLH1ujhLNDwQ5iDWP1bhkvt77p-mVqaU64MebKaV2GrBINfM3I52Mo-woJlub5bTjr_S9k9Qm5C2yF7J-oeGEQtOG8YPWetrKrEgpn3M5QM0hjk1LEbdZgRIKIcABfMXdIU075-52Zfa5LT8GoCbvaV1nsbTkv_gTI-36qfxx-KD7VXaAAafyaIrpJdA21h_ALA4RmdVI36p9yDmaSnuhyICbSumc_5Pps5GIay7jsO5MlHkJFQ3ofxZ82RVx6cRUMAbwGk1B--bcikrBTSFa6TlA8aP8Uqitcd3auC=w1153-h805-no" />
+
+</div>
+<p>For the last part, we are going to make the KDE semi-transparent, so we can see the layers underneath it. Go to the display tab, and in the transparency box input 30.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wv2q5CRbBzMHfRkaWGM8GwFQ72a59oc3tdku4TDNA49AmKNa33ptj4MBf_QioJmBv5Sm54_1z_a-AA7pnal9ddngrlEO-JA8H6RZUPvkGN53Kz8QKFyqRoqWsEevgPbetKhtJdePS5z-rHuTX-gi1KTKY7xTZhI2HfmKHZJ0EPgK2AHJ6bN8IO74LKoQlRflnGk-6I1QH6keva78PsSSYbtwWXKmgCJZB3YmwzgnnrJ-oRGKxxP3UV4OVNZWwVWpy0654REJPwnqaESE5scTXhPx7mn6RhiQMzhnsL-iphsVZG5ql58M4USHigRMCpLTblud0XCoA3FVPkpLDJfaotLIPMuALGDq0_ff-iefmoR9AcGs-3Gl3yawGFpjXZQINkP4r3QJiBwfwj5HQLl-NxptW_sx1tXOwL9FKOJGfBw3oynYlQr2XJ81U8WnqPTQziviFe5OrAloDp4IpBVLls2YemM5QXMhnzT7FPHtIS7BOqrYb5IY4GXIdVQsvvOETz698SiEY-FRQvkFvwWmEQxUdP1FsTkWHM3lGaUvM91FeCUyhU2vA7PxwHiXQwWFPvsMoanx5KgRTufXalkbNKEsw4nUvfRwYX4VJBw0wyrLw-oi514O=w626-h480-no" />
+
+</div>
+<p>Now you have your kernel density estimate and we can move onto making a nice map. In the layout view, add a scale. Also add a footnote describing how the KDE has calculated, which should include the bandwidth, kernel used, and the size of the raster cells. (When using relative densities the size of the grid cell does not matter, but when using absolute and percentages it does, so that is essential information in this example.) Finally add a legend that includes the kernel density estimate and the Troy outline. Place the Troy outline in a second column.</p>
+<p>After those steps, your map should look sometime like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Jbaho1GJykh2W63fYSpA5GwjEkgKcMSMJkI0C03VFcUSz7A2blgEjeOKekhcz4ivfZqsj1pWpg=w327-h423-no" />
+
+</div>
+<p>Next I want you to add a border to the outside of the legend. Double click on the legend area, and this brings up the <em>Legend Properties</em> box, and then select the <em>Frame</em> tab. In the dropdown for the border select the 1.5 width. The Legend Properties Screen should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SkOXpSIUJowA8RqNCSlBb1vyKFAEEeBamkLuDNFbDy6_PS-eoJhOqJllJw8386uNyYQZ3AChZDnMw1mkjxMy32xbX4xbbOOriJ_xAraOUjgvDPz97TdDy6AxfffnaOxCBad2ifhutSDJZ51peYpeXKUbvjGS4EOL2mm5Z9oCNvp0PKZLm0H0S_mQxi7YmHfHACUiDxK-whg6F8t_5VKYZ6cIyS2FVpHSph4AvAVd81rjVfCTuoS2sG_-BE6UDr93dB8pLeGZOMLd6g37EGR4NP29Oh0pkwAMRAJ_NptyySiYfkxCnPCq9PJ544j_YNMginNX7blFVAfjQB2DKMiOkO-GvVMfukME9474TQwuAlmajFErKfEsu3GQ9jO0AczJK6IHOwbvx4uPKgpNtPcNcN5xpgvv_uphCkkY6YLhbrsuTgq0E52X_Le-0sCN39tkT_gY_5nU_1PZavxFg6SiinT9L8zdY-8HEc56FhbBOQY5KxICOioIzNnBbc7dzwghslPXm8Oq7pH1_y6r30afgE5eCUfv_iTm2uszw1cLfIJB5YegiGeDq5VXQBulEXFTCv2kEthbDSM87spRrjtwh48xpUdPn0wke_AMxRD-on2KfAbe=w623-h524-no" />
+
+</div>
+<p>Hit the apply button, and then look at the legend. You should notice a problem with the legend border – it overlaps the Troy outline, and butts up against the kernel density estimate swaths as well.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9HGBw3LGjDBJD9qqFI3_w8JzvuEVblk6SBX-DwbwFaTm5hoGAI7hUjwGPm3N-CddbBXddmgX8obqj55mdmi26vMxId5zWGXWRcyuCo7f_KaJ0wno_umU8ttDTB5AF3OZRC2qV8_oTI0MHdoHnDZ9yGbSUykYTTWlyuTAhmFEknb0sMz4TdoQ7CG4a4dDZzvQpQHXQJw-6iFVieBxsO80tdVAE5WJ8fk-d3SUZ_Btmefc9vKIOJclrttUDE7lFop5GA3JOtZv8th9Ue1qBRnOynDYRZxZHCnqX08KssDHhI-40CbOAlslt8k4NDIGeWVsaPLzCLHmden4336UvNZxa48ozsCq4U1nEdG6Nb-aRkpdiV60bLLD8Uo8QSzX6_1AZZxAl-dcgyZ4dAqSJBcl6o94iV7HFjD7fMGiKezDHAf43bF73clI3keAEF-iCKoNUnWSfpJeP8Khm6mIj38WBXlOwo94DLTHTztHwXIOSJ5Oln81NlBtHhmrYBsKlOcvBsQltdYVO6aBGv0sqHVTngoy9XM2fn8R80lLPLxy6GWDjYxDH0u0A28gPxoTvBwHisRAwWZX35k_4zvtDGKUmtl440WOhsqeGHU0jv6I2A1rwEN72I97=w781-h323-no" />
+
+</div>
+<p>To fix this, go back to the Legend Properties screen. Below the border, set the Gap for X and Y to be 8, then hit apply. You can see now that the border has been expanded so it is not overlapping several of the parts of the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OsfeheGhzK6DHKB5ChO0rThczRI7wCpsUOOaMaPnxNLJjkNHdUbfWUt-GKQ90SOV2R0SLyIgvgGHnUg5TBM4Zb35CsXhPJdfblqt8NzJEBlLJC8SeH81fYUyZy0IqcvaBT6U8TI3-LN1_3gi71Rdu40l5_qr5q6PAwjVWDizi2NlHbH1GvwLSHCgy-YykyNsYV9J821NAlBQR7Jahu-M_98G9KG98i12KpI4BYlzCKXOUAnGzcM3iT_2oq9XsJuKOmT8omCye6Uylf5GD9gQWsMC763SFKg6Hyh2u_g4bSlF861AIQhdlSs6KFIhLrHeSK5wwFK98BR1gdLp0yVmQUbf5rpUW4XuF0N3zS-GGe8tJ-mIajGMuiQsGsPEdUnEBxBCH5VDufV9ABZm_Gy4aMBkcqSV6kNlqUc1k2yw1PZNZrdzE4D3jj7Kekqgi4rxEIIyVC-eyT4zy3sam4ZeWEwmuggcok2CtxhLzNTlkx5GHot7oZEoUDZ0IeRP6UT-K-181rc8yWdqGsWVeHn-sMKmtybwzwhxftdmiRwuT_4v14YihsDxntQwK8oXmGyJJJ73or461ivszvmOQ9qwXsffI6IcZ5Z37AlxQSqvEaAUkWFB=w1440-h596-no" />
+
+</div>
+<p>Probably the item students get the most points taken off for graded maps during the course are not editing the legend properly. Take care when doing this, as it makes your map look much more professional.</p>
+<h1 id="stac-hotspots-in-crimestat">STAC Hotspots in CrimeStat</h1>
+<p>What follows is a tutorial on how to create arbitrary hot spot areas using one tool in CrimeStat, STAC. STAC stands for spatial and temporal analysis of crime - although this is a bit misleading, as it does not take time into account. The STAC procedure is what is called a spatial scan statistic (there is another popular called SatScan, I provide some notes on that at the end of next weeks tutorial). There are other clustering tools (I discussed k-means and hierarchical clustering in the lecture notes), but in my experience STAC provides the most reasonable output. It also has a simulation procedure to determine whether the hot spots would not be simply found by chance, which the other procedures do not.</p>
+<p>First I am going to show you how to figure out the necessary bounding box though you need to use CrimeStat. Second I will show you how to calculate hot spot polygons in CrimeStat.</p>
+<h2 id="figuring-out-the-bounding-box-for-crimestat">Figuring out the bounding box for CrimeStat</h2>
+<p>In the tutorial on point pattern analysis I showed you how to calculate a kernel density map using CrimeStat. To do this, you needed to import the bounding box you wanted CrimeStat to calculate the data for though – how do you figure that out for yourself?</p>
+<p>Start a new mxd document, then import the polygon that is the outline for Philadephia, City_Limits_Proj.shp. My screen shot does not show my mouse, but the coordinates listed in the lower right corner of the map correspond to where the mouse is currently hovered over the map (those particular coordinates are somewhere within Philadelphia).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RDMpdydoSYbqwgNzzA7_F2-ZBmnOgP6aU863bx1515MFH2tLzfjcWTiMO2FnWg_2y_9wJtnPViPAeSEbqTcAYO9hfEa-RLvKmDf8YxcSPOyKt3YGKPkzawfawO5oQV-muRLo-euBNmMFzzl3hDbdPJ8ijwcFE3tW37GGapBATzLSOwZBLFfATDHtDN5sR9YLGpJXhYkXg8kDujWcq73UVl5q3OufD405Ftfkr7uvK3gezGrPDIErzkEUBC3N_GrK__HCpcc8_cO3fyc-mfEh4OVE6crV-z0yc7kTDDZKgj8P4bfLp-Pe9GnKT3UG3hvLkC9NiLfJAxJNfQLFFhJNzyW_CQl87xEAS7LnmVhaGG5I635jwblmZa1CaTA-j6dCnRR3cfJQ2fczVThtw9AbIwJKXBvtUewJ38QtzPCisNzhZqUFK_h0EYNcOF44FS75tpkVrwQmLh5aLjCTwM7X6bQMP7O92yX64y8O3sqSUwRMumDemIxpxrHjuTed7TSHea-zfqSTJPRp3NEFd224UzDmt17OQW45D_0pi2lj0gM-n56ef4JWbqAMLobfbfDG0ohGK9TTe818hWl3j9mJevZJepM3tWUTQ4ZTxzXuMpQbc2oecCUv=w1352-h894-no" />
+
+</div>
+<p>It is simple to figure out the bounding box then - just hover your mouse over the lower left point you want the resulting study area to cover and record that number, then hover your mouse over the top right coordinate you want to cover. This gives me something like [817,000 62,000] for the lower left, and [839,000 93,000] for the upper right. Here you do not need to do this, but I will show you quickly how to change these coordinates to the ones you need in CrimeStat (say if they currently display decimal degrees, and you need the projected meters). So in the Table of Contents right click on the top most Layers icon, then select properties.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ivBzd5Qkyqzh2zHBt-Ib-fbkU5Oj8N9eAqNUgt774pnrXWwCmxn-420UPhHJQYNb6bSKEwE_NFvh1MZgs0fXxzHTvv6DCMCoTb-aBSHCx1_4lDY1MoPce387WaYSkZGYDmGAWrPiEuoTjMgKm0z2T2lx7vPHihxHcqwGr8kUWu_Nh2G-e2QyxyhT5bEDh72CaNerUGCyX6kUMRvPvLO4-55Mql5NcPbn8ZJM5lN1ONq0PKgcsIr28h8blRgV1nW8qHeqtr3UJLK9noCySkCBWsO0wUBePrBV9WoUBk07mDqS3uzTBRCeOkHGPh628pswE8xFPARidMNl2YS1ahFc5TeGekUNUZzlG6I2SOQyfZVcBvs7CLGaUOatFeiIUxFFCx54dAdj4Db3EeyLbi6QGJIaHsvX7sdoEWSq0W7s0GuANfQM7xp8a9JfI-wfwQq4drcEzNIvwDrr_hnDiqHsYlyjXEKT1FUxeSLmPSU3an8I31EpU_Q1igTTIkf_jvBbX_d0TQW1U20u2YISKT5opLkjmGXB81csDvA4zN0fIWDXfqTjTxbcEBzk73fhNq5AwHJJ6vkqiNSaI1_BvQR74rPMg68atSKMIkctpkA5t_M_-FXGWyHn=w500-h620-no" />
+
+</div>
+<p>Go to the general tab, and in the units section select the projected coordinates you want, here we just want to keep it at meters.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jq6iHCF01lwbuHG4PIJw6E-3wlX_ITJ47aDAZxXZMZB6IKxQJ8qbr1OPK5cdfire8B0Ml0Jn0kA3ocqPkA3kNXyOyIZUPwGCEMOj4ykSfCbqHy7E75AGh_vWCUhUf1dHVYgxPiVaFhpemIYVYSgm7PN6kb5kcf1lFojLY04z_CTCLpXgz9Q8ac9LUz9wxaN3584dD9d9pIRooY15PteK9jScKdPEwE9qJDbZjUPmbFMpJ_sDnz-67l1R4rBjtSOHMOB-Y09qG8oabY_1WF49IE9fHqQq_jrVOhYDotUvj0eAqRWclWe1d5IYN2f91QoS9jNdau0LK5MXuRzwqYS2Rkr2A70JmeHXEF_x-zVaw0AqMmMrAoOea_aRYSg4omHLfHLFMX0OB-ZCyrO5mbf4ks7-gZlUndJyQXkBRDKcjU0rWT-De9-ii-4gw7ryffuG2U_SkUslcqL38SB9auPvT_3vHJmVTm1mezQKw4OnRwCJs_5Jx9mF4W7_iDKYZnuK0Ex1ndBY2gS9AQfKm9ENrIHZWGJpgfg4A7rpqABWIDA2AW85tFTj7N2y0W5tcMjvv1h5wvZwO96nZioVLe8hObphvMj8ZOQ8ypdq5bP_7tiaJUxBlaPa=w522-h648-no" />
+
+</div>
+<p>Note if your map is currently not projected it may not let you choose any reference system besides decimal degrees. See the tutorial on Map Aesthetics on how to change the overall projection the entire map is in.</p>
+<p>Pro-tip: Another way to figure out the appropriate bounding box is to select a polygon that covers you area - here the outline of Philadelphia, and then right click and go to properties and then go to the source tab. It gives the bounding box of the coordinates on this tab - which you can my chosen coordinates by hand are just slightly rounded up or down from those coordinates.</p>
+<h2 id="estimating-stac-hot-spots">Estimating STAC hot spots</h2>
+<p>So now that we have our bounding box coordinates, we can use CrimeStat. Go ahead and open up CrimeStat, and then import the dbf file from the “PhilShootings_LatLon” shapefile. Select the XMeters and YMeters for the X and Y fields respectively, and set the data units to meters. This should be on the big tab Data Setup and little table Primary File. (I will show in the tutorial next week how to create such fields on your own, e.g. if you download data and it only has lat-lon, but you want the projected meters for analysis.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0SDOJ-G5Fc3BBSJzInsRfZ5qBmrQp4R8jXLhDXA61vGBNoAmIeqYVPr-Cn_XOdkzvFdQ70MGgNdbmYnYpcVqoa8m8JGyg3BlPyrp4896xImSQy1-aoIUKeKOzfTf7SKBTpQOk5AGuumyta_91yNioY6ALYQZBq340BInDpvFH8OJlpOT12S0rmL21SEUHxS5FevVJu3xbpVmPDITPh470KWEmxpjwonUWvcCJPh4PGXzqSa7JsPdXOwGQklzPhPK0Xkh-I3GBvoc4nR5H8QOLrSO1-OaEbOIQwMs9cRKJjLVd0O6lCXq08gE44BpAjEEDE3N0MAvjvJlefE9HJNki5Xikz-Lm1bbj1kWZ0hxoqgcWMNrqloqGVaiJseJuXzhv1HAAwi0xS776dkt7OhAltQUK1ofsKkw37tVY11tOnhBupcgdznzGab5HCeA7dNgsNPVgAI60XB2VoD7C0831wCoVL9gMfRYxq6m3NcdK1SmMCjMl8-hVHkjZiCFcfZfN2relZQAhKf1_tf-u_yXrUMaCyk1QA2QwQOfTOe7ngJHKeUggTh94_XboxBPZTwhb6wuvONGe4s88Biz2v_vvbyC6pVsVxdcsF7ZmZ5kv1liYVAwvdy1=w650-h596-no" />
+
+</div>
+<p>Now select the little tab Reference File (still on the big tab Data Setup). Input the lower left and upper right coordinates we just talked about. Here I also make the cell space (the size of the grid cells for kernel densities) equal to 100. Which if we were making a KDE it would make the resulting grid cell sizes 100 by 100 meters. We won’t end up using this information now though. Go ahead and save that specification as “Philly_Meter” for later use.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/FUwrsmhJoK0B4lVXtcgEJf5x-yWbxGEDx6dVmuyOGzKtwb2AHKBEL09gtI3ZIAcLoick1AnlJ4XVg0wX_cm_HRAOg11aReBFjxdLrGTD7obDQkVDw6qBLtgAXg_bC1lw2Slxs6bEyf3pHVTswwU5uGRJkMt1R59tU7ZHfQPP9DfSTw8l7SH_mqqWk7rL0Y4GGwcgSOhsZOO2lAvuCp5Tuyt85EZXIW-oMo0fz3EY2kn3te1y2QHR9AEFhbH5wi2n2PE9YSJrPHnYPSKNmu9dc6-oZ2sW9QABb-r0d8-C0nitnYLJPsdb5JmJ5VonWSdIrlnLamRG4Zv97LxuIWKngmVxA6fh0h3ZGKjVFLqCEKNN2At_wtVGv_81QOKhZOXeBguTu8gZ5Tu2qdbxj-PTuSlSQZspnVU__Sz3SkrRbN3-1GiaB3vswG0VDTxQ5ZWriUZyEcEqV1jKzGus9NFbbWKN4rMgtUkNIsKqu7ZBmr2ePiov-5yFn4ljR6aztFXlfxlaqkvaGk1jmo2XOyuo_7FNXUSLuEdCywZmzFdm9AFBo0TqScehqlICF87jT1WAD1lef4ZvWlGPehYCYTc3HrVYp7w_piXzO4_L4Vtn-QN2HXrp-0xG=w650-h596-no" />
+
+</div>
+<p>Now go to the big tab “Hot Spot Analysis”, and select the little tab “‘Hot Spot’ Analysis II”. (Please don’t perpetuate the scare quotes around hot spots – it is fine to just type hot spots or hotspots or whatever - we all know what you are talking about!) First click on the STAC option, then change the Output unit to Meters, and then click on the STAC Parameters button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yScKkw4Pw_zgUjr9jJRflqrSP2Yn2q846sN4gqtZGy7gZmj0lwJ3P33GHSP4r1893mNvrzEcDfPtmPZha2XVoUOB91zWgl9nCFdxer2kSpyJhoCGa2Ckg_ep_ISX8Yuy5D6xJPBZ8OiCw0nxw0I7BHSERjpEig8EBJ_RddBfLi-rOktYqQTU3QfYJkZQ21hnpDlBEk0QvfkVj2eJdqmxwfoIhd8NvQKG2mLsJPE6QnnZXS0Bs5W7Y186fvitLKwlDsS25lEMh-JbqApOqSOOqxbXc2QhM-Y64Jcr_t0JRF608O29KUuIFWLhampWdXTGtbRXQNnz1dWU7tMXcOELGaO2X5fQGC93jDH3FstgWMF_NfwwXobmFwBPOaxUvd6ySxE1_lhiTJJI2woyKt3k5HR6NLRI8p9t1gJbhWXfPedToxFjx70yRUhYGQ0SzR0WrdO2TmPG7grOPORQSqBpP6hTkBzvzDs1ACy-bVs2dew6eK2S78gA_MVFnDe5kOAubbPHbxtS0XVbmM3JtyF6L3MxBv7VaqJI0hz5clihKH1XgOu_JsMn9jqR0u8fOXHqacTWwS1nwimRw3q1wl6bCskZnt9eKi1d5iuLOzt1Zd7948OWBrMv=w650-h596-no" />
+
+</div>
+<p>When doing these parameters for hot spots they are ultimately arbitrary - whether for STAC or whatever clustering routine you are using. So you may need to experiment with reasonable parameters. Here I set the search radius to 1,000 meters, set the minimum number of points to return a cluster to 30, set the simulation runs to 99, the scan type to triangle, and the boundary from the reference file. So here are what my final settings look like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Kn78y-RIFIKHxrYEYO4RWmNIob9XGt5jDKNiW3vXdxZnjNHgXvvqUQwoj69MAbnm0TWF6XGfwaXTKDdwIlNXlm4VZcAZg3hI2GhPBDLPKtLZvAD7cBZEr89YdZMjUZFsUqVr92Oez8k2yG8GG7koNu8duw7N0kAUVEvswSEUqlBOIdsDpwFobmy5X70eKN8v3Vdr2QI6D6blkhph20NihoBJaQwICjS7kltoEekX-vsSqf-AOKaE9SSzR6FFbfB9sGlH2SS23Ih6UyyQEts70Blkn2GDWOzYhjtqzWNUSNeiGlnVPNuwx2Q8YO3znb2Z3qUeI_1S7GwPxOpvl2pI9wFTwoe5eDuHxK7CeSsbWj0H93phJ83KpERy2yVKPKtWPzYXkaHvHKcgIEgf6SYpQuqij1oHPcfeV3cbybafnXH8PkC5pJo0gUvEqysEeGTFmRqDVdq-suOAje0sktgKhmKdEaR_JSxaa6vREEgquqcrS0s179bTs-KPVSIWvqtujY_b9v_ZgQCavbb2kzWzgdh6Kbegwb97X_oAKvVqcNzqfGAHb_Z43n6y4py2fOkJ9GKvxjCpyAy6OXAQsWFRxeHOBlvGvve9qGUY7946QPJRBPmldWkN=w406-h285-no" />
+
+</div>
+<p>Once that is done click OK. Now we are back at the Hot Spot II little tab and the Hot Spot Analysis big tab. Now select the button Save convex hull to….. You will then get an output that should look similar to when you created your KDE. I’m going to save this as a shapefile with an informative name, “Tr_30_1000m”, so I can remember the parameters I used.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Pp1UY8CHqvy33yelDg8kG-wdbqRNWjCVXzHJsIoXJTEOB3C099_vhAfx60LJ2cOZ_G13snm8bomHegy-Kp_Iy7S_NsGURO-U751b6R2eiWsgHD8wnNAQ9QrkUs8Zqqk5OwIbWYUyXQ0nAXx9WfQthYZuGbWo1zWCg4Ck1LG1XQJXkTA24eviV62P_VtnJ6k0ozy6mKe1OYGYqkCaxTZgGXTiT-8vc2-pXddeZll8MlQRMEE061Q7dqKiMzGEzQFUs6oRsTru9GkqJfs0jblmfpaJWLyeToIih8mg51Z1ZENFeQq5tFDsoVVZcwWPFen-hyNS1AYcHpGa89Zt3wTphw9FBnm7rVfHaeoZcXsKKXDJ-ncad1QlVUcRlvu_DXehRWZhGPl3OJ1dPyhGoC95INLw5k9FnEihsaqyZQjDFA3F8voUWknVqY9-WqyZKkJGs3-108KuTJdQTMrtnGjFvQt6vD_ByuqSJjfW0nK-QjXQRZlzo-zgcrkN2wZDxWqgT09-hwYBlWojsS0Gj_gyfkt0v5yPoT2QTfo4QOePfriLyp1bOXiJzAS8CX-cyLi3-f3-OgSBLaEu4Jdn5nSetDapwKLURM1Sic8Ol4xMJC1Rh7i4Go8f=w1224-h614-no" />
+
+</div>
+<p>Once that is filled in, hit ok, and then hit compute. The screen will flash the simulations by a mile a minute, and then you will be done. You can scroll down the results to see that the procedure found 10 clusters, with one cluster having over 200 shootings in it. When conducting simulations, the simulated datasets did not return any clusters. (There is a stochastic element to this, your simulation may find clusters, mine did on earlier runs.) To interpret these basically if the simulations of random data do find clusters, you should be wary of using them in subsequent analysis. It reports the cluster sizes by the number of points, which in some of my runs do exceed 30 points. So I only want to focus on clusters that have clearly more than 30 points in my analysis.)</p>
+<p>Now you can quit CrimeStat and head back to ArcMap. Import the shapefile of the hot spots you just made. The map should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-mN2xcGid1tnoBHivttVX-AUHt9tCcMw2OYlwg8QZH7hxRRXbi-r9NdIRgE119Npz3xkwMKAol5dVE6MIanA7wjw7OfRjN1fhqk1k03LC3VtylXzwdH9MApVujOapEUJhKexiodP8hfzLHmY_y78cHEIyOIDDsHOfioqPIu8kWHBTBTq6jn0pJwaOn_nPHn-3DvKpphFo5AK9dmcI50QIqvZ2NXHvMtYiZJQReTu8wq3smPkXNlA2H5GeEi7wKMLRwPmS2P-W__WqA-Bz6u4oK10uPHD7N8MjqWAhcQsEVCTSYJ71gN54qUch_bfqvLDB00nen68KB873Qg_akhA2phHAqd6tnbwtshwfXsAXGNJ7INt2t0ZrkoNsQPlkvDSewKJqRtM0EdSZZpGJl6IxA49bttllSXEJl-a7jzQJNn1-N_opOvCrvXVZzRgd0-0vMwdPMAxcJ7bVnnZpZr_KcVQB71VOtgdPLCHoxxZKhRjMMW2DRpqsq-lXwarTQHy9OqcnQSm7l8qNhM2avepn9RV_loDEgL1J7jGVEudHeJH2oiZlGR5a8rOigUcnIAxC1t1M1rCmrJRfh517yoeduh5vsM71nLm2E0yGTJNXvfXrWytFTfq=w898-h834-no" />
+
+</div>
+<p>You can open up the attribute table and see how many points are in each cluster. For this example the clusters have nice shapes, so if you used ellipses instead of convex hulls they map might look a big nicer (but I think the convex hulls are more true to the data and better representations).</p>
+<p>Before we are done though I have one more task though!</p>
+<h2 id="assigning-a-projection-to-the-output-from-crimestat">Assigning a Projection to the output from CrimeStat</h2>
+<p>In this example our STAC hot spots lined right up on our map. Sometimes this does not happen though output from CrimeStat. This is because output from CrimeStat lacks projection information - so if the map was in a different projection, when you open it up the polygons or kernel density or whatever may not line up with the other background information. To fix this, in the main file menu, select Windows and then select Search. (Note, if you ever lose your Table of Contents, you would select Table of Contents in this dropdown to get it back.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/aYBOeRKGcB_-6XKBQsum94Thj94ZIXAvw83CMX97T2cUBggwoHJ0_zfqeeSLU90hZDyJvCXwtVbes3IWZnpOIsZJSyAUWGh7vBSmyZiY1uvAoSVrFY8VnqQkABYutVzfjlYFN-ZC49iGoW6UeVQnvskcWTq2xNDZwJwhuUsuZVSqAuD5x5U2DnO4Kx-UwIM0oHrWE0t7GVO2WXGWYI0a397AfWG9csbTm-HJkCEL1qAQnxG00EAFm78maWx4DJsavAjKWrF3n276ARY7oFkQzY38tHQUG_VbfOHrejqbZ_cKgEaArioH2PaKink5io8i1Ot8Fv8B4RzMGNLs4V4FX3s9MjVU-kFd1156Dnk0_0TUhKdqUrZOtgba-lwwVED1wSd-ukayM7sfppOj5dcWgocoguCJXBE6snBgPBAbfUSDUNPdjD1voOLvxwSli61iBHtK1zJBeVdGDahOXDU4tD61USKVO8U7bvOZR9_j9q3A3cuf5QwUjesO4DmMKdmEslyzkuk-SWZY7ZRCq0wDpdOada4X5GHyIJS_6syCFBwuNVO1du4N5QxWxnbj7ywf15IUkPK6ucwwNBiGf1iD4cp3eYIss2Ep5ed5yj_NSzfuU8SMtW6M=w856-h432-no" />
+
+</div>
+<p>This opens up a Search tab on the right hand side of your map. Search “project”, and then select the Define Projection (Data Management) little hammer, that is the tool we want in the end.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y1YQNWSwoU2cVGrvMPuREhO1VS707G4dh69lc6-h0HOFoWGrXmHWHMYNoA5oABE50tKb_ClrRr0_qS0s31Gg6cqXmBk9diObdCIo5H0Pb6AAI3Z9eVbxtFSVU3n1TjW05hmJE0qAaZNidoFqQNVFX-Yb19yi9oa1VvkGeo40gjxyyyuwf9eaLCodBV_d73UI5UK0QkDdviW23LRAI6F02IYFanfwPygujm3BsM4upyS60nP0jhHTys2E90zF9O6-FeqY_OTXFMUxRUXAaxjr7SlJSMk99a1bvcLpXbnuPe0dcbFFE0AapgSF5Ic2G_i6ruIaLmRTgxYZWL8FkfhOrrmL90TL_zZHxQ4w_KHHjbmJ5q4sVl4uYIbnrl8YmO4N5YC82hMh7bAFKIZGfdnTyx3ENMCPuhiUWR0I2LGxowcS_C1OKVl0ZFIt9K_Jy6jDINp1kLN0RtmNZ2RknJbA2HC_bCUIl0u4iLlHDBmHsi0vWSm5BXO8bBFLqSL_7PDn6rys3eOrG8lofCf-dftUkBQ_fYUddW55yVha-1aflk86cvTMMb_BpyyHSooFruXr-VB2uyqWtpx93MbQMoDzOvDpzLQM7TupLqkJkOn0Y_s45VsvSgud=w304-h438-no" />
+
+</div>
+<p>In the Define Projection window that popped up, select the STAC hot spot layer, and then we need to define the Coordinate System by clicking the button circled in red below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vAchqOP43gjY1DbabdctkPH0A6_UBIg8M6KKXjXFa_uQNAYI5z6v_gKo1G7vJzoT_mY9yTQ9PztzQufl5OS5NYpAbHnoz0o_x4nii7z01z6ebKOk2OFOCYcwgV5LE5XA4A7xDdC_M3vsSo_X8RnKszIOUFzn1eppc9fNjUpaOz6bnjV3WBYIgyE7HMEJY1h68pZpQPvmSHoFlOTMkI1EX59IcMiFQH2mj_lqMwdcUXxx8N0iAg78KAtYqxQGtmxNyahF_ZJR6P6xHsxFsQT9bNW65qOKWNR8PbjklgFJs__kLUWeMOKva91V9vNsQsaSOAfR7ojW4TXx85Aq2y6zPIwFdTL3tHXNraqfO3sx-Veh5xDOALYNJimJ-c7Zcikm4JieYsHVdJfg8hzGabHWNm0q76O28MrzBebL0z2fowY8PzZ8v3rJb9VjyDlqwdYfxSRjTfcG-HdLZd97sPuk3LVFLrQAMioqYLBGiwKjtM81kZIoChpOAJbuc0nMXIp0E-3omUhxyw6FNI8lhywjqYfhAB--YTXB58GGyCJzHJ8oKREpVWN0MsTAr6AM-JUVVmrLBHD1SBbUcl2q7iqpHrxfBDnTAdbXEGPqgMmDkAcU5ENaLYTk=w1067-h717-no" />
+
+</div>
+<p>This tab should now look familiar. Here we are using the same coordinate system as defined by the “City_Limits_Proj” shapefile. So click on the little globe with the graticule, and then click Import.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5FSjjR7DeDQNGXJtEuc3k1jP8YP8tx2Z1WtZjAMxiLnBrz4vdihfIRCYPrKul2LE3T4AKOX1wNlrFJp-GTsEZyajGVXueEOVxdkzr17OlR-6vp1K58w5PcQhaqRxAFRpvE2qXiumdS7r8E4f9a3C-pG8zkv-bPnlDeiIUdpXPcYaujDePzbNSvtdxsrGcjxuJAYBYpIIBdzD_42w54x3rU7bjfP1QnPNzIB9JPIaAVo8lSJasVni4todr6P6jNsz6g9lFR_0PLSpjm6n5rlVTdeW74aN6arOmexg_Uzwl27RKdgR0eXIrKB7baFdSxGDpCSZ7CIoaxeW6-Fwhq9dEW90Ge2DS05Gq-GIK5-oYSZyNkJJijG58jCyxHNiS8MxauEc6l88VNcsacBAtwLIWpWbXNBc09lKc2Hm5tqlF1srdRJoS1aTdZ4RJiB-woWF96AdqVpSNCzNVkqtPEaCg5qfJjg7Q18tWO0uj-f8I-8FsHO7n4ewgbRDCfLd0YBzmby3W02He9kOevGrre6vVJjy4ZOUKxnZwkXbMk9qgfBttrx2CHVKirxoUvZQVUf4FPttLrqpXe6oOWJ5jCPvGKIfm8bMjtjhqSp4_Q8Np4GLwImQNZbT=w474-h560-no" />
+
+</div>
+<p>Navigate to the “City_Limits_Proj” shapefile and select that. Once you hit add, that projection, NAD_1983_StatePlane_Pennsylvania_South_FIPS_3702 should be there in the Favorites folder. (I have a bunch of additional projections in my screenshot that may not be in yours in however.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rgZNsO5JLhwVQzm0eQZeKfVnZkltgxDGlHNZD7beYX5e65qzbWHAFcgQGD0j4kxFWCvL7neYezy3h9Kt7t2tnKTUY_yVU-tVOuD5Z5CQV4Ho2XrgPhvjHICVdPxeYbG0NBYgvPryuSg7yzpJP0SQSA01aFynjknTtaA35a6XWQ74ueS-x47nFBkq9bAIIxZsNu5n7POQzUJ55W77DzMG5gV82Mq1TdH4qnu2SVd_wW2B-Uao5oySbVKd7WiAABHz9K-iJlPyCGEHZtK21WvcignUrv-ud-NvvYu9rjrWvlqxlFhu14wFbAlB6pLeuI_eDAlVfgg1Qx8iRDHhwxrZNcbldYudCxCfvSXodnHDvjkw7nFQWI1gpAelWNsTyO5DZLSWf4_mZumLdYBEbkNjGs88tayYME3hV4jWHnPinM1739AW5QClpjMkfkwFw1PTG8jks9bIz_kFwdf9W3YZoBw03PlLjaq7VFU9-vEkMBTVKcK4AN56YYPsAhJ9o5jt85ViDyCXRsYP86Ym8h_wFpFOVuKYpGnvF1DFcc3Gi2pL8obO40V52hVRZEQAuTrpC3Jq1mRf6L0U6gfMluKYnblJXUBc7lF6-2qlzZfV8lmYVL3oDEOr=w484-h566-no" />
+
+</div>
+<p>Once that is selected hit ok, and you should now see that coordinate system populated in the Define Projection window.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JHaLFT7Vi9RrXlKP6tpyjhA-Q7_wdY0DZ9RPrX4tN2Apmzm9lh-vYTVyv9f_H4Z6uuoPxkkm1Bl6JO2f63AvCkw0jLIy-OdJtphirGO2x0PMpWvfzyUyDt_HCEhG81NtprAhZtQibI6D8V2e4Qm9nt9TQ_r_RYNDtq3k8vcjjA0r76raSPd2nveW9ncb1aLjtFu-bo5kg53TGJpwslUgr9mq4Q6jsQ4cas88tSSI-DP4NED0eOJTv-XbhS0OCDZC69yh7n1FwoiL_g24PAbDjHWBmUB3SSExZs5yXSrITCLtMOpUX-VqaR49gDyH9dmvDDtFZFIRwF4VSzuVhUjEfnn1SVlXsL9ekpyNVNYmVA_skqxu8BTbp_NWqmUH1nHzxPoXz6-6t2S7wsbEYLgf5vPpot6lalluUxxoIYGyZOHlv6g0cWzct0lUEy35bpwCBJw0_yXURb5KonaK2SyXoHGC-wN5gBPc6iEbF68QYDMJ3uXPNSNoJWwU6GU6pPkBAwvGM5dQi8Yw_B4VXCzQ4OTz-qaLabyoNBW7NSnRHAS5hHtvhXz0Rbkw5_fESbNrH3XRuyY0yRYEv-WPIqrTiuUtguUECPBwR74DX5tUVZQ8hNoXpIVE=w1067-h717-no" />
+
+</div>
+<p>Go ahead and hit OK. You won’t notice any physical change on your map, but if you go to the folder where you saved the STAC hotspot shapefile, you will now see that there is a “CSTTr_30_1000m.prj” file that was not there before. That defines the projection.</p>
+<p>So if you are using CrimeStat and your data is not lining up - define the projection!</p>
+<p>Pro-Tip: When displaying these arbitrary polygons, I often find it easier to make them as hollow fills, and then just a thicker black or red outline. That way you can see what is underneath, but they still pop out more.</p>
+<h1 id="homework">Homework</h1>
+<p>Generate two out of the three types of hot spots I showed in the tutorial for the 2015 Troy robbery data: a repeat address map, a kernel density, or a STAC hot spot polygon. If doing a kernel density map, choose the bandwidth so it is only 150 meters, and select <strong>absolute densities</strong>. (Note you cannot then interpret them on a percentage scale, so do not make the legend to show percentages.) Make a map of the entire city, and replace the topographic basemap with the light grey base map. Edit your name into the map, along with all the other map essentials (title, legend, etc.), export it to a PDF file and turn it in.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Note if you have trouble working with raster data in ArcGIS, it may be due to you not having the spatial analyst extension activated. To do this, in the top file menu select Customize -&gt; Extensions. Make sure that the Spatial Analyst extension is toggled on.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>I have a tutorial on creating a button in ArcMap to accomplish this so you do not have to repeatedly go through all of these dialogs, see <a href="https://andrewpwheeler.wordpress.com/2016/02/21/adding-a-command-button-to-a-toolbar-in-arcgis/">here</a>.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

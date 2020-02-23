@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 6 - Exploratory Spatial Data Analysis using GeoDa</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 6 - Exploratory Spatial Data Analysis using GeoDa</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#importing-data-into-geoda-and-making-a-map">Importing data into GeoDa and Making a Map</a></li>
+<li><a href="#creating-a-spatial-weights-matrix">Creating a Spatial Weights Matrix</a></li>
+<li><a href="#calculating-and-interpreting-a-spatial-lag">Calculating and Interpreting a Spatial Lag</a></li>
+<li><a href="#morans-i">Moran’s I</a></li>
+<li><a href="#bivariate-scatterplots-and-regression">Bivariate Scatterplots and Regression</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This will be a walk through of using GeoDa to conduct exploratory spatial data analysis of lattice data. The last tutorial was for point pattern datasets in CrimeStat, but lattice (or areal data) are sets of polygons that have associated attributes. For example counts of crime and estimates of the residential population for census tracts. You have already been introduced to areal data by making choropleth maps, but here we will go beyond making maps to assessing <em>spatial relationships</em> in the data.</p>
+<p>GeoDa is a freeware tool that you can download currently at <a href="https://geodacenter.asu.edu/software/downloads" class="uri">https://geodacenter.asu.edu/software/downloads</a>. The GeoDa center at Arizona State University has many different resources as well, so it is a good website to browse for additional material. Unlike CrimeStat you have to install the software, but it is currently installed in many computer labs at SUNY Albany. You can download the geographic data we will be using for this week from blackboard, or from dropbox at <a href="https://www.dropbox.com/s/6xwts48cgdvpmoh/6_ESDA_wGeoda.zip?dl=0" class="uri">https://www.dropbox.com/s/6xwts48cgdvpmoh/6_ESDA_wGeoda.zip?dl=0</a>.</p>
+<h1 id="importing-data-into-geoda-and-making-a-map">Importing data into GeoDa and Making a Map</h1>
+<p>First open the GeoDa program, and you will be presented with a simple toolbar.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/s9mphnq9qnRQKnAm9h2QWb0tYrsyQZrzfMra9vgVNCtZXZtzR02HijvDyyKt0hJKVrPDapC5qxG9o-6_7W4ZfEYbpMA9eArFUF2w9QBRoFVA4txKUlsbYFzQl1-aIep2zvCVNXNuyWBWhltn6dDeO8eS1dOO3GpKdArWse0_xLyWqGrtOokLPlB0YhkJ5HtPhG7Zff98Hpxg0TPO849S9I2OQSvBOVPBX5FOcEOFd7AD5dVz3e_HBS1HIBN8vlFxcHHS2ZV3FKNhImbqPIdYLpZhibu0H13kb6ga88z_ItNcIdgN0mQMONOoY1_4xdTpiX7tG-qvxEW3AHc-ECfmOnm6qHkRK26TvvAAMNSd8L3HhuaZy6ofLBkpzQ8-K9CkeUuvwYM5i_DUo2ETGKaepGffo7GvFIqkkyds1COhVC3WgxlGluCbuMgDm9hjWM5qsVUSwX7_9OS4QRh_H4qAXWMvGKmuRWZgGQNV8PbN8zZEbtxYYkzx2XuSmqJ4lZHmZ72QKI7Ihk5AP1ImOuJ7f2PHxFwzo88dR73-N10Ln-ds6_MIgSAo7o4rxLjbWCn2xAcCHU2-QwASNF6x1LR5LIJSsQ_QCwxwTUY1Fpz6XlX-hkU5QJbW=w634-h76-no" />
+
+</div>
+<p>Now we want to import our spatial data. Here we will be using data from my dissertation looking at crimes at street units (street segments and intersections) in Washington, D.C. For more information on the data I compiled you can <a href="https://dl.dropboxusercontent.com/u/3385251/AndyW_Dissertation.pdf">see my dissertation</a>, or for some online maps you can see my <a href="https://dl.dropboxusercontent.com/s/jxg2mjss6pvjam3/OutlierMap.html">supplemental material</a>.</p>
+<p>To import the data, go to File -&gt; New Project From -&gt; ESRI Shapefile (*.shp)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lwum1R6Ns4Y5js2EK9biPlIUWeJQ_5GY4VCcdODH3OS7_X-6yhacpZbamuDVQr8TlchXN7iuovn0jRV_rBMXV3IhqPHWfSAscxWN1w7VU6BZ1XETc9uKJwl66ZZnW6Du09Ldy2_o1wJxk1mMMXXqo4t83lGpwB1nDKpK96vquym6OmYlJwtWhUGPv5V6AYUJH8-2HSkvZQUa9WgQqnfZqfPhcmM9nSCql17Hp02MUyGVxJxt__aoYVl6t6QBrqPkx-ID-33kXGa4f_CpWg5IPeryarNDVDwwo9wO1QWHRmffE1wtnsaBKDObw4lXKsL7GL0lUaJVA5XeHlJLLDGuZcDpTW8LWT6SlmpjQZ_TFcU7Zv6Z8mArD1Y7IDqa5HnoxRD4Oqnb_MIdoIXloOAWbZ4UARC37Sj4ArANVz2NNF9uzf-WOrtUHTIsr7UlAG9xRcViEJEcqjB24mgmbSRZxHoWD1x5HzCh1n0ieGtpCuqrNDvFnadmyzK4ZbTMsyn4i9vv-n6hPExEk9rO3y1A9M4RWJaJKUAmqsLpBsaf_5ExmwnmKuJLoYJtU-OMUowRv2ICfqfq4WkVAbeV4M-A_2rmWCgoC0ZdZTtOMmKJpLMj8pJqWSeJ=w705-h337-no" />
+
+</div>
+<p>Select the <code>DC_StreetUnits_Voronoi.shp</code> file I disseminated to the class, and select Open.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JtOMMCXhghcru_zXG5JjsxgmZgMKMtFrAr8pddUkYJfs0eGZ7HE7hsCVOVfrgxGCJ_hznR7mXs4PLLshybBtvjVox6QeULnzUlDHs-2UUlURFhYhvGAN7NwjEp-4iQcWvw7z8NhEI_9FsW2jQBdKL_rNK1bOYADweP4sjbv2iQnW1sS6RrSudEfekBhM9TRQgo6uWCbht0xynbr0NQMwJ6Cfl2GqsYwTKezhmhq_STY2VkC1GwN4E6ruj1pYRQ3inHmNYrIp9JVW6d1NiiJkHWdd-txHV5J8MXriksfvJz-qbfHQN1_aumPZu6dU37HmEibw9WOuuSV_ciFXIs9PR321oljcKtvCaTQTkE_U__UVchOuEkGCCFNtwXRv_wBO4qF2NUIXW8Rq8VtuKpLJC8a0Q1JakvHZNsIiXAFBdJtyAmCaB9LfSurDB-Y8dYGkqRqqp-r9L6MQ41FNO4K4ytVIdabJ3F0WjftnR4Nq-EQcPgCaUs9Uhaa1YhaCzJU-IWoutj0YEmzTdDizMiY7yprzyFUOdyj6N2kgPdJsLcVQCojNUROXwF9GK7bX0TzCvBX0kYJVrNoMniwFTkOQB4WGyBsLr-0t6JWQ0DZGio2C75Ck4-iB=w640-h512-no" />
+
+</div>
+<p>It takes a minute to load up the data, but here is the map that pops up when it is finished.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jh2R8eYKIGSYU-1p5GIfPUs8bE8k-9Ws8kk6hlJg5LRFn6CpKwIMwXOGkS4l3G-QxrL3Ps3acHv63pOrlIM-a2e2YNaKfIe1p6P9TjB-DCWHPUgtftpdtPxRE9bH3sjWszFwOwZzRKnCuYvWwHl7kqGVSryqHikFdVcqhbVcOE6c1lAmWsRtK4r_ZE-DYzfIBm-FWKznWID2sY4RSL73skwaHDhftAsbrZdTkgVjI3TcDgXz9cyPXp_rzh3xPSZx4G90yMav_J7cqF1P1axLp-lbIeDF5HZLp2w62vnn54_Xq0SMyD8vvyObvfcVxssY3osjzsccb8iEYrKHR8F0it05dSZD0cuzCDyjB5pjacAMPtiuA2uyyDjy8EpScfRz8ue-d3Vr-IGD-ybrNJ-S2RKCpRxmGXHzqygeYtsySLwSAIDcw1EQFSuool-M_je6-0krw12ZQNEa7GxIvXUKByQdrGcYsSR3sewK11y-uZ6_z1Gzvxm9zIMk5sMUDDPmGJRvhlEGNVvZLn9doOtWb3M1U7LR3JNd_cY9oyl2P9pBfsbO0lFtMGoeEfSgqt3WRb1jzJOUDt7Fz7yT1hlBPKe69Wr28nrNTvbxiwpC4B0fI37PSro5=w550-h300-no" />
+
+</div>
+<p>For what these areas are, I created a set of micro place “street units” - intersections and street midpoints across D.C. If you imagine splitting up the city based on those point locations, Voronoi polygons are one way to do it. It happens to be that any location within a polygon is always closer to the focal street unit than to any other street unit in the sample. Places with large Voronoi polygons means there are not many locations nearby. Examples where this occurs in places such as Rock Creek park, which have very few streets, or on bridges over Anacostia.</p>
+<p>Close out of that map window. We are going to make a nicer map displaying the counts of Part 1 crimes (in 2011) at these micro places. In your file bar go to Map -&gt; Quantile Map -&gt; 5.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YaKwMivI7dklyWaccYFc8PDeIZZGZrtPQNWw6j8lR7BgbrKb9L2ZDC8X0ODr9Lu7VdxdH_E0z08c95TaL9q6NUQY_QhHuqaDOPq69lQu9DsRgepfaVpaSZvDH-cH62uwZOhMwS3PTvymbzwfwscJ84PHyhVcpwW9tB1NAT_dbGOL9E71Mg95VCFr2YX1QtoE1jFOdHLuVawryeMAp8ymlRi9ct0N4Mr2mEG40tkXDicOZcz8EVIXm0FV2hAtwtVlOvTUNVNEz-BL3lvvXA_65CI1r8eaaydEXk6xG-_mTAjxN8WUFswyI6gKdcpR8pHk_v9GPay9E26rtL8H7VlZubQqDVxiMSw_o9c0A-fsJs1K_yG4464F4jZzkIXd7r-jUn4ORI_PI4OucVwuWSaWAJOS3AKuOgxS_Q4r13nEPFd0KJPj8uhtpYiEayZcescfYHDGPje7YxstWfEwzQ1aYjQDawfNXXDnFYgFmB2z2J_YLU52f3vVO33UrCZa-YpEE6e8DWtQD2gCmtTSwf_lx3NMOqoyI4XFHWRQfN4Km5b-QlYFBEFHEi6oP5j-Yi8zDY67t8xZfsrCtlQCoTmcbD8hA6b70cO5FvujHoyOpmaxHd1ET42h=w685-h356-no" />
+
+</div>
+<p>Then select the variable <code>TotalCrime</code> in the dialog and hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GvCTS7Sb6eB0su3h0UgiJTgpeotZF-B-O0k_jJlP01aCfvA8bXiZkXMRX40D0KWrNDvVJ302_I6USpeOftEVTuOTai5oZ0R0UASBxgGVfN7q76VoDhCtGBiH05iOk9U-1ESy7sKDH85uH-ZoouQ1zBUz1zLXoTR0ah0cN8Xw9pVSABWeWASLgHq0qsmBZhoYUW20eMb56udeK4bTz6M2NllqV2XIj0wZdbMFhcgoUDAg073H1Ha7qrHSUFXxZ_WDGTS_Kh5lOyl4QCyldmXq4T7iNLIG05CjghBW9B6KbIjl8PJwfPo4aFsRmhqd-W6lfHTMQ_MzzG_BzsA9LxWmc0GkWqx_ZCWvfxCiHC1DxTt0PmBDLYMrjQ7BN3mW8vsf5FeEKglXtfDagomuilOknZ110_PebQ1nnG0pVICVDmtt3ZApTPNjOlV2HxtbCX7v7Co1zAW3ozj4conlxoJvLmfZiphLdAhiO2RVY4k68qrFOYsOQOSEBkmmARiryOltrKJy32EpTVXP07-ONh5tT8vDu14KAdtSU-fGGUip7x5EISkdM_LOnVnvEqPB7mRowj1p-4YBbWmqUlXbejY1rENJ4bu153ImBz721mHzSXNE1ii78RFV=w222-h321-no" />
+
+</div>
+<p>Now we get another small map of the quantiles. We can arrange windows and resize maps though, so hover the mouse over the lower right corner (circled in red below).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Psqj18qXDTuFZuwuK6kQVvGOS8-aDgWKpOQzt1B5VdfNvg8m2O9Qhaos11jKfoIUBSc371DHIIkw3LvAaqLBvkZ2QdXSJGGBOvbw6aAR9HZkkCrM8NFr1lZ7ttbsveCPaJ62Gt4AcqLpC0VCBUukmznBleBGKZMW07H5wBE5IrN5h3TskAtGCHa-GojlQRJ8pNeH9QlNs6s_gcSOwIQDtlUeQF6CKrqB-iknNd6kMXvMYdUcyjPFHyzdu8Nv910fUVYO27JLiOig-oO-MskKh0yk1MefZUt9D7rahHLotNk8lGOEbSz8UOgv9McvEFE0ejjCP_mTYE81QeO19NMy0q0d68VN0riNv8-1fQXpgozU-H0xVYnneyAVT_nzBcSJw-_v8lQJaVJq6uuxECEROsgCEKt5Ah1kUyYYK2qx6hQN_b5X-jAMW6CwTypa9gk76bvVde-6TRLhJHA0p7nWEhobR4Vg6rXocUCY4dIFn0uFfISX0yqRPwfSWmy5Srd45seiJcvj9MjHZJGqZwFP57rEUIp6AJUMiBGmuqx6n4FAYM9TKKJNihtuunPhU43IDq43EKLe0lnxlHJHln8BkyKHn6ME1iPVc3MiRzpMWVfS6fTHfOgn=w572-h326-no" />
+
+</div>
+<p>This will turn the mouse into a set of arrows pointing northwest and southeast, and then you can drag the window to be much larger. Here is mine when filling up the screen.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/eS1MT9GT1POvyJn21FByugIGxY8jEGQh_mNVqdNXJArMT2HAnpr3GCHgpDUoEu_rxTKLzlh3ZZVpk-TVYX9ihFn40KN-qDZz4O8mOxP3b5CTkT2Bff8TJaDWm8LHR7ZJ93m4336Y4a5QCgJUg8gwNodk44nCZ4U1Y8AUlPHXvMzwEnN7H-gGBJp_rYYM9flXY4YdZSpGUTUvJtHBhuCRI4HkMwVuXd1EKTavCACPW8tCRW8uDW8FPmBUjATBNc74asT648juT01ky18LUvFS6M7d7Pe3wDXHujCBRZCwe_z59PiuKCIJp_VFc1D889qjYGk5suL0miq8wOzwyykL-XROAIzzZh6NZwa0wJPeti_qkUOpSrglAL9eyXnFjmraKfEqKf6631BlYqWLOwIyvTs6DBUgu6iMMgG45beGBJ7TL-Jgpl97TP2jX5VGAPFKNZQFHukk4Qaf7WpsNzHnYL0ClZBMxIkcPBsP93yGkq4mK7XjdbLf7HvWaU7X20z-bjnFkQMDzwEKP4tQ_vluCTzP_ALOKqaKpzNuBUs3zX4CEqcVhJWUMDvHc_c-6JGg_ddOCSsBrphGn8HpRC9LslWzdkVbVBQ2dYOKRJkektFmxtBzqN3t=w1204-h948-no" />
+
+</div>
+<p>With the low count crime data, most places in the city have 0 crimes. This resulted in several of the bins being redundant in the legend, but it ends up producing a fairly nice map to visualize places with higher crime counts. Notice the highest bin though is only 3 part 1 crimes during the whole year.</p>
+<h1 id="creating-a-spatial-weights-matrix">Creating a Spatial Weights Matrix</h1>
+<p>The power in GeoDa is not simply making maps (which so far could easily be created in ArcGIS), but in creating a set of interactive plots and the ability to explore spatial relationships. Spatial relationships though are defined via the spatial weights matrix. Geoda has some very nice tools to create spatial weights and explore them.</p>
+<p>In the File Menu go to Tools -&gt; Weights -&gt; Create.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HACunYL-bJBK53VWmrK5pUYGsAef6OgblfAwt4Gu4gCRDNZnF95Hl1SkstDcXFe-t3XTAwTzlR1o8RtDmecuikbJ71Ubh3rzuVTtxBb8U2mBlzzarxRvw8ezcJQwkTH4uCR9PrhV5RhBrNmbS6up_khgEwk_WGB_1EkOsc2Y4d4DMLeL5cv34_4Lw-6I4AsEX_-DF4JV8x3BMCXKVCdOJ-BAFNjMsKgbiNbFM_Nw2BCc-FSRrSPmzs2UKT7SgvJPS4U1p181jq1ncToCO3A3sK7K-5LTdF56EUu2_2bL3xc1WFKMyVajkydATcLpRqlUWWrE2DGqwzvcF8_aWjnIoyLPKp3sddu_mw8eIAvt_4JHNlqf6YQh5xeuSuRDHzBI6xXYoNOOmdj8K8qlkoSaYY2h9Qs1H5UVx4pG6dA39n1UTBhRZl3ZozAQLUMklyWwH8kXrF9yRnk4FAb-uwHxI-G6AkLxMiZI0z5MNcI5DFENjYWCRVAfKotHIV3dczi1uiWfE19pFETHyqLps9C6pN4Iu6mi0UQ3nxmn7AI-0WTkjm_RrMQSHDx3kA-Y4-9NJGGmEK9xdtBU0SL5IDDu96Ytr2oWt3LZ9GyEolCylWf4w0By1xVq=w676-h194-no" />
+
+</div>
+<p>In the weights file creation dialog that pops up, select MARID in the dropdown as the file id variable, and then select Queen contiguity as the weight type.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mlJC-nTOOdfHFOWdLmix8fdBSzgJVgBMraX4EfbbUftAUGLmFgxWyzzLMvIiB-F2VMBLTSEK5cs9MtjdqoO69MtIfevswtTUdffGtRVHlbM59xDItRauNQx2mbpm2BgNIxfDIlxHmYvHuBnDrdS5AWR67JVC2pxuSoRUFyRssOwFveXqUN-bTNGH1WeKVFk-yXR4AE6rn5LEPG-2p8Tvvk6WcqhgN4uarQWUz-BqPaTRD2wCkYbcQTQwHX1asQ3osmlBKgMZ2nlo49S-vLIJmFtSOJO1HhpU_u9w3sfk6--UDLwCk9ATqRIGvhdTui6ugK1Yr0k77NGLQnCXa8igCxvfYXMZQyXZwJ3gInUvuNqZhUYs4_MC4wUF-r4afINW_uKCzBPeNS1qWlQsKFH1toPrQGTXSVGtWiFlrf9hn_kp4JdWIpr3gEqzAFR25ReDffhucT6--9s6jpGsxBfmiSWGy-4ptsDdqp5KovdEKHyrQxbSthergD-sEPCluZlKdrlebtD7fWHZhV14khjRPKjLm0ThZKS1d7aSjoUgxCIzB4wVF61SKB_EczEgbEFuYFJarUcKmGpDcPVgfbrwyANnvqAP49R81tn5Krknh_ZLlGCIImgR=w538-h462-no" />
+
+</div>
+<p>Click create, and save the gal file as <code>Queen.gal</code>. You will then have a pop-up that says the file was successfully created. Click OK for the success pop-up, and then in the weights file creation dialog click the Close button.</p>
+<p>Queens contiguity means that any polygon that touches the focal polygon is a neighbor. The resulting GAL file is simply a text file, so you can open it up in any text editor and see its format. Here are the first 5 lines of the file.</p>
+<pre><code>0 21506 DC_StreetUnits_Voronoi MARID
+805688 10
+812852 811716 800366 901057 900925 802288 810097 903190 808572 902784
+804830 4
+812846 900274 809814 804085</code></pre>
+<p>So the first line is a special header that defines the number of units with no neighbors (0 - so all units have at least one neighbor), the total number of units in this file (21,506), the original spatial file it came from, and the variable name (MARID). The subsequent lines define the neighbor format. So the second line says that for spatial unit <code>805688</code> it has 10 neighbors. Then on the following line it lists the ID’s of those 10 neighbors. It then does this for all 21,506 spatial units.</p>
+<p>Using that same dialog you can create other types of spatial weights matrices. It has all the regular matrices used in spatial data analysis; contiguity, distance based, and k-nearest neighbors. It is important for subsequent analysis that every point have at least one (preferably more) spatial neighbors. It is also important that the variables not have any missing data. In either of those cases, the subsequent spatial operations such as a spatial lag are not well defined.</p>
+<p>We can see how many neighbors spatial units have by going to Tools -&gt; Weights -&gt; Connectivity Histogram.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vS5oW-LNocAf7UHACpQTWtWoDAb2f4uwSFhj7Pj6O3BuGa3bZq-0FRqLVQQ-8zGV6b3cOrtp8bfMVfNvUvtDffFTIE-ouhg6_aYNSYjIXkrUpjcF5DIZHbIpAZREbn26hCbsd64V1sYhN6VI1KxzuATKWVus3mftSVNq1KNKNxemI3l4F5dL-GuNXX0e8-g-rU1N_ibmt4qsSLOd4Gjln7OzjjfnlT19yGca3KKzBhdy2zhem_A-xvJ29bd2HawEH4erhuDKxtCt_T68D2lPDMVwtXJbw_UNNFXmVqVd69QiMo740EKzLdUjV088hJRzwM1P26CGXRJSG4C7CFK_XMD6H4LEEE51AQ19Nd2J0vSntAy2mI7nbetmt1ahPk1cfrYO-x6QB6UAEZR-12qsbI4seyZyV__T-nx9Z78RWzHz__VjqQkWHJ7anFpFJqu177nRCQAMx8Bb19BXmAhVd0dmgrM-geI2h2kdEf4lXxyos9lLIISb7-_FihLS188K3d3HmisPBEXBl_5IqfsWB16ZCU_vNQNXvgDntN5DVdQsuj1qudr1VoH_y1Nw2DYgF3iiRtpnIJo1W88xyHokIEoK_Ug2_R4E68Ux40ir0TIJltxMn7Am=w700-h170-no" />
+
+</div>
+<p>This brings up a nice histogram that shows the majority of the units have between 5 and 11 neighbors. There are no locations with zero neighbors, so this spatial weights matrix would be fine for subsequent analysis.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1EWS9Q35YQ0uckg8YJak4a6y7qFN6z5z2akRxJMTC0xsdsTp7jmm6Fo8__VRnpOZaLNUbatC0u6wdcaptauZVISzTI2bg27lwXKF25mnbW_AfQxpI5hi7TfB1IncGGQlHPczyKKbwyB6pnf9EAYIbSDBpDPFPLy6etJUUzNhL5DpYPVpOF5wdEoJYPBE_h-mkADDafjCpHOhGizNprfYcvJp_nixT8FEn89SUK82nlW_JtAJCIb3ZDtpwTIIf-RRTBz-obJ_aYt_DFcp5sqWIzqfv7QEO_mQYXNt58M2yaWV0TwCXL7IJkLvqGhXoXwcH1yITpp7xIOrl9AHI7HmQTTdBE8e5CDGC84mllL9GsQ1f373KFC8OZmN2zJSQXlFNchaBA_p3Z3t3mReOC8L5PQamWCdHeWk94K90WvocjFZ8E-C4Z6nEjM6ntk54bho5m9ppQcDxjqBDIBQ96vbr6KljDORXTFuQqCLGpKekny7XwZSjRd7-KesGbUScBCxvD8mneDBbcKyS1rkyRYO-A0piFLkVCXzejBCZY4JQpHk4E4x65QCgARY2EbAz91MkYqCp-6wIwXkbRPOPXfCMTVdIN6otZhV42EuWpw_Au13MoeW8bBY=w600-h500-no" />
+
+</div>
+<p>One of the coolest things about GeoDa is that all windows are linked to one another. So if you want to see what spatial locations have a particular number of neighbors, select a bin in the histogram and see what happens in your Quantile map that you previously created.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fJfs0RRw3Xw-kEVAaLK2VVRcAoI6EAUiUxlTeUsAEFgD6IbGBE87_P1wfc_rEWqvvvR6IHs2lgRHBmarYhgJ6tEORqWTaSpr8D22MqBCIjnRN4Dd5TJTa0AKIbY3eE_sM-bnLdYGMJLuhlotG9D2JMwoSaIi_GrDebtXjiuwurvuJE0slfD9WMS7qJr8jc9J3Rcjx8fPy9LKGvyCev_Ubb0PrmS3POAhXDxhN0v66JzoqpGfIys_NtqwVWgEkvWIsbRqt0BGXcG_PJXiBMzJVHMTAu9VdEMucgFCXXxjDY5i_nXQD_mfaWUhBcv51lZIbKyX781KWV-PeAB8X41PrJaMP3i4Z7zQ2JlAmT1SMpwO9Tcn0JYux5wcDk11L_FV3wQ-jTHJRh807twTrSZj_VOJsx8SlGkOmbTsA5u1Accisyd9cwxFYH0QP6iWKUmHHdD3Dwl6NBp_E77tXoy6FGR5zlf7muF0_y6YDb2m2Ei8mcOphDjaCQgkGLA-2mnffudgFIHilRNXwlT_7pmRMY0NgGUFGWpQu2q9V84lI_05vUfUL6pJT_gJu36vmIYmdvbPZP_QP8rnpOob263oEQqQYJ4xrcGsvQj1SpYj3tu7-r2jQ6u6=w1188-h950-no" />
+
+</div>
+<p>They are all linked, so you can select certain data attributes and subsequently see their spatial locations. You can also do the opposite operation (select certain spatial locations) and see there data attributes in certain plots. To clear any selected objects click anywhere in the plot or map outside of bars/points/polygons.</p>
+<p>For the next part, we are going to use a k-nearest neighbor spatial weights matrix instead of queens contiguity. Mainly because interpretations of spatial lags are simpler (also I noticed several errors in GeoDa’s creation of the queens spatial weights matrix for this example, so it pays to check!). So go back to the file menu Tools -&gt; Weights -&gt; Create and select the K-nearest neighbor dialog. Then select the 5 nearest neighbors (note the default is 4). I subsequently saved this file as <code>K5.gwt</code>. The gwt format is still plain text, but has a different format.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gTBRha_gND1t9BRdg8AriaGCaVAaBCSSmPOQh6xqNbeXi4fxSqatY2Wz0GfzbAkB2_hgauYgwe1KcUuLANKQCXFxGcH40ImiRezKD_7FBhPd2eHIjMa3ZI6ICHDULd3Z6Iz-9rz2_CzcT-kiAm6aTM4vOEPIK2ajGe7Y682p8yuRlttcpOE01lisVIitGvfX7B1jwKGTscKd79Y_cmkgo3lLDRr8ekZKXdW0aGAMdaso3dA8gSPDoDY9fvcsq0IV7QJwEiX00GK0KjekrAx4TRT9juRooiCIzsj-hMhFB0jlnd3-VmxDxw3qfoN4Prc7r2HIcnZU2_ZhyK21u6IWDwdneUZilfj5j0F_MWagJ8BS3XDEjl_afPC2nb8XhOjQWa0o8JWW3AvWdR7oZtUYc9-ahHehmBOA2XaDqT1QktiI-DnZ3Dl1slUwp58WeKzak3oNmOm_q49k3v5n-HLcfvV37oZS-GiaWVpuxX4ng92MB4E37kM1srKOuZjPgXgDVjeo4t_jRsFkyDGF8YDS-WVT8BJ8-Um--WuW_-G-P_7etafK_LoB-j-h_Ymf1YfqRvoW55dTLy9iiYmRVOKDKN4WCvG5j9jIuniwLXAIgcA58hDAfuGI=w538-h462-no" />
+
+</div>
+<p>If you go back are redo the connectivity histogram with this spatial weights file, you will see that all variables have 5 neighbors. This type of weights matrix is not only simpler to interpret (as will be shown) but can be useful with discontinuous or highly irregular data so all points have an equal number of neighbors.</p>
+<h1 id="calculating-and-interpreting-a-spatial-lag">Calculating and Interpreting a Spatial Lag</h1>
+<p>Now that we have created a spatial weights matrix, we can do an operation called calculating a spatial lag. The file currently contains variables like the number of bars in that street unit (TypeC_D). Here we will calculate the total number of bars in the neighboring street units - where “neighbors” are determined by our spatial weights matrix.</p>
+<p>Go back to our file menu and then select Table -&gt; Variable Calculation.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Dmugw14DVUWp1Y-75ArOvZiViWi4dRBZCKXSAgyuIrvVr9qwt2jobduMPezoHL_Cih1UdMDUF6lxZ4Mn_f55P_QWLh5PYxGA6JDDE6haUfwMebk1rJOLVStR2PoT0xPVXstUiMs7VnwiCMdanV7Wguo9q7lLWECmvidydoeC7njCIdKZc-Eg-b7Dv98zcScFKL55KGhQcTRteS4Q7gPaRElZYEml_Gmmbz3TEQN4ZVnvvEpBqTAelLkUqj16qO7HQxe25hHJy1a5D8cQAIfUqh-wgUGoyUFactWF0nJrNyPZb-Xijc8CjZ62PDYd6i2dk8p2c9Hc3AHUj0MRF2XwUs5TkdbYyJAuAsnTVrwl-IjmnyIWngFICASEvVaaMAlNrdeaBrxIxzJz6OZXGQ0XBs6DvfZBA4ao0azB-riUsI97JIlVYPVFtpLN9yYRrZn_uTMllaIk_DRo_Tj-blqq1jzydU4m-a12KRKuW1FfykBXdT1Vh1H6lJOxND2Pbf_qXIiCpIhSKVw01rRc77cK0hj1u2LZR01s7Y9ULFZvLvxUnq-oKob96DWFA1QbV3h9-79HSrCSXOHG0FLoOS_qhREgkt1hFlDji9zk3gfebAmQe7OWD-l3=w689-h529-no" />
+
+</div>
+<p>On this new dialog navigate to the Spatial Lag tab, and you will then be presented with a dialog as below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_hH1pna3pllmCZNo0_0clM430IvhcNz-74f814elD_tEjMa0kQz6Aq62g_orNpn7s6WXRTESEh-R_E6138N88XdXGF-xmL_i11zkkHBJl0iez0QbRZuEQvWWfeg-KUiCf5_bg2xohkr-WrUjqwQd31umkuiDAeijjLGDV1akt7HnYG9j6k8W8XkTjRSEK280F7qDKX0sOIUnWkM_TcEVrURe643sUhXwdpvNWPE8syx42QKtyXdFM48jZF58ioeKH-ABG7SMwC7GKFFkfz3k1kqFP3tZBri8xdZtRipqAUoGD41qabOAt3BJzbgeDA_rFxPvkq-DJjLo8FxQc6fZT8Kwq9sEHrwX2Rv22l3vKdP9S7QDoL00oYPq1nL9_rlf0FcRCzQ-aKlX3q2GeaB5G3Atg79VefA-Jzxv8sbpRgM0wNQ-8Xb3oAuZhojccQBUM2ManNlF2oMaRZR7laQBQL3TBGEXfU7Ae5D_4Fkn_m-0wBV_dwlV9E1JVbkbOEYYb1WAGAe7-RJho0RSZ7pMYcWxcNGxyGIxlnlVoRRxcuhC0r-VmLtYZdEAmllvmew7QDhBmR7jwZpn115eUiOAvOzpopeUCfaPExTWJx5M5iMMcFgbr-H9=w756-h364-no" />
+
+</div>
+<p>Click the Add Variable, button. In this dialog that pops up name the variable Lag_Bars and keep all of the other defaults (as shown below), then select Add.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/x367iJB_rXtzmoOReH5x0Ikt9-ZbA0uGrrOPbfmAIUn6FKtV7HYHpmQrYoWbJd3zltDhrtqvA8ozRrdXWu79CUiKKpSeMaqoEJ4vDZfu_qAdu7xag-jFdMw7GnQDw5ZTknTGQCQhWpSXP7cdIYDk_b32vluJat61iHfc7qtgveRZHP4JpcoWRpiMUJtOwoisniySeekzQZUo_JtJP-kETHdmCbgtoIgubRTv4lTfK3G2PaLNKk5zX8FzCxQxwZN99gEvoQ3Z9x-eV7TGSU5mslwnpiYnHzU5rkzdeWywpU7BijXXKHS6lubym3Aq_KFsRFFvNIiYCsz11KIzSTrjFBijrV6kC3b5SG6O-QpspQLMzfrcntKH85MUurQFUg_kemfngAbLGnamTdFZ0iT2UD2FwtEyKlL0jIUV8_qj4OGOhJ8jFKiTV3F-aTwEVXphM6827Nyyyjf8Ti1X_Rkq4gp-SEAAh2FPTIXWRiXCLeEDBB5x7zR6utHqfroZZ7hSrqzGYzysw1SY0tYOXOIhMifaLTaeR_WhypO1HYBOtt2X3U1hm8nEM1TVlMxZxNMAFhFrzsAGNT9sdu7HNsbg1aFDcPHUoSaYOrAJ8rGWn8sVRAkeL690=w357-h295-no" />
+
+</div>
+<p>You will then be back at the prior dialog. In the Weight drop down, make sure to select the K5.gwt weight file, and then in the variable dropdown on the right select TypeC_D. This stands for Type C and D alcohol licenses in D.C., which happen to be bars that you can consume alcohol on premises (as opposed to alcohol licenses to sell beer - like at a gas station or liquor store - that need to be consumed off-premises). This will then populate the text box as below. Again make sure that you selected the second K5 weight that we calculated.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/R7MRjeY4W3ItZaihkHKv2skIgKzZaT4K0BmOeE-A5J_TrSmd-TmvbvGxhokyQfpLlUvo4K7OYyAaJKhv6A1xcdNMTIb5bKRITD0zigctiSTXzegVB71le3Aa-zfqPI6aD46Wmu-0Jw689whluB-cmB4esyjtIDapmLPpCPOqxVFVAPALYYkEmiSDIgwfW2zEMnumJV5UE97JUAuN8KIMA_4l6lZ6FgGKQ3zdh1PY71hdux6AgYIQfvvwUgee791PfluNB-Jvgp4pgOsPEXpkJUIcq8a_-JV0qqHO8F7cthpLXRghxCsYg3ul_wV04dKSR2CteX_f5xL0pabhfuy12w9hCGiEqAH5-RToHYpQKB_W0NFQbX5pg4hABLQiyyeAiiVPil5w_CcrzaKVggtY85QI_XLbNASjXCGBKD1k3EaQMObPq47Ep3oLuDe5yHex-V1EtM5iAmiAuE3HZ21R_uF8Rt01-VUYD6kkcWtxkOclnnJeSEhbM2kBze1jPM2fuFTxul4cooNbvVj6x33Ymg46Ry9YEOchmyKvjuV3ABMUy2FVo2409mKayC2m8fdy3XPHvJfss9dYFdlnfGS0C1PF8xRYZL5tAZBgs3ohm7vZlJE5gA1P=w756-h364-no" />
+
+</div>
+<p>Click apply, and then click close. Now in the file menu, click on the Table icon (highlighted in red), and this will bring up a datatable of the values.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qzvaZPib-zcdUyWsciqJ7IEBEIt5x_UB3ewN_IdsgHS5LGqliJZPZzY8bwewjVg9jIE42jzTPZfpkVM5NuaB1FntIAs_GFJU0yyjxIiXVf-ySfOSIaWBIo-JDj6q7AuSwWIjDX3XfNWOg7TG32s20yj6xyIXvNocuVYjDfxdo5ft9LC3jQ2fjFRZZj42Z-OE8VPZOUWLG3xLXfQBTElSerj_Q6jWDBw2QCYrhdwB86mOpi0oRU9TvYK5C71tXFX3CX_rdrNNCGcdqmE4HXsRUaU2ZXK-2jsflZ-aNKRxSDIZCWVsjxJ35oMUHAP73_4ZxzjNVREJ1JfH8GMf4RuNf0RAesS0RMNlFmGTjVFUIOyMuz-aKDb25L5Kpp2pn_7sQ_umLpu64iXItbCFy0RtkpSkmU355V7RcLTit94jxYoOlLmEMkuLXF8P5BHoia1diGddsREeTastJF5dUZiCMmaBJOCTbKHKCbzkfWAEB6YMaU7mLe7TGiqUevZxEEZIjCjWST5MJyn_8cLxIonBn3Q-zbx9Kp4DucSFgvEfeaWb0eWLxliQhUpeqvZW2CdGLd1Ih3T4irGbTWzPCnkxy2lD07pVizNF-BMVz4jZzM8M8iMJjEi3=w750-h590-no" />
+
+</div>
+<p>The variable we just created, LAG_BARS, will be at the left most portion of the table. Double click on the LAG_BARS field twice to sort the table in descending order. You should end up with ID #13367 at the top (MARID 905208) with an estimate of 5.8 for lag_bars. Click on the ID number and it will select the entire row. It is hard to see but this also highlights one area in our quantile map (circled in red).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UtHAwVwcMkULfDkAmVjcNGnd9UKQwTDE4gXuCSinTecIumxdcjUd4w6cj39HYFp6Z2rSQ5ANBat9l44mhaGSDiIxhth0OBbCsTReWVR-GdwPBscfDrFd10E9RvlBmTz3jtcrIZXN8Nx5YLyrxjaNSzP-_ACmYHGKd9OwolqWmFWkl2TgYZnIDuow_kbazPqLkqVq4429xEd-1EEFXdUlI0xNwuHM6RdVdla_Q3cnG6PKBjNSKdnWwepdIUoD1R846Ck5_WVj7Fsjot6zfSmiRie574gsCaKB4SwOgiHpBfi6t1O7ZQHJzPQ1AcIIqwHocw9pC32wI640zhk2ardbadzIN0wMjQ7Q0ZfkAdZ0TwvmyVPXRXc6mBfua4tYCNAbM7L8N8DPQXvU-XDx44OG6gyNnPw0e698__XLKCa6QtLMWP4zvX8sZRaRa-ZgXrel_WMxaVNN0LZFyatVvuJ1yo7gA12A9-fP6cBzdYdHWCqMZCSbUhBV_caMeiiPpo-zBvVwGBUOeCQNRG-nVg8GfMnOkOws1OYf4gu_hzzE8p0c9tOJVqMvEqNJU-VkWX3Vr2qAFDABRzlxnrZD6-DGsgtBZDmTd1w-a8Sr10CyenV55ZAvCsUy=w1188-h950-no" />
+
+</div>
+<p>Now navigate to the map window. We are going to zoom into this selected location. Right click anywhere in the map area, and toggle zooming mode on (highlighted in red below).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DjZVOOlf7dn2UUwjAD0Gk-mhjYDucwkrxxfDPYHF1yNOczI8RWZSymKbXU1Q2RIGeyxj0pjNvns0GuYGaOVTw_OneyBkAkbCb_F3jP8BPRjL7plu2MZjgl5QoVPryohGlKnDuCYB-VJdNz2b7x_5mtt6Z0KiVyDrBGKfHZeppHebiQBPhMJr-8SXJ3c4l6xwHk1guu5ttfm9cZxij80FzExkpWINve7mScoS2moa4PMDcLoplJ8rG7tw-gMYnl4ztofobk0VCuTqQPhg8FrgPK7ZrVNC2Bd9f7FJTdteflWYeyQxAqNRA4_4tyUuifaLob4Yxo_CCAomX2W05WkQlyR37TUVmhgFECRkQMQJGSL0Bw7xx00B-QhcP9Oat_d3PL8G0n0dzr6kKMxlyxHFXhcXMMA6fkuwVf3IermQzFQBOcvkQE_jIuhyyVFnOV8ICyazEyZ8aCxRIUR3AluwqjbTsLqFpVMaWmdpbxIQj3l0uv_8JRoB2_MqHBCwcPXR_-KzftNfVdTP8nEUEvk68ea_yPX-yVf7KIx2tpW7PxJeVIHxui4wjodceqAeW5bf8LzyNgwglesSm1JWnLepYs5bJ5M2vgpFc8lFe0he7yoywuoOOwyA=w569-h707-no" />
+
+</div>
+<p>You will then have a magnifying glass, and the same as in ArcGIS you can select a rectangle to zoom into. Zoom into the selected area. Next, in the file menu go to Table -&gt; Add Neighbors to selection. You can see my map on the left before the selection below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YsSG35FOv9bFQrkbyc7BfIavzhsclM2fQL5zp57PBHGKjM0iSgQV4O-Ho3k74tuBPkkjJhNuuNHN3py1Q9fz2c6XTcz3goV8xjb0Tg94oeSzUILZ56nBHo3mLS3c_I10OtvidZW5lY1CcNlU8M0C2QNQHX6FbKr1fcYity6YaBkEzfDv_lnuCEvfqUkb-0GzactfYscrcZEFUmwBw3T92QFOCkOZ5jIH7-aywE-JQXF-O7B_yug1VcLB6YxRkSVUN4AWur4Jq_VTqz-j-Zdo-n6wMjTsNqNGE90-_NnFH11h8QgWHHgyiQuH019ZnyRxmuuteege_EfnQrB-jLKE6VnMiuJuf2x7itt1SLU93s2yGLCXgo5xBWUKhmhzu4BOS6rrDeMa-0i8UIuZxKIwW9m0tlRz5GUMENq4E_HnnVyTqevTHbW70Tt_cR51CraJIdNlx0xws2W5jHZdBT6MlHk0H5I2a4NJLtqghrmt479NjfZGnj2Cvvri4lGbWFdbkoA9bGulnKhqubicpkkNNCNkDAriGo8cnaGBwZJh2to-OYEwkbyMRd3T25KFlI1RtTdlfV64hhwzkHtxCZddo7MWQSseu6I4yx6BVfTsaJeSeimNW7EI=w1188-h950-no" />
+
+</div>
+<p>After you hit Add neighbors to selection, go back to the file menu, and then select Table -&gt; Move Selection to Top. After I did this, I deselected the original 13367 unit, and below you can see I have selected the 5 other neighboring units. I also dragged the original TypeC_D variable to the left hand portion of the table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_XKgLmBGi08ZHgZBvHgQ_4uR6jGyk7aAX-fx-7iyXk4KsI98hA_DPLhPh_20yJcXPntiqXoIeCRa3PqOrO6hSnAH-4t7YynNei2VEpyePAea5oZhT_9fiLCnxW7mXzE_F8J0-2dIWCRuC6h6_cpQHr3Qzf_bV1KsUK-CruxYCVohxwkxCsdkP_jdEm2sQA3PQFym_HkrQ4LoLNnps3LXsLdgd2KJGUNq62UJa144DF8F9_BFs8MJTDalBj12ZZk0sdFYim3qpnAGd6b9ekzr98Rsg4ihFehtsiI4C5tIsBL2bRygCQ5s_CgyB3I-GTetpU5Z5wjUkueGQpUlOBCQrmjKVIZL4xeGu7x0Iw89OfJZZeKC3CysqK4z_LPeX67IttqqFVZtCij7_wrvNf5Fdf3Mn5VAkSZZvrYtW3i2MOx2ykfod1p2LFQ7y5TNnr2CGdjuvkGYShU-yVORaNrkHYjmOUt_qlGhikLHAknnv5iuCLYAdsgMM6FCxrudbqW0apOQCZPm9pELiJBATLx1W9bog3tt_0pGi-5Fu_jtCLM1e0p7hpxI4Zu_Uu1awcINIDDmH-6UcC6tdZUb_P7h3RkydofRsRQzQWIKWovKzBPwaRFjzhli=w1188-h950-no" />
+
+</div>
+<p>To see where the spatial lag of 5.8 came from, add the number of TypeC_D licenses in the 5 neighbors of 13367. These add to <code>20 + 0 + 3 + 0 + 6 = 29</code>. GeoDa by default calculates the lags as row-normalized, so with 5 neighbors it will be the <code>(sum of neighbors)/5</code>. So 5.8 here equals 29/5. This is one reason why k-nearest neighbors spatial weights are easier to interpret than weights that have an irregular number of neighbors. I will show how interpreting regression slopes is also simpler in some circumstances.</p>
+<h1 id="morans-i">Moran’s I</h1>
+<p>Moran’s I is a global statistic that measures the amount of spatial-autocorrelation in the data. This ends up being very similar to the a normal correlation coefficient, just instead of two separate variables, it is the correlation between the local variable (crime on this street unit), and the spatial lag (crime on the neighboring streets).</p>
+<p>In the file menu bar, select the option shown below, and then click Univariate Local Moran’s I.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1VU0R_K9kIgnudxXQlmUkHYuxZyEdM79Y50AIeHqq6gG9Gn1TMnhM4spAIjgYKrs-p2BvhVnE5mU6b_4Eccd-ijOe1RX9WZx_zaigLAw6yt3fXv-YgXqidwbzNZToHReCn8H9gV2pKgXtwM73lY6z5jScOTlYOMFf7QxKNCm1W_mowtB6iXqh4YGbw98_jR7LCA8vqD0MyXMJyZAhjjxLsNOLCF1lESqGNNHoVKKSFSV8Wd-5amRiAf-E7A7NlLMJD6IHK1ibiF5H-w_vIgytuCgiAmIif6nhPQrZI-f2_jXujUqL8yy51H0VNqzWk3po75z5AX-nY-6hnslmmYalesGUZ00olWLlY3XQSdpFH_4tZdoTjTjv62NxDcgDPpjj7l8l5K1O1oXLxBCe7mdcdtzpgXPunA1rFSo8yzq-i4mv10cpnwa1bbx9JbQUyJUn4kjoMrnlAe_0HER3o9E9eQHU2Trxtzcayaqm0QsmN99KWJtooPdP9QOGJG9oO34uu5gdmVqhTYRBr70Iof7fp8U4O1II4l_hoW5r9oqh_2amhJ8ocVXjzsxGTISr8QEqnIxT90Tl02fhlnPG6rEAZjKv8Ciu-VHnbHz4iYwWkbOuNT2a9YD=w833-h198-no" />
+
+</div>
+<p>In the select weights dialog that pops up, make sure to have your K5 weights selected, check the set as default dialog, and then hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8R4X5FuSN--wopUYKOiZ2bmuRr_66Fznh63ku4a7VtP8AsPUXbuK-OZGEN_4i7H5w5gwFeGezKkd7wYp0SrRiw-FZfG8y8IDckU2t_PK_-mHQCRuFmVG4QE8WyBj_6RNeNi6Mp6UosgZsrEek5t9g3T8TS5ZGTycTvGHYZpZF1kh6t3D1dhjqUO4NWChjmZ830z50l7sl9SbY8qL9nz4kZQIX6UWFBvj9sDXWiQ21OYDuYxC81Pj8wqT7cvEEnq25E_Co-82-iVD9xNm_JOhRQnaq_Hh2KkdQ498OIVyuVOMUOMEW70szv7pI4dERMtqPWp9a0ih_iwL42Goi4rnV0zPUOV7-kNIE4yX498zErLfnJtcvxkyK6mFcko66ioFIAGlYkI4bVQxOU4fmedYa-24OUS0hF_ULyTLpBufmv8qtcozCLPfkuzl7_HKKCrw1l6yqIIiTbxfzHf8uAs48i5ITS55PO6tSselg4jrOH1eFL1s0l0xowypiOsbFMczZ3dJ0CddPwJ4WILTShn1NfaJ_Fmv644RW2WbHu8LtaCUtDqxFJL_0I_8C87DErBLpyic5DTKrot40PNMrYIwijsbXPWyKZTWs4klY4Byuoj9_1NciHwR=w373-h261-no" />
+
+</div>
+<p>In the following what windows to open, select both the cluster map and the Moran scatterplot.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y8VpQ4eytAi9yifltiE73oVq2m0A5qkcetGvuItgh7ltTO3waE668vtfDLR7NaAhtFgYUi3EqfbtVpqzTtzVNLwNwSPvj2tDwLOuOKaB_fNICp9m7cN0wrHaoMlmNtJhpKndW_-raomDQiqVmLbdV0cNYCdWmML8nCBPbLFQqrKxFCmxG6Iqw2N6BMwxyxZOJIrrr4LiQSu4rJIe-6lWsqz34sIPbqMWx-LEUHqsHz4Ij-7Mrhpa3tJik7RZ9gVMt3LzcXSgvmVF9hXW-0EzQCX8xExSlpFLSng-RZ1CzVGOA8QCd0l4zFYek-sIzah5DyBKpJWnRKvklHw9TW7DPf_tBIqQGIu-k3Yp2HSvkwuW40F_R0NMqGrjCzVkdswprBnrepFjNIEUwFQsjwxwrp92kYRkiHkfRP6dAg2fPpFMDIbe0VhIdb8BXdYLyBs27D4P4FlsnlIz6LDfwFTF73C3KjRoQd7uuh2b3b-9Hdt5SxPJJrVnZxJjRd8WDNDII2jI378_9Rm7-fu-4FfwsdFdF4SNh2t_u5_66XL8DnlHbcPnXBwPAUiOAD-p0YC2ItQV0HdrC7TC4LA2xJRfaDdlEqitS9RyRuLFfZaB9uzTFhuUXh3H=w254-h113-no" />
+
+</div>
+<p>Now you will get two windows that pop up. The scatterplot shows the Z-scored total crime on the X axis, and the spatial lag of the Z-scored total crime on the Y axis. The slope of the line shown is global Moran’s I coefficient, which is just under 0.12. You can see most of the data are bunched up.</p>
+<p>In the local scores maps, it shows significant pairs of locations based on 99 permutations. In interpreting the pairs, the first variable is the local value, and the second is the neighbor value. So a pair of Low-High means it is a location of low crime next to a location of high crime. Most maps tend to be dominated by Low-Low and High-High pairs, but crime is not as smooth as some other types of spatial data. E.g. high crime locations are often right next to low crime locations, and high crime neighborhoods often have a mix of low crime and high crime micro places.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tCJtG7aw5_wBlxCi8zG9xY4-5WoLu-vB4YaV1mQUhhhaMxkUDAz1QP7xMDF7pmt4d14GgB60Cxi0UqhpG1QV7sLKgTG7ZfFMGsm67Fted2EULit9a4QevyX4Mw72JA7hR8u3bY42zZPxkw9hmnOWv1h9XyICwBe21os7pnxaMGnvYqErTk0yM-I_9dYIrB7fB_k25vLVooPSKipyUsetADMtRPaP9Wcx2kGwV_x6lmT8w-mk7ZQE4K22MYOs6WX0qAAIt9gbxgVkfyVi_9SEIek9MYhMD2L2DehQx4QD00xwKwIoL8jd-ChOxL8MYjblhxbCq_GfW4Nyuw2D0YG-IS2e96Nlyh4OyRJExd5NFYSZiAcoWW8feFGcTnqI8Jv94IQulBs3--96h1RVZT-gScSUeZzsqSeX-jJb03xEuZ06TOhTwXUEF7MsONhVKdodgYDx61j5ZvJ8ycW7IrYwDSP80e0TBqWuX3IqHBJY3SmTS_i9_rF04bvww6xlIBlLvhMspum-biq-10B4pmbiGzvIH5dO5cCQWIcpC3TcNOe_5ZzOV9gQdehE4d0QjZrUbK4BLibJVE5efvSp-fD8b5D9VsZ_UmC_GQkLY_7p88HYOtVgVkRc=w1278-h762-no" />
+
+</div>
+<p>You can select either portions of the scatterplot or different items in the legend. Here I selected the pink High-Low areas. That is, areas that have high amounts of crime and low amounts of crime in the neighboring street units. You can see in the scatterplot these just end up being places that have some crime, but the neighboring street units have zero crime in total (they hug the X axis).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/J_vlcPparxLbXegHhHnQoGfNYvPIlfjcj2_QimPB6jt6DQCkVex7pz0zCU5Tej_WI3eBodFhmto7xeZ4HdQ3g2hRziSm2mviMTn_M7OTL-BTnVoV1hmXQzWVNlBIUCnS9EXKJhmPQEJlOIGWxdy1xhov9v0yYEQMvRacCpz06m43in6qOLL2RYtFe22VQkovZ_4wqXkDASDlaWh664c_4_vPy8t0nr4-_K_JTQKTrj4vZgaMToRwvO1y-OITGQVtCTmGbX86ogIGCRH3bW9xD7dAbR7RQx8E2TGeF5F8sEDi4icMfw-r8Yvl19wCmTRr1d3YrPHFeSRS_bBoQpIHeWrXlREajpN9gOqxItkKcEzDGfyW95aaLy5_2IsR80DzTExriPlpvcvBX3P0W0wEe8HJ3gwZr5WhTrO7-UOOjdennRQQeT2OznM2q1c2Xp7N-_ycTOgbSvOvvRICs0f6f9RuCHIFTf6xMRq_xLHH_1NCZxL1tIXUdC8MPfowF7mVt1B5tdIQexIxLHFAXjUenVgvJZ7zUQE2Hyzp-v1yB4dCk_hiMfltQZdcyDICs9boaMryJMfwP4L45Gi-Z9jCciYyOpURKvCgbgMbvM0sF7Hvnm-Y23D8=w1277-h759-no" />
+
+</div>
+<p>Personally I have never found the cluster map to be real useful, the scatterplot is good at identifying outliers though.</p>
+<h1 id="bivariate-scatterplots-and-regression">Bivariate Scatterplots and Regression</h1>
+<p>GeoDa also has many tools to assess bivariate relationships between two separate variables. Here we are going to evaluate the effect of the number of local bars on crime, and compare it to the effect of neighboring bars on crime. So first, in the Menu Bar click the scatterplot icon (circled in red below). Then select TotalCrime for the Dependent Y variable, and TypeC_D for the independent variable and hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1H67fxwobEaWiUow1schCNq9gbeCj5rQXicnEWv7LdlNYY_Gwu1gdAmtvYO4n5bdaP2suicNWGCEkLhMOjxd5rmNrVjDFm5OIvUMXcMbUOeG_qSZOBkr1hGW2RgUGePDnM2ZktRDdcWpq--hP9UXn9pehHPWpSDgoBcTkwKS6nIo1aIFJH1buoypMFH-1nUfb8QliKGqvTygdZKWWSTtO8gIOhu92iZ1W-iflv5iy-Kum_BtO2tFUvBevm-VrEJZRvyP1NVlcBoWpeXiaRmV3z2COOFyzzIMRL5Xa3MP4izE3ZmHlgFR9cR3CnFVqrCuL64XhR1XMLbzbw_WRk6TtYnzIOfg5boACa_4SnBWVVo4RsSiNd1L0CQ9PcEYYDkhSsqoq8fGg3jjGc16vSyi5ZTojA5xcke8Z3-5YDG7803ViiszNAVQmcrCYpx28PCKz8UqZF3rWlptiwaRsUh4LJhiaWNcPj30BifxSdagnQhC0VuzH7i4sTrHkXUT5L5nYOOOstDuY-H6RucVdadQLKfCi2jV2JezriAdWPcuSU3SmjJaThlh72gXRsKkK2yLBueggft44sbxEejernM9cRCEtPsZa5rGT2ozvWXeCTiDvFzut-Zu=w705-h473-no" />
+
+</div>
+<p>This will produce a new window with a scatterplot and some linear regression information. Go ahead and do the same for the the LAG_BARS variable we just created. Below is a screenshot of both those scatterplots side by side.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/K89HCjwEKZZJI1I2tzaGrd1b7-3SSo3uXqWQ_Z4D9NA957azWqGzkDlIrhTk7E1f6hbZwAEc0XZw2q3qJ__LRCPDrngPc50muOaxzONjUAAy32SSgJesXaE60RGYcZRgHK_WkZ3wvuL9KDECsV4AbSbV4d2I0QsMrpb6CAJ53_uE8VItZJ4H3H415EQpoE-aSPBnqg2TqQdKEuXZ-KOHR13uYIMVlcenicpcED1pH1qyA59FIyiufRszOg32w1hniT8pWswUw4-wPi3MUiYmYVqSq7abdSEd3Lk1aqAUX3qqAE3PBnEL5p3pR6BFtpk984pepJ0PsWltKcdo908Iz8rpCC6dF6OCqhdSK9TUs-ZWLBY2svnjSWLD77ys8xHnTX2rLYoGrakvI-OObE0zaws5SNjxm8YlNjQA0gZGH9fBDwMgY0KQvQl1UOHWqMcwelmQcJCdK6v_dn7Y501PVZxRkY84zl0IWeEELQfO0vpXcNllX6bIWngBQp1HA4B_WK_GxTDD65JSa06cUwRi6oAxB1VBlwVBlBjEXTDriOFc4IpTeMYaifqxKeqJrWfOapQpK-IsFf-BijsV_NSnmKctLqpE9TgaUDEsMp3UHrd5NpLBE6Gf=w1099-h560-no" />
+
+</div>
+<p>Now to interpret these equations. For the TypeC_D effect (the local number of bars) we have a slope coefficient of 2.8. This means that adding one bar to a street unit increases the number of Part 1 crimes on average by 2.8 per year.</p>
+<p>For the LAG_BARS, we have a slope coefficient of just under 4 (3.97 to be exact). Although the coefficient is larger than the local effect, remember that the LAG_BARS value is the <em>average</em> per the 5 neighbors. So increasing 1 in lag bars is the equivalent of having <strong>5</strong> bars in the neighboring areas. The effect of only 1 bar in the neighboring areas is <code>0.2*5 = 1</code>.</p>
+<p>So we can have two different perspectives. Say you are a home-owner concerned about zoning for new bars. These equations would suggest that if a bar comes onto your street, you would expect Part 1 crimes to increase by almost 3 per year. If the bar was on a neighboring street, crime on your street would increase by 1 part 1 crime per year.</p>
+<p>There is an opposite perspective though, in that if you add a bar how much does the <em>total</em> amount of crime increase. We know that it increases by around 3 on the local street, but one bar will diffuse crime increases to multiple neighboring streets. While the k-nearest neighbor is not necessarily symmetric, for example consider a spatial set of locations <code>ABC     D</code>. The two nearest neighbors of <code>D</code> are <code>C</code> and <code>B</code>, but the two nearest neighbors for <code>C</code> are <code>A</code> and <code>B</code>. So the neighbors are not necessarily symmetric if the areal units are not a regular grid. But a point will on average have around 5 neighbors, so the local effect of one bar will be 2.8, and the <em>cumulative</em> neighbor effects will be <code>5*0.2 = 1</code>. So from these bivariate models we might guess that bars increase crime by a total of around 4 part 1 crimes. These marginal effect estimates work similar to spatial weights matrices that have an irregular number of neighbors as well - just use the average to get a quick and dirty estimate.</p>
+<p>This is a simplistic assumption, because we have estimated these effects separately, and the count outcome of crime is not quite appropriate to use linear models. Next week we will talk about fitting spatial regression models, but interpreting spatial lags like here will still come into play.</p>
+<p>Note if you want to export these images, you can right click on the image and select save as in the bottom dialog box. (Ditto for maps.) Also with these scatterplots you can edit whether the regression coefficients are shown below the scatterplot. By default it shows the global regression, as well as the regression if you select a subset of spatial locations.</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, use the same DC data. First create a new spatial lag variable based on CFS2. These are 311 calls for service related to detritus complaints at street units (e.g. garbage on the street). Create scatterplots of the local variable (CFS2) and the spatial lag (CFS2_Lag), and export those two scatterplots to PNG files. Create a word document and import those two scatterplots into the word document. Then in the word document write a few sentences interpreting the two slope coefficients.</p>
+<p>For 5 points extra credit, create two maps, one of the Total Crimes and one of the Calls for Service. Export both to PNG files and include them in your homework document. Write a few sentences describing the spatial patterns you see for the two variables.</p>
+</body>
+</html>

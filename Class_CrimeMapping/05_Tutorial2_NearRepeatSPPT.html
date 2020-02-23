@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler" />
+  <title>Week 5 GIS tutorial - Near Repeat Analysis and Andresen’s Spatial Point Pattern Test</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 5 GIS tutorial - Near Repeat Analysis and Andresen’s Spatial Point Pattern Test</h1>
+<h2 class="author">By Andrew Wheeler</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#using-the-near-repeat-calculator">Using the Near-Repeat Calculator</a><ul>
+<li><a href="#importing-the-latitude-and-longitude-data-into-arcgis">Importing the Latitude and Longitude Data into ArcGIS</a></li>
+<li><a href="#creating-new-projected-x-and-y-coordinate-fields">Creating new projected X and Y coordinate fields</a></li>
+<li><a href="#using-the-near-repeat-calculator-1">Using the near-repeat calculator</a></li>
+</ul></li>
+<li><a href="#andresens-spatial-point-pattern-test">Andresen’s Spatial Point Pattern Test</a><ul>
+<li><a href="#creating-a-fishnet-grid">Creating a Fishnet Grid</a></li>
+<li><a href="#using-andresens-point-pattern-tool">Using Andresen’s Point Pattern Tool</a></li>
+<li><a href="#mapping-the-results-of-the-andresen-point-pattern-test">Mapping the results of the Andresen Point Pattern test</a></li>
+<li><a href="#some-final-notes-on-using-andresens-point-pattern-test">Some Final Notes on Using Andresen’s Point Pattern Test</a></li>
+</ul></li>
+<li><a href="#additional-notes">Additional Notes</a></li>
+<li><a href="#homework">Homework</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This weeks tutorial illustrates how to conduct two of the types of point pattern analysis discussed in class this week: near-repeat analysis and Andresen’s spatial point pattern test. Each uses a different tool to conduct the analysis, but I also show how to incorporate the work with ArcMap. The data for each tutorial can be downloaded from blackboard, <a href="https://www.dropbox.com/s/3yblay8hzsib8g4/PP2_SpatialData.zip?dl=0">or from this link</a>. The zip file also includes the tools for this homework.</p>
+<p>As a note, there is a newer tool, created by Liz Groff and Travis Taniguchi, <a href="https://www.policefoundation.org/projects/translating-near-repeat-theory-into-a-geospatial-policing-strategy/">to conduct near-repeat analysis that can incorporate network distances</a> (so distance between points on a street network). It will likely work for larger point patterns as well (Jerry’s calculator seems to not work out very well for any more than 5,000 points). I will eventually redo this tutorial using that software, but for now you get the old calculator that Jerry created.</p>
+<p>The app used to conduct Andresen’s spatial point pattern test also does not incorporate some of the advances I proposed to the methodology in <span class="citation">A. Wheeler, Steenbeek, and Andresen (2018)</span>. To do those you need to use the <a href="https://github.com/wsteenbeek/sppt">R package</a>, which I will show in a later tutorial in the class how to use R.</p>
+<h1 id="using-the-near-repeat-calculator">Using the Near-Repeat Calculator</h1>
+<p>This is an additional walk-through about how to conduct near-repeat analysis, as discussed in <span class="citation">Ratcliffe and Rengert (2008)</span>. It also contains an example of taking what are originally data in latitude and longitude (spherical coordinates) and adding fields that are projected into the spreadsheet. This is a necessary step to perform many different types of geographic procedures (such as calculating buffers, or accurately estimating the distance between two points). I illustrate this with an example of over 2,800 shootings in Philadelphia from 1/1/2015 through 4/25/2017.</p>
+<p>The shooting and Philadelphia boundary data were originally obtained from <a href="https://www.opendataphilly.org/" class="uri">https://www.opendataphilly.org/</a>. Jerry Ratcliffe’s Near-Repeat calculator can be downloaded from <a href="http://www.cla.temple.edu/cj/resources/near-repeat-calculator/" class="uri">http://www.cla.temple.edu/cj/resources/near-repeat-calculator/</a>. But I also link to this data at the beginning of the tutorial and provide the data on blackboard as well.</p>
+<h2 id="importing-the-latitude-and-longitude-data-into-arcgis">Importing the Latitude and Longitude Data into ArcGIS</h2>
+<p>Create a new map document, and then add in the csv data “shootings.csv” as well as the “City_Limits_Proj” shapefile.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IJJ_fPaBSar4NP6JxVImvbr23334aKHk-J3j4GypSP5PgoYkaQZqqXUgsxff4QEr92_8Y3XcQha_OXpH6q10EPMDsKNyAMcrCd3Ab6K-AFtAX6Xk6wo8ic71b2z4NUmaDKL4uc4uBCoQs43_MxLOZ27GcgbunvHll0P9CroMxjGRTAG7q881-7xzej5DLvumUa3zCQ2R0MbLOh-fI1mwdF6pA2KqEiQRsYrfE7SkU2j81wKZiTjb0zzZItVyL2NyKGr3C2MvWoHACj-KKplo3-6YnvO_zlB0wxP9Kt4cr1gLm5ThrQ2brR9HIF8Ex7kMj2eGEvHPArI5729xWAZ1u-7zdhT-JeHBcXWgzReAXLYtkybpYx380sbxlcx6Bhz81v5-95807vpRUdXiGIrRVdHfnBe7ZGRG6iCOkGfMzpsNnp_LfUlLPzhmRBe9jn8p2N9nc1K3UCWnDV7ihY1TmuDit8lyyMTe0Odc636Hgjt3zc6c3RmY0I5Pzbgt8XYaSVdomq-fsd2IPVfkywbqAg-C5_YI9MzxxMkLl0Z7Br2bfmkSVtU9E0caEW78QUUcQPkues0IpR3YYSDpd3b9nmLneqmphIoKfAWFAV54koFEEMvEtVEy=w495-h329-no" />
+
+</div>
+<p>In the table of contents, right click on the shootings.csv table and select <em>Display XY Data</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qJYD-wZr47blwLgbWnN-ZrE1mdAe76f6ZgI002mX_yFFglolEQB3isNykWq2ytawnGWHEWXOhzEZGuOV_ZFINjlIqXxrvBPnTYqInriOyrLy_KEKJOSW-QZ1VYQf7pLGAzeRFVfQizbfMn7CM85nKikzWB5Dzqa_fw0EkzHOaa3mtRku2jT4f-M7EsmHJybCTzaFa9DfYf5FvqvYvDgcgnoZ4sSsRePBE5o6izk8lyvJUe5F9jguDjnpOG2IsHnx1P-Y3M0LPdPouOcDNnww6JNrQ66WDOt9e-x8cCkT2mw8rEWu5Bl9e370y1SeJps0KlKiNEOauLAOljQ697TrZbKRWzb_VgQfo3GaefN_SawHhaQUZDMr1n8T6PiUMHbSatHLTiUghzR37cwdMaj62t-AVmwzndsanaef_poAi4obKuQ14re1UBK_OFe6cztRsFuI-kaa1fxUh27TQ4uKu08vzgVUi5Mc0dwFF7SOO9g9fbG3E_qaQQt4z7voMm4VyYUr-isO-8J3H9frvgT8zW7Db88o6yyODLWek_RGL45jRn2hL9OHVK91-RoLuRn0f3f-ghYQQOELf3xukHyqFEf0uAuelIOxsBqKLkJVJ28vwFNesKDa=w932-h506-no" />
+
+</div>
+<p>In the X field select lng (for longitude) and in the Y field select lat (for latitude). Now, before clicking ok, the default projection information filled in is based on the map, which happens to be a State Plane coordinate system in meters. We need to change this though, as the data are not projected, but are in spherical latitude and longitude coordinates. So after the X and Y field information is filled in, click the Edit button, circled in red below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7sCaAuShNFdH7PzQl7a8jA6Whl-7rAGFtpy1iOHE5qlK5p5N_Wh_afQAhc1ABQopKojt0WRGeHhS18YFKTMksvdVyHhbH_njUbfT2pSjuloNFOiLjn6XYj0nvC7P4AduWXJeVwkH-DNLuHCQfuujY2AoEr2rj2jhwkp2tX5-hs3dq8pujCBMLBKriJZo2tMjQrQVhXdb4eIY6EypNHrUaD1XdisxFOJ6PqAdg_chmDijtJ42NHHOVPlj7opSZ5mBWwEH1yVvHKy-1ryNggne71trAlaV0QOGuy69fLflOVP3e_2QZee8sSsmrcRBT-orkwQj7lTeDVF32ld3U8KmirSsaVp6xrjfCzg41kHAA1WOvUnUKqM0V7kJDAuwZunj2y_AykXL0Dova-NQQm-H9O8WD_Z6UTXEEfd37QkVuO8DhksnSag7Klp3UDpjNLXXq2pbYwXvySjFJLhewW1RCzlXYaeWLXnZOvEZzXJ8gzxIaLrcg-XUvt1fi8nMFFEe9cuDWGdX0MB_m-vaqn9VwITNp6oDglnSQDuErZ39sNqOmwZYBVucE4cnO69Iadnc6JE5YjeOHbcPq2NHdMwoCO9iupnKj_h7FM_HK4xYwFVR4M34MOxH=w318-h506-no" />
+
+</div>
+<p>You will then get a Spatial Reference Properties window. Navigate to the top and collapse all of the folders to look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VwCC8_UjkT2yVsffVIOfLZKF_ROaux602HuRQ6wGmVrzWMBaSgQvsjSj7VYsKzNKCSxM9Yll1hu5Eudznm8gCTf-N89isk0rJzz9HLhXI2fwv5FNzRYWRIxaZGaEshKB_9njIqWmvMOLIdapvSN_FIrj6S0eshfAt8OqAQ8gkBZzHG5SJfjwGcbo0euZXCNKiTHTR-O_LIbMXUYLLWAxaWz3HxEg5jXy1_fz3jsmHCP1Hr_-icp0NjGicDkbBc2lGmACNTxXwOaFRMbj4RUS0I6I8WfzCE1gQKtqIlaVusK1Br5tYfBictJmOGNyi2Z7f9nCc18lxz0WWq52wm6fF6aiGF4JpEsqm-0zfTaHvDHFCqgwZt2pbe2ZUE5FtjoIspY43qRVlZ7JqBJqyFFDPIMp7JZxO3qXYrPvWoAoT13wABRueSfGaGCnjV9Q19iBva-RGOtl3ejq4zTP5dhVzJ4m8yMeaKFeBE_G2lozPdKgh_YnJgC_8RXTuqHYw9ZpsB10Lf6MEL6OiRVr0VbADMFADE5Lo5CKOdTuevFS8jqO0_dSPuhHUcmuzAGbRITasq3AMMm8i7k7sR-0TYoNsXM6EFnsfe4CQ3HjkFkLr5BpgdovvoQn=w477-h558-no" />
+
+</div>
+<p>Now when you have latitude and longitude data, the data are not really projected at all. There are different reference systems though that define where exactly the latitude and longitude coordinates line up exactly on the globe. The currently most common one is named WGS 1984. It is currently the most common as that is what all web mapping software uses. So to assign the latitude and longitude points to WGS 1984, open up the folder Geographic Coordinate System -&gt; World and then select WGS 1984 and hit OK. The next three screen shots below illustrate this.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PURgCjXoy0elbQq_8RIJFD9ZP5eJ8Y8GznHJj_mMtAloNTW7X4ZLpe6RSoNdp2ORVpGRqqTw2_Fjfjw4CALp3-a-vDBndnbJZeMDpqB_9L3DaKgzGw6GOYxV4Xd5d7EOUoIC_Ua1QlyCjgzTqsb39zSg4gzP6CGPggzOO8aZK6gXtsALNUnG9Grb1D1vFfoWdfw3wD50RpT8PjrlRNhlCK1Y63pcUIpcQmWESmmywzth5vbncmyn769DG1Uiw7KecaUzE3i_kAH9FGfGWVG_g_QbSVU0_-nfP2BDt0jI8EsmT5rgIRv9iLG4gO2Phe9T1VR5naxXrfAQm33AqPz5xNsTB1MAlSOUrUOIgBM39fO26y5kjdZ7trMjLzlZlh02ou7xj5H8cTfGJ8pRplafl765Wx9eR3HlgFE2ITHRjH2XsxbOaDRRYWcG_PwcIAgTa84_UomPzAD9MxVHRyyfFz3Z04QsN7_iBEuLW4jkb55E_x10fLujzafPFYac8Chy2CnNoYUZmCdxG6SIHhKKTEFbnrqsfohf7VtfPP-Cwj3BKB9ki1DjE0EmerG_TeXMPpsdwt-1K55R_BYqNzdDLeTu2WaJD9JMpnUrNzxl7gnBQIcsXKl4=w477-h558-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7mgUI45rGLCM0PolOu5M_MKsZE4Mu813AkOn5ffNyKM6WyU8JXWGv2CWrbAds-9vRcfXFgPRUbsBKKzzSSJQgXsw2K0Ix5OaymhHd0wK7v_3CNakXiBVoEmKYupOriHsuN5DJUy2IDnuYFNs5AQ4ad2RojXABO3kXdSsfUsxin4lINj6ltQzgZLpK1j_YmXkCRoUPWQtvkQ-_lm1YMUHgdQy_B-yF8BkpjZHVt5hOc4LeobDOeoUlTFxCPxcMYZcCcgICPYQaTj71EAwNENUnDr5y7t21sxikm8_PZWFNOwYkCPEyq0JXAcQgkgv40dKDPT9Kf9pyAN2VoxhvMHQ4tcee0vl5Hb6ckriTz-llktN44I4gHBDkhh-1HwAks5utx7drL7bbpotBUwPBXGGjlI_-v_vWd419DMPz56fVzGHbFScA2aMNlZoP1Kz6pC0TLcyPIr33GP4h9O6i8dbvjMLFv7qLkmZj2Tt-qs0md-qd0NRpeVtzI9koCHS1iT3eR1s1wjQpTDugYuvcerRFB0gc3NgXKrSM4-G2vFUILz9UM6CcZkKxs7cmnKbeZCL0xTX2PYSxPxoFYJXvgc9cnNaRin4UzDQYRhCTXdRivasuzpDcpBx=w477-h558-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6ykXhExmPAKY4Ws-NwmX6pP9qTpTeqFfxTCgG44Qkz2ql9Ikazrp57WDypEaqdjjER9NkCgGlCxCCHGFe5WUKgdOtib3SBWAfApNROykmoThoDguoIvM3I6ajo_wbR1hBeX2LIEwWP-K5aXDRLK_CcTkIp5ENgeY-p86ReYT9wSTxyX4P6BlSmRS1Whji-oRCrAXCzC7iix53k6QLBpJL1cdBDcGnb4fCoqgP8UNppv56fcdaPSx2sN7LfYIpTAghrxMjdj0R-y7L1MkMMtebJgPqHGKcZvSeeeTF3OG7gmDu35QpxwVuo5cBXkpO9YqhzEOxVfixoRIw_RRs3LSWv_TGXGUZUb5sHF7SJURQonHwHtT-6D5eTWtABJN35D4x6VmqkamPqDn3O8Ql43wmYGYTsu3FxzVIVysTL5PkoqXRjpfIIOh_x9KR_ifUY5m9t2bGRbWTM9mvkjsHQXpvlPovzKLA36GSemUaqct2pApFDytzDZ0eysTy1tr7HWUfbKK_vf9rsxQNDcxpgzcWsGR77rRbUgVZ0894HFqT6N4GZ9bC_pwUbIroRZ7vzOyCpLAuBZr4UnMLK6su0O8QVyTjuvswNfxjRqqsR_vczEjbWSy1SdU=w477-h559-no" />
+
+</div>
+<p>You should be back at the Display XY data dialog, and it should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/e6IO_BB-zQTkJne3vd9Mkw3XjVisolvhdfNlE-I4E4L6MWdGaOHctebGhZvRiSLqRe9cwgmukht-X7emdVtw05gHTYay85tDaJzDcpGJBe5x8z_K8UiK2OGBSia8N4744MHaGgPRFxXMgIS7EjYTwNlGfbq19Pqw35pXfi2PWTDINfMgjUQg332WVAaBnY9rzcp7aUFgJyhlJf7it4sEmPRvScCpPYTxz75mt9mp4e3GRtUfyocUQxE4HQGj6UZaug7W0LfEp2-hFYdE8WUiDeDstbH8FTMvBBHDvsKK0n8ZcjyIX_JUPnusrrRgYjRCLJBZWmaLIjfnCvV2y8Q1oc542ax3NuNXshbtIIe3-nrEdkonTC6hvjOaHVLkbHBKCGN_2pnx2MuW9B9xSYBeg6pBu-ZXQbS4uJze7CMmMmktnPFMceIRbZUCdDqidIsa1wlt-vxSpshPJD1YAjK5Su24gi5NHFnik5mhElReQxDdxtlhUvYgi-c1E6AyJgAjnLISnZfyJkymi-4I-geaRh9TVTCuEFzgHGnhOvzsAobac34J0JN7jpVJpeWs2Xv1jstFJUqqlyZAGR85IW9SiJBAdfF5ahtK23jqlSuxQdkHN5pOZL22=w350-h558-no" />
+
+</div>
+<p>Now hit ok, and you should see the shooting locations populate on your map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GGTyD8aE6GHWev72tkvZy5aciixY_Fu814T-DLcJZpC7ZntVrgvYWZPXle5qXsSWA3v62LFtHlwzB_SBc8pJ2zkGagtxRsPJQTWB02GDep8q2Ds256SomXq5eR0oC9ZyGQJmTv7CQqbmHYijnheV5vZcJpgLOYY50-WFWf-xxtzAhplMhL_XE1IdmZQi2siesTTAiX7FNFW2zJmbHWK0hqbm_f_5V_-h7pSgPjLJS138rnm1_HiH2kEViOsYUgu839OZn6NLeeT9iKaxOU1lMzMqfQgnbweeQPl_hkGQYmzBO3WJCFD89NKaCiJWOTv85zYspyNK77PByjS3XE_0OIEOwmiWfkVpk3ueWlaeAjzwXU58JZtY5FLL74q4YvJ_U4cEVPWGgmD3WHJoOee0NFD1BmxMfEc992ZUhOF0S0bSPaxziJnea6RWNBA37jdkYp4CO8GvTsUr_ROYXnit5VQxBzeyUtYnZ8B88bQpCSooET6ydOC1k9po95NNBGbsoGn6Wk1GNHQhHE0vM2UOkZLrjhuXq4TwrUNTiYkrTtC9eItq-PdzO2vKr5XVN94LK1A4W9lg3nd2ET2lq7oec525nVs1FMK2wefbSTKqaYXxGROZemr1=w1146-h842-no" />
+
+</div>
+<p>Now before we can move onto the next part, I need you to export the point data into a new shapefile. Right click on <em>point layer</em> that has the default name “shooting.csv Events”. (Do not right click on the original “shootings.csv” file.) Then navigate to Data and select Export Data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ild8LN9SLHTp21fQRXz65W67e55DoBRm42Lqpf8z5C_t1gpIgD-S6xOXSZkbdNZdUnRFdEOYU0my6bKEQrtafIt8_E_rNUHvK2s7H6B2CLnCbnHDKekDH2ISIEr01pia_36PxClmSnc8lQqAvzLnU6n4oFh0GXb-cpCzHCgOGinb_bc7A6TIqRnNGrCOTJGORBTzBPPwljJ3zGMk_T41Qzgso5RG5rbQIGG2hISUbuPJYmjVLaTtcoAvjxNklfT9atwea-qWn5qwoLpzJjYMySOyShHDHxreuu02JMtW4wQVEqm4IM8Ph1h6n1_Oog38y1ct68ibMBbfec4HeamRJZjgoAgqebmavecxHx2RLxtM4p8FIpUaSGte8FDjHEPJiP3C8ozNuY3Idv0pLuMLU478Y26F8Cth4aN80_zdSlkFzKwhGr-_Xz8D112XVLc7JeqPs9dbKESBNvX3srAEaXYeHSGsBLZz488SPHtDRXc_NWyck61HjhzVk9m0n0_YBUCtN3HPBHEH5VBBYWNzWNNa7VKcdFndPPWy35JyihJ08kCAnbQJqrEscAYqxTbqJBJZ6r02PsduDHC1jGvtt9VbNYxZFWq3bSJ2TbVrCe-XeeLaH-p8=w856-h604-no" />
+
+</div>
+<p>Then click the little folder icon to specify where to save the new file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WfVkcU01vkDQxWgJPOE8xa01DEq851HFXqnFJHYdkkg7uNS5yj5hvf1Bo9rp3j3a9atKsNvAqSpGELD5VWRgpUb-teqhi2NqnCm62mQikvweQSybE_x4-mW8E-AveQdvaBA-d6E11e3vIYdoZOnIIpUCTgIIR55x9yTNgEikdbVq_BjfH0dl4qjsP8qQsPFiL-nQ_lVzizBiIbhsM6fVm9HRgjWOuyln59-cy-sPzqP2Umo4M624HxDOj8-sdaKuxQAdZwSspgrjx2qoIYuIcIBeD5mY53iPsA7r-2fwHY7m6YJV9za_DON_bxQ0eWJzBAge4jkErWvudbwQ22tRFQeDmix3BsvB7om4E7yhOPhD-ubpgfKLyDZRaaCrEnI9QFSfg8z5CHwwVhhstlJb7Vx6-j0eRKmKU0q4lLyZ4HlwOK0DzNy9l-MV380jlGudZ47Klfcn81ni6dhAJDu6f73hFbnJIFE8X-ylwioKVzIH28cMfkaLq3P7UVEFXEy3s54gWLhiX4heJMJFOoZWp-9whD_QMk2FGHS9OolJl733CokGZEGB8Tq2BfpsPfDBNJzu7P6rVn_uD_aDFB59v2_Ll0qoJGGT4chsr-9rCR7kni0fJALo=w397-h323-no" />
+
+</div>
+<p>Navigate to a folder where you want to save the shapefile. (What I do for each lesson is make a new folder for “edited” data and maps.) Make sure the “Save as type:” option on the bottom is Shapefile, and then name the file “PhilShootings_LatLon” and then click Save.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sFhB-Xh1kr4E1TcT-1hWponEUQ-QPYpZweqR8ZMUtCZIe-AiqYOq0SF7SNLv4FNfNJbBcQ95wGrXseQAEDnlYvqZlUD1NUImF-1W9ss1HSWucLPMJvhvVSLqUDCDDFR4ZihObshf2PLrM7injwLobE-rxMWiE4o3skhv0YNqH8GrZsS8iamOGNhT-XWXM_pcUwhp17wNCXVJjSNSv-c64hSCkFL2irdy-ZCcz0FoDPIPy9ycCySBwuJa5WIViQymndyAWipuAt8P4b571qQKzCqm5lOZ6xAOCdBwF0ZW4PxfWtw2BTfCCxiYdhbNO565ohOl5KAgX1mQXrPfetZEg6VhwAq9rcOMm5YfD3T0VXhvmC5-4ZdJoN6a7yUj_SDGsNxGDZtirJLES59TfuRlhuolh1miEH2tnVKD3kE2T4akvY6kJ_-XEEkCU4xekPN69plYSwFnnOg6U06t1Xcu-fwZtJxb0wGxtEvtm13X_osBHopKuvp4OyUCEs73vUgdAQIpLUkXbMXNpbxUOpBV68fe_at6inxRb4Cl8z1n7jdL319WJfhAQ6nj7OkS6ZJI4DfuhNpJNs3nnIoRr_f2lJ0bvGYMyCcaphRRGa1Vz4-C01VePaw_=w493-h329-no" />
+
+</div>
+<p>Then you will be back at the Export Data window, and now you can click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RYABPUa4b9c7cJkregKNXAyVFBCmQZMJxRPhuAJtmVTfz5ilNic4ZkOmy4M99h9gtW6AexYhVVJUEdt5nodn6OhUPc8cBUD9mO_HYGKl98Qe8eORcEdpf-IJxOXeXvY61_Sj_k0v0UPKp1lZIN6BDGe7vdGNPFepE489McyhonBNsPyZ-MKZ-EUDIoFeAPw3YaYsf-3WbKhA-Lt5OxdM6OZOTOVrnn8rEiB8JGOD0gQsHG4a3ZXRf_I-_YHTLv67Kp0ze-d-G8KDiZi64dbYaRCr798ktH1gLMmmsSfCyJyq2arZ4o-967hBRmW5kiugsVsrOgH7rSgGfIsg2OkvA5ALYyzksFwRQaySk7Cz2zgRiJ3kBrbXdI79LurzDjShx2zxq6918-IuU3SRzZlYKbR0ZCgIWJBkuIiSIaG8Ywu3maJN_1zSok4SEd2ByxAE528TbRDxMRSjbRnMEcWNpouIQrJAayRrh6OuNXv5-tCVWxiwXopREXkHNVn4FObnbHxQFlDCRXTfxdDV1dIrnsGHdErl8U2oLhWlufKPtDo82MQ0ow7uIGHy3ak88UFr4ck5f0oxQ2XXU8IV0vo1D2Iu0NNfmBhT4WS4-GqxZJSSz4_8GRTr=w397-h327-no" />
+
+</div>
+<p>You will then get a pop up that asks if you want to add the exported data into the map. Click yes, and you will then see a new layer in your map. Get rid of the old shootings layers and original csv table by right clicking those layers and selecting Remove. In the end your Table Of Contents should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/W2IaUwD9KBUYXuyf7kuR6mFM0eWKJ4T_-TkSVdbfEGswf4XCtYVx0iz6WsHAd8SSh0CN_mnZNEaj3b_HvPrxqeyaWNSc0RJe9zTmwHxnP9dH2-9-OhSD0O05PmkWP_O5T_N-dbMH-Qw47szaMJLJM7qPPsvsw0bLEIZQq6Y47odALaPVstwXKutdwizxLNZPeYGYvO9lAh8IriBI3l8ttRpeKHvW5-jtGNVeYRTJVYKm7wQ854oE-gsXwjYSHxVEvN4ajG4V0g6WERmclnY_Wa56GnATyy3ErYQmMg_pOKhOJOeyugPHRr_2dAp2hoHseb8pEei2TOHr-06dTnLawsaCG5Ub4OZOKcXcLA7mBkXMgvLNtBdwed4R03764F0BKHa_pmXPB0mgtZLQcJ1kbtI3AItVZ_dFhfHLzbKMxvZLYxFxqqHTHs2x9btnZ_oox74qqFdTCwMLNWY6DpN68SJbYzCPRIud2v1Qy42WOtoJRJCNCP2JRXXSvpYcJyFhrjPvwDo5Fv5-Abxwu9Ngewmvkx9d8lUKijVBkFqF0DtRPvPZ7Qwd8_GfrUZIVbHj-ppChjUX40QS0mMH9XWi7cva2U2otNuDDAMH3KYwBXn5UP2eoK6K=w1134-h840-no" />
+
+</div>
+<p>For some things you do it is necessary to do this step before editing the data or doing other processes. For example if I imported a spreadsheet of school locations and I wanted to created buffers around those schools, I would need to export the data to its own shapefile first. It is also necessary to be able to edit data fields, which we will be doing next.</p>
+<h2 id="creating-new-projected-x-and-y-coordinate-fields">Creating new projected X and Y coordinate fields</h2>
+<p>To use the near-repeat calculator we need projected fields though - not latitude and longitude. Operations such as buffers and other spatial operations that rely on calculating distances you should really use projected data as well. So for your final project if you have point crime data in latitude and longitude, probably one of the first things you will do is find a suitable local projection and project the data into those coordinates.</p>
+<p>Right click on the PhilShootings_LatLon layer and select Open Attribute Table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/I_t8Mp15_kTbprzUFquZiRAlrzKDSj6C-Fcql-MvSkTAnn3_u6QiZxXHBK7TrkCQTTyRUhHrt1mPdiSn6wg6c0XY41Zfbhvo2xGI4-nzSiGFItMHugLoc8iyLG6HpRPhoOq2z7Cmc-Q2jBo9EyeZ-SuMYwvqEdHWN5OHB7XYv5y-h0aXDKboZI0azfhgA__ZpQFALGiQOPcj8ePcNqERAeUfqqe1HemtmblEKj_6L9TJya_okRa7nw-1r6j0UrEZ6DntpP6OGZRDy47jmENenUPmh8nPxTD5D2RjVSAj-m2vEhF60e1aromoaU6p5sv860GnHK7zNhCGd62fLaDnuyTMlqJP5AU_YhOr9JR8dzfhscjKpPBD3WFKnvf5PDzpZry-WIu-As_BLYqBj1s_2dRCGECj0SiIcVRiK94QP-t2KiAtn4lQrpBQB9xwFMxkS1fXBzFPwcVwSO_xWTxVUUWq3R_3SPPW1Q2i-yYDSN8StzsT8LEeXNZY04ywT6V1t8D_IAjYpKBavogTQ24D3KpnhS8RjHY0R_7EuBkXXQ1yFz15ieqx7MkiNQn1LTfbLtSszVcHD4c30sLI5sg0NHAHjW4eRb3xlrchG9m-R9EWlsF8Wnnl=w570-h556-no" />
+
+</div>
+<p>Now you should see that the database just has latitude and longitude coordinates. We are going to add in XY coordinates in a local projection. In the top left corner of the table select the list like icon and then select <em>Add Field</em>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zO6cDFsFWAy0yQ_-JNOH1zbGnwi63dlCQDbHCvUoNga2qIqNihjE-T48ElD4PNCT99Kso-FtbEsR8IwU7t-ypDxXx_TVoEQr3lco7LcVqqzOqgq9jeE991LbcLH1XALBSKucLa2YsPaTIE1imMo5Hm5dc3iFsaR4fdWSJduBdm90azt2ml6U5725nKa7WAdyPv4i6xDEgr1i-B5HFlX8G_GGroPRhPYlxfmw8NgJGld5Wyi7MDGKFGFQZXbWdyPT2z3mXllm85C-ekXWh6Fq5tuSR3n3uvGW10ruLenQQiJ3QGCAy6pDfL0aegEL9eO4VCY2T5Mr6ZHi56gaP1bVtjmgWWIad9qfzffmTKoe0ypLmgGOZptOfNn7HNkzi0WO0oHxo7iIJU9Y1xQA73mCB_XGUl5sxhzH6rC7QZ0Ei295elnNUTpGLmxK__3952W58fQXiPRJJnWB99Jkn_rU8lRThv3EroUS--l8_5sQ8Pu4aZ14F887T2bjUCNqmn9-sYGd-GanHSJjH3yW27d8MKxm3qnXY2UZC61UvWN9cImTbV3KFEjVKjERvqypdql-w3uyTL0neowhaevr_zigeRpwo9LkUKue_671L1RWZf8mViSY30GE=w484-h550-no" />
+
+</div>
+<p>Name the field “XMeters” and change the Type to Double.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_aU6h109VNPXedlq_tOagqWJ4BJ4upr-rEonVcQ6ytWU5PxjH6ktxdHvFRJNHAZE_QZKRspS7PYIVcUPKVIreIT2s_Ox2Fh6U4bRS-rUwKzoyvmjYU66kvbengkcmEd9UFC5jaVxN4Aqm5er-ZrreDy60571--y-lRrD1q7m40-ONlEB8tz1E7I3fhk41SaCzohDRe782U0lVEqO_Ca7RIcMkpK7JOM4xdRr4IXqtwJZtdQa8s9iLz944Fgtk3q7Knpyuj0OUIc7p5cwd93aJk0cDnVyIV1U2hq-7drrRi1nqqs7ZpulNIk3dCRMUQAJhdAUER9CD9S158IUFTKT1Gd4MZUvWlkp0s64g9Xig7gw8V0rdl-AAgkkFZPpFQK_BX9A-cKjg1n8mL5itJY1amUsD6pbi2XrwhtbYpv5dPqGjbp87Y3GhfNDUugEzskoDca1-zaVJEMQXV_zAP4qNWMTRGdQVb5kDlIDLefsv5Cb1eoHl3fZZ-m-gYQ_CFuC_ig5YFlIIZpFye2Crc_6xaUJ37gm-rnnC_7nF0hf1ELx9Nwjs4NQly8QbQb9B_SCeWclj9fx1o-w-GvGZ5YK4Xk_uHpBmN5JJG7O29sUkP-LKl7EaS2A=w293-h298-no" />
+
+</div>
+<p>After you click OK you should then see your empty XMeters field at the end of the data table. Right click on the field header, marked with a right rectangle below, and select the “Calculate Geometry” option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8pz_nayNd4t-_Bv4DF82LY8XLJeQeMJUXlnehtXpy8SD5P4klMsyVScnlcdGbiiq6Jm4cwr2Hj9v7H6LUd6qm23fgAo0RI_uM0X39sqUWjkitl7mMapgJJM-32GGBCFNOiRtc4zIJdbGTDyy55h9zAvtji-UYiRx4gUEc5fqNqm291nC0TGVrsMbk6XGAkWCtkUYC93jeT1bpnZ7acuskW_KlE8bP-68x_33MlPZHNH-0AkoGwn5dDO5MZZFF3Jx7bNRNLBj47A7QfV3Ekvuf7sU0j7Qb4WQlq9yGPRr3nbvZt1FnlVrP1ggN-UFtYKXBCSiurhlz9T7b8lESf8mezGKgWiNpzM2LPkiQ9oxLCQylMzDwN-HrV7eOxlFQO81nj9LAKI3m1qNuWQ_1WFSJGwg_7inxYzScUsIuBSiwzSRy0wH11Iff-F40hzz3T5ENb2gyigyypIb8bCd3vtEnyPXz8X1cfQjkdp7oBCfZFXsqjB5n2NbVn6V9lpcO064QR0GaB8XudfWLRNSrSiSUEYCmFXGlJWKiNiu1NRuw9Ws4uWbEv-BVEswtYhopZiZ08wmYtBKUSD-O_VbgVqv97qQPgKAT3cFCUgvs7h1IacFhRqQXscX=w508-h480-no" />
+
+</div>
+<p>In the pop-up for Property, select the X coordinate of Point, and in the Coordinate System section select the button “Use coordinate system of the data frame:”. Then in the units selection, select Meters. Then hit ok. You should now see the XMeters field has coordinates above 800,000.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VqC0T_jrrDYsM2bni5pVSKCuScv45K_HcbVGTsjxO-VIe3t8tVKKqOTxUbQpuoPMbg2hAdswNPyqydWnbA5St98K_eFmL2vPQaooeBP1TKWaQ1Oqtg4xTSZ7ZsroVGbOSkrBub70xrPo8zxGsCVooGhZhuGBNO0ZDEvigco422QlgUu8nUC4w3JE3u75zdSRUxr9vpoH2-qVSkLEyk0soVoYUFJH4KW-k6-l_aUX8ff8UFgOAiO9BEUzu4X9siNtWSZbKvKefTgxflHOU5uXpvAtGJgKCeZjXhX9jWYLeu8u8p3vJ86w91C5r1ReAz3vA9_Q8hqNxgQqhaAsULsXzI0s9ZVnhq_WSkNCvzRT8gUiCneyGrVAqIaIvewyruKC6q4SECykTCLnMcU36Nf-2LMm-cclTe3lRg5sasvxwVA4ibdK8Z8Ro_ZwOlMLfZq-tLU0nekYPJCVNgvRWVlmvkVUrgleYPLD4E6Q4baKTDqAIoSXwJkfPiVGaJqjoC_9yef9tNNRk6C1UdH85BxENsrmlhIa-LTf8MlleBuVC5daDIjD0AulmZbwkYUSlZdVS5GAl119VeVywDB8-Ndnd2x1rOs5nIMqnZLUlq0c7E4byS0SJVtT=w427-h298-no" />
+
+</div>
+<p>Repeat these same steps to add a YMeters field. You should then see coordinates that around under 100,000 meters in this projection. Now we can export this data to a csv file that we can use with the near-repeat calculator.</p>
+<p>In the top left select the same list like icon you used before to add a field, but this time select Export.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/e2wALha_skTZytHd9Id5wM7nywelxGv8Jv8RRGs4q-kAXfgfCzwRiRMxfqkCA8mLoe4ATalrqBcVf-978T-ipbMo4q3tspIwsKPpdCvzlOzuIC74170ge2EHysshb1tlW8GS-vz-c5k8rJlpWYO2gwyM1Acb9kaWDJxXdsCXJF6qgrYogfAAaGeovWDA2GuAINATJEiujl5yejH8_JkvborlG3bj8iTwVXeT5E2DFAjwSK_Sqt2PFc_PuP6eNrTbvOK8U91wGYPtIaqboq7pbnDcE7V0_YScMYT4AHlTrPWhkNG3kNuHBzhRnitb-55DHhHebzmof9ILqpkhYxiEVVROoTXBNCpS9y0g2Ny49wzEZji92MVQZMMW3HyxclExkg-qiKyEXgR4NziyjVC-VunmaRGF-dO6DQGT3nQda_AWFvWvy5bY0cu6he5vGmJkfge4UE9kDNA0-HA-N_EN1w8jkJTezZOYcPecmWSAZY9IuAlqLKcGKhJMJ2TgTUeZkqH9Yo7uJBzcL0QhmQxPBrDfOSlruFfJD7Tl0h90cP53eTCxN4VwiEFAmSlVOsyLfbSVE2j9CQUkWvxvCLWYzb4zjUxYjJLwgB7aN85M4Q7iHLzEn_Lr=w390-h570-no" />
+
+</div>
+<p>This should look familiar. Click the little folder to select where you want to save the data. (It should default to the same location you just saved the shootings shapefile.) Now in the Save as type option on the bottom select Text file. This actually saves it to a csv file format, so you can change the name to have “.csv” at the end. Here I name it as “Shoot_XY_meters.csv”. Click save and then click ok. This time when the pop up asks to add the new table to the current map you can select No. Save your mxd map document, and then you can close that file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ccTjCiOb1sE7pKqvyT-R4W_XDTfPQlCwm_JRbACvUpj4XsCmMKfmwaSlh6WpKNRUPDuft8DK1jGgqmpdy4DCwfVz5g1vxg8RRWtHUo34jrdu3583bo47Qh9l6WgpE5WcQ-SnyDj_ji90b-la9OrP86WZSwfbasVXy6cR4r3czvOrWByw2PgHHERQCi0gFomZ2WYGEG_OIQ0HUWMRE0-qij58LJoew9xwzEEwoeCKHzmYmTdhu9fn08g-SoCL8UouzcPrOfDj5sD_8zDl5bjbSe80x3cqc9GoxY2AVS0ZAxBqU7VX8lPZAxII7qM08P7_9iN_UEitWdyTGyKQ82W0DwYo9SGGjm20NMPPWd1Xem9uAAxN0Hm1a9QGUNcu9nTFKD7JaI5SHuPxDy6GGRlwWCdERbH_J0VFqTZX3NErbwNtpxkdkpH1RhGOrR6jtAGHxlHy_vzvyYOVFJ1nwCal7HZQ4yieE6E-S9LJSM_zmeDLSj3TfreRDBZgrM8XdYE91NkHqZqTMs3fKbHnrDcrs9uX09WYo6juL5JU0_VQBVbQTvj9QMCHT1mnWcEeM4_qLP5XnkmWDO_Qaywo9l7wThwjuasGons_Bouvg4RkOcX5k8_Cw_p4=w493-h329-no" />
+
+</div>
+<h2 id="using-the-near-repeat-calculator-1">Using the near-repeat calculator</h2>
+<p>To use the near-repeat calculator, you need to have your data formatted in a very specific way. The current csv file we have will not work. It needs to be formatted as x,y,Date - and I believe the dates need to be in the “MM/DD/YYYY” format. So first we need to double click on our “Shoot_XY_meters.csv” file, which on my system opens in up in Excel (you could use any opensource spreadsheet software though it you wanted for this part). Here is what that file looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qrXM63N8WFBGdr13IgP36PHKn1eUYVy6mQl41KBXioUeeyZlFPrYHFcV_w4xOI7UY-m5Fs79urdbhuLMQUXsm4inQTmlhIb83XWoSnqRyMuho2H_8IOGa3XIoEYO6xHrZQLFjMhcbn95P3_f44oer3IZV3FQWySMNdysELNgQ8xb-yD5kQcqFW6rKWJCi8YwAClBa9xlVCper5vT_I-ivJHybDVgbuFFkzFQ1__54TBoHRLRZdtT7MR_seSvPHlXCGShII1toeGYCbzJo457ntIMSf2d4G-ZCJVtO2VOS_ig9hx0zLDYl51n-i5YaFP34F7EPl8jO4TPgZYzYsOkwnRHja85usK8tS5an2br6yjnYsylhipTRaxS93hfoa_Zad4o6FeZgpqcVPgA79ddJ7mI4rYTauGsI52Pd0mR3ZvIhzwgybCvvrhu84x91Z684_bu9ZK4qA-AS5U_yqUZ8eN8jRbHb3g_HSbLS9qKnhNL1UTfogrVLE9BJFJ5g0xvs7rQ2FKjQVdtvSTJFpQKb_YHWCll7bzo0fqtFgWBifXAV1yL-2evtiEHdVpVmRKXo710tmc5emz4YKFO_-w5me505eqhWJZVHcAuYu8jPH-rO5TLEJnt=w1863-h502-no" />
+
+</div>
+<p>Here I am going to delete all the fields except for “date_”, and the XMeters, YMeters fields we just added. Then I reorder the fields so it is like I stated before, x,y,Date. Here is what the spreadsheet looks like now.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/c_P13anyUw3CFqs5uPd3ALBBWuSxtweRvWElsYYIFqG9VmkkcvaKGrGAu5wbzDQSKPoDPgoRPVi8lOIiSQlBforMD3QCJkw5vUNVvO2YXXZX7fjZ2lr-0G5CTp_uxYjvnqse4tYfF2iR1TSpKOeGr3d1h5RYoMjQ4HhdaCYPUJJ8nwgCsOgQ91RExTLmh7_wWB3SraqXfr4-zGc22hPm8muManrSiATgjLuD_bI0Ae88CvWM8xEhJU4ZV4ZhLXkma5qv4SJ_uAlTyoNFe7uCp0tLg4AKHnSi2P7vRYhoxQxmaCwHjh8eJ78HUNt2AbfkhSRtflMelfhjBjWV_mb-zOiSp0oP08r-Lzvchz4T3UCjXkZwzhw3WVAuXUfFRfoaDwflRvl2xnlivWVxLMUPQugG94nPZmcUUmglodPAf79XMWmmQEShA-wYn-gDWUKit7oc_4DTMeCGSO9L76fUFmqk8jB9B2ggOxSsTSkjc61RIk5GAUc1IvYe0iSiYcj1xiQ70oA4z7T1dx6vaLf0GgOG9ul-P6veaknobfLyuttcIipo-3HbsXw2InY4TutdjBg5Dng-dezNbm6bV4aqai_BmD7Zqbreux_hIAC3OFxuq4wH6IRZ=w339-h436-no" />
+
+</div>
+<p>Now to transform the date field I am going to use Find-and-Replace and get rid of the extraneous hours:minutes:seconds field. Select the C column, and then on your keyboard hit “Ctlr” and “F” and the same time. This brings up the Find and Replace window. Select the Replace tab, and then in the find section type “00:00:00+00”, and leave the replace with section empty. Then hit Replace All.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6Qe4h7ej2TiKcaxLcLjfkO8yuroA7EumsEEbebS2Ua3B9UXBw8rJ1-pFbKT7e2qDQ_L2ijtiQBwGdYkgoSV1LwE3tcP5Sbh9dQTJwAlnTbFLyHZxFvfFcZBdc2VJf5ktqXIapuh25EtpmKd7acbAOkDoAvl_3s68ryxf93XPTQ0-XyQJq67EsbHAF0_JpRRJidfRe8FLYKUttS9-ieg2geYaLZwQz1W7I7yAfss1dPuxJKLlNlqpWdxX71pGJsYbfb1fnGdYz8Wxnghr7N1eBaiwh-jqOfLSlMShJWzDZ1lRe-ZG4hn01bCTO6RXyEc9Xh5wx-EDVVWwAYTOKiHisH-yJ6fqwObSLXJz0XhaSxMPX1HSUL54VHWixONWJQLp0tc8sV7wJ9u5mombsxpeytNIVx9YFzmwc6u6YSsLvqtGJexBAYLONvKrol66D4Fp_dOEeIf83kj2i7_5YNaeZ6HWIdH_sqPYDf5HKMjLFd8ok1EAshGYOknkNOlTVS1AoIkD4VDTORltPdgo0hTHXO8Tm3oH4FTu64rLW6qavIQgGzOi7DF3s4p8L9aplT_-jZDrzTNh-8-CKqpOFqfiuNeplfeT7dVsU7efMs3-GVis10fzwBvD=w453-h197-no" />
+
+</div>
+<p>After that, you should see that Excel automatically figured out to format the field as a date field. You can now hit “Ctrl” and “s” to save the csv file. Excel will warn you about keeping that file format, click Yes to save the work. You can now close out of your spreadsheet, the data is ready for the near-repeat calculator. (Excel will ask you to save it again, click Don’t Save, as it continues to harass you about the csv file format and you have already saved the contents.)</p>
+<p>Now before you use the Near Repeat calculator you need to install it on your system. Unzip the “Near-Repeat-Calculator.zip” file, then in that folder navigate to Near-Repeat-Calculator -&gt; Near Repeat Calculator, and then select the “SetUpNearRepeats.exe” file. This will install the NearRepeat utility on your system. Once that is done, open up the Near-Repeat calculator. You will get a screen that looks like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YYkhRZu_SzYrdZMG2fMCVrkb0cUXGUTJk-d09c7e5y0axE3JdLtpTVkp6WMqn98NZCulG3jEoS8wtUlOtoKnxFiOAIVMr7O0xAB4ssPPaARH1mTHz5o1q4uTfHiMt_h7hllj7_S0SiPde3vuwY7QRE8r4sPHGSZqP5esb_57P2A566UnkG1WhTyUgtzA9ShUW4EFykPknFgqOyUGhrFZIw-4YUM4sbu2kIVm2IeLWAViIJc8sFYDtmwfgzAIAI279gzFvJmUycnpEl0woYQW6GFpQ6EaWyIsmoxVRBfej-i6hGdfShwmRcYEAr62G-K8EdPoXEKRxP3amO2Fn43_P61XeuHzcNbkrH8uFMXf7ydaYV4h6BLnA-Lb2ZKqig7Ner7F6qbWDp3xO_0VZiUs6sWCOrDNT8NfqH56g7hrtPkXtwNKqYTc8_dbmHR6aavWldn7etsH0HTNE-q3AO53YHi4DX0WvF-PuYU_WYkR7MHPbPDL5h7sNW2nQPMlS4zAWx2SxbZbT0kABOE7anUdeBNJe3hY7HLYcTarA3lDvMRprF2pd1rQo5YY-AJpC3stgt0NasdlA8TnIH__6uweaze9vwBypvGdDAZikqXyqxLNbVVNUGEN=w618-h430-no" />
+
+</div>
+<p>Click the <em>Open data file</em> button, and then import your “Shoot_XY_meters.csv” file. For the pop up about data’s distance, then select Meters. Now we need to fill in the parameters for the spatial and temporal bins you want to check. This depends on theoretically how long you expect to see near-repeat patterns (in both time and space) and the temporal divisions you care about. <span class="citation">Ratcliffe and Rengert (2008)</span> use spatial bands of 400 feet up to 4000 feet, and temporal bands of 14 days (up to 56 days). So we will do a similar distance of 200 meters, but I want to check for smaller temporal periods. Here I will use 3 days, up to 21 days. To make it quicker, set the significance level to p=0.05, and also set the settings box to Euclidean. (Manhattan would only make sense if the streets were in a perfect grid.) Your near-repeat calculator should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bnNt0w8EpFWSUw2SxW5wbE5oNSJrBxlYdiW8zaK-i8qHgbZgsP9H3OfQbnluICDzpw3GmPLyVnrungyh7DCdrBOA4IGKODcW1L9DP3FhP0A2Kr6a1MIhuVhX9xRMzWBc62x6vjl5aKLdDpwesb8irIwJnYVlnA_xhmhTFIq5JSgtJfz-GbDry5Tt1_ROtZSQklzQmPXGt4nb6rheoI_4BuWvreYLCeNm7g5Cg1jRC_hGaXbaArBZPBi6XAbHTccQV5AUhoG11Ld85TjznbnG_5OUIy99a1hvgCPCe_U_EjOPB3qqwKrhsxSCiXvMggGuVTOhgX9eWh82UHmJ7UWva9q9NE9Xkk4N4SCb55Chndo4psayH8F2JQ91fNaWJ5Z3hOMLYYGIdASG_djvW-mQV6FbRgewh0brjV_1CafjW3uQJmsSUWJCvsKaYrx9pNLZTv8BWUh9GkL-igdLQdD6PcYfmepE5lZ4i9KKkuxXkn36uivEHfqzvvvJf0rUwyMM_IjCIUFPFvsvjQz1axmE6RcCl1A7D55aFyY8VeqGoEYh7SnloKC1GpZd3kijH22-3GG_uSbQvbTDz6iIaLAfnzSy8wo3G_vN6OGGLj2TbZSLCjlPW_K4=w618-h430-no" />
+
+</div>
+<p>Now hit start analysis, and it only takes a few seconds to complete the simulations. You will then have a html file automatically open up, and it has a nice table of the results. (It saves this html file in the same folder that the “Shoot_XY_meters.csv” file is located in.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3kze1v6keuZ3tRmQlxmHs8LAu--zlTwFQmNtw23Lyyc3p9e-FEVj0n4Bm2tHR6cIMCUoooZTNCF1CWZqdjqjl5EdedcPl0PBEW371GzH0cAR-qNcqXIdThq4zuN-6GLWTiLZ4AijzkT6ggu7OJvz7mXxfW-e3qTppzt5KeQ93tn9zPfpmo4MqPXq-SqcX-Nem2i__dzIsrMGkDdNsOE4KkJGHvTYpTMSZ5tsMi6oI_F3VfVlYu-Fw79T7-MhyOjGhQsyV4zn3Wx9eo5BHO7cGy1FPTBJrO73J0b7Pck1fRvbDyv4cfOAMwyucyMUKnV5bRjx6A70wansGRISH9gcBuk0ncD33O0WHl1isqxqrf4jM3swnEbbo7NYlDC0BTQ4U6vaR7L2hB1arbCT2UMRtT6kJ52vlD-BwoNuPPP7DXVIR0Q1MFS7_qQy5L7fQc7D5FXQWtSpW9TO91htl_MpSljwgdNw_5aTkPoM0yqtQITlkmWMvXq9fqnaFWQDjGG4xZ4SePPsgyWo15EqS48COCnuHAnE5FYjRokL7iKgOfLqeO6SQYp-d6uHvJrekKxJm89-r8e6iH07vBSWjV6zZztTjYyLjmOv7WSDx64M2ZyhwY7-HmnP=w1495-h685-no" />
+
+</div>
+<p>Here the same location within 0-3 days has a very high level of near-repeats. There are a few other patterns, but they are not temporally or spatially consistent.</p>
+<p>Whether exact same repeats can even occur in the data depend on how the data is recorded. If you use sensor data, like ShotSpotter locations <span class="citation">(Loeffler and Flaxman 2016)</span>, you wouldn’t ever expect to have exact repeats. But if you are just using the nearest address - which is common for most police departments, you can have two at the exact same location just due to the limited specificity of the geocoding engine.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<h1 id="andresens-spatial-point-pattern-test">Andresen’s Spatial Point Pattern Test</h1>
+<p>Andresen’s spatial point pattern test is a test in the relative proportion of incidents that occur in different areas between a base dataset and a subsequent test dataset. For a simplified example, imagine you have three areas, A, B and C. In 2010, you have 100, 500, and 400 burglaries in each area in 2010, which results in 10%, 50%, and 40%. Now in 2011 say the counts in the three areas are 80, 320, and 200. Which results in the percentages of 13%, 53%, and 30%. We can see that crime went down in the 2011 sample, but we want to test whether the relative percentage in each area changed significantly. E.g. we are comparing 40% for area C in 2010 compared to 30% for sample C in 2011. Is that a significant change, or would drops in percentages that large simply happen by chance?</p>
+<p>To do this Andresen’s point pattern test treats one of the samples as fixed (the base dataset), and the for the other draws a bootstrap sample of the original points to estimate a 95% confidence interval for the percentage.</p>
+<p>Martin has posted a variety of examples of using this test <a href="http://www.sfu.ca/~andresen/spptest/spptest.html">on this webpage</a>. Examples include:</p>
+<ul>
+<li>testing the stability or change in crime over several years <span class="citation">(Andresen, Linning, and Malleson 2017)</span></li>
+<li>testing the extent to which proactive policing overlaps with crime <span class="citation">(Wu and Lum 2016)</span></li>
+<li>testing whether spatial patterns overlap in different seasons, e.g. compare summer to winter <span class="citation">(Linning 2015)</span></li>
+<li>testing to see if an intervention displaced crime to other areas <span class="citation">(Andresen and Malleson 2014)</span></li>
+<li>testing to see if two different types of crimes spatially overlap <span class="citation">(Andresen and Linning 2012)</span></li>
+</ul>
+<p>And I’m sure you can think of some more potential applications ;)</p>
+<p>Those examples are for both larger neighborhood areas, like census tracts, or for smaller areas like street segments. Here I am going to go over using the tool Nick Malleson created to conduct the spatial point pattern test. The tool can be downloaded <a href="https://github.com/nickmalleson/spatialtest">here</a>. I will go through an example of seeing if 311 calls for service overlap with Part 1 crimes in Washington D.C. at a grid cells of 500 by 500 meters. See <span class="citation">A. P. Wheeler (2018)</span> for some background on the dataset and 311 calls for service. (I took out parking meter complaints and bulk pickups from this dataset, but kept in other complaints that I dropped from my Crime &amp; Delinquency paper.)</p>
+<h2 id="creating-a-fishnet-grid">Creating a Fishnet Grid</h2>
+<p>In the data I have provided two point datasets, 311 calls for service (in 2010), and Part 1 crimes (in 2011) in Washington, D.C. I have also provided the outline boundary of D.C., its rivers and parks are polygons. These aspects of the built environment will be important for understanding areas with very little crime.</p>
+<p>First lets open ArcMap. Import the Boundary, Parks, and Water (you do not need to import the point pattern datasets, the 311 is large and can make ArcMap alittle slow). Make the boundary hollow and have a width of 2. Make the parks green and the water blue. Make sure the boundary file is towards the top of the table of contents (so over the water and the parks). Here is what my map looks like after those edits:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/O1H1CTe1eyVjgOC3o5Iq9NuVXMnOn24Fk4NKxbe8MaBdvB6xg1_GBUqFdVMQ196mWYFGb93BCj_tZ5CO8cJre1zzz4k6ncAPNkkF-MPAQxyJnriMI1jjI7zSOIe1z7G__cZSE-VGtXni1WNfmrWogRIvo_9TISutYhCB0LHygHh-ASL6Y6_ieMzDncSrH_1vJlAclkbatsaWYjlYca6niCgw1RSqGArsAwkvFiHAzSyLup9KLyATxeZZa9eP0BK0DNUYzSl4r4fvEJ3JdVb2sySe7Hy6H0y066uxmkfGwDTR3mp2iwMOpcL84O-PriN8wkhlnec5UquUqToR8O_CaJ4tn88QjDCiuEhKnwpisb7tSnaorusiSY9mmaA2qCDrK8qF5cjggS2waPxXbXhBEIxLF9LFY2sIpLOrQjNWaEhrJsgAjxdiqcbo7HRa3PYMh6YLBzt4nPVqrg9NI6dcj8uL4rlmGhklsLsoGR93gScDgUKVopqHpwiiCYx1j0xxh0R4_QETx8dDgdveTuUHA99OXajsxEiKuxIK6TT0rRunZdO9cBobajOHRh4WpDyak-Q2BpFXvKykauXUNOLUhTqUfsC0TumEEaKxqrGxnzwt3J_dnFnpKstm=w1290-h850-no" />
+
+</div>
+<p>Now if you had areas of interest (like census areas or police areas), you could use those for the point pattern test. Often when conducting analysis of point patterns it is convenient though to use an arbitrary grid and aggregate points to that, what is sometimes called quadrat analysis. Here I am going to show how to make that “Fishnet” grid in ArcMap.</p>
+<p>In the main file menu, select Windows, and then select Search.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5EfZ45rqo_IJPUVHszB_Mqs3K3CK0BXnyW-bHnSCMhcGKKHFFHW5TqDhhmWZqL-qjoPMYLGCrjzPJiytibAq7ovfm6w7Ng0Y43vj3cuCA349QoVnWl6RybkMEODVDNt1nTquw9WvHe1ERjH3Yng5Riy_5BfM-qU64aCeLBR4epJg8j1De3HnUwq8pg1sysQJHQ7WmGQzWWLskGtwQkW1p3Wp2K3Zx4F86rgwr_0seBUdIncK0bIWGbM-H7N2-cQGgBK5DYQ2m5VIG4YZeq2lSh042-xXV8cpxPlOlGp55cpwjjyM4lhZjkyAa0mw4htYFLersLAybLUCapq4Jc-xmrn2b8Ut0Zr5QmnzqrBWPsm9MIxuh2OtRGV_joSJaLcxEFMos25fcOTHW4YwEUC61WlXRGmmnQXevC61iAGrlXlx_TE9UF3fQv43t3a6e5GAjmy_64eB8z4aEF2InMQUJ7zM6uNCsYDC4UmSvWlKaAjMpYigMc2Ja5CKd74ZA3Ydg77YJtdOX-OC72py40H6BzVoX1WvBS325GH-rk5Zb6VCHtJ7ZRN_nK0xVEl9Whrjl3awoC9Ykp9rvS4CAa0fPUkQKTQtpr1VsdAH1094WF9QlIkomT2URGHS=w408-h340-no" />
+
+</div>
+<p>Now in the the search bar type “Fishnet” and hit enter. You should have a tool called “Create Fishnet” in the results.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vPphv3OozXcPsXtEoxI3dD0ZW44igk-E0WVeJV9j6PvXjneaaU1w-9hiTQ9BpUrIlb7elrqqTzWJ5Np1S7FIecwPBQBEtp5HFOTuNfNb3AHvX8PUmsLvWwVXEGruRaWyVGS-_KwPFXSoPd5Vyjym0CBdQluhaz1IGDz7YFpOe7XygnfkXCOIH4OntIs9Ndfxv0KnfCzbFm63CIpzVywVi3ctjzOJq6818K906YRxd4gEgNY1UmWCid0rG2xIIoIoN_I2e39U3zovbor-tbdTvoNq-FFYhv4NGNLiqRtBm16crHw4UgSwWx0hXYy-HkMXZRXaCwj_w5lYPRajkt528Pw_8tX6ZRiBOHxWoY7iLssHVNj_1cdXApaJuLxDFUI_9fcff-6a74Yh7m_kKi4IBBgGf31xlBOFf9b9iuG4yV8EfwdF4luHzBjfWPzPrJV0GO4Uc8ncIJADxP_9T3lDsjHwtAHtGWQ-B5eo6_La9YbPB-QsI-QB9wcOUyy6KtCPq58DYG07AGlZ1LarSDoxM34fcM3io1F2ZcVU5qByc4ApgiAAbdQwJMgah2HkdQb7tEeu7q2Zpq-z1b2bN7dHTpTz2S_3IFUPWlZ3_Y-U-TNYkhw1ZbtlMCsy=w307-h292-no" />
+
+</div>
+<p>Click that tool, and in the dialogue that pops up select where to save the output. I name mine <code>Fishnet_DC_500m</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3y7aYZtbaQCqcelXi3l5dvX41GIfi8QUTpMVfufMU1UjdsOlkOC5Z4xKxK0CBN9lIXON1GnSRzC6eI6nOprC44Pwq7bEjQdUb95FLsvU1Hmw0SwdQqzE71k9y-H_uM8skF6re-9OMMw5Cr2GGB62sEVQRdQSsU_oKx-JHKw4f_uU4lWoRpwwr-7v1Rvu4opmx4ndHxqyWTp6VlmPTwwuE7QYQaRxK2fodCYsZ2heQeSU9BWGUqaVxhAlZ94-9WXJonnKKXN_hAQ_OK5JgIfNv06ZXcOdfhtIcABZ6hFx9uVzSdLAnrIEPTYI2SaH46FrA31rccpXEiYucDWTHwotw5AwVYI3x6gT3QJUU5aBHg0M_5wW5VLs7oHatEKWB_dunWRTjrzuxxlU4SFTXnZZmbhuZ40mWZanpHSvTfCwQLtrP1OUwH7bd-bVZwFax4rJeKhMuB5N2sCoMIY6v6cS8kf1pF5Y26UF_4k2UgrQ5OlA-auP0jSZWsft4B99pzLojlDicSX1EkHtuNm5P-If7SEkE4Vbm7ZC1pIumIOtPEFO9CuG6yglVpCagJbLVZz9dFfu45_EGSDSOegtmi5VlBdjiGl0fTBU5loqOT_VTiyzwoGqjHxjtWk2=w1067-h717-no" />
+
+</div>
+<p>In the Template Extent dropdown you have the option to select where the boundaries of the fishnet are based on one of the other layers. Select the DC Boundary, and then you will have all that info on where the origin box should start.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7MWcir1kjsAoXSLzkAXVufUn7ryL3ufNl4t91T-m9XGp6WFWiaNIP4iwSVEOJZWpsOlrVTCoFV_aBjRlxlEynxc1ecJXOrgMq6blesI-3AtdO-PN6DA1vBrk6FYsW7sxZshp5cmyY2wmVE_3SaeLC4srompclaU0n39iwM-e3B4zFBOWiNtQNyDjAoVCbQoLjlF1awZe7sau7cTlnC_MxkdzvSGahjrBw4ckq0kRc67whl7nbY40YzTnmzbdsNrm_ThxgUvVrLe1FwgZF_Yve5H7sa1t5kBGNsU_bPv0q9nIlXqyW6EwQ_RET7FopT3xFB85AX8z_dYZVM2z-aQiB12Bdqj4KCUKAgXH_fO-vKC318cqdYv1lL0uRwYUOBW1yAqHyl__j_xp1LH5wdqzQXDbXd0Q3Dkj6QI9YaNPSWiVFHWEkSRag-INBz1FzIh9YsCb2BfboHDQ6m3BaboVDkbx572y2ntTcTZfq2_E72Sb4zZDrBDVlC6fzKRnwCtJtnry9tOHAqCr5MqSGNEJf-Co70I-WzFBRRkXkVqvd03_iuWtISnpiUA8HLC-Xq0X28uywzLYI9XDCH87WJgL2fgNUN6IUeE3uWxSY4cP_neilF8Y9U0wzhmK=w1067-h717-no" />
+
+</div>
+<p>Now I want to fix the size of the grid cells to be 500 by 500 meters. To do this, I set those parameters in the Cell Size width and Cell Size height boxes. (These will be in the same units as the current map.) You don’t need to worry about the opposite corner stuff, ArcMap will automatically make the fishnet bigger, so no cells are cut off in size. Finally I unselect “Create Label Points”, and I change the Geometry type to POLYGON.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/QWvfqIfS1KwbyRLC-eFmCdyd0qJnlsjirxGBRZqb5VHKeGMdwPrz97mB_FTOzdBMqNuImtmA0jip2GwMqp775cQZzU7arG6CoMbyWiGrzwYcXleSa3UcVLbatpgK0wYCB2YxIJX2MHcXNIxOf7RRgUYEAPjJKJTJVBwl-GpeyKdFRdiZcorwPkDRl8pn-8FJLdE-jAn6MsfiBbdV5SCvAcCcZPRtZ1tiBtfDOmbueOPOWXg5AsP-N_NySEmx3bENQ9K8ejzpbPp-aThDCAaqsf3Ji-u_bQS6Z_s-0VPo1LfwTPMwbYe9DteW2eVsXDTrnfbLMyji5IESqJLFSX0CpHa2XdF37vt9AGCkRDLRl6EhP-tn3GznQI6cByBSVzL0Mzc_JklGBO-9mIUGGN1_W7Krr6O_ZQ_BVEOkSnDqYVrgjxZ5dqS_pMJh3herpF2VJId6fAQQZUN7xSgp48lKMbfOSnxe0k6GnT0OqxBM3DeT8nK3TVaneBeVs8xlsrnghlbRKkjI5SpY4bKcQMlU__AWV6OFefR-EVIeFMedvSnuTG2r5FAB1G7h6VXtmnTaYn9zgvJ9muzWEWs221s1AwOKOJHHigRPrVaWbw_gUN8zD1IvYyu_2evK=w1067-h717-no" />
+
+</div>
+<p>After that is all set-up, go ahead and click OK. ArcMap will then churn out a regular grid over the study area for you. Make the fill hollow so you can see the stuff underneath it. Here is what mine looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MwuRhCa9J3nNOfzRnsSrJm7nasb0KLbM4K0cJT_uERSyh2eInSurXlvG7jCxoRbNUbF61UUEcBV43fKbCA2UUmzOFY8pGOEhs_WGYfrN4CPb1sQ9zm7wSnnEPkxRPi-cKzl-_eLyxlprVRymNOl53x50cgI_DIrgphMF87k-A9u5nSkAGhzcOY1HbwXjmJWsEN1IWOgnpYhjjJ2E8cmCNAXZPm4beW68YAOqpJaXiBYMhY8V1zHdJSNaOkBAy4lifioT9SXT_E_NHbYHdqAjM58VOthnXO3yMp8z5cc3TNfPjIAClHwEc_jLSLbtNRK3Xut92qbLE4mYLafybpzrz3Msa2J3w5qt94tDDdTQGAIq6CmxCpdeLpKreS4LV54jmOuNTK5YgSn0yB0zaUZqhyiIKdxKkpYLmG3wtt2bN4dmi2VQL0hvlkGK0VvXCj4oGjLaRJNNSzhX4k-QVBB8KhZT7f7ILfWnp-dW7BLEMJcca3YhQqXtOiEIhIzC_dJLsLKGAUI4YgLp_5IqUZRL515_C80BGx3AY340e6gkC-WiFEHVU8LrSyBHf5bAj8XJgOb9KSkQx8qIRg1tohsDN3mcUQq7IYuyfU3lKxEVQx4opOVV9mTLpr45=w1372-h853-no" />
+
+</div>
+<p>Now because DC is not a perfect square, we have a bunch of irrelevant grid cells. We are going to select these out. On the file menu go to Selection and then choose Select by Location.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/I-oh7PG7UcrauUeL7R1nlam_UhKWlsdskj_yPu8DLDPz_CzET89kzP54k2IdDH6nr6lbcLYqSl5542NZemyPj9_VFQ0MaFjZw-Rm1JvxYwTBBEWWjTuMLNFZHjV5MZWNyQ1FWbYInsRPeSy55Hv6adnVUl7qiDBHAT9iIqqc9hIvh3OGS8BhfOBggl1zV0wegPTylRHmnHdWy89O6PWAo1ka3QGRFMSI-94OIDL9-DF0ikiDNrFqYqTPjTK8vUPwo4K33yCs1lOZpAPMUBc_HBWKAv3T0fZ--5wlQ4k1_w6n-s0NdEJjWcjjgFs7be1GezXlcMID4Sm5gNalhfEiFGzww0NeDsejiv6L2LnfyFPN0fTgW5TLPz5DfDkygQ7lnGbGxCy8OAJYMm2lsFcyEtXcGA0rV_euRXQK3JvFHmr4wANuTET3_-EyJYbSrQJ7SITVktwdoINj9mXEKyrs0JVpSKyQeT-FS8j9Ol0zwY_aHdm36izGKZqCpRqnKA4X9_WQy3paWF6nbS_TvSg9yuvRmQpB82tfHLsaFuVQMFChsOy3m2rTANROY1Jutt8TEppUIcaZWA9K6kP3wKZ01XRoeWUZ8BTwnnz_89h2slrkuXbsiUGWDvvh=w420-h372-no" />
+
+</div>
+<p>Then in the dialogue in the select features from choose the fishnet layer, and in the source layer select the DC boundary. Make sure the bottom option is “intersect the source layer feature”. After all those options are the same, go ahead and hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KLDIvtATMRBYLPiOwfZVNrxpIx2KW9CkKbPRarSVu_MlAyvDxKUpS9DpA56EKz94MRDGAg_k9tiUPRuYYyO8McGs7t3b3wWFzmu5wV9mGKYsDvLuesJm2tk4c6oRMTzBPfckg9w6h6wT5ONL-u75kmoT9M4XJBhWznWRrJmXzpLJBm6tntFmNpmrlo46dwZrPM6Nu6A8K_EnrXfcwkVU_V1naGxCZEMspf7EENkZdPMAugXe0fwbtMnzR8vYw58LAJR8U8osn72A131SHZGBw6BkR_uctwVB50IJq4ZWw6OGMR5qBkSM-9DPV-NiyShbAphls6T1870Irc2qeZ9yk3aZGKfvQt2Db7cDto6tKctOJgJ8cbt_sNZdHQEjCt2ZvquC3HjkEEH0I108mjM5b2AxhWDHNpGw7Pfhvnkui0vdNQA3Tbrjq_SUR6IYitIuC8Ktt6p1MstzKstzO4r1buhFft0aGh29Pw9XYXJ1xZ5CCvAL_WZEq7b047Y_YBvRpvok7Rv4bDFfrZcp_sAEA7zi-FCsFDpbh6qxYG-FVNxEZZ_5xc7_RF_xUK0Kf3GR_WP0e7qPrRSj71loSWioW2YvtDsW3YG3K5EMet_GwYllJcZb0L8grNu6=w406-h557-no" />
+
+</div>
+<p>After that you should see the usual cyan selected features, but only those that are on top of DC. Now in the table of contents right click on the Fishnet layer. Go down to data, and then select Export data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZTbwB8tfoise_PoZdpY9jr2-SJPsTsxEeji745-kP4IU7tv5nY0PmjRdSUPGh6i2jTPMqtMY0BdfLHG6urNSk-ev6z3IJMrQT_OlDMWCUtCMY2VwGNJIzSSgjJWWai4r-RiSzHQtbqRD2QVv0qdSowRIaD2Tch0yjwqzrrRIXQvkuUqr9JtBu-8zvjNWMTP5jWyesDBSgla3W4SxV-RYbOWvt5B9kxojKpNsCLFeuTwIFNi18C1NK2CVaZa5988ltDJU3OUEsR92MaejhGGmiI00SZT5-EGTtc1GPIzZ0vILunt1PPBNeEzT7Dm26omQTI2NAZFopqipuE0X7GU4aCUTyKD0hlACARCZimA-SEvW9LGWjrOZZzyFU2sGh5ctXLMkGN5FZ2jBhB_MIGvB0RKRhjOlO3a70TkOgqKKpJ_AvPw8IUjrSo_aBp0q81AzbNS83j_GCu6ySCRKr5mpeYrRvUgSttxPuny472_uOZDsdt8u5WE53EjFPkrgeohZsG1uvj-bXWTtXStln5gT9jtqvCkyRyC2Yv89fazY22kFJoSkqeFWEBvSDrZ7hMDzNBRk0FZvulDccKF_gHC3De40LyntKWDP_OFSIxnyeFW6L-_IM07XqQZZ=w872-h760-no" />
+
+</div>
+<p>By default, the export option at the top should say “Selected Features” (if it doesn’t change it to this). Choose where to save the data. Here I named it <code>Fishnet_DC_500m_InBound</code>. Then go ahead and click ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BfhgQdbtq9-KjjsA_xv9CeHhhFDSK6RUV6qsIrEvLvw2yrKjSxs00wpKg-l8T9wR_T_hd7suJgicZiqMPQJK_LOk43eNh2vX7l0Zl2mEmr93UCgJqU3qOSQdm2SOi9gYNEm5VYB9e0ZmY5o0zakhtZn4eXHk_zGkfF6cFW0Xome1RGFfk_9iMFr5FJBdWinFp0048iM8Na2IWECZZXLhrsn6z3Wy2F6VmlSHEI0DDzZHwIHbEqnRR9EvAuyBhsddxP-na_1KZ4KR0e_iEp7izu6j4pAouF_v93mx-7RlIH_yS97iAfjCEd4jmrD1KGYVi2Cf1itb1FVAoRG9L7RZhWXvOUwtKdRDPxaF7i1DHYxNhZqM8GzLcVzNF0vZA_b6aCfRbnLuYYutxOt_ZxcMtMM_uUmTWfbQWSDuA5K8KT9jnI-oIafwvYu_3Li8MSP20LsWRsN5bOXd3F29WmXjpvXtTiw-i-MowwStLIM4aMSJVIQ0uw23PuPBPjh77ANHaRnt1zLOp5spadhVPs_rUEpikA9wKlTwt6BoASPN6FwhfmN-w1HoYsAEMcaggeK09jCfT5WqmNfdsYC3v97hWunan4u9-vidBSaKDPzWiWmax5xf_SdktYHA=w397-h323-no" />
+
+</div>
+<p>You can go ahead and click OK to add it back into the map. Remove the original Fishnet grid by right clicking the layer in the table of contents and then selecting remove. We now have our regular grid of 817 polygons over DC.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hWZ_LaB9XrIRZpqeuXLWwdF2x9JFQpuE4ogfu7vcWBCHRT_v3gn0awhselujOrdw_fe9ZsRQSm4JwgnLVeHhIdMNn3TOFYDHPtsUOKGW_Tn4m4gT0DVnognFooZ_2Au5NKooiA7ejfrCHukeklnK81AEsOsRMH5V1wfGcSG53aq99rv89HxWJqk4GZ3C1nk1GjuLIces8_R9UcmQLbkN79jRNwUE6LU8VC7VLogtCU7c4r_Bjht9sSR9WyfB6ruYihrhUeBUrDguDW2qiOJh4aWY2ozPzsEufxinLUi45OcZNA_5QgRGVgxegYAd6cIVfxmZROcIQMPOSNg948bABdqVQCZDPSQLEa2zT5HiECiZki2Ji4krkmFg2oxWYd5R-6ipq1sZYIeFF5fz4qoEPe0RZFO-F6v0yxPHVF0qNXsrh_37qnNPThCm7yJccI0NQSd-3gWquRF9ot3hkBNOA3Ym5OMz7DnHbVO5dT0Tz-EOC_HSiGwR6VJyDN6OzbNrvRNgEsNLf6yj19uf5Ug5q6DpjxqQhZtR1PKo3YvTM5-2HqnYtX0G374b70UVYcCf8ugvAouHHlMk4h1jn5MXpAOsACgT2WgjsKSG0-AACXzlwyZLkhkJaaO1=w760-h852-no" />
+
+</div>
+<h2 id="using-andresens-point-pattern-tool">Using Andresen’s Point Pattern Tool</h2>
+<p>Now the fun part. After you have downloaded Andresen’s point pattern tool, unzip the file and navigate to the folder named <code>dist</code>. You will then see a few files, one of which is <code>run.bat</code>. I believe you need to run this bat file once to download the necessary java libraries. Then after that you can simply double click on the <code>AndresenSpatialTest.jar</code> file to open the application. (Note I’ve had problems on Windows machines not knowing where java is before. If that is the case you need to add the path to where it is installed to your environment variables in Windows. If you don’t understand this or are having trouble, make sure to use the discussion forum to ask questions!)</p>
+<p>When you get the tool running it should look like this when you first open it:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/SLeu5TRpXpw6TQMt7SJ8b7FT4RYDNZT15ugx4Mp254I55WMZJTSKWuGfzcqEEekHKAVQWC9VmmifJvs8FA1iy6VCVmjSd9teurKSwxb_-F4KVOjYdGQ8KaUVadvp5LnMzCQzDO2THkaXtqqIDstWv2LCIPdAfkEdfQ4LLr3lCA-4yDPuUi0rripYcMgLAZMRVsgs7Qo4Vnb_ZGXKSzE8XugjFH5uwLfNybbGzTPEzHYh2yGjCgE9NhIEFmzBvTl5Y6ObyAdQucmKav8KBo0LoLPGd6ht3KFN3MffYCOdpOqk5utFZJOqjMp5Ze8tUAPZm5lNm5-8Y4vdZm846Q89bEoxgbJ0ePmBnAbFyp1vy_ydvae_6MZk-pPuDTZSeJmOkkkrVhHuHalm_WcOKL1K51gHxdBUeRP1t5q-zhMACQarfLLhBCsjp5beCj4r36vQ_XQAV9CdT-jXcr6GYB_RReaL4OTlUqt8hxCceLSR9okh73mjwSHtstTZSnmGzQ2a9Bhr6dvWfUcc_kCIcP_DiooTE0SC3_rSr7V0z_8Cl5Kj0wDNDlxO8I_0tJHqG2qYHLElouKJjJ5d6BCY1jacIV8kb_wG-oHFQdpsLohGwfK23VTggdn0Be16=w1186-h761-no" />
+
+</div>
+<p>Now importing the files is pretty straightforward. For the base dataset choose the 311 calls shapefile, and for the test dataset choose the crimes. (See some discussion at the end for what should be the test and what should be the base.) For the area data choose your subset of the fishnet. In some instances I’ve had the application read the CRS, and sometimes not. You can set it to NAD Maryland if you want, but it does not make any difference for the tool itself.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/kBKJKix0VFtZjsw3phJ9F4F1egUE2l1LWIFNHdpyi-H5z_0y5hMIXvd5eDiPJamu3MLej7eEQXVd8oirt4Kf2SiPiAcFtESTbMqvVpFOumTj2AkxCbshJE4yJg944aaafmf3vlXRwq5cseNasWBwCGM0gSVWcjWJ9-aNlpFXl_1ZEMo3OvtPJToNQRC5AnBKy7d8eJbxUoOxhqTd4MGxPbwWALhBavDoyrjkuGtWmq3HKOcKqWs61UXySbbk4xM38Qoy21THOSd1zCiRe5bUqNOmSbab_OOGczkOKMD0Yl3oo4guCfsPJOyCOsA2QoxU0nMR7PWsK6tsbnWaP46gWdIWpqWeTcW6ynDRqV6Ho_kTXP5QjKbXxReYLN-M-F5yPHHE3tKYRVMI0AoJelfsAQfRUYlsZ9hiAP6OrL28xNtCO60mTxp0O2jHlV2D-UWe_8UsVg1draoMnfSOuoKJsp8uOHfvRVn5JMby2rSP_W_1yjkeBZ9r_9Y-xcy9l2ot6NciruMTXCPzIWgA-3XxeMzb8mxrbAvRhtlyFZY0_eXn2gFiUD05oIm8nFhtirIURVTzv_IzfzC4p9wQ4vm2Neu6qFoAWaEjYda_HTj3x47z5bGB6Eo2RBD1=w1186-h761-no" />
+
+</div>
+<p>Now in the Select Output Data you can specify where to save and what to name the resulting file (it will make a new shapefile). Here I name mine <code>AndRes_100Sim</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Z9REVJ0NQv0f1UaQihXYvY3yMymwmZjiv4Kdo0cH6T4BmdAAITF6gc-S57vTM3-RJ_3cFCu7LohbUkIAx5l2kQtd_q90rLBApWgvQTIVEnZeGzys9HyVinrjyIeIGKZ-RfVB2nnawEE1lszlXYnaMoBoy59sivA1QJH61Y5ZMBoE_ejjA2w3sGypmw3km6Mb6nxr-99yCOBGoz83D5nWpRBhh2lBGdi7YlvCm9wExdPaTUZWFwvvwAcmL0FA16GAGDFc2F-n-dCet2GUlYCdlJXIz6ItOXguyO41d1Ue6qlYA8-BBLg_1jYdkh0_Wa58Di9Rj8SgSIKfKg04N0u3MAYyVxbnU5byots1suzGfebRtmhp4PDnUx9U0LkjuH4C28qHxGyakmXZ105t9dCL9JvgMyQmmELGShRVOaZ1586wT59wZrcTzH2LP71v3Y9Lrh2l90qJibb0_g7aeQy_8q6HbaAcSVgQUzbwDnBampMR0XQbbXgMnELkrn6UJPHbbfzdySljCihXJ8Gxp5YZAB1f9Abk1UN1gJnq1ssYE-IwAgKvosIp0FCFD_AcIKCrCNdPTujIB8sXbGx5svs03XbUrjHmrjmO7wz2q-pyetE0v6nYv1ceDqs-=w1186-h761-no" />
+
+</div>
+<p>We can keep the other model parameters as the defaults. So go ahead and click the “Run” button in the Run Model area, and wait a few minutes for the simulations to get finished. You get a pop-up that says the model is running, and the ticker on the bottom shows what simulation run you are on. Even with these large of datasets (base set over 100,000, test set over 30,000) each simulation run only takes a few seconds. Once it is done, it will add a layer to the output and give you some stats. Here the global S index is just under 0.33, so that means only 33% of the percentages in the base sample are within the confidence interval for the percentages of the test sample. (See at the end for some discussion related to this statistic.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1-3M3D-NUxrBnWmLpYpWAV0n_eiZCnGsIsk15gDqdCN5kDW4G0x8g5oWldwMAekXsozPM5_BdDgDB_VswP_NQOqEijpBd5UOFvwWfY0OmTshjnHdOjPzBrp4fFyhc3WtL38pUrlvtmpnPggheHG6LHH_G0-8EN67odGT6vtvrLeUYguC2gKFjrlLjrhyoJ_In6eXrXUafcHR_a5zc3Jq99Ny_P_51yXqO4GD8dKbAtpMcmHhBisyHuDgcod2eQX4moPLoOZjyjV8eGcqOorfZP4JPe_7yR3Od4fhTlu0nIL15lYCafS3HpEa4Mz1SouFkPYtUB3vZgpDnT82hhAjGvbwOI1xklAeLa0GVdPKB4gJ4EDCDWyTcpArFjPAglaaI_VSID9EYbh8SuuU_qMMraAXVpErTtqSBXLkhBa8DG3QhHT_q6tQ8PXHqduISviOOVSeUil81MA8ocEmF4HivzOZYHvkOyocY55LVENyKisIhlul8ApE8owyOmYcFJUemEO4SA8Ua5v8cIDLQA0CbI1GsuyDSaQHp2_e2qmyJM8oqN5bg_b1iL5ptGLeRDy7TM2c2hOdM5TFVZdLhPVmTGQsWgGcUpGUXmA38HCrXEioKVEAWJha49KI=w1215-h761-no" />
+
+</div>
+<p>We can go ahead and close out of the tool now. And head back to ArcMap. We are going to map our results.</p>
+<h2 id="mapping-the-results-of-the-andresen-point-pattern-test">Mapping the results of the Andresen Point Pattern test</h2>
+<p>Once you are back in ArcMap, you can add in the shapefile that Andresen’s tool output, here I named it <code>AndRes_100Sim</code>. Once that is imported open up the attribute table for that object. You will see several columns. You can probably figure out what most of them are. They are the number of points of the original two point patterns, the percent in each, the upper and lower confidence intervals of the percentage for the test sample, and several dummy categories related to whether the differences are negative or positive.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0dJbDwuOdLk_8VpsBtnKHM02GQXsWfXyORd8_PhVNpJzOhRYGAN96PTkssEk5XgaL0rJ5uTVvJZ9ST-M4hLm7LcF8EOOXIN3byWCZ2SK47Cv3H_8qbEj06KOmbahSZ7vJm2-GS9s6CHN8syIgy2uUfy20SmqwU70Q3qDH2gPPRgUh637ZDrMnTFLEhlTsL2wY-zaX2bIymIQIQbKq82Ibto_QAAaViNU3toD5T3QDjLkxdUFu5RiMMbXFhMEwCNg7bmsXDXcTY9vC9x98tUEbs8bHTe4rKNVc7cBlNvubzmRCtR77THwPolVRGEU2Rv34gzDfb7rsd5Sv0e9LPX2c_8-isMxs-sSUiZfEhhvvazQMRmQQzwiui3sDZ5QgGwHQjaUUvazgHIIesIP6par2zVSfT9xnd0qgrAe6KibBXYazxfxO6I-VQ8wKQLZIimz36WbQPN7VviqoHRPwK9p9PVVms_f4awl-TAGVdSgYfcWzk3dvhkalWo8UzQb0lYjGCv5pgrihdcrEz3sp9eDlZYpMCnrPhyMos2DTdIy0xoE0XuV4yTCKjLErPWnL6njmzMxJUFQU_Sn5bKmc2GlQmsWFtOEFcIrEijayTXZoY0G8M7nFgO8mQRn=w794-h376-no" />
+
+</div>
+<p>You can really map this information in a lot of different ways. You probably want maps of the baseline data percents for each type, and then a map of the significant differences. Here is a map where red are places where the crime percent is higher, and blue are places where the crime is lower. Here I use the SIndex field to map these categories.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5B1Aj5-RNJLj-9mwv3D_xDmTSjQFAVDree3XO62orPk09DtTFPUAEVvKjbuLkN2DNCM-QfXEyAJOkbuQFLbWv207czYtTLxYlRXy6bHDHN6kdrqvE-JaXp3BtCX9YoDKTtrtuv9fXuHMrhG9CUqUZLq0eQ1y-RbiyqPa4hBezm-OUgwRMW3yPyFWNSkyQWMlAs9xW5IMWDkE3wZnDG0oK9cDjPkP_tUxtsvnyj-8HkJUiq3mcLM6TjF9olX9MnvvLwyWWswTnJ4QLm8pliQLx7gFFqWfDeA4jpByXHzDlAXj4jPHk7_IjDfHVQ9ZVCUU8ZwTAp9DvszZwhJZ1Iva_XwOnXZWZoPimGzxjYFQz99IALtOf4qmABNDRS9rlrEiZD8UpOr7hvPM4GArv35Hdaa1bFmXPWzpXsczzUcHwBqhzQb-VTGysZEWS0iBuZWfNT5vFzIvKKMHPMwz6i0-6z6kzd7SUSULyXSa8EC0fNGr3Rtu4f0eLK-ZO2EHACjRavtrGNb2I8_CmqBz_bTdDZPF3aAwCMdp3ELMzMxED1v0s7HyM8Mq3lKlKs2k-3BpaRTtc2ZQU-QjW9zS1bf-2sKG3B9vmfVImwsmkMeMeVsw3h3pIdikJIIV=w1180-h784-no" />
+
+</div>
+<p>Alot of the grey areas end up being grid cells that are mostly covered by the water or parks, so subsequently have very little instances of geocoded crime or 311 calls. (That isn’t to say parks do not have crime, but the way crime is recorded there are only a limited number of locations within the parks that are associated with crime or 311 calls.)</p>
+<p>Here I am going to show an additional analysis though, making a scatterplot with the data. This is similar to GeoDa, and is a very nice feature to use in ArcMap. Open up the attribute table, and select the list icon on the top left. In that dropdown select “Create Graph”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/eRA4oRu3ju2K4XLASBukA1aSwEundor4oEqQhcqkpig6nL3mjSJ4TL1rQjchU33jeGvb6vUoabp5UcG4ESR44y9HGamhVmLr7kWncaDGJ79ezlOay4pSXUUlnIm_dS9wXzNiWGFE6FZBfSi_gmXXpuP5-MZqImkWyrR2m83XS_XzbxTiaKGcd3lx4ejHCN9U0oTXMtWwV0cWoPKPZm6dJqEk5QG4Oegn3JDzrPfBfXw6RDvrmRh3dSZDAA3wrC0XyJRQEKADmN69bzSbY0XQZmNUJZQd_n5-3cqIH0O8crhTrnnDYWoRThdxGWbk1JrSVm15jJ44pPi0o7qtXChIYkcqFeQEwtH9pjBEz7kVH5UsdX9LyggcaOAbBB3n9NnaCebUm7d0YwwEmokfic4NbpdmFdUTRNyVJg4DouSrBaeHAORPp61STQDuydUFWiWJEBHMiPgI2PDvDarHfLq2m6lFK2yxzyhQuedpz4zK5BKD81b-XbVHoCmUfHB8gidq0zianWvXIgffu5-KJMN3Erb-h1rdQFIGXNDsG62Y8zkh79-G8Pz4ucB8Guwinpz5PIBQb7rVkkMoIqSiHVRjl7kV_Wn7Q-GW0fiyD7-Nid0rIUfsj3kXuU1z=w432-h536-no" />
+
+</div>
+<p>Here we are going to make several changes.</p>
+<ul>
+<li>Switch the Graph type to Bubble</li>
+<li>For the radius field select NumBsePts</li>
+<li>For the Y field select PctBsePts</li>
+<li>For the X field select PctTstPts</li>
+<li>For the Bubble options, change the size of the bubbles to have a min of 0 and a max of 6.</li>
+</ul>
+<p>After those changes are done here is what my graph looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bzFO6_fstds_hJMyExcQIfF5AsWfJVSNnxR2PPcmFhwC0Tu23sANII2Sz80DRTQ-4X8CnssSeQyJzrdDdjG67A43MpyI6gMBYOqosMeyxbzmB6Cekrdp_UR_3yJcINsxyit7X6QNmHDqGMUwRqiNFjnKfkGeEPBRutbIzkLXj9qWlrRmu3dG4Q3kyX828mEQ9Tgm2BEioS-vHDIvSsX3dGc9z3QP_ZNDEDQm_0Bgy7gGcH_9bRYnygm9_jL1mmoc96CzRC3RxWZZ_5jFLk1bCircnRMHFhRq6ZdSyCOhDKrSwNll7w54M7UJcQfgCj8247dJLqPoo7CHDAjAzKYtpIe0ErAo61uTVqz5bZNN82seqk4Ivn_F_yHcgh3JXRYfpp_SpowQKDRwmCOuJooa3htQIpjDfPkra2taSi3RBkZ6QbTUUWZ_93xSpVHzdKe9wQpdVThWO-BR94D-IkJfc7U97Epsje5UKKUOTJjbWSRjtsDLu-5FocDpDIGw_lrqbxoLcXkf4m3_I5-CADOzAdyMBUWHQ_SMcOec6fMX5JRnlhhJp9VvnaebaFCgjcG73NzqumKxjVbJA0Mi2GSJSHrKG4jBqD1L2wKrlzJATh24U3gCZ8Ml-6n6=w722-h533-no" />
+
+</div>
+<p>Go ahead and click Next. We can then go ahead and clean up various parts of the graph. Here I edit the title, and the X and Y axis labels to something more meaningful. Remember the test points are crimes, and the base points are 311 calls. Same as a map, you want to make the information in the graph self-contained in case it gets reshared, so the more complete the textual information the better.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GHsizWM38NA9hQrJBvLVJzfsoDXcWY6wJ1ODG0UlzRisPQ0nP9LENI-xJXVz3pKpc-BhSHi8YCmdatF46elzBgSw-UFItrnPdFEFZvrezyqObgxBN5ldYHcjHgIfjJF4Rz3_onjnRQv3Bp9XHFRdgANOgWWeURWV3ff9daDJXtKu-8oG8iFVdkB9nYUnTJ7RvqPWRJR1ISt_cRC7MdaY3JxtHHcubaQIXI6cvJKWBDCBatM8H1Q_YUnCwH8LdjctExGEoxH8Idx7BUtF_QqqTDrheNYYpgU7Hafv4MhT-wN31i1d5SUwV6En7KgDMKGl7NJzd-ULOiKJS3fNWFvyDV9H3MmR3YBZdcIT_Tjp-jWcXUgZbGpHOSlWsWcPmX5gqmOsShxMGIxUdu9t8EwSkdV-Jele2ZjplTk7chXswYvGkMpetMgBlqDx7xVzNgjzMyl1nro7RkfLCWq2u8boI5ub_nY_Lm3YMlgEPzEQG7nM_BUG_yJN_TorRW5DC_jMOKpM2E6Bdj46YdB0koCsi3kTKNMlWV11ykv-xKbqPrKWAr256Ys7rnLCFAFEn893ZiZ1PIyT7zk5W16GpbBLmTA0I-UPuSs0wpRB0zIvZo1hdwEO6waQ8-T_=w722-h533-no" />
+
+</div>
+<p>Go ahead and click finish. You will then get a graph in a new window. If it is really small you can drag the corners of the graph to resize its width and length. You can also right click on the graph and export it to an image file. Again you have similar options as to when you export the map. You can save it in either vector format (PDF, Metafile, SVG), or save it in raster (for these types of graphs you should always use PNG, do not use JPG).</p>
+<p>But another cool option you can do is select items in either the map or the graph, and they will be highlighted in the other window. We can see here that we have one high outlier on 311 calls, but it is only in the middle range for crime. Go ahead and select that point in the scatterplot, and we can see where it is on the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vlDHDrFqzu8SSKsp8Io_n2FvfK1xPB2GtNbqKIyCLgpj7e9i_bB0eZPqJjK08O3Rkwwwg7exr89tW1x2A5N2zNGFlPX8Vgqr-IfC2oP8w_8Rhs4m-5DDaYFBmKrjgTMkgKUjTJbrUsuL_V0CKQVgGephN3DuyQmLky776ZWLrvBGZew4n8pS43uiGhQW-sT08Obxj6QKuwlgtBOYZRjqhuiv85QLgL7sN8p1QoXGLqUPghFkoemVL5N0LRKzxv-gVvL7q-cgh87tLiXoynkpVAekv1rJxTKerbpJaVNt3aZK6Jva7IDs2UfKy4RyTXjopgKwNQr73tnr8fyZffiYTh6LwMhWivbLc4B7kY150VehuUHVgtR6bFk_OKUbGPW6w7CIMR-EB-qtFHxxutBDkp1Xs2cSKl3NwSrXcOkAAG9NNFZB-yJAhbLF0fxzy5eFoUqFg8uUljcHAPBn5H_-SE5VgDjEdBzBaJG16x6kpVyz-Re_Tb8klPrZhJ7oHyLRawr2QJwMDz0AW_gClyTjaWQVLKgzn3wOH43-IarosnRL-T6QR-ocAMmNjEkQwEIqA4fs0ivyxa1A8F2Q92k6RWmZEbQi7G1HXmM7CKq8HX7HfOA588uYZLaS=w1565-h774-no" />
+
+</div>
+<p>There are a few ways then to figure out what is going on in this location. You would want to inspect both the original 311 point data, and import a background map to see if there is any special location in this area. For example, if you are looking at crime, a frequent candidate for a place with many crimes is a large shopping mall or a store like Wal-Mart. Here there ends up being 2,285 311 complaints in this area. Over 1,500 of them are in one building, 100 14th St NE. Looking at the records it may be that these are accidentally duplicated data. It may also be the case though that multiple people in that apartment perpetually filed complaints every day for curb and gutter repair, tree trimming, street repairs, and abandoned vehicle lookup.</p>
+<p>I found these out by simply selecting 311 calls in that grid cell using the select tool, and then sorted the attribute table.</p>
+<h2 id="some-final-notes-on-using-andresens-point-pattern-test">Some Final Notes on Using Andresen’s Point Pattern Test</h2>
+<p>Before applying this to your application though there are some things to keep in mind. One is that when you have more areas you will find more differences. Whether those differences are meaningful take a bit more inspection that just seeing if they are statistically different according to the confidence interval Andresen’s software spits out. As you can see in this example, both patterns have a high correlation with one another in this example, there is only one outlier.</p>
+<p>Also it is the case that what is the base dataset and what is the test dataset is arbitrary. Since the confidence intervals are constructed only around the test dataset, it can make a difference which one you choose. Here if I chose the test dataset to be the 311 calls instead of crime, the simulations would have taken longer (since the 311 dataset has many more points). The confidence intervals would have been much smaller though, and subsequently made the S index lower. In some articles Andresen chooses the base set to be crime for the greater period, and the test set to be the subset. E.g. when testing if spring is different, compare it to the base for the whole year. Other times though he did all pairwise comparisons, e.g. spring vs summer, summer vs fall, spring vs fall, etc.</p>
+<p>When interpreting Andresen’s global S index (the proportion of the areas with the same percent according to the test sample confidence interval) you need to take into account these factors. I don’t think the global measure though is that informative. I prefer to see the maps and graphs of the differences.</p>
+<p>Several of these problems I solved in my paper <span class="citation">A. Wheeler, Steenbeek, and Andresen (2018)</span>, but those adjustments are not available in the GUI tutorial here, and would require using R.</p>
+<h1 id="additional-notes">Additional Notes</h1>
+<p>This is still a work in progress, I would like to provide additional tutorials as time passes, but here are some additional materials on relevant point pattern analysis with applications in criminology that might be of interest.</p>
+<ul>
+<li>random relabeling approach to Ripley’s K, <a href="https://andrewpwheeler.wordpress.com/2015/10/27/the-spatial-clustering-of-hits-vs-misses-in-shootings-using-ripleys-k/">code using spatstat in R</a>. This can be used to test clustering for different point patterns e.g. if shootings are nearby liquor stores <span class="citation">(Xu and Griffiths 2016)</span>, or can be used to see if 0-1 data are spatially clustered (e.g. comparing incidents with arrests vs those without an arrest). One needs to take care how the simulations are done to use Ripley’s K with crime data, see <span class="citation">A. P. Wheeler, Worden, and McLean (2016)</span> for some discussion.</li>
+<li><a href="https://www.satscan.org/">SatScan</a> can be used to test for cylinder like clusters in space-time data. This can be used again for univariate data or case-control 0-1 data. See <span class="citation">Zeoli et al. (2012)</span> for one example application in criminology.</li>
+<li><a href="https://andrewpwheeler.wordpress.com/2014/05/02/taking-account-of-the-baseline-in-kernel-density-maps-using-crimestat/">Kernel density estimates taking into account the baseline population in CrimeStat</a>. Here I show how to estimate a ratio in a kernel density - the percent of incidents resulting in arrest. You can do a similar procedure to calculate crime rates by using an estimate of the population as the denominator.</li>
+<li><a href="https://andrewpwheeler.wordpress.com/2016/11/02/some-inverse-distance-weighting-hacks-using-r-and-spatstat/">Inverse distance weighting hacks in R and spatstat</a>. This is for if you have a point pattern that has a particular value with it. For example I’ve used this for surveys of individuals perceptions of police to create a smooth map of police perceptions. I have written of work using inverse distance weighting to create smooth maps of attitudes towards police <span class="citation">(A. Wheeler et al. 2018)</span>.</li>
+</ul>
+<h1 id="homework">Homework</h1>
+<p>For your homework conduct Andresen’s spatial point pattern test again, but examine the overlap of 2017 violent crimes and pedestrian stops in New York City at the Precinct level. (The data is available in the Homework data folder.) Use violent crimes as the base dataset, and stops as the test dataset. Make a map of the precincts that are different. Also make sure to include a scatterplot of the two event patterns on the map PDF you turn in (right click on the graph and select <code>Add to Layout</code> to accomplish this.</p>
+<p>For 5 points extra credit I will allow you to conduct a near-repeat analysis. But it needs to be a new dataset that you find yourself (e.g. thefts from motor vehicles in Dallas). Write up the results into a nice table or graph and provide a written interpretation, don’t just turn in the HTML output. An additional 5 points if you not only conduct the near-repeat analysis, but also map the near-repeat strings. See the newer near-repeat software mentioned at the beginning, and also footnote 2 about identifying those near-repeat strings. (ArcGIS also <a href="https://solutions.arcgis.com/local-government/help/repeat-and-near-repeat-analysis/">has a tool to do this as well</a>, but you need to import the space-time distance band that you want to use it, hence the need for Jerry’s calculator.)</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-andresen2012appropriateness">
+<p>Andresen, Martin A, and Shannon J Linning. 2012. “The (in) Appropriateness of Aggregating Across Crime Types.” <em>Applied Geography</em> 35 (1): 275–82.</p>
+</div>
+<div id="ref-andresen2014police">
+<p>Andresen, Martin A, and Nicolas Malleson. 2014. “Police Foot Patrol and Crime Displacement: A Local Analysis.” <em>Journal of Contemporary Criminal Justice</em> 30 (2): 186–99.</p>
+</div>
+<div id="ref-andresen2017crime">
+<p>Andresen, Martin A, Shannon J Linning, and Nick Malleson. 2017. “Crime at Places and Spatial Concentrations: Exploring the Spatial Stability of Property Crime in Vancouver Bc, 2003–2013.” <em>Journal of Quantitative Criminology</em> 33 (2): 255–75.</p>
+</div>
+<div id="ref-linning2015crime">
+<p>Linning, Shannon J. 2015. “Crime Seasonality and the Micro-Spatial Patterns of Property Crime in Vancouver, Bc and Ottawa, on.” <em>Journal of Criminal Justice</em> 43 (6): 544–55.</p>
+</div>
+<div id="ref-loeffler2016gun">
+<p>Loeffler, Charles, and Seth Flaxman. 2016. “Is Gun Violence Contagious?” <em>ArXiv Preprint ArXiv:1611.06713</em>.</p>
+</div>
+<div id="ref-PR725">
+<p>Ratcliffe, Jerry H., and George F. Rengert. 2008. “Near-Repeat Patterns in Philadelphia Shootings.” <em>Security Journal</em> 21 (1-2): 58–76.</p>
+</div>
+<div id="ref-Whe311">
+<p>Wheeler, Andrew P. 2018. “The Effect of 311 Calls for Service on Crime in d.C. at Microplaces.” <em>Crime &amp; Delinquency</em> 64 (14): 1882–1903.</p>
+</div>
+<div id="ref-PR1642">
+<p>Wheeler, Andrew P., Robert E. Worden, and Sarah J. McLean. 2016. “Replicating Group-Based Trajectory Models of Crime at Micro-Places in Albany, NY.” <em>Journal of Quantitative Criminology,</em> 32 (4): 589–612.</p>
+</div>
+<div id="ref-wheeler2017mapping">
+<p>Wheeler, Andrew, Jasmine Silver, Robert Worden, and Sarah McLean. 2018. “Mapping Attitudes Towards the Police at Micro Places.” <em>Social Science Research Network, Https://Papers.ssrn.com/Sol3/Papers.cfm?abstract_id=3079674</em>.</p>
+</div>
+<div id="ref-wheeler2018testing">
+<p>Wheeler, Andrew, Wouter Steenbeek, and Martin A Andresen. 2018. “Testing for Similarity in Area-Based Spatial Patterns: Alternative Methods to Andresen’s Spatial Point Pattern Test.” <em>Transactions in GIS</em> 22 (3): 760–74.</p>
+</div>
+<div id="ref-wu2016measuring">
+<p>Wu, Xiaoyun, and Cynthia Lum. 2016. “Measuring the Spatial and Temporal Patterns of Police Proactivity.” <em>Journal of Quantitative Criminology</em>, 1–20.</p>
+</div>
+<div id="ref-PR1706">
+<p>Xu, Jie, and Elizabeth Griffiths. 2016. “Shooting on the Street: Measuing the Spatial Influence of Physical Features on Gun Violence in a Bounded Street Network.” <em>Journal of Quantitative Criminology,</em> 33 (2): 237–53.</p>
+</div>
+<div id="ref-PR854">
+<p>Zeoli, April M., Jesenia M. Pizzaro, Sue C. Grady, and Christopher Melde. 2012. “Homicide as Infectious Disease: Using Public Health Methods to Investigate the Diffusion of Homicide.” <em>Justice Quarterly</em> 31 (3): 609–32.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Another coordinate reference system to define latitude and longitude you might encounter is NAD 1983. If you import your points and they are shifted by around 10~20 meters from where they should be, that would a potential explanation.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>The near-repeat calculator also allows you to export strings of near-repeat incidents to further map them. I have provided <a href="https://andrewpwheeler.wordpress.com/2017/04/12/identifying-near-repeat-crime-strings-in-r-or-python/">code in R and Python</a> to accomplish the same feat - identifying the near-repeat strings of events. The Groff/Taniguchi calculator also provides this functionality.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

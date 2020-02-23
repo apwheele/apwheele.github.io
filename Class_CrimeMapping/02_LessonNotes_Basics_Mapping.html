@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>The Basics of Mapping, Week 2</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">The Basics of Mapping, Week 2</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#types-of-geographic-data">Types of Geographic Data</a></li>
+<li><a href="#projections">Projections</a></li>
+<li><a href="#geocoding">Geocoding</a></li>
+<li><a href="#are-you-still-reading">Are you still reading?</a></li>
+<li><a href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>Welcome to the class! Again, for reminder, these lesson notes will take the place of traditional lectures.</p>
+<p>This week we are introducing some basic parts of mapping. If you took a course on mapping in a geography department you might spend many lessons on some of these topics (in particular projections). Being a graduate level course focused on <em>spatial analysis</em> you get more of a whirlwind tour of the topics. These topics are the minimal amount of basic GIS know-how to competently conduct spatial analysis in the social sciences.</p>
+<p>For a reminder, the expected readings for the week are:</p>
+<ul>
+<li>Keith Harries, <em>Mapping Crime: Principle and Practice, Chapter 1, Context and Concepts</em></li>
+<li>Rachel Boba Santos, <em>Crime Analysis with Crime Mapping, Chapter 1, Crime Analysis and the Profession</em></li>
+</ul>
+<p>See the syllabus for the weekly readings. We shall subsequently explore the <em>types of geographic data</em>, <em>projections</em>, and <em>geocoding</em> for the topics this week.</p>
+<h1 id="types-of-geographic-data">Types of Geographic Data</h1>
+<p>There are two basic types of geographic data; vector and raster.</p>
+<p>Vector data are points, lines, and polygons. Vector data are only defined by a series of coordinates. For example, a triangle is defined by three coordinates.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6bPfxV0PlpltZNxGZCDgou66zJobjvCPKNs7mdl74aVUuTBjDoFSLITufC8g65KdnV5jB8faBjMrqErLFDYLfGU6778LQJ6XMAT1eD8HPiLqiZj2lDD6_vxfQ_FJxS7OG1LByK3tEJ-2nmQAMd6PY3kKyusXQt8Bup-o4Zd6thaAk1ilzbKC5kiit8T7buL8I5zlDNVldY9AJowXs_haAzm_CoMIUDTq48IvQzx7QXN7yE8ChbI4sz2YU8iaus4pXKFgaVyXpx2aS7AT5n32WnrwkFg6TZ-DaqXqFXrXiTwjoCVt70vMC1wSwe5_XqaAuzssBtKENRUKsgHKWaVSBiAN_zVYTBFTDHmKhFPzVHNtHOPsTbJuKs0kZ5jixn3TTeJ4ITqY5E7wiJ0oZJ1ZloVpq_6-6ohvnDjsudkjdmor0xj8_ZfsKyvua9mAykxZGr7luLbVxNid_vbA_els-cm0_OQ0RE8Co4L9-y-_h34Ak6ZXciAn8lhGom95TPd8lQe3gFlXed0c6V-5XFhWmKrLuiopdnNVj-BEKT1tQKwY_H0XbB2qm_x0wzsNh2tvRDaWWLub78k6NQz7Akl-UKJaI3Fhwc_e2VOMYEiPkYiVxlkQk9Qk=w625-h500-no" />
+
+</div>
+<p>The notation <code>(0,0)</code> refers to the x and y coordinates of the triangle (which is a <em>Cartesian</em> coordinate system).<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>A point is vector data that has only one coordinate (i.e. one <code>(x,y)</code> pair). Lines have a minimum of two coordinates, and polygons have a minimum of three coordinates. Lines have length but no area, polygons have area, and points have neither. Polygons may have length (depending on how you define it). For example you can turn the outside of a polygon into a line and measure how long that line is.</p>
+<p>Here is an example map that only uses vector data. It has examples of lines (the border of DC) and polygons (rivers and parks). You cannot technically see a point in a map, you have to give it <em>some</em> area, such as drawing it as a small circle, to actually visualize it. So although the underlying data for the grey circles is just one point in space, they are visualized as varying sized circles. Ditto for lines, in that you have to give it some <em>area</em> to be able to visualize it.</p>
+<div class="figure">
+<img src="https://dl.dropbox.com/s/ymj7s8hojidisr8/DC_Vector.svg?dl=0" />
+
+</div>
+<p>The second type of geographic data is raster. Raster data is defined by a regular grid of pixels. Here is an example raster map, a kernel density estimate, (again of DC) and taken from my dissertation.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NgS1hg0h2H49iVT-mLbZt29C7Z9HVE5e1rKFiOA_tSVHQOaPlADx9eaMCdiQRti3KAGQ8CykgpSEGKi1KYtuUyDDJmjNciS18pZ1IMFeev6qGKqdk7iRRwOXS7Ec3nBvLERb_LEcbCE7xEUxhvq_CIqdFc9SRPmf8AHTnc0RfpIqL5itIR6OeFAYOC5n-9kUvEth1YAnxg39UnAeSCoQGXFwWkNJxFZWH7tut6iRMXbwI97u0kwPH7UAba4WVNJPbBThj06ne-Re4BxIgcPP8YgM85Z5Bx-B6sJNwnMZM9q4uE99tx-_abBRW_d0jU1spJELfreK2hF_3PkQ7rJLo4AbI-3n0pYolM5yqIZ9HmhxBDY_0wdk9MNqCaHuNj7nRFJW3fSDHrBBaHV2cu31XHa645F6d6fLGIgs7uVabvWGxANBTMxlnpRMFkgHRVkz1UNYOjiImLp9p3kiKAJ783f2vwJnEJ_NpT-tOmieLuD70tofHlsYqERJaNsu2uQSAcGvrHhS9nd5F17SFheuVCFwRmcHET659g7SZTRI63b1nlaGwKXHUrsG6L_zoQHm7hlQQ7bwun3Dr7ch4h_SR5D35vNemJwa3FbLBFdz3iL_p_Qv5Qrh=w480-h602-no" />
+
+</div>
+<p>Anytime you take a picture with a camera the underlying data is in raster format. The picture appears smooth though, because the pixels are tiny. A characteristic of raster data is that if you zoom in too small, you can see the individual pixels and the image does not look as nice. This is not the case with vector data though, you can continually zoom in and the polygons will still be sharp. Aerial imagery is likely the most common type of GIS raster data, but another common type is digital elevation model (DEM) data. This data is simply a grid of the height of the ground - useful for things like telling the slope of a hill (necessary to know where to build roads and houses) or telling where places are most likely to flood.</p>
+<p>Go ahead and zoom into the DC Vector image, which is saved as a SVG file. The triangle image is saved as a PNG file though. That is, even though it depicts vector data, the actual image in the document is a raster format. So if you zoom in far enough you can see the pixels.</p>
+<p>For social sciences, we tend to deal much more often with vector data than raster data. There are a few exceptions we will see for this course (such as kernel density maps). Many <em>types</em> of geographic operations are only applicable to either vector or raster data, but not both. For example, you can add raster datasets together, but adding vector spatial data is not well defined. You can buffer vector data, but it does not make sense to buffer a raster dataset.</p>
+<p>Pro-tip: When saving images (both in this class and for statistical graphics) save them as high-resolution PNG images. Saving files as actual vector graphics (such as SVG or PDF) can sometimes make the files very big. For my example DC vector map, it has at a minimum of over 10,000 xy coordinates for the points, and many more coordinates for all of the vertices for the river, park, and DC border. If you save as a PNG image it turns the image into a raster, but it is much smaller in size, and tends to look quite nice unless you zoom in very far. A common default to save images though is JPEG, which compresses the image, and tends to make vector images look bad (although is good for camera images or aerial images).</p>
+<h1 id="projections">Projections</h1>
+<p>The earth is an approximate sphere. Maps (with the exception of an actual globe) are typically only drawn in two dimensions. The process of taking the three dimensions and turning it into two dimensions is called <em>projecting</em> the data.</p>
+<p>Projections by necessity have to cause <em>some</em> distortion. Imagine taking an orange peel and laying it flat on a table. To do so you will need to stretch and tear the orange peel at some points.</p>
+<p>The types of distortion are typically categorized into three types:</p>
+<ul>
+<li>distance</li>
+<li>area</li>
+<li>shape (local angles or <em>conformal</em>)</li>
+</ul>
+<p>Projections typically try to preserve two of these aspects as best they can, but in the process tend to greatly distort the third.</p>
+<p>The most common world projection is the <em>Mercator</em> projection (image taken from <a href="https://en.wikipedia.org/wiki/Mercator_projection">Wikipedia</a>):</p>
+<div class="figure">
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Mercator_projection_SW.jpg" />
+
+</div>
+<p>The Mercator projection preserves the <em>shape</em> of land-masses quite well. It was originally popular in the 1600’s because of the fact when travelling east-west across the Atlantic ocean it is very close to the shortest line between two places. It is popular now because most online web mapping platforms use it, and I suspect it was popular before then in grade school books because of the fact it preserves the shapes of land masses well.</p>
+<p>The Mercator map though does not preserve areas. Land-masses closer to the poles appear larger in the map than they are in actuality. The most notable example is Greenland is shown to be massive – here is an example of Greenland on the map vs. its actual size compared to Africa:</p>
+<div class="figure">
+<img src="http://i.imgur.com/Undb4ku.png" />
+
+</div>
+<p>(This was taken from a game that google maps had online where you dragged the countries to the correct location, but unfortunately it is not online anymore.)</p>
+<p>Here is an example worldwide projection that preserves areas, a <a href="https://en.wikipedia.org/wiki/Mollweide_projection">Mollweide equal area</a> map:</p>
+<div class="figure">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Mollweide_projection_SW.jpg/1280px-Mollweide_projection_SW.jpg" />
+
+</div>
+<p>My favorite example of a map projection snafu (related to the problem of the Mercator projection), comes via the Economist, in which they published a map of the missile range of North Korea (images via <a href="http://cartonerd.blogspot.com/2014/05/i-would-map-500-miles.html">Ken Fields blog</a>):</p>
+<div class="figure">
+<img src="http://3.bp.blogspot.com/-48fonNW4z9U/U31bSr38GsI/AAAAAAAAAvc/t5ZzmGX0BA0/s1600/BoGc8-MCEAAWhQD.jpg" />
+
+</div>
+<p>This buffer however, is simply wrong. Here is what the correct distance buffers should look like:</p>
+<div class="figure">
+<img src="http://4.bp.blogspot.com/-1ednULTr57I/U31bSs7-R1I/AAAAAAAAAvg/evuxLHNMOpk/s1600/BoGdCT9CEAE02HR.jpg" />
+
+</div>
+<p>This error was due to confusing the two dimensional Mercator map with the actual world. While the buffers may have been correct in that particular coordinate system, they were not correct when taking into account that the coordinate system is not a 100% accurate reference of the world.</p>
+<p>There are many types of map projections, but for the most part they aren’t as relevant to crime analysis. This is mainly because we rarely use data over a large geographic area. When zooming into smaller areas, distortions due to different projections become much less notable. The buffer problem is much less notable when zooming into say a state or a city.</p>
+<p>Also we are almost always using projections created by others – I’ve never come across a situation where I needed to make my own customized projection. There are standard projections in use for certain areas of the world that you will use in the majority of circumstances.</p>
+<p>To understand mapping you need some basic knowledge of what a projection is (i.e. where do those x and y coordinates come from), and you should be aware that projections always cause some distortion.</p>
+<p>The distortion is one of the (many) arbitrary decisions you need to make when you are making maps. For example, the Mercator map is torn most often in the Pacific Ocean (the opposite of the Prime Meridian running north-south through England). But this is arbitrary, one could tear the map in the middle of the Atlantic Ocean, or tip the map sideways and tear it at the Equator.</p>
+<p>Pro-tip: If mapping the entire US, use Albers Equal Area Conic Projection (image via <a href="http://multimedia.journalism.berkeley.edu/tutorials/qgis-basics-journalists/">here</a>):</p>
+<div class="figure">
+<img src="http://multimedia.journalism.berkeley.edu/media/upload/tutorials/qgis-basics/albers.jpg" />
+
+</div>
+<p>Here is the only example I have seen of using a custom projection within criminology – a <a href="http://www.nytimes.com/interactive/2015/11/12/us/gun-traffickers-smuggling-state-gun-laws.html?_r=1">NY Times article on gun trafficking</a>:</p>
+<div class="figure">
+<img src="https://static01.nyt.com/newsgraphics/2015/10/14/gunflow/8d9bca6ac81ec41d6392ceb55cb6dddaf4c6ee2d/gunflow-nynj-wide.png" />
+
+</div>
+<p>The only thing unique about it is turning the map sideways!</p>
+<h1 id="geocoding">Geocoding</h1>
+<p>Geocoding is the process of taking a textual address and assigning it geographic coordinates. Those coordinates can be a point in space, a line, or a polygon. Common examples are if you have a spreadsheet of addresses (e.g. “77 Western Ave, Albany, NY”), or zip-codes (e.g. “12203”).</p>
+<p>Geocoding textual addresses is a common procedure for crime analysts. Many police departments still record crime incidents in paper forms, and the analyst needs to take these addresses and assign them x,y coordinates to be able to map them.</p>
+<p>There are two common ways to do this. One is geocoding using <em>street-centerlines</em>, and the other is geocoding using parcel data.</p>
+<p>Street-centerline geocoding can be described like this. You have a set of streets, and these streets segments are indexed such as “Main Street Left 101-199” and “Main Street Right 100-198”. Below is an example depiction of one segment in a street centerline file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zSFv_nAThRUJN0PDlHDtG8Q-duWep_i_PJ2NAvWYma8DoThiiuub93FSnu5xHfkkFJ0QSnw_PRGA2Lv0VdCWIzIao7YMxtPejz3jGMe45YEiV1deXQOzBQzSE4-TPLXi-THdYwajfFWMZYiraUTQYmxm9zd49Jco2hCggy8MMB_yMUDuKAcgo8iGcGwTug93a7liama2yyP-syR-MLdaZhImH4LfdcZsLZ5YOJpEvT4mI488jGi2VkpxqqQz1XNI0g8HtkO8MVaie4FTmFRdJrHuFVJJQIo4WLZ85wULmJfnTZ3oQ3yhgVEjF_PMq6ul5B4L_4XpRozwtCsyIVwTFdseGoXIyVTnBD4LtmRPlhzi2oQNciLTvgCCDIjn4GauUuYjkZVkw7R_pkzldS45jt08ajUQ22ICvBmo-950gw93eVmZLyu6Bk9o4ANqZ9FhNZRRVIWIxhZj8JQW8ahe26IKjwof4rECIZLeG0wCxni-nQ72hYe3g6piqS_iJO5lrVGv2ZKRi5_gbH6oGAsUK6xnZgI42pzbQeWmCBn7_ylfKNAtBGidnXYf5sqDt6_2vXjvXAGiOVsCzPZgvGJWgvtwFfqOKUj2HrjHeP3Zw_3L1teI2_wr=w1164-h274-no" />
+
+</div>
+<p>If you have then have an address such as “150 Main St.”, you then know that it is on the right side of the street, about in the middle. Whereas “197 Main St.” you know is on the left side of the street close to the end.</p>
+<p>Street centerline geocoding tends to work well in urban areas, but the interpolation can be very poor in rural areas.</p>
+<p>The other common way of geocoding addresses is using a parcel dataset. Parcels are polygons, most often defined by cities for tax purposes. You may then just assign “150 Main St.” to wherever the parcel is for that address.</p>
+<p>Geocoding police records may use both types, but street centerline geocoding is likely more common. You often <em>need</em> the street centerline files to geocode many events, as many events are recorded at intersections of streets. In particular traffic stops and crimes occurring outdoors are frequently just given an address of the nearest intersection. Also parcel datasets can often miss many addresses, as a series of addresses (such as in a strip mall) may belong to the same landowner (so only have one parcel for tax purposes) but have different addresses.</p>
+<p>Online services (such as if you type an address into google) tend to use a mixture of these services. If they know a parcel exists, they will frequently place the coordinate on the rooftop of the building within the parcel. If they cannot find that exact address though, they will often interpolate along the street using the street-centerline file.</p>
+<p>Even when matching to an area (such as a parcel), it is common for whatever geocoding program you are using to only return a point (i.e. one pair of x,y coordinates). For parcels this may be the centroid (or the roof as previously mentioned). For larger areas such as zip-codes or cities this may simply be the centroid (i.e. the center point) of the larger polygon or line.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>Zip-codes are another common form to have data collected for (surveys often can only be identified or sampled by their zip code), so they deserve special attention. Zip-codes are defined by the US Postal service for defining mailing routes. Zip-codes technically do not have areas, but people have made areas based on those routes, such as the US Census.</p>
+<p>For example here is a map of the zip-code tabulation areas from the Census that intersect Albany, NY (I made this map):</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XflGFbyQA6nM-atJzVs-u2OWI7MRCUubOC3aS9ksyqmq25rpkUf44qYBNTDsLlkqkKTyyxicHOom2cKW4fHbsWgG3K-Bg1aVDtg5_zfZKxszCj8jJq_KNxYtET6TpqJVU3qeUY8GpbPPOSEGbkuCgtScADhpsY6r37q3ArcTLWowM3hX8CKoJXYhBV2cTYsvXjELopHArGaxEycw-t0Ty8Rco5wvacXrKPDviZL23-yP14bm3kR2XuDb8r3J68bMFaiMwRvvDd5OJjJLQo_VCk4zW-0v_Qr3G1wVkUfpNjhhEF2erBnJLY50xy2YRHa0Rg7zYWLcotmUzji8znSHCbJdIPGi60b4d9y_ddpS9bNEReXwN-xjOTLlLqojW0AfOJAGOUeK73RUOEBLXmP6plTssv19yCZMwVWKi9uV_kjxfRs298mfc-R7Q8sUExIOAwb2ab9zTdbPunHBZTBvDvDzoGpsuAN4YY8nIn-UbZ6828FXf0ayNC3mFEDSta_Ec1TaFHfrhwU7QlvkG1Lnr0TBWxzm8jBg99HRRLkmcTdV-kBHwsk1htY5Fd1pTY7EUjEEGIT53kycm2sn_3qw6fwNj1vQk1t9YjPPh_soLlAHxfbHA9hT=w803-h602-no" />
+
+</div>
+<p>Note that zip-codes do not conform to the boundary of Albany. This can be a problem when conducting surveys at the zip-code level.</p>
+<p>Also another idiosyncrasy of zip-codes is the fact that they are not necessarily contiguous areas. This is not visible in the map, but one example is that the SUNY-Albany campus gets its own zip code, 12222. In this map it is centered on the main campus, but the downtown campus is also in the 12222 zip code. This is simply a limitation of people trying to make zip code areas.</p>
+<p>You can see the actual routes that zip codes take by using <a href="https://eddm.usps.com/eddm/customer/routeSearch.action">this USPS tool</a>. Go ahead and check out the postal routes for your zip-code!</p>
+<h1 id="are-you-still-reading">Are you still reading?</h1>
+<p>I hope you are! One of the biggest mistakes students make are not reading the materials I disseminate. (And it is dreadfully easy for me to tell if you haven’t read the materials when you ask me a question about something I already addressed.) Pro-tip - if you need to triage things on your to-do list, things I write should be made higher priority than the other materials.</p>
+<p>For this weeks readings, the Harries chapter covers some of the same material that I cover in my notes, but also has some more historical overview of making maps (cartography) as well as goes over some history of crime mapping. I have you read the Boba-Santos chapter as she has discussion about the crime analysis field. I’ve worked as a crime analyst, and her observations match my experiences. So it is good vocational advice if you are interested in pursuing crime analysis as a career.</p>
+<p>Now that you have read the lecture notes, you should proceed to doing this weeks tutorial. This involves making a basic map of Albany - intended to help you get your feet wet in using ArcGIS and making maps. Once this tutorial is finished you should turn in your final map (a PDF document) to me via blackboard. (You will need to consult the syllabus for when materials are due.)</p>
+<p>Also the readings for the next lesson are:</p>
+<ul>
+<li>Jerry Ratcliffe’s <em>Top 10 Crime Mapping Tips</em></li>
+<li>Harrower &amp; Brewer (2003) ColorBrewer.org: An online tool for selecting colour schemes for maps. <em>The Cartographic Journal</em> 40(1): 27-37</li>
+<li>Aileen Buckley, <em>Make Maps People Want to Look At: Five primary design principles for cartography</em>. (See the online article <a href="http://www.esri.com/news/arcuser/0112/make-maps-people-want-to-look-at.html">here</a>.)</li>
+</ul>
+<p>Good luck with the tutorial!</p>
+<h1 id="references-and-footnotes" class="unnumbered">References and Footnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR13">
+<p>Block, Richard L., and Carolyn R. Block. 1995. “Space, Place, and Crime: Hot Spot Areas and Hot Places of Liquor-Related Crime.” <em>Crime Prevention Studies</em> 4: 145–84.</p>
+</div>
+<div id="ref-levine1998location">
+<p>Levine, Ned, and Karl E Kim. 1998. “The Location of Motor Vehicle Crashes in Honolulu: A Methodology for Geocoding Intersections.” <em>Computers, Environment and Urban Systems</em> 22 (6). Elsevier: 557–76.</p>
+</div>
+<div id="ref-ratcliffe2001accuracy">
+<p>Ratcliffe, Jerry H. 2001. “On the Accuracy of Tiger-Type Geocoded Address Data in Relation to Cadastral and Census Areal Units.” <em>International Journal of Geographical Information Science</em> 15 (5): 473–85.</p>
+</div>
+<div id="ref-PR519">
+<p>———. 2004. “Geocoding Crime and a First Estimate of a Minimum Acceptable Hit Rate.” <em>International Journal of Geographical Information Science</em> 18 (1): 61–72.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Another type of coordinate system (a way to write down numbers to recognize where things are), is a spherical coordinate system. This records data in terms of angle and distance from a central point. We mostly just deal with Cartesian coordinate systems though, and you can always convert numbers between the two.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Two great references on geocoding for criminology researchers are two articles by Jerry Ratcliffe <span class="citation">(Ratcliffe 2001; Ratcliffe 2004)</span>. The 2004 article gives an often used reference that police crime data should at a minimum have an 85% geocoding hit rate, although most systems now have much higher geocoding hit rates, typically 95% or higher. The 2001 article describes the differences between parcel data geocoding and street centerline geocoding. Another good reference which describes common problems with geocoding police data is given in <span class="citation">R. L. Block and Block (1995)</span>, and <span class="citation">Levine and Kim (1998)</span> describes how traffic accidents are frequently recorded at intersections.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

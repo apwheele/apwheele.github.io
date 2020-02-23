@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 7 - Downloading Data and Geocoding</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 7 - Downloading Data and Geocoding</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#downloading-data">Downloading Data</a><ul>
+<li><a href="#importing-xy-coordinates">Importing XY Coordinates</a></li>
+</ul></li>
+<li><a href="#creating-an-address-locator">Creating an address locator</a><ul>
+<li><a href="#geocoding-address-data">Geocoding Address Data</a></li>
+<li><a href="#reviewing-and-rematching-addresses">Reviewing and Rematching Addresses</a></li>
+</ul></li>
+<li><a href="#homework">Homework</a></li>
+<li><a href="#extra---using-an-online-address-locator">Extra - Using an Online Address Locator</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week you do not have a lesson, you have a test. But you still have an ArcGIS tutorial. In this tutorial I will give an example of downloading data and creating a geocoding address locator using Dallas data. For your homework I will then have you geocode some address points in Dallas. This will be helpful in preparing you for you final projects as well – you will likely need to download some GIS data for your project. You also may need to geocode address data for your project, and you will learn how to do that in this weeks tutorial as well. All of the data for this tutorial you will be downloading yourself.</p>
+<h1 id="downloading-data">Downloading Data</h1>
+<p>Downloading data does not seem too hard, but there is an extra layer of complexity with GIS data that often trips people up – projections. Many police departments now disseminate crime data – sometimes it is projected into some local reference system, and sometimes they have latitude and longitude coordinates given. When it is a projected, XY coordinates you need to figure out that projection before you can properly map the data.</p>
+<p>For this example, I want you to go to the <a href="https://www.dallasopendata.com/browse">Dallas open data site</a>, and download two files:</p>
+<ul>
+<li><a href="https://www.dallasopendata.com/Public-Safety/Police-2015-Response-to-Resistance/594v-2cnd">Police response to resistance in 2015</a></li>
+<li><a href="https://www.dallasopendata.com/Public-Safety/Police-Response-to-Resistance-2016/99fn-pvaf">Police response to resistance in 2016</a></li>
+</ul>
+<p>To download the data to your local computer, at the top of the screen hit the <em>Download</em> button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/kEiqhOgyhS1GpCsw_DH-akSgkqyd9GZCWLZguXBkzX1xQcvh7Fh-2f4TEIDFQTXuZThHZM-828ZQzk7TY8WGBLL-MC37qZ2Sh6BDkZZj5oVCfU8woNfXbh4JMa2oykiAxyqt60W24b7fNTL21s14hfawkwBwqSUOfc9ELX1h5tPi1BCCfW2MYtR_VTcHbDDaSOeQEhtsdCk354htbnVdyMvqY4keO0yuHmysTz_0QGIGl7c1haXjLTNPP80GjxL8GuWo9M7QKyG9t0DQHoHJBL-lrQmvt8RItnZuJq4PBpiPVShFan01jdpKil2R5D6LFi8GLI5QO6q48pZ1zXEzUS5fAjx7MC3h4Kgdqye6GXHVEoFy93snfxXWhRaBZQF5ZdZQp5LGpV-L0EoMYr90shJTp_iwd0vrzvBAUasxeJKROKQUNbtFK9ZBX0mzepWB40zLa90D4LT-0py4K-RcflRl4Y02tTdpCcJmfPylj4Vjn4mbjCM-1itjETWpyiy-8Ja_CnYIP5Tuzi64EZf6xaM24d3U0EAn_BnSpqck9ymw6xlfHyKZN3jSILf7gucZYvyOESaJL-dVW7zij3o3qdThEYjqfeEsdv_hsWNqiwgrkZBWDU2H=w955-h235-no" />
+
+</div>
+<p>Then in the dropdown select the option <code>CSV for Excel</code>, and then save the file somewhere on your local computer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-YcMIR_8LGAEndGqEaBvPC7c-O18k8mFuJwsoxTGVWZe3Haqb6ntiD3WR9Z03y8SHC2clsLKghCVScxYUhpja8xQE5tMS14Mpym91pfYSDOsL744OSAyUHsnooZdsnCkKovpjeLcGpdLKm18H8I_T9h-dJKnZYd3ZC3KJQH5hOgytLX2GGjMJnoM2xAhjOwTjAnPYXFB8gcKIjj0Qx0JswoFbu014f91oCxJk6Ze4--zZVynwrhGMWZtBmqnjF2DxFV4slGlvyIu4PcOGYjbIF52br6ZFtcs6ue0phbesFAmtI77AquHLo-MEQeoVZJaLZZDETCr6WMg_Qdc0vtnaRNSmDy4W7Em7vxPZMU2fTDLUboUXWR7K-MrHXcgxGuL2_0wnrEfGHapUcwYeukz2cO2cMt65YN78X7y-zwHhHM9OYZMINmvbTCSisobRHmu6oC3_z-t9nXmZinkNEHe3B5yAyFcqqR3r_uZZtwGWeuabTzXLbFs6AjLpoSc2FLNaVksb2a_PPO1TtnYUNjpoFDPCG1Otrheci7mdvvTRnsGJ2PG1y-P64J0N_tFZuY7OEJg0TayiLPF2SQy6yTZhBP10nmiQkncCaAF2KXW0h_NJ7hrZy70=w700-h373-no" />
+
+</div>
+<p>Do the same for both the 2015 and the 2016 data. These two files contain instances in which officers reported using force, such as using a taser during an arrest. Now open the 2016 data in Excel by double clicking the csv file, and scroll to the rightmost columns, labeled X and Y.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Vw6BLuC7I6KqfsycRNHJvOJKka9nyJAqjPOhiYtPhES0Rlj1tfdd-czt8vxtPFgBZWcjNDryzfPBZQPMWYPZJDql2AG3c9T6xJfvV3xjJiqLsenf8Sxoz-CHawUs1BdoB1T-DwdKgV2GsdZP9Xf2OgaJFQ2QSVhwQ-0gvuG6eWaNIX9a5icRxZJWlF9ir0pa_Gh6sc52CiYT2-bSewGpvMr5UGLIiWwnUjM6zODj8gS7-wMylcgpLQE6BQbIPfcZzeWZaSDaCPEOYVj1r0ff2UrKWttkrp-iaqwXT6pCdkeHG2IlIMxOWEUEaHHmaEl4I9fNLF3gDdOlIt3IYSR38h_ndU-eAdaNfJeGNQ5ukSjipaGK5SWyqa-R8xnFYXT1ei8QX4pnffR5-gynbrxHkB8A2YTerlAYeon2oowfmB4EmcwV9KU_iDfmULSh1o8rADUL0v-ISJ4usSoxTdBm4SlP1nX3RgPY50Txtn_D_qJq0VmfopAf_ax6wCv7lUIgRmFLwpUDlkABnocCS-Jml59_M4Eouni9TnhUwVZ8ckt18HIXGdmLQx4dtutobqHLVURC5mVGIBj4YC0WaVnfQ-IdviWoUXPNJTuMEoU8KCeYjnqtmm8o=w520-h251-no" />
+
+</div>
+<p>These two columns contain the XY coordinates we will be using to map out the use of force incidents. Note that these XY values are around 2.5 million and 7 million.</p>
+<p>Next we will download some data from the <a href="https://gis.dallascityhall.com/shapezip.htm">Dallas GIS site</a>. Pro-tip, simply googling “[Your city of interest] GIS” or “[Your city] shapefile” is the simplest way to find these websites. Many cities have a special GIS department that you can download data from. From that page download the <code>Streets Shapefile</code> and the <code>City of Dallas City Limits</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RAIai_7TSW8SdGt3OMpH2yycXw4DmexoQ8grN1OkwSJUDRBkuo8b9wa3Yvpc0xWJqL7O4HQcSuTtuNZArVSnurcxa7lei4SPQt33BxeesYft27PrDg04sB8BXHfdMuIMnNcese8nGvAo0aNGM_A7BjSkxi4AW3d1DKVKz2Rorit_x1ZDJQsdGe19RS0wCYRQSNuVi_anxlcusP0l65ryiQksswr4f1HCrkj2OlV-zA20idt5jqpnJGm4osLDDepx70AmqTV3cCS-Ua5IYaU67p4uZPdCcuquSL__aelu4R_8dcEUNYf4Up_X4j4x9puhG4UhTja64kK-GunJHLtV2JRtb_wNUKhOkocYZfHLMLzhcMFjuNXEzjlGGDMYmPde7O_xcUr6PbrGNnEBpVqJLfcbaRSXisOD7tU6fGkgjmNyk8kt_IJDCXLAu_k7h3sKnHqEDbSNxGGbVMyvW4M4xI2JksQf_FLbG1K9KFyxIi0u7FK3llr6Mw92CRA4b-4hjpD5B04P1jPlLpAajrIf5TNBEQz5U0vvlAOThrxKRTWWffnccylAuJ7l88FpOz0o8k6rvwJAWkxIw-CEZyz0fzZBqc7xAT6IVyrfzuJcu5iqnDUg6Fdj=w1186-h791-no" />
+
+</div>
+<p>After you download those files, unzip them, and then open up a new ArcMap document. At first only add in the streets shapefile.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yfS67OQesD3In9Qaj2XnOtiYoJ1zmPGkkMeYzrh9-bxdN39F2vpzAcB4HxkzEuF2wMlN_d7JaZ6-bCYOWWoCRZhbZ7wctLfjqt8sLsWF22M7KQ7df4HornlQ_p-XMB-vtqCMMF6WEgytqYJ2lsCxQaSAnC8OlJnswGYuieXWDD0TMjGgpPTK1YhW6z7ynIU26eV1rKAQZ_7YzpsN6gaZPJ9fjW8KIs51YD85dpS2NVEyWnBLicG4lHO5eQ0fKcJnz6jqWWPQ1HzPOy7R-kO8PioV2M8YxWBmVp2XalU7RRPwQaidspwmBfBDIBvzWEiTHueDGXB46PfGc35c7Vt3-koXe_EL3R9nqSVIiz_gPGX45WJkPKtuu1T2qxSG2ITK4WIveM-V8_6Bg0kneGLtp-R7mzZexxlimzJiwda5SumZh36AdJsLb4kJqRQEusSEm9GKMz2DsgayHNNdzfTrl6-nWr8jZOCO1BUhpIt2r8rupeu2s30XyeHnaWhueyqCqK4JWfVHRl8PSuvDcduHdWXQ6yhl-rsdtBQOOwo18XoKI5E9Ii6__Pm9P8KcRwC2V06cgNBMJ-NWeTRAYvH-l-CSw1MjVGVBPEE19D5OH9kP0Kv0QSQM=w1819-h887-no" />
+
+</div>
+<p>Double click on the layer and rename it <code>Street Centerlines</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cyhYmh23Vn_tFOo40rYYqK56ujYVktE3jjdX7uEzV3ecv1vxXwKCAlRm6fwDw4oQp5Bi7tZNBEMdq-ek6WTWBnRa-pWynqg12_vvhemMKQ9Qb3zv1pj2HMF_pzM_rtDZKruZ4XI6BtrShbxukG9rZJwVIf3zgHGTyN29r69iQ04BSh7Q32JLh8MH8nen0ve_a2n9wdGOh2d8PJonFrOc7u_bzzNLr3wFi_dcKq5RovoI2hrSnEA4x1fhQ64MkVFJ-El8LpBfO6kNPw5GzxgyzcBRQHKkI7fOwC4Xaj7k06QvPxdJ4PF00lna7lTQqHfA0Z5U_KMsaCPjNL_3VbFEUO4ntPbsAEB4bOSs0heTFUNMTHfD4uGxC_Fz33K4ZFCPgOEJwZXbyPaCvR5Q-MREkAwWUiY0WCNrmt1wvDdslYSugjHMnNR-XjV6ZB2EBLVxLVlVyDQ3A9sd9o94PdsnxoaJlJvsQFrmVkbc_HQwVUssV9Qhp9lIttWhBdKCd_oXAcdqZg9gUdSXC2jYh2PLXpV8Ox0pAyEMy4ZnQZpJxvFFA9JD6raDwTzA8TlTZOweI0BOeGKsl7kumyVXHwkFB7NbbFYkWD2GwokYl5vBJCsljLvbhFly=w474-h122-no" />
+
+</div>
+<h2 id="importing-xy-coordinates">Importing XY Coordinates</h2>
+<p>For this next part, we will be adding in a table of XY coordinates and turning it into a set of points on the map. So first add in csv file for the 2016 response to resistance data. Then right click the table and select display XY data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UiXOkymThfmWqjhwhgBGYWLIpgY2ClWFugRPlvN-G7AOnY0N3-o8gj3GJlUUUeNmznLaq9XYqFis83nd6cyrXqwFldEKu4yK38nWB7J0YHofJiwPW1fYAmwU27oCFKUV4RIaxbWUVR4vyvkM1q93JxkJPqEjzrQ7hTsZTX4-BaXY8qJVoqLImAzbmGsY0fHRDQqRuIl4GGTbjt3V8Y35AmGopolvKcqVZFrR0Vv5gc7ABCT8oKyiQxdtHJ13pDdLQjFd0Z0CWjuH44D3ui_bDO0LkG_2SS-mmkG7_48TmpkPhPmdjd1oJSEikkTIbYRJUOOEVl1zqtJV5HrqQaeEzOR6h88scwVLojJNTyHtdv-FrYlYywrYUs8srEy3jW3oLTnuAk0ZLo7TYjOiDXq14KyYmeVoO6irHr5pczyLPKi6T6BbeTyrHxigi5Ba7EvRadOrVZA6cU7qukDccyVHLZl69vBk_BfXly0lBBPXFlw_eZ0ZImEXQ2_UvRQyyejmolQeJ-3Pm6PjZGdH0Rj0MhT4kalEdGqFEEd6VyzHY88SJ_IRcEgmQws8AA-nhJpaNFiSEa0xMa2mp8dAaBatIHkHiG0f7Fpmr6tcddviv2yWJqofEXAe=w650-h443-no" />
+
+</div>
+<p>ArcMap guesses the correct fields for the X and Y coordinates, and autofills the X field and Y field. If you use more exotic names for those fields though, you will need to use the dropdowns to select the correct field.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9rS5hxbDKE-gDvMuttMAefkv5wqIRaLImxu26Usb0I69jr3kT2XXI14jroDHEYkbLv_-1280m_PvGpwXsozl07yC7nvCKvET9-guAGllqwld32nokS2AL-wpwE-JBKVp7yTabDVzbhudPeNJWKuxIacvCdUFHN4LGCu3n-XdObLwKbWnRD6fh-FQbsemGhrPehNNfUZ3HlbEBLA7ZieSjE3O-b9gZ-C1K0t49tsJm9paXudeSpEeeyG-MSjnfGzJGzyKzWticy30EFj9ACydbvJ6XgOUCn7c5gU0Dc8hRJ6GWz9yQu2-vC8rmB98Gdi337QBO-dwsmn8Nq1jhOShteR1rLBgD9cwmDepMtkfRW8ZYFMsOCHxMnVtlMYZsxJkJvReVFMuAJhZIqEexJ5BX-NcBxdWCJahyGVMD4qPhYuP7LsaYJcA_730bjlPQGmaO_ToGaO3LDGxVHP60VJSa1HGgEwwdqA7v_wMmfwPo6mr8sQBSFdaCO5gNixUfeKN5irxzJ4KC61hUqf6ZhUDHc2t_oCF_sZFULY9Rq-GttLS4DVvniqd2H1sIhM0fTC6VlWaGPfOAfrlTUhqY8IjtxnUSr0cx2ovkzk8wnbVM0F1AMZNQNbs=w350-h558-no" />
+
+</div>
+<p>Hit OK, and then select OK for the warning about the “Table does not have Object-ID field”, it is not important for now. Now we see that our points are imported, but they are nowhere to be found on the map!</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/AVupxjYO9N9akX7Of1EWvx1JKYusxPDI7dGvL_ht4cdQQ96SCi4_bEB5thWvnLF87vbLH8kkW8X3hnqiv4vh9yps-A-Q0iEZsJrMOLd6r1UZcJgW5HvnYi3eUEwHaOxdJkunINO9kE2CFFwfKiA2ABExRdtHcS1YHKko2HdvpgQ3iyzwUS9s9o7nV1hQodymu9-omNuPYAMV5tDhMX6381Vzorqen_MKPQhs2EQRw9OeU_arpiuV-w21KaStot3ZS7g8mDyXeqZOHegAKkrWuVZEKkWOARF6pKCEYLBNqKaGljrjf7PfWXyO0XSVeF8tm8QaMb6PGHodLewBlDddSflqo7M-eJg2YCnRD5bMnO1yr0yre0JNnBwtF2Rr1E-I6N3MkxrLhdnkMmGQdaxVBulapYAF3IbCsJTcjrv3s14l57IHYLAqIqawalqIMcdo_qw0d3EnhIOdRUTyHQCoh4wqRbAbG4KAkGBKTpmm5vAKQmSIVYep7d-AZxf_lBKEfd9-CKtoIygZYn2GTeom-Lx9AUtdQrcOXQVdAGDOm_PYcFAUxn9PFFIZDsNDIukvvkSEqEyoM7A1vdvfA1s2S150ydXXqNBf5wqwmPrxrFt1X7EkHlmU=w1531-h847-no" />
+
+</div>
+<p>Right click on the point layer in the table of contents, and then select “Zoom to Layer”, you should see a point cloud that approximately shows the shape of Dallas.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NLr6y3kILWPNV9j0DtoOb_yYCVAi7PHkoKAhW2Rk0oRle_tGbfNyi6lG3feqbcM-nUMAi9p9Z9mK-Z8eKO-BKAvhrrYM5-TC7Ey8VM1v8_B6fPN3RO4qx_RFiSuuVu-3cC588GfXKRwwsjBKfk3XM0QyNGHyKdcNFYbLCLGjijbburC-jRExQwihpgzYEFNlbkYB1D6OomVltjwUeUQgU7YWJuPAF-FIJFjwwkLfNUDHeiyKSzIu__dEbXwqxDXypjDw03nHsjW2nkdjSV_hIN6gtFHmEW9j7T8SmsQ_2FlTsl-oQ9M91gAwPBDr7YLdOM5yZFNo232CY1BFE9n87l78FOCdLlMwk5R8YilzcjypZZlx3kUbPvrWEAxNUHmfYUUknEi07-k8_s_vIT5nRfUWf3Pn74O0du9pC2QXLJfGJ5iRNQYKJlyAVgwZbO4aFd5wD2cOpHN3wzKDcJRNozRGxBIY4tsm3e77_57a54w0GVx8HeneNV1L4VzHBgelw2pZ4e--_LeDYgKqfibZfl5BCjr9WBUqvrAWPJOy7aHHU8oQOdb-j603Qo2QaW-7fZ8byALy5dl5RAMTTU4PuLi5az0_Sw2yHFOS6jvr0XLNxPZw9_9I=w1608-h865-no" />
+
+</div>
+<p>So why do these points not line up with the streets we previously imported? It is because the use of force points are projected, but the street centerline file is not projected, it is just in latitude and longitude coordinates. Go ahead and right click on the point layer and remove it.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cRwJNz3hopGPiI-JYsTUBYLtwI7JOsL0MEQyVQgm5plp5yykkGjB6mvlk-Rp50HCI1oRfW870tBIYWuosb6vPhMHgif5mqXDDoM4N9ku_NzS709kJqCzG07qycX8t-n7n8A48Oyh58hxvWb7TdepqvSR0JD7lejeeNseCEMeu5j_pVLplmhV7VbKyEjsEjtHLchrv8szBtM_oq-Hf7MCiibU0_AyuMZrsCH47tuUqCyM6RrfTn4agERyd5VU69YwOTXQd6Jv8w1YXd-R5Duux3YJhAZQUzfBaVpLkNeDlZjG00KPtF3YNFC5u1xPAFMyKRoXB1G71n-qPdNltDmQCeUrPoEXJxR2PSo6qeg1KPzQLMVf42m6wZn1p707onqWATJDzgukyhTQsB0H082dt-kxBMp-n41E0S5G4hTjqTs5ltees6Ky9tyHgb_m9f3W1DXpd-ay1u02eoOF-qwH26BW-OSey03AVyNajZUnUj5xMCBKEgVET--11lA_Dr6yO9gpAe8iMQra_pT5unTocoX-tPepdToRr0KmmsM2tGhJ3rR6oMWGXssnSXqJvup8gftPBxTNF8_kgQ2n2pSApomu6idSu3CGM9AqnZgcCOu0GZz41Xzd=w609-h542-no" />
+
+</div>
+<p>Then use “Zoom to” to go back to where the street centerlines are. Next, import the Dallas City outline layer that we downloaded from the GIS site.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UBg0W-0Rg7s5gO4vNx4_vW54CO5H-GvCCf1fFhRxVQnjlAd-LlGOh6uuBj0Yu3snnEvWhind_sUTSWcQnWO-If6JeEyUJzxrW-EkogcPRyBaZkeyot59rf3bUTDBLd9yN6a0l7EjXkvwuCIBGUhzdogKJTSyvh6jrqMLsOZBX_DQ174w-Njw6yxN53izlHZZqR905oKFecph4JAYUcj5-0tXMDaUtm4inwsq7g6tJgzVFf-vvbnyVjTooZCzns5XOxM1gclEubZPi864zByr7OMZCCr5VK6HQvuembcASaxj_P4JxfHcMonN7PdK8H89g-yf6EsTT5PBCU3NZJiaeUhQp2uKVNyGA4d26vHT__olPakKsdREYDwXV_vO7NI_qxy4_xKw7CKrYN0sx9o4s2Z-Hmjx5N3CH1EUXrIHhE1cGhsp7y18Lx0lxlUMHJQsybUyaCAgKbzjNe97I0eCIUDIpjdNDFZUPRmOZagPvBBiPWnfNnpwpveY1uEgzoIaROnxkZrUPE5zTE8xWw1iITgkl6y-x6TqaEMyiG3P63LA9RniyhypkP7AMWEUWYov_RHcDpF2ndzO1vikDcmg_JjkDT7KZA2_ADzwdWgNfogkjneqTIqd=w1743-h842-no" />
+
+</div>
+<p>Now what we are going to display the XY use of force data again, but this time we are going to assign the points the right projection. Right click again on the 2016 resistance table, and select display XY data. Instead of hitting OK, we are going to hit the <em>Edit</em> button in the Coordinate System of Input Coordinates section.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yld3tiTGdCqTOSrzH61H_RZitUZL_FkUj88DGUZqwkhHmE6QfOMPRo8p4nvQ17IP9M7jIpvD9O0NPNb2xBFuWvWpaFB7gLrZIS90uN6RZDLQVok-1e04pecFkWzPQttZpXg4ATAYzn9NrkLSGhSpaZkNwVQ_ZpA2rKKX13qMvp1QJAdvpKqtCikHu_cyTgj_kZTePSK_1jgBPImhPl_4m52Cb5HfB_bRnBl3Sp6KtZOWmZlAPLzpMF6fjRc7Lu2tyLtvnUKOfJuFF2kaowZv9rAcAzmBiYGDhuB6BTkgpVly6lsh9S5nrHBxPoXd9LxHz3gLuj5Zeqn8ZkEOGRu1ztml5nMuq1oUqLFlnQBWoJF96935Qxwmv1FWqRVFB0K5PLPHtQUC-0eBCOqV3Cwm9K0yoNnOZYSqknUSObZDSJ_6kLypHHf7hroFzOjpAd4q7V1WVp5hlO4jsrsg8xy6iXDvK3GmQs7A7Ocd4uCMLGTFd4SynlXVweLpIqUz74lc27LD7yqcLC1XUf4plpf1bTyURpc0eGeU_GGwlKk9wpcVAWfd7gpMJ8TM2bEXyPM60awIJB8LJMLLyLWoACTxBcwXnoetwX45oh57bLbPzCd811OUGDdl=w350-h558-no" />
+
+</div>
+<p>Now from this dialog, we are going to select the little globe that has the grid lines (graticules) on it, and then hit the Import option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ippgZHxZguzml8m5jTNBUmtKIyyhVFkc-NBFVjzKNxmoGnZ3WCAhT4hq_qpj__Opsxe-bT5KK0UWb2PqRh5YyXyhUVK9v8XI0TRsxr9KhPN6nGpTu8YVP_UNDD4mUD9XDh7Okgp2H6bGY5E_H6ALrkTut2bJlZyH9uC-mXWsw4jok907yWwvtm_KR2HisarLpSdVPyDOVieL84r2d975paNRsbdLzmrKguwdY8vZF8CzEcOkeVp4aZBOARRMw1wAow77FVjcGgVUhUquTF5u9rV-jhntX2jUM-zerj-IrczD9ToqtQ3c3ZAwYwL4PL4VSwjG7jOsoKlSNfvL-dB-WQq1JrsAfokOviAEZcpp12VSQNj8pUMl7B8Q3Yrju-Wrsxhob2dJi9vDo75kwCjt6lhptQT8rBf1JLMDOH_o6_pOkr_Ny6SE5VMIHTYDrol03yHg5fSf6s6sE74d2mEz-6NaE7NuS66xtyVEOfujupjlu_Tlzc2bV7wIii02OWyZ1h1ThdGxVmH_SM7dz4KfzdLUsCBjuwrw3CbK0eud-pGCf7SPyw5oV4qsafgfoPz_OyYbWjA70akKQqsCkGNv0qqq7psEAfaAAWazBNTQFZB0yMdCQhWY=w477-h557-no" />
+
+</div>
+<p>From here, navigate to the CityLimit.shp file, select it, and hit Add.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DoENy9XI85MX-axIYFfnwsr0yqo4JwEgcAv-k_Z6y1_gp_QMiDYxC8NASbowvwxFnLhcoXcTH6Jg1aJAL2a48VdnTXv6xeAWr0vt5LPgFL9ZwPRLA7WllbWY1uDa1yGpz3q8tekg7NPTWmzoEiz6J5TvueN08ie9X2ylDLJsE_KHk9vhaEbOOrXj1lBQIOGjyiT800dKi0xohALZYHQok58MCFNnfqOtgBbjgfuHzTNlZoZygpnbKqY3R09owtlxh0Aaa9RDMsuYoxkmPJHplmHGcvJaM3qGS823FtgOiL4Qkt3kx8Oq32CQINTDnUFNyV4FHkdFToKijpXRx2Dt19QuJHKQGhVoSRyheXQVneGCrTIBVvVUdp6jCVaOvh_To6FsN_yKLRLSYYO17eMo0Vmk3PhFr8PRS6vHFvkstGTiB8ts1jqhkVkMZvIPOvTT_0YuTOXN7nCIJy8A3ZFpVNPytzN1yyoIgFsAdIbQXJPeyUC-eBMhrYKA5UUsAt7-S4hlAPs0_LA7vJ-mvCvgFoct4Vfao-leWjgKsXtgznPo3FCu5meNf5Mkzeear7SdRuDVI73OE8Ftxzo1mtbj24gamjJQbxjPgsdQfVA1P_5VUyQ78fw5=w493-h329-no" />
+
+</div>
+<p>You will now see in the favorites section an option for <code>NAD_1983_StatePlane_Texas_North_Central_FIPS_4202_Feet</code>. Select that option and then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sMmSKiEQ2TAyufwuBLRRXCBof36xNUSewfQpYgyTnSX1ZKBKD7rQ-7OVoM3w7Lb0eB-00tq1Dtzu2Z5JkZGWgBq1L4tvyt8osGuybtAloFVF6YJxHMcbKwNgbA1_W-Ot9D6pA55ZZfzBXKZ9FhMjXsHhMFmykdG_KB3VZLn-n80CAwtoYALS2tm8ZO6k8BUQgPpE8RdjiZS56fDV2XGJhtYPepP_p-_JGQwQy3agRwEDcUBT41JtMTeyb98qGlXSOlX18i6mSRAM5vEhhjQdemZ1SKjvwk7oUBDqBodStuQ_Xbkk0QtA31Qa8QIw8yZxqzzpb1HAjjzyRTGu3dfpAA4JoAa4RatwKFbwhohn0TZJb6ZNz4S3E-KaKw7FbSZezbzuwzyVmR7zqOoqRvX-Srk8VKPy7NAy0qwbQSI9S0G5xgVW0oaGcq8_n1PfCh4s9VQQ5CVNm-o7tlg3GI3nHbc8nhdACTQTXQ9CkfJmE4NSgkWsR2sGHpXQGVtrm2JMprhBq90er6scYBW3j9t9CKcghnF_eZdDQiX0flBUj2tdKRBqax9VgGOzYtp-fdrAUi5zfVQWeXAjCH04YiF47dvfHAYEpMh_sk5Ld2H7k_iRxglMsL_M=w477-h558-no" />
+
+</div>
+<p>Now this is what the Display XY data dialogue should appear as, and you can go ahead and hit OK now.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/J5mbib1XlPigeQBSIJU-O9z08r1d1-yHE2aHhiZ67WCIzZtfxK5IIjSrrnazWdjD8TT-d0NXYQYRvd46B4dCWkH9U73tTTmRzDTvtOTWxKyAwms9F4RqAXLHNmQcytHBhojyQiKA3GKpgF3xAucIBszhq8LD5LEvl8J8E4NbVldg2qbWj5mIH3BOm6xUXgiZ2gQDcKIpogjg2mMlalMaV8ez7SYH7OEg93hnI6QE2OI48ZyX3Snh3zdeQDcQs5kbbxFwJoctefplyQEdVVvTDhx29zI9lgjHqwHOEel7FMlylgkkfie0uoRTZXN1ZpGImqQlzPkCf2B4a1ys_fGisJa73ZukEJB3tA6lgY11sf7zdrUoe5pFczZDq2Xfjx3XuOIhV6nIv8qQHb-nTVdrcLCdXTns01MzL-LgM6rWmo5BQSGoy5RqX-7oqIYO9gH6iR6K6ifkWd7_ebzqSWYz1TkGCooV2C5EzQSPGfjRd5Dbe4LtXbGCnsvVLr5dHqXbMxoKtwM6BUbaQFtEf_YJQrgtEbgW9EanLi55spY59ObzeFFwaUgTMtgrr-iPuoYqvO1koXj0Ki8wnUTDsglVHE4EnqWHje_OetZf_nuWm9Q0ATHERMLQ=w350-h558-no" />
+
+</div>
+<p>Hit OK again for the same warning as before, and now the points should be lined up on the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/p4_V1PZIX1WRDCT5rtsJ_DWZp-WcJEQmNerYMD4uYqergUURBQ2xmHaNKgb_2STTzSbeFR4m7azDjEiom9vZTHooj_125lGk4ko5ym2KRLzCy57Cf2TWMuef1EVLHdzi0zLF1f6TtJpxPJAK0jfm0Ae4aY63zCcrDZUG3Chiq7y6fLiGHtKeCH1zmL14tyeDJcBPDTl52es6hJBZklWwu6r8ZqCdWiDrFzRJLw_ieDdV05Zc_zAVR3jbcP9tu4zAvV-fXbUo3L7CFHsovFHO5uYtbtcrtFdIi5-N1tzBZSgFNzVmKPVSxdSx5Gn0a6xz98iE4MyEjqabOmvMBlL54eaxxhhTQV36BpsnluIgeyPoE25HQdTXELmEljQxq2-f2cK5pahpFyZloxKCsvcSNJuiBXfytOgpBrDy3E2PFPIBpdZ8L-mvsbxlJCc1O1dHC0aYbxjB2hJczt1V5_919jactMnEhHcbB8RiTRcJyhemIYiJae7B36CackuPkHVY6h4oapVUN4n2qPPSMXe6hXWmoOeqejEEjtDnKqoqFz6NDNgVLz4j0kDam6F7QdFsjob5LIkaGcLPZvOHV2hD1_GuB9qc9zsOjixRdKyCy7xk1IbLkl70=w1724-h832-no" />
+
+</div>
+<p>In the future, if you have projected data and you don’t know the projection, a simple way to guess it is to find other GIS data for the city and then see if it lines up. If you have problems with this for your final projects also feel free to send me an email, and I will see if I can help.</p>
+<p>As a note, if your data are in latitude and longitude, for this part you will likely want to use WGS 1984. I have an example of where to find that selection in the tutorial for lesson 10 you can skip ahead and look at. In the folder hierarchy for the projections it will be <code>Geographic Coordinate Systems -&gt; World -&gt; WGS 1984</code>. Note X would be longitude and Y would be latitude.</p>
+<h1 id="creating-an-address-locator">Creating an address locator</h1>
+<p>If you have not done so, make sure to save your map and your progress so far for the tutorial.</p>
+<p>Many times data we have are not already assigned XY coordinates, but have some other spatial information, such as an address of a crime location. When then need to assign those addresses an XY coordinate to be able to conduct spatial analysis and make maps. Here I am going to show you how to make an address locator from a street centerline file. Note I already discussed geocoding and street centerline files in your very first lesson, so review that if you are confused by what the street centerline file represents.</p>
+<p>First in ArcMap, right click on the street centerlines file and select open attribute table. We will be using this information to create our address locator.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/A1vj49Y5P2Uosa74N4Bf0lT9JMVFR2HVI7DJea0sWDYTGA-qkPKwIIMzw5xoUpEisJO8ujJfVF2VXBdV9h8nbV7xUVki8RadGsjnbCpic7c3SZ98BR2k8zNDNpZrPQ2nMIGPq3K5V0op2arC8Kmd1SyRb6N-VTKySDjch5m8o7WZgvZ84PaB4HEh_idWCSD_2vZYG30JeY0wH0dqPQAj_eHrK6fM3M8MR1nKOVeSSB3ad6WaBCCj0GJ1RkObs4Cy9y8FnkdB5UCD1KRCUZvShaN0keOk2Awas67Q0s0LUYHdbsazAQsrdWTQxh3pfgoCau3c6XPhIeBg2pNIyKtV4EqOvmzcS8Qm9aASg6t_xFe0rspnKAjQqYIscG5N1KFEK1FeK8Ye5sNyhiPs8ZtTkt0VhBvjrJxEyoAyh6Pw9z_9FqqW2rJlKzTWsx2pAFhaikCR2eIC-L6KR21pA4UDEE1Hsr4QihqGwo0-xtNbcIt7g8JC1gAuRTCMVDRVC0wwjIK_0uXb7uXOPxSqykm2VKnWNsqtR-fJRRgOj8Gk3_oYvl7mOuSB_jVZvOg5W1BOQ5cjMp2wz5Kwzx52mXlvHiNmIkXkBbCyxhGfaEz0W1pz6uaml4vm=w475-h610-no" />
+
+</div>
+<p>Then in ArcMap open the Catalog tab on the right hand side of the map (highlighted in red below). Then navigate to where you are saving the files for this weeks lesson. (You can see in mine I have to go down the tree quite a ways.) Note if you do not have the Catalog tab on the right hand side of your map, in the file bar at the top go to <code>Windows</code> and then select <code>Catalog</code> to make it reappear.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cGVuwjS3fpkAXNW54fxYEXVSc5CstmRyk3xht5LvZ0Id-2Bv6LmxSzs6p0wcWlBFth82GV_fHmgtk5W8FcXmq0hB1drbtD9vOI5RgUYm6ei8HVw1rsoEjA7BuOYm8H7YVw99akj0bYFZrPlmiS56OFeIeADEBYzx8lgCw89Ek62UcU2IIHpslAMtA5NJZrAvfXDvsUt3grNjEeDcRhy7kI6h5qCkk_n4VC2r8obD1ls8JWYKUyl2spHurLbO_c0PtDLFuncWDbixm42xfxhLUIIH735mAxQkA46uU5tnyscL64755pbZtLcdRdYWdLDM6DMS1-IKnnl_GulJGipctduXGhNdb7O5jW1pA38w8KmR6Iz1xwoLyiWvksySPT2m0CUKJp11L2s0PcyeasXLh8J2k-diUHMwMhHacOCf-77uo_LnZhi_E4c_Hvt9SemivzrSR0UIBG9ZTeV1PSCAY7rKKekX2OC21TVj6SmKdUaZpK_UEh1TbHz3Ss9De9x1fR6XlKxOUTUQkIArQvedKMB_l4twxnHjvVt3xNy96mSI61dRF-CpK4qRdE4sOgRQjN1yzlSTSRqhONukYA5mBnNdvgXifUdywzcXMbYD84MA88zsJOLI=w1089-h928-no" />
+
+</div>
+<p>Next right click on the folder that you were saving your Dallas data in, go down to New, and then select Address Locator.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/EsY97R8XFa3j0pfxfRePBXRq1BGhlkqlu_OpCS-dgJL4sgG6S4thTei4MfzQtN7AJQ47u9bRMkxbKMr2ueXvjddAmj7zBL4TueagQYiPdlVKs7tW_oNBTdtKRz0ZrphMGcLuzivorTtQ6-i3urZQtjG76SvQFNPEio2QZoXlX2GNzLLxeOVYa25LScILi5tVXFKM-41VwvfgfmNXEArxH3xx8-a7i_YG4NZelY_1PYi1oRlsHQayjT7paUgBlyNsTRmIgUHblB9qo6rtfIsi0o-zTAKldeSohqpUDYKr91iJ-dE2ZRvuxo0Okn8-HFcXJ2aPRe3iy443_dtwub7dhfX7gFX2XZnxMRcZglD2VJs5yzsdgIKVt1opnRDSzhRAVWkCZM1dUvMrDsTb_UczFalmeFBWaZWeJN35QR3p7Kp97X9LDFaXt_E8j4O81KoF1OX259lLFhd7rLjFiMpfaLO7l9RW4WyZo_roK3TMBdX0SpltYz-fNDhYBdfQymTCRAM_fIPFC6nq1GRLflu2UJxIy4_z3z3eDtZzWFY-Kp3Jc5r8AMiSjy7xSbulzGsyXsx_tspQZPmvoeQHvpbU7pjBEY8PrZ6Jrz6LN81XT0RPlaosgs3u=w609-h443-no" />
+
+</div>
+<p>You will get a box that pops up and looks like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mmg5bMRGTmLE41Pq5gIkyG2A2LCg0_R_zXuQonaNZJXJHsGm0JwRxLEwYBprBgIrFdG9WFyIZKb_4Y6axJ7rKacxisBvt1DZmDH92-MY3UcZatnpKuvcCC6kke0E0wnzCRIGSqwBP2Q4bdqmU_9I4z6So2wIDY1uX8SFYVrWPcfyPHh6y8VQG28tEBrScRt3bndFxRUt8peIJshLB65QwYxj7pk8XEk1IbQioZzf8TUJhpOyvZFO-voa30jsnVz4XiAHUFPz5ewSxplQWxKml1j83QrSuUolEcGtHdKQocPpNl7UpGAtBKjO8qgp974iRXjEWp2JvvZVwu2OnKGWPD-EQ7iplz3PrrR-mbAsEgHlZ-C83lHxlGa9S5HZMBg7euW0tyvUlK2V6ScJmRRnxsXYJufzAb2AdoCb_bpWXkpHeQe0o35vUXOSJDXMWhkOIDNKcL5ukPI9szufuYhf8fb5RiKRU5OkGEijdcMlVc7XzQhhQin62PehVZOY_qDIIz_C0ORs3ysfNu63QyKqftr1Ke3CmR5wOm6lIP6LbTCFf7IjyK7DW4886vUh2tDTU5Q8zOLiNH67w87NetnpxEl5L6V5hsxvpB_GYUNWBaLaYwZ1fToo=w1588-h717-no" />
+
+</div>
+<p>In the first line, for the address locator style, hit the folder icon towards the right, and in that new pop up select <code>US Address Dual Ranges</code></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hfyVQBwwOGp1CBU3eR2ZeiQ-bBaV44T6r0AS71y0gzw-eHZnUgkLr_STAU_4ybNy3RtI1bv12zXIQRX073-wd9DQ9zlOV_05mUlQW730OM88jFWtQh7rP282_ScnqeaHw6z2DYUyNnar39kWfwRyDz9RziM_NY6fMTasW2i-O0pGdTrERlIH-9E0eOow85Koa1wklZgWkQKJn-SbWVBzLa0BtJ0OQWjkjmX6vyrh-tUNx9HT0zG9rqATkZorjQCeGIw0q7cWNClCw9mV1F6BxNl0ocSUAr2Bji7TOtTM_d-hTyNNSHoXuRBiZm8xoF7jLkfGWtMVl5R2BHl_4HLjb-LzAcXglnMVojVpoUb5rzF9g0Fnts-NuUsV_4tqro-82m8sVjlFQWoLnHirdlggRDm7NtKL8o8dBpovrAbmwIADWFAFbB1-CX20lvFa4WcKohq3QsFOAbrlbCz8HEbA9J5FWiyi3Ao3mFt2lSph1r6fZyzO14rAh_z7ib6JML8PvkRI4lO6Zkdd0w0ep7nDoskfjaI3BCfAu14HulTkfnyvI7QAS1UrE7JpN_-X2S_QRSGItTUPy_fn1hgOhGfsBG1XYvL0aqZdzN21-MGxtCGJKuC7XDBp=w320-h370-no" />
+
+</div>
+<p>Now for next blank reference data line, click the dropdown arrow and select the “Street Centerlines” file. Once that is done, you will see a bit of data is autopopulated in the fields below it. Take a bit of time to go back to the attributes table for the street centerline file. Can you figure out what the <code>l_f_add</code> and the <code>r_f_add</code> fields represent? How about the <code>prefix</code>, <code>type</code> and <code>suffix</code> fields? All of these components make up the parts of the street centerline file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6BICe0MS3rBs6kY3OuJ8rS9L20bjhs92J1wKOoo4MXHoKGsPLbrK6LEiFaFndjUdYOxRYx4LVhQbd9gQbYpIvgttA2mDsHnhoEVg_sGBf3W4wR0rMiD7dlbYfyinH9_Ar3HJ9jfemrXNp1UFxEGGVxpPeYKFm4LjiquGoTxKtATQJtBymyKqi4Bql3uCptfwB0JZhuUqyM3gOH_zm2OKwbDoe_IFPdTD9yMzQGAZu-oza5fwqpjBZYTdVLVCAr-ziYIbmAEtj26ELhMDfX9JzkJE-Op2cYJDKd39UybCvdrT1huswiV04IYG1H0OD2Kbfiih_KOPEX34v3KZ3OmwnVp0V0aZ60AtC6qd6xjQNnkLsZgCqCKq-YAv6ekEFRRcLVEO8aTDF21Oj5DdYfVu9esp0A7984StW2vLSwwpo6G--l0iMvy4G0VGAJDlqBjxpaWde5a_tIBJgaqtbAtSlbu6neXwsTCSG5cbPnOmrl27ywdbYC97ZvvFQqNuXu8jNVfTFSGTIj9zAA_gIxtDbXoW3mMKFwwuRlfTR-mPLFWqqgO7s0ypNP0fD12buLUu0CIWJMORkvdHDdvPcZWANkzdxKKcBc1S1sDyzuxQuX6b64WaUK9W=w1588-h717-no" />
+
+</div>
+<p>It happens in this case that ArcGIS intelligently selects all of the fields for the address locator in this instance, but often times you need to use the drop downs to place different fields in different areas. Also note that if your data does not have areas (like Cities or Zipcodes), there is a known bug in <a href="http://support.esri.com/technical-article/000011688">ArcGIS that prevents geocoding</a> places without an area field. (So you need to update the default like is shown in that tech report.)</p>
+<p>The last thing you need to do is to select where to save and name the address locator on the <code>Output Address Locator</code> line. Here I save it in the same folder with the rest of the Dallas data, and name it “DallasCenterlineAddressLocator”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BG25rsQWPI7bbJ31RlHduHgKUHvqY64xccwLtdNi3Nl1xBdnrTkRg6XsrKZNBPIYVn6PjPcEkWJBVtS16uO0ITJSL3myWg9UAL4Ga8NHFkNB10R9JibDhoMPn5rG1MG4aLKuRQBWSWcTJ3OFlaxe0X1RkpvV8i-eAP54dYSgqB8iZUNWFXHkG83zh63AriaOgV9s80qULCm60TVRU4RtwF7sBb9wBj09M8ByIp91cjbuf2YnhQmLfYXnwQc3G954Vfn83CW0HspQHH_ukJGBcvYHDq7F8SPnu47Fn7MGFciCrq1euBIcDK2uJbmdpI9An-j3Jj2E9X_b3nKGqq_bmVEDWh0fStbcN-vWpXZPECLC1UHQ9dAKiSuSVRX9zGDCua2HIlrs65JwDhkHKWN9e3-KGvFWNllXjLs1lVaqPDmSZ8LjH-stf-BV_FirwYndawXDvytB8h2Av57RtlXHvONDqwxoheff-N4RDfioKBavubz7SBp5NiknegK71Q4_Chnp_C-hH5EWeKQ0isfbwPuT0NGyFYsVVPxu4YktIIbSCNm6Q7efqGi10wR6K_XwgjSK2fqKW8URSKwmdQFhhZJ3HD70SMO3NURmK8nQFkg3VZHhK0JU=w1754-h950-no" />
+
+</div>
+<p>Once that is done, click OK, and then give ArcGIS a minute to finish make the address locator.</p>
+<h2 id="geocoding-address-data">Geocoding Address Data</h2>
+<p>Next we are going to geocode the 2015 use of force data. Double click the 2015 use of force CSV file, and go the right most columns. In the spreadsheet it has a Latitude and Longitude column, but they are empty. (It happens to be an artifact of the open data site that the data were uploaded to, under the hood it geocodes the data same as we are doing.) There ends up being some of the values geocoded in the final GeoLocation column, but for instructional purposes we are going to geocode the data ourselves.</p>
+<p>So first, after the data add a new field named City. In this column, type “DALLAS”, and then click the little button on the lower right hand side of the cell (highlighted in red below).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XEq9SY1XYUEZv3AiFqEf3hS5wl0nizNNf_GF-NU9esopps8J4wkItKPi4LOAbBnAh7LOs0MrFzEklNqN1WbRpTn_SVXZ_0DYfNKjEI01a7Ngxkn_l8WK5gzizjseVLmPLoh0x_lkkFcX2bPZcDX8zaOWCBHhEu465_utFp-i2tp8aL-KDtUnr0B8t9hTK9mW9jcbixCdtR33L6uo69LQt_2IXXtQhCvNeUQD4kTsFqk--B87nLD28S9vjIwsOM4NtXz3I9bt0t1VMCl811FschMfPKjfWm0nKu08UcxldR5QvMNBZXrRJl4Q5pn7SZgoN8pPG7Uo8MWZayQSrgy3loyH6J_tSu1M-q1mbCLRy-Z2ti-8IDBNDt44I31tQqRKJeMJbKCkOvyxZ8Sez1_uSHSLcHhsXmq0ysYdJZqgvzxfSfjHRA9HgAJd46Ya-qE7_ZniWq87RAz443I-zOZwy3brXdlKBvAt9gpR1516g1lz4bH8ZKLbvQyIkvK7spdAbUeWJcYQbBc7TVO0reaHjUMc53B4SdUiwgzsAXBfZ_POlAttXU9TWLdZX5OOH3YJc5ZSaPhQEMiN8ugslLJYauP-w8ojADwZj0f_u8ziVRyH8uk-m7R3=w270-h240-no" />
+
+</div>
+<p>This will fill in the city Dallas field for the rest of the data. Then hit <code>Ctrl</code> + <code>s</code> to save the csv file and this new field. Now close the csv file and import this dataset into ArcMap. Next, right click the 2015 table and select “Geocode Addresses”</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LAHwwoqMeVKAHQU2acFBW0CA8-Spwlgshq-AVDYKxs_yZMM0AiyuU018e53FIjrsrLclQ5CPnM8P87-cJGGz2doXecEaRXPHCjI0UDEIDKTIDdsXuhAtZcU6VVOo83IaJ4ZAC-mjOKBSHm7TH96Bm7_buuxjCuy91rYqtx54u9vZOHvhuZxdb72loJueC2oAfuWrwdqGwzgdZOEQ3KEVxXnJR_tuJ3MCG7CIqXLr9phFJ6FlPgUeZ7sI4tKhUtoA0Dogeu-O82dIk9GQItbM-CbVWKp4xiXJtOdWg8kFxb_EV6neRRmSGj5Luv86UPYk-Dm9cVkwULYdRZVYWN91gnoClZco0VFOAVM-ZNwpLTW_poyz-QS3wO5Zke7PFolMwtOWvx1GBBfC0oijbWLMQTyEVHBxGGxd5oWRb7gNMkkTs94k85wEhxHL5RRvJkW46JKfXAa6C10aDb0Dz7YfjAcyBvgMyT8C6yqA8c8z1MSJd11yP_MCGeDofxYetuuPBQ0pfF9WSOOgjNwgpXQuCJIMwd6S-B-XvPRsZXcGR65MqnPsGUcRUJenD7zq_LbmdCJvDu_U34NqT-V04UJJ8G0OvfNRKHpRMv-0knyIduE7_9rewtIF=w487-h386-no" />
+
+</div>
+<p>Your address locator you just made should be among the potential selections (if not, hit Add and then navigate to where you save it). Select it, and then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/90EoyhmxGwIKqjNs02mj50VQ9qPN7iSXS0-AsnAeri4d6Um5h-8LsbDMmHJRybt4ub-E6sQ_VbgGnbZFzzVKShRxf6etqrL71bMZ8gwAj1FJSf9yRupLcPMcKuoDX8CjwXcMDaLJIvwMiKkYhnmgdJRDDrNisBlPUHGtGdED0kEyhBCXx3-fZDJ7olMlznURU2CuDnGdysgdF3yXTqABFrOJmbQJR_NyXmp9Mtcd90sT4cThIbRwciBrCreXadGMBDiHmy0AXChW8YSnNWbLD1nUD3NkiP-PKXh4H4Irs5rmKp-Vxpgi0Ji-th5DVSYpFPxqXda3IXJS-YwoU5mC27xUhzJCEA1RvdKwN3ykwAFHWWM-M19fOAMdlSyjkT41bdOGNchRXPGlzunvPmUaT6z5dbarhwsEoZhEsh14MMviSbFo-5VeCZH-7WfOm8jrOCWh-uyY6T6wJ_dxVV0Fi3sSe722dQ3L0n1nbv63IxHFeoznfniKe72bc1dZXl5_Ur5kApfeizoSPJ6ZpGy6ezo7kd1KOPkNvsPrUUdK34AKM0_ZPhA3uAnoNe0ifFs8075ISsVEStbBpVlIropYpvClFg8ynDFBvmOJz5_GrPMaiITgc8b_=w407-h227-no" />
+
+</div>
+<p>The dialog should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y2X_s4s0NIQNf6LaSx1ay8fUbCLsiGEU3c0ffLfZ699TCZJ1H3fbmSjhVSop0qpcx8zgn_rCkr0ZQSB28WM7FT0Kyswn90u67nL5zXhiaP8S7HzmDTIB-YxuIOvLWOt1VMAZyds_Zluw6r2bNVlEG0zOl3qzQXfkbVYI0T6KyFioZNhsff2DRgjPxxgcO1iq6C8QsWltPG7JuVnmbJ6EIpAkdR4PSqY3ty_G9ThBziERYNeqDBLvmPeUmnyiUCrJYTowJhjsl628Kv_QqThKz1H04nzZp8MJ2AdouROPThIx6nGhE-h16BgB_fLd-2pnhV5fzUNg4WhOrO7wmJOE8vIVdyVJbi4xf6lmIdcRelHdMq6BY1aOHUqE5nMA6kXyZH5BCnW8hy5ODQ_ZMH56a1L_kZtQnLoTj5W469C8Yx7zW4kpFFrpW431ZHl_ySa1zlUj7DwLDrm4lSOiFKWRDTo-HCBjFNs_6HCxVpU9yXDzCz6fFs-mFoFnmOLER72uxExjvwL-JKBhMETR_D8X5CpzubA0_ERmBsgrJimiB9pDMp6_6GvJvz9z1izj_h1hW7gCC5-0SVEhgB3nrlMaq9g5-qq7fTKFI-fGZNrE3FlsJs8ufk_d=w385-h477-no" />
+
+</div>
+<p>For the “Street or Intersection” field, click the dropdown and select the ARC_Street field. Then in the output section choose where to save the file and what to name it. Again I choose the same location we have been downloading data for this tutorial, and I name the file “Geocoding_2015_UOF.shp”. Then click OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hu1uB6FB35Up_O_LlHBtes7k90B3hIs69_P1NP_wQZAJP2mFoILkL2PrmyP9vCTM1FWEV5vdm_0g41VGSiHdQtqnfAqZ1bEt6GlkSykdzzlqSZlxzwzTzYf3_DwpvJyeEX_TtnbVZj2r8Rw3_ZcC8RsbHlJhJl5kYNy4hNAVbN2BkiCXUW-_UbSPr_6NSEJ6ByM87mIjM1CWdgRABoyuo9xjtV_QrHUb9z00FIJG8iMB9s0l1wg9aKqJDc2PcR8lMUe6yC6vqm6GGz0CVF6HcPKcYbpV9VSZz7r5UiCTK9_61-0OB86GKILlEufRYjW4LOl51VKcCFHQEbiCd7LfnwecFK8WKRHIbVhUn0Eqae1W-n_8dm9fDM61cQ8k6yxnJQ5zsjFWSyk8ElxM_ofuk0qM-16KpwJExCemi2pWlMYJIs0glUVv_zDJaPDDv0rsIz-C3HHmx2BwBBwrvDdIEPmmBu1BCjLBsE2e6av2wcqoc8EfCg5aUVq8LayuOulbaw2WSdQnI8ezoK8lnCIidQFjYExXTQBdzsrTOzrgElKgtj2GeFD3w_PZZQccr2RhSJFSpAwcKYYlOkstoqgOo9ud_dy94gDINgkcUYWGM1cJ71B-oI0_=w385-h477-no" />
+
+</div>
+<p>You will get a little progress bar that pops up, and it tells you how many addresses were matched and a few that were not assigned. Here we only have a few unassigned, 23, that we will review.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/AGHc1pQo5dwPOf3wqz4TtTTMuuZcLztHXO1rttuMw6E3NI0A1wr9cYu8dNZ6i9oF-dsUPfpozipg4CiBChw_ToP-VrcpLyU-NUM95ezThF7oL6TDD4bIPpt9LvgL5ZbHWkVSuTmGI2sn4Ex8ACEtdicXF2eNnPM91emRBOBl0vuxWu3rTMX1EBAU00C7SmLc8OhA8oSv0S9mVb8Sbu1QV6T4P7qlLyVMTJQH5flHbwNK5TeVbRNFrpNg8K_0QPmUTXPW8LyQ71mkneYY06W2_DhOrUULwmWM38Wb3HcmYg3q-0porB5sM9DDb7OaZlC9CuhS3uiHsvK5piyYO9XD6huGjYYRcX4wEqiN0iC31OoSiWwjlZ8cWp9dnp96VKXsizM-IgrN9juH5S2WS3I7yorft2U-Pr-E6gESN_dfM6e9rE9rJ9F8K6-pOMvnhyGnEVQsi7pxhV_ij9tylufDMbojP3UHqcHaviEv9giYlCOi6PA1w7JOTn7Pj1KC-WOJOAY17itA-mlyTQcZ0e8kfWb_A9xryYUMJHC5hdd3Qn9Gv6aPHkCDiDcOghqBhcP7Yd1CWEMRv4-uMIfslp-XG5kHPukD2_PpCVn8_ZBpEks014n-g3KF=w457-h264-no" />
+
+</div>
+<h2 id="reviewing-and-rematching-addresses">Reviewing and Rematching Addresses</h2>
+<p>Hit the Rematch button, and you get a handy-dandy little interface that allows you to rematch addresses. In the Show Results bar at the top, select Unmatched Addresses. You will then see the unmatched addresses, the first being in my example “201 Merribrook Trl.”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/50oxa6yvyHVRpoDWdw1E-OiNEqpAei26FfiZ5l2mMc7--QRXLEylQi4B_QT_pjJTNZ6XjASflTZ2g6lB0kzglWFG8gaUG0zFMXhuKskwVqyb4orNvM4jdmY3cMNF2eJUl3AHMUDey093CTEj332Qh5ATacD8s_ySNDJ3DYeuFYF_dhOf_e-Nno-H33E71rPw8iJiAft0GmbwqL2CQ2TDrlVDDyo1I1VfPLJeJIxMUiFPvlV68X2Q4p9fi07srLE85n5U-BSSes10umcY_M7iQtYrxick1naBORjyswWChTaKVi9Ds_DZgVQWdBEUuUJP9eAxjllFALm9Fcu9qXAr8mwZSJweKcbQx7DUuN6RWxts44tCScg3PAzIfFBNgw6_FJqydHyb5_cBlDkthyYxebCSPqYF5dkPUoymdDO6hl2LynBP2Dyg5AhMpue9vbX4B8zrgllNd_R8kIw3bj305y4tTOhy5LmsqAOTNgZzwRSzlIA0O1tSTK9oUdY8iC0tIHR54u0Izo0qoCqqu19riVdtacdVrNuDV01vVc-AcNkZEf0LXW_oU8wsPaWn3jprihoQt7LlalaL4cNEqd8OtiaxRJczjG34ERLFpd4udEsQn2Xb0KZK=w1108-h659-no" />
+
+</div>
+<p>This example ends up being a pretty good cross section of the reasons addresses do not geocode. It happens that the first two in my screen shot, 210 Merribrook and 3851 Midway are outside the city of Dallas. The next examples, S STEMMONS FWY, are not specific enough to geocode at the address level (it is a long highway). Finally on row 8 we have an address that we can potentially correct, 3200 Old Mill Rd.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/UIWZauR56nO834NwbGFMdAP8fFTu0ErtdT0Tq92_A4EajKLkSLr7MkuoFA3H4Z1_-CmBde0nyeLyslGk-WSJTm4wqboNEnG-ylKPiURuJ9Z5C_KF3-SN86O9Qb_iy5bXsa6OtQu3py29hLnb1B2xVbQI6DnhXiVAyJgRIq_95Qf4y8yCVJnuiXdIEHJ_P6pvylIq_0573qJvrTaDquVAe7mtyJzYFycos_Mso56OS7Be6PIQBrBdsNi48r5ZLn73nUyM7I6TpyM3yn45Z2Uzj7JearO-QCG4umKlg26Mtpl-p-FSFJbMw_7GMoTKErDnZizsNEWegOXr1mSWHqaYEYM3Ynl5P7TtYrZK0TH6rA-RJA2nXzHHi80bXcNpw-X1JmYI3iK7q_lcq9PGd7fp7hUBEKZp5YZziYhJ9Addyt-gfuVaFI8Cu3UvLaNhCEfpi8yDto0tE8S1d0BmFI9Jmds-RHIc4cArnlsYYBR223bBNy-pv5t3QH3RkY4THuaTGETRt2fOuGG36VRGoZ_rquljLWS0BPbIe4QDLiB0foI1MwVVDp3RiqarvCgWhkKi9a1SEkyqepTqYGYGaO3e4-Cu8WSbVknBmqXlOk3rL42yt1J8IgLJ=w1108-h659-no" />
+
+</div>
+<p>You see in the Candidate box there is a suggested match at 3201 Old Mill Rd. Select that option and then hit the “Zoom to Candidates” button. You will then see a yellow dot on the map that is a potential match. Go ahead and click the Match button then, and you will see the Unmatched counter in the right hand corner go from 23 to 22.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lJaABSIeyy_FVfszHE7Ju1RKWsHZBUTBOpemLKqcaWu3sr_Sd8yNhTOk_2ypAG7jtmVa8BicmeVuDrn9nj7pdn_D0X0AKwD_jv0HTmtTHRIfCNRfGeYSBjbNLstp6R1yM09Mz9ThbBENSwVn_HFk-ul0HuKVv5WiplwHcjtaEn330xgTrnCN6T5Id2Ydq-hHNOyIRwx8T_GLToDgRDn5qrGRwLXDHWCOmDkgK6i2ckHTkia1iEaq10ZvA5aQjLJjY72OpoO0br2L86m3tfKhRQ6dKQ72So6__f57mk8HK2SzRTVdiGERyGF_RFiGiFms5t4i6yKcVxfIZmyO_StyJZBwluv3KVKIIVwCTVEkdGECYe3p31EuBnIKn1TdZe4l0YtzwN0SxPqb5JCB115N05xtvzAo626ZsDJy1aeoe_xDHpTZv_STsZKccN-la5HAVD4FEYOkflau8U1ostr6XAETl2Bb6IgKplLGN7O0MvP_s4wvSktPuahTPTCRwqA6K39-ugcO2BpgMYEqV-zfnf2Zg-cujDoP4-RG0IoNmkDD07Ek-Fq0KiF-urGzIDjuciENqbDdM7M3UWWMgQI92EfjPM8B5jyZ6YjtmwBkQp5tzFcwjmbL=w1377-h718-no" />
+
+</div>
+<p>That address did not geocode because the dataset does not have a 3200 Old Mill Rd, but does have a 3201. If you are ok for your application with potentially having the address on the wrong side of the street, then assigning it to 3201 I think is perfectly acceptable. One should keep in mind with crime data these addresses are only approximate locations anyway, e.g. when a crime report is at an intersection it often occurred somewhere outside nearby that intersection.</p>
+<p>The next address, <code>1700' N LAMAR ST.</code> is another good example of when an address will fail to geocode in ArcMap. ArcMap does a fuzzy matching algorithm to match addresses, so say “100 Mian St.” will likely be matched to “100 Main St.”, but sometimes this algorithm does not spot obvious errors like here. If you go ahead and delete the grave accent (circled in red), and then hit enter.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rFwu_G5fRgGsuXrHKaVDBv_5kCgpdaiaOpBZobfW37-X_sJg7aeeRCQrScrNF9gA4XKDHiFkmZFowMqMIymKH3-1H2ldDXCDEaR_SxyCLMOKsEzflGtetFZqnkUTetI42-L-I466tW3sPiQeC5JrLROhl3pouuYVvDLuamiy8J8xHo159DROhv3zGRw5uchI3RmA7j-itR5gsknlidC0m6Be5dW8XUnhOhhun2rS4b2c2rBQt3UTqebbjEhdxtgKleNbFganXwlVSe2AvC3MTvNKUSeHOI0oPgK4r8SJ7_0yDeg8W2w8ADhL96lx0ka1csvHoQ-92CDHLBO7Gek1txBQNrT1wIQdtr22uqotXU9ZHuhnjYPHBvass3T6AAHWE2cqpEi_8RommvTlssJVq9WSA6UNgy4fgNn6le0uW83R_mkeQ6y9Jr1eKWGe6yXAkJQxUwqP6fsl-LpCgrFH1uTSU3Ho2NqT_ESSkt2i0iEmVPgNwSdjp_Z971biKebOWmUxLskwBKMJVUkbsmYVbesLJe0TkxjHR_c0J7sZSRnqfWmBJiCltsaV6SPg5nWckJtf2wI1qhhDebDjCbKl4Bl2F01YbkCXiD1RqbrugFgme_IE73GK=w1108-h659-no" />
+
+</div>
+<p>You will get a 1700 N Lamar st pop up in the potential candidates. So go ahead and match that.</p>
+<p>Additional typos that will cause ArcGIS to fail sometimes are apartment numbers at the end of the string, and the next recode, 9301 Forest Lane Ln., has the suffix type listed twice.</p>
+<p>If you can’t get an address candidate to pop up, say the address is an on ramp to a highway, you can still manually assign such a point. You know where this is, but it likely does not have an easy address in the database used to assign in the address locator. To show this in an example, go down to the address 10843 N Central SB Expwy, select the potential match, and click zoom to candidates. That candidate is shown in the red circle below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Zs2ioSwu-xuEYIJi_sQfUgvCXxSnwjZAMb4C8-UZQ0kOk4sOLlEEiNy9vg-TTdWcUiBZzYsZtCVdPB67PpM3VkS8KgT9QoN1oSLzueSIBJZp905_Mj-FzQYLECnTTPJaI1GRZ1jt4cR6Z95O82U0fUXF8T7gFmA5TixB52aKOsqIavcG7kLjJrIZnoKISmjCIK6NWerHuq3bdEkaVhZA5utyZTcCj123HvPjLMd3uD-TknKAvHDwRVEc76Mzhv_QVVXOQXIGgQIVaOwA4QnQFtsy_gxRCEfCig6ra2SvxppcNtaD4WDcGKN_mXdeqgsjyEktEFrw5PD8eTPJ3pucVSQnhpKFqYBGf_SJAB_7NuDGSUVmSEWJ3lH9yojuPzoW9EEUiOAubLY2CfOe3IbdXhsmgG9KMmKVOi72yWzgxXcfgPLrLp4ZWhycagD1weyIz51xVOMOF9GYAFRj6LW7Tl8frLGHHN6D-D_5alN4I5GRyim9rBnfZoYeE92mAwdkRiWCf6QjYwvNrYmcZMjtK28EymqW3oxq6SClJro8xBBH8PgjJgjw47979D_QT2aN_F4gguBAhY7pipahffcI6vQwwUO-302PUiSB0D-hVPp8FNCm0Ti0=w1241-h698-no" />
+
+</div>
+<p>Pretend we have additional information, such as an incident narrative, that lets us know this event occurred farther north, at the intersection of all of the highways. Go ahead and click the Pick Address from Map button and the bottom of the Rematch dialogue. Then with your cursor on the map, right click in the middle of all those intersections (see red arrow), and select pick address.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5iHzofzWBM6nyJPM7wtMhFnh2CA2zL_k5MdQsYlyB5MiczpIRZYTsYGisu0ejopSg9xlVneYhE1uwCFORgF029INaf38YQRSMEcf7r6erblzrJgOS_PcGX2YUsEwrv62C8_vPxOU6q4phcRfkyxVZCyoJ8tkmI9m_XqqX_Z9RG1ilTw9RlUn8KVTIqvztZ69sMp6XxC0e4pPXp5Z4r4Wr5honKLIjvWA9D1LQSkknlfT2HJn5K3pjhW6zprq-l3zVju_n5T4_NWP_0wDf5dCcEL3YgVBHMGfPyDDL6chDoVK7B7Lj3JbaB2bReGCpPSqOB7uMx_g4SRyccFe3V03eAyhLqtzNTzK1N2n4h7sPOBWAeS95BdG0-TujwIcqlyjeSpWQo7eqpq0qt2GPktDLjKjdoDqR4oTpxRRAP-QUnBVOrB-IkZ_RTt9zGIGh8phSq-B8nKkRCvzy-3pH8syKtDP7YYLuX6TXFfVfCss61pPOd1B5BCCLbaso-8Ix_k5iWRH4dq2779abM_io-FMV4ydN6MoBZpSmRamSvMLaSxgrl-9aLuhP13bjY05QuddHgtyKGZDnDPlLCNrD7v969Y-GacNk5DwTtZHnbqrV6f_AomRJGXg=w1415-h670-no" />
+
+</div>
+<p>You should now see a dot where there was none previously, and your Unmatched counter should go down again.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5nS9aRXyyiJUNSRDlFb0H6uBnalbC6-U_TUtTUuov22BagVhjY9XsmYJSCk-B1x1gDvAGik5ycK-ryVPBnukS_omfDs8w8_b3wnIi7oM4Nabei-KyHYdZyIRIYrcP8zXO0_TCa5fajfQcnpfB5wSdzbBwBJyEEOcWlEZ0bDowrdp-OwRBXwdT6SZ2OzUJ5YvPC1TBpDssRjJ6Yu9DnjCao5yJMaL8vfCMlnlFX3eQ0v80LUtoNz1dVBgCgobJ31qAJCMif6lVDgZu5TeQq18oUPub4cious7_4VACbe3lq7uMOVfHB4f212_0wNlMLiq0b_zr3r4b_MuZhVMtcRjAaLjqPAkbu-NXxTa_4ACIQTc-0NWsl95pcS9rwJAq2NUW9qZqEEYKj-ELZQrKArSMXpagZJgofsVHA4AkN9L7-cvYhhn05k_y9OmObwXbrtCE3G8CMAvSt2dmYzR8V5eCu1scd-4COsqQQXLoh0hxJzpDLx6WLFs1pbhtNEhMgM5B9nvvoFEy9ZBPhzTvaVCYH68dRiPWEqTK56zSy2TfJ-GYX8QIIHr_0FKJdhZZLxGc562510Akforz3jlPqbkGFnuAgd7vElSX78xff2hzI7FuXbK3Crh=w1230-h326-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For your homework, I want you to go through the 10 remaining addresses that did not geocode (see the list below). Make a table in your homework, and have two additional columns. In those columns place the original address, the matched address (or the coordinates if you manually placed it), and a notes column. If you were unable to match the address, put a textual description in the notes column why you were unable to match. Such as “outside the city” or “cannot find any such address”. As a pro-tip, I often use google to help this process, and they have more liberal search algorithms to pull up an address.</p>
+<p>For reference, those remaining addresses are:</p>
+<ul>
+<li>1502 Clark Rd</li>
+<li>N STEMMONS FWY</li>
+<li>4800 Westside Ave.</li>
+<li>14100 COIT Rd.</li>
+<li>1602 Argentina Dr.</li>
+<li>7107 S R L Thornton SB Frwy.</li>
+<li>2839 Dath St.</li>
+<li>14200 Coit Rd.</li>
+<li>3733 W NORTHWES Hwy.</li>
+<li>2215 S bucner Blvd.</li>
+</ul>
+<p>Create this table using a word processor, and make sure to have your name and date at the top. Export this to PDF, and turn in for your homework this week. Each address will be given one point in the homework. So if you say in the notes it cannot be assigned, but it clearly can by fixing a typo, you will get a point off. Or if you do not assign a matched address, but do not place anything in the notes column you will get a point off.</p>
+<h1 id="extra---using-an-online-address-locator">Extra - Using an Online Address Locator</h1>
+<p>As an extra, I have a quick tutorial on how to create an online geocoding tool for use with an online service. Here I will show how to make it with Dallas’s public geocoding server. (Note for those working with New York data, New York has a public one for the entire state <a href="http://gisservices.dhses.ny.gov/arcgis/rest/services/Locators">here</a>.) In general, these will be exposed via a cities GIS webpage, but may take alittle sleuthing to find.</p>
+<p>To add an online GIS server, click the Add Data button (the Yellow diamond with a black cross). In the “Look In” dropdown, select GIS Servers.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9v6o6Z8w4pdg82Bf0Gi2SB-2mhZJiW40DvW1cde5oQQhFdB6xNmTzAb9QlV9XIYp-HZbxLH_osneYQuEmLuqn3xKt3yOgwtw9Oc_8QQAIFsDBEfoEM6Zxx_gXYJfUbDfQMXjbOcegC7oj0Cu9gc8nLiCVdvR_F7FJCIU9TuBhyKHm6a6VZFAapeyIHTCjlCdUzh_efDLu2Y7pEj1uWzzyE4_qeXdjIkygBwNmjo8wf7rcZvZnhNBs9u-QLgFR5C4P5CoJF5Rrc5zj6bXOnIv2V92UYfrH2CkXU4GU1Xc4An0Oa09j40OyhzMun3zzp8RdZ8-7E011adjn8arLs8K0y_o2NOnNwVaLBHH0x9_r415bVMEtXpyY1BuocJ8WAZvvy3hT4sabPLBIDDCNeHnYrnF8dFwcpa9QERM_eE2Ai-iGz6wPo73wTxkDphBkopGfYp8xAbJUFYTjrpTuhKCM7zm423oNVuudFS6iJeZ4HAwJwudiNwyLdf8b87KVIvEOsmQbTnEe9rJj_cZdwOoasNe82KSdr4TlcMDSPTDJZb2EiSZW_gs52OoYn0tOS-21AHEryBzAvQyAJUto3jUi_2lFZ1bqs77fZLTJd1EwL8Kkr61RCzs=w497-h327-no" />
+
+</div>
+<p>Then select the Add ArcGIS Server option (circled below)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Wip5oJyw88qDxMshwxnuKnt5kvkI39e5vkND2RlSf9tdqA2qcPCL689KoDJhwoHWrUFG8SNCz4uC1QTrU8PirYEb0UOInyD2vPFnk3CvgFHAFUTVtqV4MUWEGCu4wAyoBcZo8sEuZDd9MFGD710YJAIbIpbLWkdpELMBB7nQMnAhINgBm4Xgyxw7vxG1WYnzs18GntIxPt_rZl6j45XEuhhWuvw4Kq5Cxi6gSgH_55eZ3GfGggfkf_eZf-BGIhliZAo5UtBn6ToSoML23Q2QebH33ESZ04qdhxQCPn7d4wVc9I2ODqe3T6FWCfTjQW1aZ2x3S8QnODaJuKi8fBZrBAmhEkkAuOkd5aSg5yvw5cCFIcbkLBIYOcgkFnuf4JJAXYnSdgP9DCtQ55-zbyOkkd7nKSwUTiY6M-MJYfXmrAPoGnYWoaKbP2cyCWRN2gjhPjGgQ5nZTRKT0GQGyxc3APl9OXFNvmKd8N2Dizq8bxYdLGWlfXYNB_TMRjLwFp3vgIfWqLdta4s1JDfsOdW-aXTCc1EsHFDHTjuh11Eag1M8X7G_JXXmcdOWCmWcvYPT2V3WdmAGCeQBa5rJjV6PFW4pJuoZyl-cK-xYVHiZFtCgoRXuoZYp=w495-h329-no" />
+
+</div>
+<p>In the dialog that pops up, then select the “Use GIS services” button, and click Next.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/A309uOPg73z04-zAodOvUc5bT2q5cWI2N-zRF1cdIlrYnAvrMzVjPBjlsL-FzF3DajPC6pPlETIi6NSsJU2zXAjilwdq2TRLGjwa8K63eI6OVE6LUNWdbL8rRYYtS9b1YHgMkeXefLlfJBr11pGpVP9Ia1oTZKYJv6tbrRV6mn24vUyjKlsWWcJvMUYmlXpeC99-_J8exhMA_b_BucFTso0R9n-4Hiqj1S-r3rmiUbniHYRykkLfKeIZTEoqmYeNP8Fu8GjeJTdfumeGHajMwzhjZ0h5S08Gv0omZMfvwKRMEetHqlP9uwhDJVB_FuFgJYcytG1SwG7RcdCfPiHrgAqDw3--t5J4fBNoARjN0Cd3O4ZzmmTTEQeU_QpktB9IyfHTQavk94ufEIAVtSh6NLcz7ZU0ZWJwSEAXkDImHYJQAUFnRwbQmDZ7V9ipqUvT9F0tDl0qKsaH3ks0h3XCd6h7y87Mdrd8E-opQG2xoUYaNCoO9xXnDNHwhkl2mSzha792z0HQMDegBDYacP4hTn_yhUCHhFD6Ma5kZv72iKPONECrmVFAS00j11L9hiok9mbdG4b_MtwB_aNMXtJsTATY-9Wm2236JVVncBQXtKlh4W7NRGJv=w496-h432-no" />
+
+</div>
+<p>Then you will need to put in a Server URL. The link ends up being <code>http://gis.dallascityhall.com/wwwgis/rest/services/</code>, so copy and paste that <a href="http://gis.dallascityhall.com/wwwgis/rest/services/">url</a> into the box. You do not need to worry about putting in a user name and password.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ALLrlmFyp0FteHZYUbHTxUnZQCExGtgbNxeV72nParEQSwSpBfLvBvjtxl3COCZq0QH9LYPhgTUhLtW-S-lPJ3LUHIrDs4ClfuHa7yn2h0TuR06u1GCFHr1HZU7S5t68erFTn6hjD_XfMd45y9XTCWOtZj9p-q_Vut0jJPdN1a8Z9YbV4vxUI9uVIF9iWfKUbzwtZSCzZhpSQjk5G2Tve1TOcMucGYJR7iuKqcwXQjrEvV5DxjOyQiiSQcoy5WptBJev9DKfANn7oZxtZEUzcGPSGdC3gWRI4be8clY6k1hRmwpyplx5qOWjxj9UGYUdmBuSVTlEH7m2MzNN04prfJbAvUoQcGCsOQFEwcck5uLrypWQZNBbijDu03rgTmVTkjhehiSztlRKroAn3tP63l7AyZRVXzx2_sJJ4_tlcZlOLujZVJ5xs0kwNcgbWpxRmzkzBM2G0tOJOClt-UPfI35SliFfMPF7nwv9xtA4dV1HPD105OreyXvsy9nLe3ELRumnzK54a6Xma6qNA9bu-W_wNBey-AIG53PWPCKgi4Z-BELf3qx77iBaFpSyliMON2t6Xc-v5l2O7K5g1Ut-Le5CFQcgHXpq9kqWfYGRiq7PYK3xb1Pp=w493-h329-no" />
+
+</div>
+<p>Then click finish. On the GIS Servers tab you will then see a server for “wwwgis on gis.dallascityhall.com (user)”. (I also have another for New York, and one for Dallas in this screenshot since I did it twice for the tutorial, but those should not be on your screen.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xenTrXkzZVeT3iCEcQexYFsQye3GstypcO1kRxWkykRE-IJ0EOrS05ukbh82xb3DBFsGhvh_TK6XSTRKcsIYXIMN1zGqhtj3vsU38nljFdxsC619qL-RrabO1qdK_waPwHcuzXwB7Q55PJZCcEhrpSlXW_ZN166Sn-2qw2IqJCEvvodX610PectrE68do9FAdEGYLRm9WiDGlmPs8ZGiKgL7G8bstsHB1Bcbag7aRwfN9UVejJZ7tb6kziW19oWRAS-oVvyObG0QSj2VZWMA0cIHlLjyAo-ZJOwp_1Nc0ZZgmXICIu70EWEuB_FNFlyncLIgwbjCdnF8CmtXLnG6vWB1O4G-TvpciFKNt4enzdC3Pm6oAUSMYoTj0urHn_xL65Yk4HU9M4lDWXLDV517MK1Y5ML7drtAY-1Lc8yRMPDvzX-MvoPibSi3CmUfbdOQD9P0PVDNeAGAyUQkB83XlzgSAIclVnw6S99vgdsQBDXoYYhLB2GsXcK9DwBvwgadxxgP8Q_X3VyX-7HF2C7v700XYrAYCPp4FlNOn72qBzoHO5SAwA311ZmG3deP11OH74v4HDCg86RKmxlw0SWoOoBJWwtfY4nLzaw6B3Io7qhXgLbCbHcm=w496-h432-no" />
+
+</div>
+<p>Go ahead and double click that Dallas CityHall server, and then select the “Lib_public folder”</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VrMz80TkkcdhQmbMqL3bFZ5vTyklkU6x64VNGw3NqXvslNr9GmkgReeT0g171JzqffWJeRLd1toUZhIDVYZ0-7FEiBcBg1gBH8w5oPfcE5M9P0F-GkHNmDHls412qeqCyp2yvMU2zvPwszu87YcsEx_3oI2VeC7vhkbVxuwXmZ7SjbOdegKvJYZ3f0zPjGQ7Gf2PgnlOyGjJg20IKpO_wCDzjAmKVaX2g9mHqej8aA9yR7ChwRf5htm1cI8vz_Nu5xC3r87DAwXLQ6cdFx4GkeQLr-r1zAV8Vt1QPjEyAoXbxMMGaQmLXhRzLjaplYxL-R-kFRQ9iM4Y4_DDbbH-d_pWo8xa48fhukBy9ed8pcLmhbIttr_ont5wgne9DGXPdHZlUeMBnxTBjZ1TEWwVtcde_hBN6Y_5R3xgQOnHht2H8YG8ld4czUTUrE2THc9Wghf5CNGTsrLNfDR_B7ZlgWyOFi2ixYNOnZnQHJ04HW6SwtGJlr4S00nFS7fvvdWgY3hg-wNI_ZEJyyuI_2VOOuezpyNqQ4JcP0PiKOQ0geFIuGq9xmw5NUjcFQmJ9sLNHgfqteuMEURWfb0xyv3OPxlGLvXwUjCDeAddFFrfbV0GPHqrm6pN=w493-h329-no" />
+
+</div>
+<p>In that folder, you then see alittle computer icon named <code>Libraries</code>, go ahead and click that, and Add it into the map. Then in the table of contents drag the Libraries to the top (they import below the outline of the city layer for me).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LtSKYOohRsw48oWTk_87uoxEyDlGsGNf4Bxr7n7hm_kWU6zFGV0OgKudo9N_bDGq96LzH9bEPIooevz9sQGkBz4UqPF1hTXCwqSHMNbeSzcnga830wS6Dh1U2Nf2IIoUeUIjqTRftofgCqGFBir03cznsAYs6y8iPLd8mJQ8KEslPmJ4s7myQUvQ_1ZI9vss_npR9wFrbBRjX0MGsJbs6GcKR0-PfAaPS4nLgSTcASuOgVYTxyLR2H-B-7AunRqzI7Gsi9yEJPDrLXW-PWR__MWmbhBqZ8w8wsVxxK1-qynPZGFTlOg1Qq52Y8Q15IDlnbCuEArgI3nXOS8H4p-G8QvDMoEQ97CSW4kjmFEOetnXDk3g8qiE6K2l2f1439TNe8wFi8GEBaBpRJcGhkDrVFCVt6okZSB7cgpOqyIJzxowza_DGnBpxRfkQcN6cF7K5aGTc_Jhvy6qAa5R5SZDjgy26sR_gCUhWdK5jvQGkyPsQBovnyLIR2iCehWSeJ3OZerFvlufDp8P4qYEE7KHtTTTdo0D66Jb9siZiNqcqMeM2vHJVZZOw5eZR8q7EYeN99i1HlbbDxxpcybMad2XMPP_1hSlzqaKuAF-9UIe0eyLuAPLsS3E=w1426-h817-no" />
+
+</div>
+<p>And now you know where the public libraries are in Dallas! This data is actually not saved locally, but is served up over the internet. There is all sorts of online data you can import this way, and later on in the course I will show how to import nice basemaps (like Bing maps) to style roads. Another nice use of this is for satellite imagery as well.</p>
+<p>Now go back to the 2015 use of force table, and then right click the table to geocode addresses. Note to get to the table you may need to select the “List by Source” icon at the top of the Table of Contents section (circled in red below).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YrqEmPbEoYkHyX7bttl1RWHzz5zbY4aIILO0fAet_8jCO7YOmeX-ebvCveROM__aMtpP0NI8awpr2y-r77syeK-ek6bYs--wFcPrCDrT6V-PXu492d05KIST0i4lYpk3Y1SCzs2w1Kg3eBkoE2AWsQeVm52YWO6Js3-iKsA7Agto_2v6ZT9NAC0DmpiAaG4ZrVz4y25Uin-OGuuyz-GW89EV3RStawyUA9Or5zlV5Heam3tVHy0Tck-ICTlEx2cYKCzJNxWHD9y6vu7RSlE8U4s_9av3TlFOZ3NcITMZX0HO7ilKvxJLgm2OwcVc7zSRodgYC5hDPVdFnxjGXus1I6KOEedFTMQe0ZECKv6f8N7SHH6BCVBz1VGaQDNrkMbnED0_w0VqAcDI0U0ecAKggt3o4ElD8zzjsXxeJH9-pQxyg6tJrZ47bJlsiHrEYlFPWGrxA6-9pzaQUIj4WuY3mT4mtxjpsuErEW7OQDGdsZSmxJ9fHT4gIPHsPOa3_P1oD3SMcfkUgNNHIeB7sPh9750IkMqrudPiJeKsOx3bjNfGTe2Cniff4k2Sx3Y9GplhF1ZLZWMQmkvCB_AmLcMB6u9siilSg65SOn_PB9rWH76f40AxfGWb=w433-h453-no" />
+
+</div>
+<p>In the “Choose an Address Locator to use” selector box, this time click the Add button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/O09OfQRUbjKGkOFOW-6cIKHsDRLD03UcvHBr5tsSNHqMV8wH-kNmuV52w2QZL8cerEStca8jV_IIFW4q5CH15U5Z6e5U7M2s2ODmgJmUvpwmBzUnmGCWaDizAW5L19ou_NRGwDJkreGc1wTzjSu_WxdNomdRI0pOVVLk3MPFDMp0s11EwIduaTVaOCifx5NDdOJOMQr7abWky5rhIc9o4puaiQe2KkFJzi3M_Id8uX46andpPVBruWN4L_FTR_7IdKun52An--axeXYq103O-euAf5TGWTH7i3TB0ssKv5JnHOV8RSGa2-Y9uG2Spm6Tzc1A38SRJ22E68AJ2PxM41qd1hwDZG5H1rxbRlBBdYQnuOcyXTPM57RIP8WCgNWAWWSaubiAAAGkUmEktl4dtXI-KAV8udHxWXBSl6pNuzvlvZu9BdnWv3xJ96cTcnxNjb8zcOROMqZrJ6C6_cMHZiI6vaoFYxRJ3JkbxzMpT4S7Libg_YP767kK5BAK_akQ3Xq2D4itqdkUFPx9W6uBiuBf9Gz1L2A27rVKKOvyKDgeeNFOjJf3u-0SuqPDoeMArhbsrudw65qpg6JCaSK5-1UYeIU9pXG_NnLQmzLz_qi0-d-AWyik=w414-h227-no" />
+
+</div>
+<p>Now in the gis server go to the “ToolServices” folder, instead of the “Lib_public” folder, by hitting the Up one level icon and then selecting the ToolServices folder.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/099PtydqT_2Y0IjmJO8XFRETwwC7mp7ZWDZ4GXArYtONUes_7aJRSDU0QuHIGNP-ip4IySpxmNj-Zzf_uQ9ntg2whbpRuHz0KVckrJs1ajSdqc1AndPb4G2VclBNp5hXQFNTBT-N4rrYm-_pgPxMBHzFE69T3ovNNRT3CZ_KvqnAPMTMAl7o72zoBFNCL-cwSZexCusKfLqW54VBvTO2HUnn7zk0F6vJh5UDnEuInQAs7Xb8mB6GGtWpN54Pp_udNDKBS3tQSS8RbjFlXFYtdj2E9RJ_KdIgM404tWcaZR-rRLU2haEscaTsSbXeKD7K3RxTL9OgVhLEQTX10SBKzam7WZZsLt4Psg6SsN_OMhpxwX1wozRVd49YRDRpPtwzZtEsKk4YhoU0mzgHM80vbpLACaX91eFVaIQER2wn5PkTyKDrqGUkqE5mhzi8p5N9eliy_S-mL8ZynX-wQFXbbWSZUG_kdZ8bNolvQVN_pUuMDen89vzWt7OumvLj-8QcLtWB1lVqrmWpIp8B58hXe1ngdNNG9uwtQEmhCCeRmp-PU3Ya4tb2AabsGQQ9r7_CIo1-gkqGAa7h-_wp5byUhYXuwDvbQbUpVvtIP0y8nkLIpcm2PHe3=w493-h329-no" />
+
+</div>
+<p>In this folder then select the DallasStreetsLocator, and then click Add.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8nBaNCqFdlNlCQWXtDEPuJIVgvJSqR646y9NI-D5MWPdTHtYpEcnrHpfe2JZ2l6TYvH-2O4fe42D8yr6qbmn1g9rMiArZZvEk4LdO8faYrn_ZeK3KTY9MnCun9RKa0RKsBOg4pkXheTniprpz9VLZAorsF-fZrjjsJ--uvuS5_wTFQqHvvGTrmq9d-duqsBF0wxbtH53-wtxtZVECJtyr-o6VxWFrwfEwThS054OXuy7SN6HYY8ZfXNUi8zqtuWf1HRfp4Yqhr0H3VyZW9ODUZb356x_y_QAoXuWvzAH1V3AoBe3Xyyrico6ZGJy4JWgty9o9hFho2-xStZ6um4QErH2cY95FLRnpVGc1ZB3HW0qthURZtHVxYfhwMcXbDyXyITNuYOLligSNuHSPBwR7mVm-exrADQXxLm5p0lHnNnDfUGm0bRsFcx-hXda2e2PBBIstbWPK83LfINEypFJHJj2RxbMUnj1M3UDECZcK8F9iTQhQYfiQe9ZcFayOywRg4Kr9wXaplsRSaS-mu2x0AXG1PzmFukf0oj_Di3looCnfSQC6UFr6BbwRODpE0bpzM9E10yAVHkAEmwdwD2uGBSNUH8COrKjbwo2N_MVN3EIAKdcf86b=w493-h329-no" />
+
+</div>
+<p>Now select this geocoding service to use and hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9AIE_FJqFm1efwmR-oKfwjyWTqWqQaKQ6d4xYj0tH2-948iZbgxQuMxeri8-A4VIBlXNGBc1H2GdAMPrGio4-XRjgOrFZDAUKcMygkjbYTpd8vYa0E6kaxmmy01h-S4CGVOxNLgDMmGIq6dwAhHpNEng5eaGboR2_Zmt8GtsK5J6KvdSWzrEDZbN2wkDfWif8QMzrRjZf8fjG5d8VcnmcEVTJ2t59aCNcIc0YkKFl04_TQwAm-74vCGL9o2ZjaPCVQFo0X-F71EX-KpY6tZqaUqfoZ9c9TvRLz-lnnqa4hfsZDpDwIeWIKvTLyEei46ZQDRFGX1PwrjxJV0HtZL4-SB4WvHwX4Ob28GtgKETn_MNyZoX7mympCvXUg8fnxVEapbzylQPCDV-uuhwXcjm5F6Xkmfkm-kL25b7qTdf1G3U3B5pdq2He6l45Pu-WrCTyTIXyG79XMF6btFeYsoA09QX4U3JChveC1I3yQrx7cQFf-hZGw-IEde5CI2UAX66WCsUoKQ-t_kih8We4IRrA_sQzIGNIz6zH8TSN3pF1iWWsRgbQYDiU3ML9APLUpLifJQ18mPXJOzBp37oryr62Pv1Ir3A7WFmzMw6yKme3kXBql4IBhff=w407-h227-no" />
+
+</div>
+<p>Then enter in the data to geocode the use of force incidents, the same as for the local address locator you used.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zf7eAib0QIN3e5gouTbfYQ-xnDLsm7x4lXG72nYWjVfh0lxFNLdiq4sPag2DsA9enVQPUxjrv9AYqvOABX8NTnIP-7QIMvWgOINxrDXdvSZJDWU-0lMBHDWqeILNLfWQdiofPURuii1HmMpp93Ann-DteDHNin2xgXBvXepbquIjC8L9mHbwhNDpwBxm-4Eglguj1-awKbsWU930z2I4h931KIrbOxVXqteQLsP_gnqK8VDVl3OxMfblkRPWPaLo6qA9HDtIv8O6jlUmRfM12TqOqHGTdDaRFF08TQnm0vGh21a-gZ-cKApzYvClUMqTEKmoi1Ic0gy2igY-8HWUMKMvwQmOpHG6uH27ZK3EA_MaT28zZ1UIhscbsltcIlXmoD1Xnvu8_7A2TYi9oDlZf8b8HXs8EY1vGTbVGPBVBghysRRYkajI-FNkIN3XM8-f_hPvX_OdpEX5IBFRJXEh_-AtuLZij6qTUl_QeTBu-gecmLqLeC9Ce2sBt4D_-n7lCRxGBpZbGKiOxFB5oD_mmQxYLajOqu9umAEA3zM39eGXlXdRIY7ionA3aIwEsBOFWqQWgep33xak3ZNmwxnJX709WSiQXcEOupQZKG2ic_xeB2DfBA89=w385-h477-no" />
+
+</div>
+<p>This for me ends up producing very close results to the local address geocoder we used in class.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/F2IHSPhyExpVCZZRiaSYu0Yc1v4pqU_jVXT7i6fTuKSQemH3s7ZnlHt5_4-CQHdZKJrfOSAMcGWLVmAW_thKjXxa-O5p0I61QeRPD-IAqYU9GSg93wab2m0N5RrO8r1RfpYMwdJZIh9OZAQzAFwBPg96xKS1Tp_QSGX4JYqNuiEURmVFGBb_4jen-ntJvOVpufIeCDdmUvYA3y3IMqhp004Mq8zjv4H-1kXWF2KC4jHL0Ua911Wd2kLkANR8FB5TlL4epunvctrpQ87NZP81ZfZmB5tAWlGYufSigRTr9USxdEwSjmgg7OpOIcQ5wRSoDDFHFmHD_OtoygzoBz-A9ERvKI0bvZPvZfg-EJwKO0vraIOcBcaMKmXFnhubrwiuTKz3IvCIcx0vk2T2S5k4It6APFFQugX0il_7758FQksaKVcY-my0BD5D3Q_851MER2LwVoRU764EDgoM5AKWCrma3balZpaw8XbTHvLE3-3iE2RIkvrmCj4H5APmFErLnzR3qBjaEWmXjxYA1Bt6WJ6nCDHltFyHdK96CcjmvUkdnJum1Jtv6BoyJ_Dzh9AC08AZAbD0QvMYNctX1eDmMOMYGM2j3-TDhNe9OQbLe2LGo7CDGfHs=w457-h264-no" />
+
+</div>
+</body>
+</html>

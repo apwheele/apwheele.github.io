@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 10 Tutorial - Making multiple maps</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 10 Tutorial - Making multiple maps</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#making-an-inset-map---geographic-offender-profiling-of-banksy-graffiti">Making an inset map - Geographic Offender Profiling of Banksy graffiti</a><ul>
+<li><a href="#inserting-a-second-map">Inserting a Second Map</a></li>
+<li><a href="#making-spatial-data">Making Spatial Data</a></li>
+<li><a href="#laying-out-an-inset-map">Laying out an inset map</a></li>
+</ul></li>
+<li><a href="#mapping-the-journey-to-crime---making-a-set-of-small-multiple-maps">Mapping the Journey to Crime - Making a set of small multiple maps</a><ul>
+<li><a href="#fixing-the-projection-for-a-map-and-for-layers">Fixing the projection for a map and for layers</a></li>
+<li><a href="#making-arrows">Making Arrows</a></li>
+<li><a href="#making-a-set-of-small-multiple-maps">Making a set of small multiple maps</a></li>
+</ul></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week we are going to plot some offender footprints - the multiple places where one offender commits crimes and lives. I am also going to show you how to make multiple maps in one map document. The first walkthrough shows how to make an inset map, the second shows you how to make a set of small multiple maps. I interject several other tutorials on the way though, such as digitizing your own spatial data and setting map projections.</p>
+<p>You can download the data for this weeks project from blackboard or from <a href="https://www.dropbox.com/s/3h59pm81iqqhiv5/10_OffMobility.zip?dl=0" class="uri">https://www.dropbox.com/s/3h59pm81iqqhiv5/10_OffMobility.zip?dl=0</a>.</p>
+<h1 id="making-an-inset-map---geographic-offender-profiling-of-banksy-graffiti">Making an inset map - Geographic Offender Profiling of Banksy graffiti</h1>
+<p>In this section we are going to plot a series of graffiti incidents by the artist Banksy in New York City. The data are taken from <a href="http://www.telegraph.co.uk/culture/art/art-news/10353534/Banksy-Better-Out-Than-In-map-see-where-the-street-artist-has-painted.html">this article</a> in the telegraph. Kim Rossmo and company had geoprofiled Banksy <a href="http://www.theguardian.com/artanddesign/2016/mar/05/banksy-unmasked-scientists-use-maths-and-criminology-to-map-artists-identity?utm_source=esp&amp;utm_medium=Email&amp;utm_campaign=GU+Today+main+NEW+H&amp;utm_term=160257&amp;subid=12859268&amp;CMP=EMCNEWEML6619I2">graffiti locations in the UK</a>. After I posted this data online Kim Rossmo actual did a geoprofile of the NYC data, so we will incorporate his predictions into our map.</p>
+<p>First, create a new map document, and then import an online basemap via <code>File -&gt; Add Data -&gt; Add Basemap</code>. Choose the Dark Gray Canvas Option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/n8lBytotNHFaT3Cn6rMW-tCt7bCTwVZk-qHRoxszM78aSkkULajNLpTYRvi2LYCkcf_lILxcc3WUKS4LVncIYMXzFCDs3Ue5Cf36ctw1z5O1FzSATX9P6AqVtRew2qmi2jQWVNDit662XCRNABTj2YedNbY2nKt3cgWNOY-JPIwXyWOgkPlXFBhlyjUYj4Ty5VpwhpIvfSFE5cWuxuK1Q5j79IlUGzmGnN1OJqrUrUoPOGqUvNeLQ0zmWoZoLn6OtcooKbs5uc3mQqVY7NiLRlrCE07xfBwN5UOCQVRcKvnpQagzyDSa9pVXIfiTnxl8RcuKFzRpYb2-MmbqUSv3WjG_rfHgE0TVCws2DFNEakDyulGsBmFYVz6htuMJAzU0tyynsQXmXc2fnIUvYnTw5IrCIEgR77s23eajDE97tsIguiUO1AKdFrTxS7v6edtFbrdvkgGQFocuc2FjlvdBS_svBBN3FZgjxGO7c8dtr9wnREpFKat-ZeHDC7VjxfP9XNmnPRda1oN3Az3HNC1DfGdnqwhtRY2SyEy6uN9yNtIFZOVBSNsJ6DwUFV17SFxNo4ikB0MzIK6U64LxR_h_7z92VDgk0a-SRJ2uL4FW21NR2DsHkBmc=w600-h530-no" />
+
+</div>
+<p>Now import the CSV file that contains the latitude and longitude coordinates of the graffiti locations, <code>Bansky_Data.csv</code>, as well as the shapefile of the NYC county outlines, <code>NYC_Counties</code>. Right click on the table, and select Display XY data. The correct lat and lon fields are auto-populated into the form, but we need to specify the projection used for the dataset - or lackthereof in this instance. Click the edit button in the Display XY Data Form.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OUoT_U99d4RG45FND8zsFRHHXxZ20DLcnY14VYNyoIjoJNJijWP0C1fTMqvbYn5bhYwWtVWp--uxdCdl9vmpV6FMjdOmrW7n8SHAoITe9RblWB33D6RYps2vzoPqNEo8a8cAJRE3XPtvLsUrFOW5uiptbIMF3txGbv0sGwKXZw9Fyahnr88QwXRiUSavTxhQyUP0sd1_gYbswuTmsaMELYBmRiklFse_wmNRkRjAbYio4Hv2zkN7JH_POcu2pxBCp05TeM49gzy3NieDKe9Xq4HotMjPmbGJOn9tur_iUydREd6ne-9njrJqoxhR8hMuDIuJgYcpyvK-FBtMpJJUwIqXZs96cWJg6vbXQXUKWZhtPo1-Ttz_-qseqHT3dgW2H2i1s7bi5JfbE1gsTpCfjZx56X8vHtDU9yUrT-JpSBosCYhzj1UblFhBHn8QVbWbU3foRQrMNzXNN4j2X-l0-vJa9eKPeTWJR-75MJGgVbyLCa15c5-wjbw31i2y2iE3kvgafhk-dJJPzdkwSIaVlVfzOXsJnpW-NUrwacEUl-yi0bUiksJC2QjCv3V0Tjn5eUisxjuyKFAYm7A6lsSdLv-WiBKGxch0Ad4dcxK__-1wojKoUmDf=w354-h559-no" />
+
+</div>
+<p>This brings up what should be a familiar dialogue. Here you want to go out of the Projected Coordinate Systems folder and go into the Geographic Coordinate Systems folder. Then you want to go into the world folder, and then choose WGS 1984. Most web maps take WGS 1984 as the input system for latitude and longitude coordinates.</p>
+<p>The next three images show this process.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jIZeQW40BUTvS_l249vPEURFzbllVn8T2B5tr11yYMdEFywrW1h82kN_XsaGYiwTGITVqpLWD6gK6lXT4bvBLQoIMinXJbFxFtycpEn-1QMxB0oUbLZ_v5DKbK_w7JBYo06OeKqcZFU6n4ALn8Kljt9WLTXa7-S-u-aLER66K6X556mVV6EJcWlPrrAcnUWQ1OT3IXuYShiCN3lM216V60jwbD8d4N0EuehQRhdEuxqFCX_3Flps-4Xso8EpA5Vciwo_tzU059ilQ_OyIw0KRdrc4gpdHI5sWDABRMzYbbH-8Wa33qydexrEU1XBtzoNJxZt70Lev8K4JAVsKNUtZ_LS1b5cSUKfOUI0YvLk94Z9_OYv1Nt0PkWYkW466SLA09556dvgwjI4jkMgbGhZ-hE7L6BD5ZdNStDVHuey6sofury-x5Ueft0NHguSgx-j95EkOpogFYXCL6eY7H9WPiHcfWeOcDllkLM2q4F1lt_kj3MyV1Z5tPQWYc2U6aJNsnWlbeezHGCEiXKzIF9LwvxPW1tiBy6WloGtgANOf0NiqfTgFTuUJFR1Cgs1ac9MBDTlfvHMrugoObV2wT3owzu6zmOxsTRfXfGPN6OT5jGBqccwdVzi=w481-h559-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3CRU-CySXzY21XwxvpaH2_xezyVe1JdBb2LXruPClma8Fzigh5rNTRuQFrfQtB12dDcyOdFJEWMMSdz5Mo--EdlCfXh0iqoc-riEov0zJVdHEmze9pMiAcYR8BbycVLsDGRsJ96ghXIB2F2oKiYgaJ0zZrU4o1gJO7Eh4wUV65_ohCN-lyN3K2K48YKx6fZrjmaWdhP9mXzg94R1kWWp15g1FLin9C6BCq1_lnRLgwFaILWv_3D2s92Ks6UUG-DTxdlc2hJR-ZwUlIN04uggLjfJFKE6OatnC1jCkHUfzQq6zqqeAuVRd5-0cZSHbsLrFk-tVCRKdkHCvgQJYpHkU2eidyGOo0R8Ft4Sw0nrYSCP99-xbN09EqVlQn_se-t5ByauTEGN0eUNVEiRVRnw_jkMnxRVh_az7uyh1qQL2fySIpExRUK0xrAKuzNrQCXONaimyyhVO8QfN6DUxI5-wJjgMcgVbZBfD4-zQqK7UYqgWzKzIqpFghEeIOVQIUoEjLD-jCv34KLHcFKVCIsRpUoi07DCu1hNR2FAWON9hEvBUytNOhvp3KDjsoCTz6uX83bnpHMNxhc7Z-M3dmtW6H0hn6QA3Vc8B73u6AsGq1I5U1HsZM_X=w481-h559-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-GngxoPFkSJ7y6pzcE6elxSylsD2VsKqR6QdNjgTU2hjnkb0grMOXF-xQUGrUQB3fElEgHWtHfRUINPe-_X6ZMLlHud3_hEkH-EuM7-c63WY3amNXPt9Godo6Aiwnt-f53lE0fW6Ws6Q_O-pxhPPFCbkPdF1AnVJHdwQUNQjghOY22D9GTX_cPTX9Y-R9Yn4QXLhbSQ3D1vu65dhm0lTHxwGQ9zAZjcbJuzCQJwQjTpWQg5ELGYVHEPNc4vxnAB3ELIuhY5_kljpCVW5XUXkeETBA8WEGCbDK3B0L2NGHhiTBcuzLPv-2XoVQKj0GI_nUDrffX1JUpFdodgqDjLWGwJzD3fq9hDmUTuKPwuI5eEBXvgzzy4tXc8GX1SnOpopLEbWubf2i0ciLQ2GmxjnJnWwl-PQI-7orEgz6J-kN-tQ9Pv0kwIfh-5a0YAXFCSkL0E6C6H-QMSb9NvzznPHm8L-ES7qU53Ar8TPgytFqrBcLlK_ahbUFd8WdaunOl5b25S32d8mdZ7N2PvyZzCtMofZpMw3Ogr0XT2oWyOON7VIXFmit1w0udJ8tmBJRuLa1LasY7zkdFK79OLP_319Hi4ogADePAQWYPCBABWue1R9Ggw34U36=w481-h559-no" />
+
+</div>
+<p>Hit OK in the Spatial Reference screen once you have chosen WGS 1984, and then hit OK in the display XY data dialog. Now zoom into New York City (pro-tip, right click on a layer in the table of contents and select <code>Zoom to Layer</code>) so you can see the graffiti locations. Here I styled the points bright red with an outline so they easily stand out against the dark map background.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/EY9o0pVT-rp6luCg-_lRktWm_2dvPGi_hx6LOT3EoXsxrTAGmJCy3YX5BWDVqCCDgygGT8nHMpUQxy0CeJ2hF3J5W0WIAJsMY5DpRp5UFgRcXqhFfIO94v_pmPnTpbk7pZLfgRz-zWxB0FBqrKjyWYHSl5Bwzp_UpabaKMernZai3iwWse94RR0CvSFaK1tIukqfxw3YxtCdKwub_I1egiCUJGafwgiBCk8T5BIWGDPcRMQ16sxE1Mo5tAgJKgasywhZpV0Oa2vSuULhVjPtzi-PU_5JHgFeETr1aq41Jw3PwVC0T-fDWdJO4E3cCKof165EUA3F4e6stKPoczWAIIUJgwhhq5oCE--V-vDFPjtFpSeBFWhGoRFrgrgfic3lzRDdHRu09qLozFUG_FH1OgHtX3rbml-80ki0_z2hFXhibOCA0KDTC954D29NPN3nCFQypck5gY7FWH4pS9L11iRX-e5nHSNEL8v7nlTmAzFZ0k4osMj9iUg0_egAwKOc_WifGkLG4Uxr7nMqXfTy31bIjCb6kjpLkD3UGZ5OI60o0B5XwrnUS442qqktU_Tg5YpD351K9RK_Gl-EcJF9FO0N7cuh2-m07yB7HE_pS4tu5I_qoR7c=w1227-h855-no" />
+
+</div>
+<p>Now we are going to label the points in the order the taggings were committed. I find this a simple way to show the order of crimes on the map. So now right click on the point data layer and select Properties. Then navigate to the Labels tab. In the labels tab, select to label features in this layer, select Order as the label field, in the text area select the labels to be bold, and then hit the placement properties button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6zi_yylpQ9GoO5fV6c8IfWd6gg-noqqY4qg8mOhl_OtaAuwwsScJn0j5QHirzDrXZy4RnL63jvEILxi6e5Op-Q_IH8_EKKqOc0-ZK0Sv82dmOgAFvAOcTpEPklUW2URlsgdJNxtQHiKPvwpH4Y0kikAhei_sV6yngp0PbblocYG4zdYqab1qpB9uFW4cP6K9OA7KZbehjRVnuU1ZV63sAW2i5VPb6bwNYUFsuOm_AWX-R0rgA5Tf3Qy82NsaLhd4NpiYwvXEtsZO6YpjDrWKyIiSmGDmQ2NTjss8pdq7-0KjJklKAe6hd8O0kn0KzFCbqv8hPp9cS_Kn7kLhHJQAwptBZRxQICVzlFTfR0yW7vFUSn7cl_yhO3Mthiwp2PLXANo3IdSwLfOjq5USwKii9tOSpreyLuAgHI1a0U-G5OO0CSTSt_cF9V21F5dNZm9drRFTwW1jHyBkJGGkk6Mvf2ZgA094ixfUc5q67iz0ES4RzFaRLg9OkbAmtOJWbTfVpHDGd9fsXVN8U-DbXnYkwjiccF4Sk_3eh_pfH9V3kIyVlyR1m3gxTcUGrvX_q9JrNQkn_HF9F8-bn0ab5e7ODdj7gYbm3fVkcLf4IVBYJ0Dpx6E9MaXu=w660-h518-no" />
+
+</div>
+<p>This dialog has several options for labels. By default labels are offset from the points, but here we can place the number directly on top of the point marker. So in the placement tab select the option below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vwx7y45UYg3dczPmK1AbD3yf3FYWnwqjoxofwlj52UX-afSufXLaaMZWDeZqpip5M3PBSslURBMO8bGQJP3U-xBjg_gMc8AphOlzZbTJU6s7Nz6L-2a5uNcab3cMYAzjsXS9X31zhw5Yh1DFHSH8nIfF1WDwXLeuvf3EBY1Ng96kfMjWVVxToq8nU2Il_WFpMeCnLK4oloPVruZ-TKHDQh4_X_ZS-bq9lQcBhQjsoBNiaUGhSWvygCV8LaRq-jVDHmtz0vtpCNC07g2upDWJJV7JvhmMnTpmn015oQNtz5HAiqcoUDlvC8-HGZwY1-mK66ObaKfo_W6nwypzBcdbavM249poBCdvKWqlozC1VuIO9lv6EU8PyUZm9LsbL8du0rRSzVz8HkcqO-WBoVYiPp77DPi_zwlOsuS1hcabCU-zLP8Ywql3RtXDz-RPvAhThrJfJm71g3yUPYB5Ft4oJJgDW9W5y8FeCOraU6Q4s98XhdfLKl89TB-wjiwNe9In3O3rwPa1MV3Za320_oXHHpRD0rAz2l5K5EQUYWlxdNDEWMQ16FoToy_udGKPoSL1kFNQ_O9tX54LX1tZcYd7DJLfRPol84coQ7J0LY-55uU7kypj9e_9=w390-h495-no" />
+
+</div>
+<p>Then navigate to the conflict detection tab. Here specify that labels can overlap one another.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VNWRZ5580JE2FCvWMqYMFdPckNEKLg2AbrT1-pexoZJPFx8WT6camybTFWmpoVW5Rmbyt5sXARudgAJd_HiO-F7qNRBnz08rc94RD3RBmSPqVlXB2Fxk1OAsjFH4VF_TGMSA4SYyNAIOMuWVhU7i6z3daHKgU_4nwhkcxMgl4xeBfRpvzanvwU12EbsOp0-Ncjxu6FYbzxnzEENLIU5IkgGlVpKe4HzMNYepZ0H22MKurrvqs3e-gsTYY129i89J-JmcD5JuPtnYyKEoReeXJwfWh2wDnBkHwwYgqKVXSYt05Q9Mcx2hDHb5fOGpNI7Ix4xQHwZ0lQCQm43it6u5T2rJ0YePpf1ZkOiifBBXzYrLfqivVG5Rq7wJkU2Jf2PLB6JXxCH0nXtRUGUhSFtcKbmvd39fK-KG1oEWiFFDYJaxeUgPs9kM7SBtCsey7qiBj3y6nNJQ-jgnnCUbaiveAgrL-uEUFPEujFtQ_koco9kHakIMftahTxVfkDkS9VEioUksrE8ctNE4Cnp3e8h6e1GN-0RREx9bJjP_Z7a54kM1oPf1ViOiOFFp2qiskz-dRLB7HecFV0KK5VbC_eD8NSla8OVXovSP3kB3i0G177qAmEHaNy2L=w390-h495-no" />
+
+</div>
+<p>Once you hit OK and then apply the changes back in the Properties dialog, your map should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ABnuq57zporJlN_QfT2mtxM3GOVoU2xl0ratGNHHki4xoljcH6NCek7-q_BZEHTbO3FsCedUnXBKJDGJh1rq2ipX5gqG0D_GnLPpDin4ccbZDvIQaSu4FLU1vMCh2Utufh215G-KIJAqXudRHzADxkvsfdZzFYUjXZg-ElqNVdmyVRnPwaIouhkc2mzH4HmcUBwW68J6mdywVnSJssylmy_AtE1POKE1YSqhYOjCX7PVZNwKeB1dunWSm9iTmBxXUmx-CkXWKRslhlr8N9Bcn2deRVCF15Eu3nCh8bS53Q_TYfidosvFb_NxACTgPbCOXPmzgMmn3eu-BFRbiU8z2ocdRyfnJiJZD5PaLvkbOnWPSuM2q3E6T0bM3U06NxSvz4pM5h2XZ23kCt2tgGm2gUXuzeXClGGzvOv-8P75l_goJDu2GbgA7dfkvCkMxnhCdgAxM_1vmbAY4Rz53qLR58bzi6Ii3NnHEa-YJ1K0vm0SU6LGYpp213scILOzdkOe5-l_XHeZIDoss1XpVB0QbREbNLTtObJ_4OhDWwTwR8veTxdhB08pAvBa5yjMZc3lH_TWxULFoYxvZGtzYlrLr5bShZKDPcSOyYYGEJj4NHyCUYIuwuiU=w705-h730-no" />
+
+</div>
+<h2 id="inserting-a-second-map">Inserting a Second Map</h2>
+<p>In this next step we are going to make a second map. One to show the overall pattern in the graffiti locations, and one to show a zoomed in location where Kim predicted that Banksy lives.</p>
+<p>To insert a second map into the document, go to <code>Insert -&gt; Data Frame</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/f8Fcjusn2QYP2Zqp7p2g_XNTNUfvNrCCYm6oXQB2WC67XjecfilwHwTwv5ggMWEhosKMZrIPcmsV_arvTwAce-Ev6-WGkKU1PDhQjzq8nScwqaehqFxb_CtwPfAlLajfcLwuyVkKI2xi0WR9vxWWb1KRP0j1lIzWzrBDmuJMIOoHrSM1ieawtCD_rvysCfQ6bNLaWvTijzbGpA_NzUIJUy_kwe1qrewTVUfN7W_-oQADxDvr86wDXqmAr5DQoWwv__0vTHMOxuzoCOXBUp-A8MVxyhfVtR7n3tCz8Mce3Rwp5d-reat6NJr1pD5ecPFigxuKN2_c6MbELv3A_EUUe1oELr9Lrk00EfXLZ5NXaBCWvB_iV72saw9YwFj0qD8hGz2BIZicMIwBFA7s0fOymXMR5ra34fej-JWEH4aKV9GVcA-_XDyqYRSF7yVW8xZfgOu0gGyofZRGApMHXxXGJ6bZqM6Cn1eTHQiKBNYhgxgEQjERbxLYA32ZFQPhN5Ddjy0qunqza6rOVtfEtchkIL9aa-0S1-0GWWlvWSkzLQHjA5k4sDGw76spGia8TXDXRnIJX03WqK7d59TkHtnt1yATA9D3lE_agZI-mkzIdfYW4Am0cA4t=w892-h523-no" />
+
+</div>
+<p>You will then see that you have a new location in the table of contents showing the stacked layers icon and simply named <code>New Data Frame</code>. Double click on the original <code>Layers</code> and <code>New Data Frame</code> to rename them to Overview and Inset. Next a quick way to make it so each map has each dataset hold down the Ctrl key and select each of the layers. Once each is selected, right click and select Copy.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ptEMjjyLTSDGSprNYpozibAnJ8MfnhwvBartDcN6ux537SvKInKh14CbASuZClH-jrELtHgE_0D1NG2iCYRSlh6fDHM5MRK89eXHaUR4fmbXuZjAlMEuR7dNzXvpazr0ymgTyR4ck8h0onyun_6g92XKsFu3vGm07v54-4gvbhbbgxFktkMoXLD_bao9-9wSi9VWLnmeCjofc36HxDN8cZ9INBFzMeBqpPJRupRmwnmHHF9Jg_dguvptvhXK6l3rr64ZWwarMnDVl6YiMM9C656JWV82x8aNgOxsVmg5zQ6pIbvDbPs5EBgk1n7Fr0emZP-YV7-BI-Nj6jB2ZJLeVhIM9uWqnT_aqNB1j3V6x7EHEsoN5yC3QRv0hLJeNDcnX3DccaS7mEqvhGdY709WqaC_2hS2DjFHuf2TBS5-Ybjf2ZKm8YJ3lcMcUFsjC6_6U65rkhHEgmVYqfgfUPmNgYnYnxgKy3hm6WwTLNFcQoj4czX8cFuSGDOGbh0y6Hn-eKKbfut6Tt76Bk_8u-TmDoixpUP_4NlKZjDxW2Uh1aWmrNuNQMvpZ0qV_HXb8JyAQW2vPQG9tVidU5vwhUu4EWGutOpwvpkUwok6bfWbf5o28DK6nK1D=w501-h416-no" />
+
+</div>
+<p>Then you can right click on the Inset frame, and paste those layers. You will then see that both of the frames have the Banksy data, the county outline, and the basemap imagery.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NAICQNI9eDxRdy_s29_O3vZbcqmi9lXyLdPxhgMVs51hTpTpiiVuap25F51txegyVjtwkdlObxoHW9UiK8EWUQdZ01a5tsfNvF_NkIPqHvjs4rT_MZUYRkFYG6UwYYlxEd8cwJVkAL9YwB4Ih2NdIomg_SHIO4UONk0fjr9JlainRdvwzlKrze38uWuEN8Z3PwO477kdqt4YWk-wktFnbDV0_tXjI_TxVlLndgTV9FOcvoT1gTyNoA4TI43V79TsT6P-O_8n3QtSAA4OwkdHPDXFezxpnTkNl_VuRsR-WzWGH3_JpW5uWTZkGvqsiQMyfQhGgybii-L0vJ5EkWT4u49-JxwlNh8uiO88le89aPKMmWSkW0ployh3Ks4o0xNAWfL6tSQ5xrsxuMvNh8Yk9k9qsXUUN1-5iBvVi6DDus9YCDiraKmjByuvqx633JU4aDULsO5ygn3nKfFOzgBsFHKUmd4izPejiPg18VhORfl6LE4FIA96E_mBX1g72vcwYXHE-jzzVFiC0gyfuBAprzqqCuOoO6_zt694rQxxJ0n0qitadt3PODfkGNcOJSLu6WrcTxJodmaTFx84kniUJnCeOfAcKwuheN6y0TQQNn-Zq3kW78ke=w621-h811-no" />
+
+</div>
+<p>Next we are going to zoom into where Kim predicted that Banksy lived while in NYC - somewhere in Greenwich village. Go to the file menu and select <code>Bookmarks -&gt; Manage Bookmarks</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/moT2vpEFfj53wugMYx2yPrbNmW1KeX6lry5rzqmdRxS0KBGXlHm97PvhMEhATRrJ5ke43GeYxW3HVGJS09zqXRKuLT8O0s8fwwhL4VmJzdSVMLgT8_oITlRMGdu8wy-x23syqavyZ5q3MENMtVhIa4g7KPHYlJBccLOvETD15lftstyRm_Pk_sq5ArGems9VqqQ5zpZNkRd9i3lYNOKO0IY3rRp9tKdAmBrfACurZ4PehMeIRm53x7Mc9d39N6BoyN4yEpxjo9W8fkiVjGuvgxkLcCyq4sYL1Ir2ZiZxiVMXR_KXATl3QoA7FJXZrwsGqDBTbnh4vY8JoxSN8KSA4dPAk5lknuAuf8CXU68Ikiv1W3kpr626pg4WyRywzalODavh9ZLEoyR1bFEguaQF--ZZZjZ4K3JPHSoZeXutLCOi9Lc_4G2TipTsx3KdVs37zFA0pgBYZvhfZNx7nvtTKlAhAHirHJMf0W5Wwl1VREqr8ehFNfUw9raTKW6fM0nABbAHZr83Iq6P-vAqDR5nHB2Qpp2WbzDZvX3jSkTcNNuHGY-uFTRVhDOyMjggeHMXwVAKoT262GvT-U13Cw-M4L1uxk3hc05DqGEAn4wsbatR9QTBAnek=w575-h524-no" />
+
+</div>
+<p>Then you will see the Bookmark manager dialog. Select the Load button, and navigate to the Greenwhich.dat file that I disseminated. Once this is loaded, select it and then hit the Zoom To button. This should zoom into the area shown below. Note to make a new bookmark is easy - just select Create Bookmark instead of Manage Bookmarks, and it will create a bookmark of the current map view.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-dXDBedCWLnLCiK7OOxrTx6KUbFc4bbUVG4Kqb-FMfRo9DpkUZ_XThgQC05gSjZLhW7buJGRTKodRqROJM5JtBb-QgICeOgPG2z_qcxuZgE0tDK-McxKzXCmG0v1-deoWKVEQUBt5NFKvKV3CpJis1Tszr32GIX9uqq20-Ee74aTlhrqoSTqK426K3hjNNDPhgExdrZT5-0RwaicfdufHzqfasPLczxSsAbXxj0eQan-3Jt4CN6UdZ5qqvcWOYnqtIusp3qkFk5HrTzz4L-HTp9nmdm3tcacyKy0WSUuoSaNcyVvtv1kJmW8nGwLzMmTtint4HRWvjKhzABtpFeM9waSQp2ZS3Ja7X6T5x6xRl-HxBqWVZRYsxrRzIzMlFx8dMydIVUdV4gOkU4_xPvXZmRPC_V5Fi-Kb__e5F7RprQVu9VUN4dr9ymMe3Vh4Yg1e0sXggSZnGblae6gvx6mU_ykTlg7HOv4kSBw8St7Vj5UtOItz83q-61aD7SmsdQVv3zvdLPWdORXU0xnnqlDX2qrxFgxXHV3mKHJsdHjPbo4JRJi5Adkkg5omONdRI8D1G1ZhU_t1LS5Ie4cWLxsBsuPn9nRjKssPltDLrdhUYwH0PGH_WR7=w928-h852-no" />
+
+</div>
+<h2 id="making-spatial-data">Making Spatial Data</h2>
+<p>In the next section we are going to make a simple outline. As a direct quote from Kim Rossmo, he stated that the location with the highest probability where Banksy lived based on his geoprofile is:</p>
+<blockquote>
+<p>Boundaries of peak area: north-south – West 14th Street to West 11th Street; east-west – 6th Avenue (Avenue of the Americas) to 5th Avenue</p>
+</blockquote>
+<p>We can use this to quickly digitize our own polygon to highlight this area on the map. On the right hand side of the map, hit the catalog tab that in the default map is collapsed. (If you don’t have the catalog tab, which could happen if it was closed at some point, in the file menu to go <code>Windows -&gt; Catalog</code>). Navigate down to the tree to a folder in which we can create and edit our spatial data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yFYO9bqfkOHO39Vtc_RUAgISEqnvjFmSYxYmcRa0GkO5NtONdPBWPqJrUO-rBu_bsv5hHnp5VA=w376-h613-no" />
+
+</div>
+<p>Then right click on your folder you want the shapefile to be created in and select <code>New -&gt; Shapefile</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ZzQapvi5Nf_mB3kA-xbW44OAaj-Zx0QrFpUaOJpvZicHE8a9MVPlVEknCVV5h2HPU4WreWJq6sLK0r-omF8Sg6mS3pHaw9BMOYidFRxIk8wJY-Ub8flArqKL4H3CWFOgin9OAQ1kNvJ5dWlbGK3iwWu5Ys1lC-tu-BcLgz3io-2ZNXYA91nEY6yWa-8BUH-Z7c6B65HilJ82FI4thHSl3UA4ooBm5daOfaxd0NfN8yJoE6N2TIOTK6EQ6DuzbiaIGnkaEAyIFpM6PS0327-nrvGe4szkFCK4L2DCKa2QHiFV_K89gQkpZQQ5q_u_qX77SyTolF5Wul_NW7yusf-aIvVV3z2eTOKZC7LDbRIb616wpy8oPrUnoKH7TvO6-3j01UF-mMdfR5Y3S7gwssZgKiN8pN4y1iqBGL0gt2WMTFEA6jhD-OtJclWe1uwoK8HKOtaHyad_55cl1I81Wo_0DNRv90IHTVa7ELh26fY5HPK6pqg_dhCUP91S1N_Jb0UT72Y923H6N7sjL5qqnpYtAxjPWvI65AX99d_o4EKfes1sOevDGTOVVM-SFCzraIhnfttjRlNW6Xuckm9r18H5F9uhQ8Za9pfKNvsB_2S9vw7ui16KHA3J=w406-h548-no" />
+
+</div>
+<p>Then in the Create New Shapefile dialog that pops up hit the Edit button below the Spatial Reference box. The spatial reference of the county shapefile should auto-populate the Favorites area, <code>NAD_1983_UTM_Zone_18N</code>, so select that and hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DqZdPjzQsAbWjXF1a2lhQXYyJnTUGwafB43m854bbOvSa5hb8yLWZfL9GzGRAGMw5__hMnQN7tAnmokM0bD1ORNyFcxpG7f_k0pzhTFw5RoasYx3Xj8_BIO2AytDuofJlAhl1CpIWe_eRNi2WDZE71NxF3EgSZ98RNih4_nKsWXQ40r87Y9h2E3bRPopR0pdXayfJFdX1GRQLpuyqCIvcrrvnWHxdxXWbWvVg0ikVTtFD_IU_teloen4oYhk_0W4gD9GQIkgiqcE3RHwFFfB41AndOrTbjyPp5rEP3lrTsO9Um2_UVMBfil0TREJXnGUif7WW-AKx98fey9gruoXDGjr4uZa6tkvWnq3IT4Ibl2TxJPRKyThQJpKUAYy9RV82zNPTHo-U-66OZUh60oDZn7VHMR2zz7AkmGo_Bs0uyDUmjfDCJb8_rly4z641e-FMj1qZsGLFM1unGj-hrTpqkuU9bBzxWI45oPnTOYYKEaKSQYV_LslsysBaYkRjfNZ7je2hQePmEGPEbO066Q6H506oPPA0kwhKoLLdcGFSpEd7ff_iafYT_jfFNcFaf7q95clud0GVSq6Jsjcp4hoJj-Lk-0yjWaT79l6rcxd2MuAi0HeKtKc=w481-h559-no" />
+
+</div>
+<p>After that, make sure to replicate the following fields below. Name the new file <code>Home_Predict</code>, make sure that in the Feature Type that the polygon dropdown is selected, and then you can hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/b_EV-6ND_Bq7oRGDg4qi1mJdiSTZxlGcf1wYTM9roMAEp2jp4jtGmE_vzsvmNlRbosiABCyYNnX-55ncswpuLHNE5v3l3lMIdmM6obrjR9q7tzU8ZIAhe2WMzJq1VeszOsL8fx27UvmiwagnjX8_aVRmQpVWJgZ5a8KF-vItSUf82gaOEniFBVGA1BLUWr-6Y1pntYH6Eu5_fIVtxvTMlgbBoza-fTor8mtphUneLxuz2mP4RWZBM_YgVAK52SNtKAlE3PRJGPOOYM4jroVXwyU6vWUQy_ZLKBOKxSHdkBHF2520AkVEz2NkIjts49HZCsm7nnYEja5nOTfMSY2Sf5sO_GOgsqZybd1h3d4JLgX-2BSnd9bw0tNr1iTivTMx79N6Csj6uFTCtv2apTPB2721AF4ReHYsj0gK_U5YrGLRO_EFce0K4bOqxfTOGctxkkNhnnapAEA0V2Kp61uj5o4V4YLk1LstrryQE0teLUJiNIFi18fdKpCRAo_RqoxRpTpTQMB5jvJ--2G06yog0wiYWiEXBjzdEqyAXci9Sf1KbrCYXCJAiC50ul8pdUCyA8GbCmZl7N_PuJfq68fc6rQXralqtDZxK9c-2oTXs5II70zq4nFx=w360-h434-no" />
+
+</div>
+<p>This will automatically add the new shapefile <code>Home_Predict</code> to the map, but it is empty, so does not show anything on the map. Next go to the file menu, and select <code>Customize -&gt; Toolbars -&gt; Editor</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MRGNNb2MaEVhL4WmvvF5bvsociYKL79Db9R5QWiaBfSwb6_D8R7XMC9lj_R5tYJVAKJfv_23dUHXhOyBKcJml-6Q0bdiGVJt2yk8X4wQjeJa_8aExH_c7KmWU7u5O64tYY2ezXLmCXsUnMeMq4zYgJV0Awr5aoM1wIDVl7eTvRdcD6MiFYV-rKPmZCzPuIFK0Wmdh7GokNfvAhmL3jvGlc4aCtPcfdlouSRcrCO2Gl1hN4H7tFiCMiv1Teq-f8bYpoP5WFq_IjBeq87SXAa10EfXgJujzV9ePhVd9UoTGVvvx2bYYcfQbeTXKx3cfp3LrWNI-T46wtBI6xtoP-vmM7-XtRa0KGTNFSqS3X153fdu5a3dFP4FF63002aiQxWkx9h7DgNdO2UzmUta4lfHge_SwG-lzdRf-tcvd136sIX5TPFaKTDQMoJRAevl0e0hRGywzBihZ066Brj3pS-Vhrn3l6FqXlRFibg7YZfRNVlMpEzq0yX3YFELqHKwtYhP_yAg7poas-aK7f3y9AId1OrLfN5DGsMCtVATwm77BGWaAtEa9Yjt6DCbSxZSRZXi59xTYgohLCxoT6nBXK2xGnwN4B54Po_O8tsI4OeEuJRg1qJ7EEcP=w832-h563-no" />
+
+</div>
+<p>This will make the free floating Editor toolbar pop up in your map. In the Editor toolbar, select the Editor button and then select Start Editing.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/D5lBBvZXPnQ94t_iQ81VV365AzW5KwvoYEKPRcL2MXnIFijuzEEG623kbBQINmWWZTB-hYsQFWFzjK5_CE2ZCyVK34cWMgikzJsr3sxoxeAqu11oQjqvC2Fw92upI3ZNU0x2tIx-H1IOufyfGOkdEgLFhvBZkqXDrnM9GRG74NW6BZYoTxyZqZi-lFaGAO0h93cGjhB__wWOfRmesiMOJ24EozC7tkBHbnmgRLlnDHWjJbAjsHfAMzlkSRfMvLjuidvx4Cz43FSrB73yy-clQpruU23ATWt07e30z5-OWM_U0cOjpeuzYDO0CL357e9WmH6ciN-DxJJGkz7D5j19FaQp-u3GMTpsHBxPvblRq_s5ZdDt3MaegQrbsIidOP5VKDbg8nf0EhCwtyWcrY3vNunEkbLdAOCyNBMsm5wshq2XUlhAnHWWgwJRm9kZrh10asJH28GMZ9zL3QTAUzofguP5dJ9E7KyX9Mx2buCb2-XOpk6bK-lJjs1SZsD10O8qGjYOaV9KOqmMEJeZRPTkSK1lpyXJDXXny8gKsLRuXfHUyOZJJoppzKIJ7J4Se46F-7M23FCaiGnm_A8mWjcmDWPUTGAGATNAmYZzILEdlG1ic9SFkjwc=s430-no" />
+
+</div>
+<p>This will bring up a dialog of the different layers in the map. Select the Home_Predict layer and hit OK. (You might get a few more warning dialogs, but just hit OK.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qTrgVIL8e8eE5T3UCtuaUDl89CcU4QGhzHnznmvS3JwX48bIaAn1Oh4rPVnPe94ElHn9cII89F_LB7wNC7LKJKH92ntHYF2Ob2FCl_PseB5kUGWYF_ZyVmJUh2FiLLNOsWNGYPehLr1A02ZzCIoqWOFThNqpZF9c16sxUND_yGp401dItIcIr312hiVbmUgFdX_gZSesNO6DZMAQeZ7jDsE1MWKzIolheZz2OrS9N4GOPUM1RpD9t6er8Lly24D3g3LFFr8qtjA5I68oGxbt7qhzgpSI6X86CIhO6d3XOa8P2d3qKv6Yi6B9fenifJX-Kw5I-83gqFUvWDcyXykgp74Hay_7temOiP92mMn28z5SQS6-cZ7IdVC8IhXtWitIJajXVRrGbGzklaFEkNRBxVsHHddziJLK45CyMjfhwAUaZhnyu1CUhMGNykS0G7ogITDykqHDLgT3czCRG7bQZhaqfurhypJ_z7sU_BR0DhchdTUG0MXLW-NNqxt8OLl8NBaZMTwygh0Xccqp3BbzfGIM2XUZ7ppWvMnaDZLlwik7qcLH7XLuNl765qub7FvwSrpRwUNuwODKYOXHJ9XyFCRAfmC_Bmp5uqYg5Q8vekwJ8_fA9XvX=w479-h490-no" />
+
+</div>
+<p>Once you get through all those dialogs there should be a new pane opened on the right hand side of the map. Now in the editor toolbar select the Create Features button on the righthand most side.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OifGdLuRWMK6M9CvpFyIOLGinnF6IweaHDb5Jrrop5qI8l6p96HPabMJC6GnzxiZaCfPnQrXVmcrlYqIBhz5TLt_yXS4XQ91KTZvlZsqnWk2OcepUiTBFq2Mhg0xVuakYOWo3k0mZXlh9gUYnA_1Yw1-KH7TKKd8ttNnSvN9-_a-f3aJKXyOh7lO0kJjNQJYtbC053AWLIbk_euuLQU_BUqZqpZ4HabFfORQyzOh5AtEOSU5cWxOVplSQMSSagcKfJLfpvS8sqJCslmVQ75hFPe_vyjvHpBjhbQUXoBbvLPUxzCLXNfU_cDjc1CQH7ymBUFobg4rtDybjFKGgVfwiDs9trTKW_DbPjhkIYlItqsuxTW1KwmhkviXiLUTVJ29cfgLGeB8rJvukghBpwkFrqI6_x5kZDI_Wk01GFv-hckY1_TqkhmjcGY7TYLHdJvvzjop_V2yNrDT3VP29qseZXcNlLkHxMhBQF2cVVXdLH_gmXOz4F2XpQ4xWyacYxRbD7haSBHmpxoOmcuOfZK_wpmdePnzj6aW6Iur-lQFtDBRkhbiD5IWFCU1uVe0ag-9AtFAqSg9sXWFR-ow4ndsrKI0H0-dwtTGlpoVoKIW6NJEIwqvQF_o=w627-h253-no" />
+
+</div>
+<p>This changes the pane on the right of the map to the Create Features pane. Now in the construction tools box in the lower part select the Polygon shape. Then when you mouse over the map you should see the point turn into cross-hairs. Go around the map to select the four intersections. At the last intersection, double click, and this will finish the polygon. After double clicking the polygon should look similar to below. Note to make a proper shape, you need to follow the points of the polygon around the exterior in either a clockwise or counter-clockwise fashion.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gN9nFXCMSRLf2xxWg6hG9gGhef7fP7OiPOhuryHvFwwS2ebLEfrRow-IYaCnwY-hALaDW3t3VR2b_6yfS-RKs5mZt8GLjKxDcZvRowS-sz9r55gXH6JhBRkbKvlLYhY0AUSXaYTWNj_nBdNqEWvMxOiEWKhjUSSX2Nq7Byu4k7zX_xOxuqUHPJbfw1p9Rvgwt_3m_Mqf1N-tTj0d5Gt21IkJBe1bGbRRWFB2sOKtJujrbBbsV10RfiUAtAg6X3u3Tbu6f0-V-VS0YH6aHIBdv-kRaqi3yGKp42rGtnyi_a9_E8URslxnI1QiAhfUts0qEU7ke1eMA0pdjxS6l1F_GI9qNhPpo7GTl5mmxT1ZcYnclO6tASpBjBRFm72qD4edVFYy9FdtC6iEbtevIGxUYE30f2FwoXXMwD2Z-o-_PQoELdhIy8PcumSDa3fHSh7VE2pMzWqkIZXgK42-WGnQlSs470uo9i3O7qsj4coLLwXl6-t7inr_J0C7NZ6VZ1eOhH1w1B91QJdhfqiAPwhy7nudAn4wm7IlyAjlxdRbDFicBmbwrfoGUjXGCv8jLRNEw5PUobGcozG_XxxK2QeLOzhHh5TkjIUC7zL9cpDOhmA0O0k6bZwI=w996-h560-no" />
+
+</div>
+<p>Now go back to the editor toolbar, and in the dropdown select Save Edits, and then select Stop Editing and close the editor toolbar.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/m2I0Umi9F5fU82DaDkK8BY--cBTPGofwW0gYcun7FVnZSDpGuABMKs04OWY_VDD6ATYt54CuxkY3kdi6PG433a4FqtK_rKlKEdy8WWaEQGWoeP15BDnU0WrlBumzpoIVUW_1uO-HZkVZiFoZY9Y8BC7ovQ6FB8AXkiSPPTPO3zr3Tisdml4XojvygPC9RQ7FmZ-NRstJTugzIRSStK3nNi9NemIIRVw4mB8VlJ2yXg1bCEpa5_q2qO8gSKwACH8qNPC-7yaRGDe8RQNSeA1_bvn9b7NIpoQCGHS1wCnA2GWlP9vHjpnHGEgmo6p4vecV31q4uofWoxfD5u2uFixsnQ4ekCaoLE37hj2Qwvv_lYY2DYirs5_DfDtN7DGed2V5D-FTX9dPtTnCBBZ8bH9TO4wllyJTSGm6tKrvBL31ytTkOz8ld6mZyWNjUFEqoZGF5Brp7VYRjEgsCuorZ-fkUZTg6mclr3gKR6z8uWf1xEKCqxR9Ki9Ghzunhu9NUcIz3wYrDWY1iZx2aKpZVssUhOn-1RACVWb3d6qs5wU0GXQVaTxdmeaqFkfxso8WE-N4mwsniDN5qzQLp0wdx0xLDwX3l8tK8WrxfMOLv3p21he2AFGUq81H=w595-h449-no" />
+
+</div>
+<p>Before going to the next section, style the polygon so it stands out against the background. I made mine hollow, but have a thick and bright red outline.</p>
+<h2 id="laying-out-an-inset-map">Laying out an inset map</h2>
+<p>This next section we are going to style the map layout so we have two maps - one an overview and one a zoom in (the inset). The overview will subsequently have a box that shows where the zoomed in location is in reference to the zoomed out map.</p>
+<p>So now navigate to the layout view (circled below), and you will see your two separate map data frames.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xO6s5-wVpi46rgzizePzUcnOJXGcWCZklBdet5-9USPDv2g18fuue9EZrm9NWqDAnCc3g0RWTf2Z9T9eynreUCN4CtzLGOo6TXGrfnHoqr1Xr3xM4HBsCMHh6BaslkRLJm4nROMLksymWpid6ETneCNxvH9WmY5b_Godb_Bi9P3gUDicMJclQIe8NAiP9MMZDIVFmOnh6gtpI47KjZlRvSXYuwheox2b4eJX_FYpRO-21VYW9_NADsW0NckFuET3xqNyJeaICVbWwNZcnZu0Y2KYQ9v34Y2XoN0H6hZtQAkdUpIWp9be6GWhg7WOJAiBMTIFUmkvq0aHuTVWZgNrzDZO5YQjYfGkzLPEyY61br2RNsQ9AA6PQkCBsRDVgvw63-QwSTUeWagHV0W4tzDzPXcHj0VmoButOd8KGVvSQ8M6wOz2JeSCXYCxrsfOIzWMCkm0MzlKbROMFgG8fUKkfGIVQkLr7jO-uE2Lj70BH2EhHPQ2x3mUvVnAnvL6raR60WWL8sBJOts2ehrzyv55XKFkJ0yCRb6Md1hii7LRKz_FEgXaWJOqiS3AUPuEQtLg5oc6OusgioLMNcABjZAR3e18qM1vBAI03Kfbp0F_CiX0uIoG7IXs=w1278-h918-no" />
+
+</div>
+<p>Next make sure that the black arrow icon is selected on the toolbar. Then drag the zoomed in map so it is not directly over top of the zoomed out map. Then deselect the map frames by clicking somewhere outside of either map frame but still inside of the background page - such as the red diamond area. Then right click in that same area and go to Page and Print Setup.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mbc9lWeBtgCae7Phip5CAEv6dw-AEp5dpJBMgAw_hVZeb9ME3UssHqggT56KoegvNa2Q5GuQPukxcJJ-fadUI-c2rx0gAfM4x8ezD05eI4SPco26FaiK8FValsPwbKQWmcsvUDbS0NYr0NVpcImuLsgEZNYmcGvNqHejXOVX7kYS_Wm_BIlkm5RTHJSIb6cY8Ipfd1dMOzsjwWDq-rBUhOKQypx5hfiFZz4-Tsu8eSubj-8DAk1iMmcz9kf502oiteQl2rANb1b8z0naasfVb7PTDrTawUw2B1RvVf1BZteQOckx6hJL9SkSFDJR6CCBcGz7NTjr1dnTqZy6Iau9mKbMCtgX66SOHa7VJTXegGiJF_HWV_dvdJ4fze46c8q5J34cQA6u6prozDQdGrC885FnRtFocuaF3o1X52on5bN2psKeVt-upTYkUiHpBqRZ-C9p_UPcgTwPLLzLky8MPJhPovMXwhQpnR7hPmck0N8b40IRq2ihbGK9unauSWe-u81D8kBCm--IKIybRO0f5rLP-xfWw5pgOlPm2WBfwOqLUhH0VL4xOIRCE4Ap053KBTi6XsWS-XlzpWs3avJ-Zt_FUzBVNSIvFKGtuzJBIRAN4Nz6uUD4=w1133-h632-no" />
+
+</div>
+<p>In this dialog uncheck the use printer paper settings, and then set a customized width to 10 inches wide and 6 inches tall. Then hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xPt7ccHyaOhUws5cjA9kyI0xcWsQftutl2hOlN9QjOXkkQH0Ax28PFfmIEn3C6JmLpVuCXBw69U28cSHjNl0AT-XFuRZUOy098uEe-oKypJ4I308Mo_8LK9S4UARNLaWP5RjZkpZJc1tO-AFAHmZ0XjNxPmtABbF8zYKo-wNRQKEuby0ALrvAgiLx4eu1oWFm7zUxwqXnTmyn0m7pCpNFgFKth1ef-m0XCYhkpu2DuvMYLqbkXVQjIPgisypxoM6fNxRc4-l2KSfRaTLm7f0MOaFQigC3R7VBIlw_JqSWbpDG5v7bcSKpdatk7Y7FSrTKVXD7KqNdzldgL5XS_xetjBibZpoHRu9ZsTHOh0BYR5ghBcHBQORt4s9HtPTgNzvwm43PF2QeinF8pGBqcI41BNEw5pCT1e16THHH1mcqzAGXJ8_PwQEQodGjhVXBgj-sUm2kI7JdiBuMRpz-lyL0mxvdhAxWuXtMLxlOkQcBr1AXFM7X7WTsJxjRbHJj0fW8eMplWs1SLNTc4ZiG49G9SF2p00lGRUh02f4JTbxfVZDdgevTi5rGSdGXyxSodWG-22FxlFtn8tDQCK0NVtbBU-ohnQ2pbKgIN8WruUUEdyF3Zoa4O0O=w516-h558-no" />
+
+</div>
+<p>Now back in the layout part of the map use guidelines to set up boxes where you want your two maps to go. Below you can see that I have set the two maps to be equal size. I have also turned off the background imagery for now (sometimes it makes the map run a bit slower). Using an inset map I don’t always make the larger map the same size though, sometimes it can be substantially smaller.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9FeOIUX57kSXeRA_m1rI_2GV0QPFzV35HdisatcU-emZM0OibBh3kQ6RJgDbW-UaTYRoIpoomz_TCnX82uQZ7BG7M9y38HgSS18gFwMlCtRXWbNiOuAMxKBH6maUEoshIyrRFzU4oyIN7pDquHwpLqHbBo64sZVRJwbJHWgAF19Ath9E028wnccqJUj7gknMWM5y3ZEOSlUnPhSgfe-HPFPgI8LaSgnqYG854i40mj-HAFUX0Ng20G9bzczQStFCJSRocchgeGuWGb76BtChXxZ2C-LR-lQUB-MwIz_qHf3UHVQEuzb0T_cT-bIju2adbETeIAi83HCGLAN-_TDRvzJUFo6nNwxeFlSYI0GopTyI_hYaQ5uTtx4ps7F91RW6-n-dF4qrMcxhiT6yb-8XFz_QeDXwRT7yhcY3nYloy2GNKKMc7dBfmW4nmQRYTSs__WTmTO2vx4jPiGrmcxWsAP5DnW-so3UvwHwebik5tboLzNPNlwF0WOspYOIwGy7RiCjiTAhIY1g_rLIqh8MUEaOMVrc9ILjtFrgkuGDv4TTIU0-yi0rWm9ChbajpsP9_MJbswGo0gFeVGxOZUqN_7zhIc18rNo6gO2o_itHSnBiwgpbvGz9J=w962-h687-no" />
+
+</div>
+<p>Next, select the zoomed out map frame (click in the red diamond area) and then right click and select properties.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2hx2_JxKZQyNVqA8tXSjxr8GgnCiNG-uu-ZDo6UuC5YG5boUzWYZNEaFdI1bGyDFxNRC_3ealuRzog3dZFWZeH2R7hSQZnZSIbp5olyhYwEijzSw5f_N6u8On3MZbyC2CIA2I9pKvxN_oIH6NqJY6qmsocXCvGkagXzyCOzvZex1xz_MVKKqQnhbfAHgYd0ndK1RuCXJZObBjaNCG_cT7loCfAaQbI6A0O6R7z9-Exkb9xqI8C1eiaXeFfsTVp-wQNQZz3u_HtCv2aMv2pM39-aRmkvUqNmV7v7fUbx2ZDe6iMU7UK5sENfNE8fwY25GNMAvVE6lV_sdhwkjfg28McpxvQlXOce6AOjsTfw5ztx0xo1ucjimtQZHldKlHQEsNV8dPO6jL-5GJQ8p05-h8_b8WGI38PxskIi1otIqyztrMibUib_HjhJnBnc48olM3odkjBzvDkaotk5sb54pMF2RFpGyzjU_eFWC1AkCg-sKeII-eeKh5Hr1ZVSTErsYiynrpwqkAIYN1R9JD3YIlY_08Dt5DNYU5Ooo0hZTygpMIP2m0MwUoBxl4XJgQtvTP0dfWj-tD8Fy3RzDJZ7GmJsKF81j3BueylxAgvCjH8j6T30k_3qV=w1210-h792-no" />
+
+</div>
+<p>In the data frame properties dialog select the Extent Indicators tab, and then push the Inset map over into the right hand side. Then hit the Frame button marked below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CsgA2iKhKj9IqFR5W0tBm811out9v9YJrXpNwaDkCjjMOlUd5hvC0b3-XZKW4MzgreliCygk2U-pZ9FL_ovaNO_avrdMlT4B68I46_q5II4T7uzPlgyVx1qMpqzvPRlJXxQ_ULHBD4OzCAkz5EunneSMo_Xu6sE12luzkpP87f9CkwSsoIHUDPSXWuADONNWj2RdRxt5Q50NNkzfgSq4mZ1q0W1a__8ojfdU6tQ7DOwBcsr72zrRsirrTGedSD4MIG9eVjk7Qpn_4eDt57uGK1mgWDBPucDjVI1ePxAwiDQEYS7XgNzPCww1IW7KgbKxaSx1874cfStGevyme8SY2Ot1x2519525FlCCj-EX41aJTSk4hK_T7-OmL94kRJGITeKRiXu9rfjHhUL_lz4HtEhE5OIUTSCjCRKdG0FChQqUxCU5T1aFYMOr3NPrc_ksM145mqXINVv4jMGPT1CTK-xLAQko3rVpPtFTWFeMPKnWnSmVtyLMKUxwKtTRb5f4TckJwF3e3UEN1RtoLb6ZCDm9Jo88gasITjKncbEkYbNjMaO0Eg6QkEb6S0SyI15D-1stBP1LaLQ3kaZA66YPntf07J6hVIc94ibcdLbKw45q8yEbnR6q=w477-h620-no" />
+
+</div>
+<p>Select a thick and dark purple color for the frame. Then hit ok twice.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WfEOdYn1a-t_NSdU-IyytIVGPEjeCnkQ5bMM9J9U2_2jbt7ZrDiOGGXpT7-DWLR1rb30UYJyRhhwfT6lSL_skDQvLHWlHPndS2XgjVTtDk3NQuvSj3BS4riB8eE8KO9MTy4lMUBhO1-zSOP30myeqEkYK9A382wNNhTWB4ExqP3Rkm5wIK6GK2W2vMPUBr3ZuQoqe4ZlB7ZRs1w6HHWs8kIFxDD0fdsVV4J5iRYdu8AxhUR8Rf_TbAg5zP9NYjUGat9Y2xovk7vsM1UpqctxkSMGGhLuuDXikkU5Z5vZh_teYbYOncdnkWvWcKONNlT_QHnjir8C0F-JT_zYCwiFyGxTWOw9x7fXpfiQYymcTs5VdCMFzkuqWl2QPy4A6ZPZiO-liqOpBI2eSFw_dq081tqmuCpFWVpfWuKzhuIPQA8S0Qojh4MVNFkAIXmL7yEYeS-9mCI62Nkr6e-j645c2K-OkXxidbFenPnLXOeQyHR8h7ZTbaqHIE6q2YpV8o5-zYSrCT49lZHhAkVZ399rpOSB1UKrM57SgAQXoB32OHP-xqlRlLasSmDVJ-fo4QAZIlnQ0gJ7OIho7j2-TzSLZ8aQOoKTRIMApULSSrNUGKVybI8SWuM5=w477-h620-no" />
+
+</div>
+<p>You should now see for the map that is zoomed out a purple box in Manhattan. This shows where the map on the left is relative to the map on the right.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HiifmZ_VtARIcpqJdu0uMhu12MjJxO54At5GkKuiyVc57V8UWwNLz7SFrNlqIhqlVyrrDqfHuS90tVWdXUp7OseubzuiQhQ2HrrCzjJOJwG2BFo1a0LMhKS2w_co3H31UpoVttB2yTX6LW0Q2qp3TRDu9Zct4ebeTqPJ57wv7Et3xCPO8v1Fndmj6XrBeoBXZ77VaAzODyyn2i8B8bcw--JBx-dAnIS4dqZYQxxxs3Lqpm12GqpVRa7N6I3FI4bAFFM0dJxTCOIt_R8cBZYohvJlukLJdAw1vKZTC8qF451ZGUGNSaMC2B8U91LwNcSgUeH0DsvG82cWuXEwsIHv5iXMCG-pDpB3NSwZmn_2vA_feQLabsmoJ3wxeNfqF2jT2fPLi6boSULRU6IHkG9rQOCHRhQ8Ea3RDZb7HcMnIK9_jgc6AOGyjA06vq4qSc2KCCZ0Wj4YpqU2CvjNIMNVMtJatG9fvmP78ICHj7kjWWXqHcM9LSM7kUDtfqeZTAxow_fA-hyYW9qIWWy9JfFmwC1Py4Ec13FGJVzNvUOyl8XneUa9SPQh7cWHADmlqBlwR7YiI9sXjgDRexzWL8arJMuoylgXVrMdmKhurtQhFvVf_Y5Hk1Pc=w892-h581-no" />
+
+</div>
+<p>Now go ahead and add titles above each section. Note I made a gridline so it is just above the box the map is contained in. This makes it so the text does not run against the map. Here is what my final map image looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tnLlb7ys6AuyzZYlMfjARk9-veGjXervszLq9EvOEpx3JMqDP2dHxmWRSoUaUHe3oGD4NHkHQLs3lq8aQ6lDWBrg5XO2bB5gSfYIyKJI6sVPEoADddVmAyqgUshL90-IZ7siQTa9N30wRh3zDClbNz7NpLB1qxyhhBDkLUmC5MxPQ-bI1sNK_GxMQ9hnKtSqMi7efWScPlg2fXLbOjPcY3dxpZ_I697RAOTZyq2ApsPNsCFLoJTQMMB2f_exaM1aSKnITXbuDz8SV9ma041r2j1VgopLnwHfM7_CL5LmDzlzmp4BDwVq_mGOfu2-S6HPPrjrPTBQXC4tASrPJ3BgpiSgd0-3U9159R8YJnwppe1n_bss1KnAPNhVxtqgEAFj97aeH1iBrCLeYfKBoRphYUZ45ISlnc5eG4y0rQgXeS_iHrFL0r5vEdf3T5lS-7TWH0rDVj4foGOVVj_7nXSPLZVTqY1AIXicNQmva2B0MUAT81h9Wp26ChYb-rnOgbXAu6_DX8Ab0iU7beafgxFwX-OSbi3cPQrkSYan45ojymQ4VF1B5mz1jJYGf1N_6ygnuu7A0CgNAMlirJ5fPwMbRv57jzFLwrNuSuJQN6Xzwepq6aS80BGt=w960-h576-no" />
+
+</div>
+<h1 id="mapping-the-journey-to-crime---making-a-set-of-small-multiple-maps">Mapping the Journey to Crime - Making a set of small multiple maps</h1>
+<p>In this next section we are going to make a series of small multiple maps. Like I often say, if a map is too busy just go ahead and make several maps.</p>
+<p>Some things to keep in mind when making a set of small multiple maps though:</p>
+<ul>
+<li>the maps will be in a smaller space, so some finer details (such as roads) are more difficult to display</li>
+<li>the maps should be perfectly aligned, be in the same projection, and have the same resolution (e.g. how far they are zoomed in or out)</li>
+</ul>
+<p>The point in small multiples is that you can easily compare between different panels because of the consistent layout. When the layout is not consistent it makes any comparisons harder.</p>
+<p>Here we are going to map the home, offense, and the journey to crime lines for one offender in Troy. I will call this individual Mr. Theft from Motor Vehicle. Note this is based on an actual person, but the home locations have been moved randomly to protect this persons anonymity. This is a good case for small multiples though, even with only 22 points the map becomes quite busy, especially when you draw the journey to crime lines (from the home to the offense location).</p>
+<h2 id="fixing-the-projection-for-a-map-and-for-layers">Fixing the projection for a map and for layers</h2>
+<p>So first start a new map document. In this map document insert the five layers highlighted below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7aLkgJFxylb_7Ff0NjchD7f9kTh-fP6bbuh4SIZpWRMUHTFr_bYq1ERi-Q06Ejf-U7jjMO7mDN0jJC5_6a81Cl7x0Cryy1PYoqRXProkYCo95V2A2tNIIo7yyNQBMTSxhhDSVIIq1A2dnXSvFawx-eg-ZzL9NfCVjyOQfE5Osf6tqAl0Dil9ir5dxJ6vkXxNlwDWsa4d1E3Tft41wnQ3O33XblMX7Nb0Z4VxQzqdpMIVzGCkziEwezhHVHUW3aqBS0J3727g4vJaoxA8VYE54Dkbwzq48axGe-I28UDeq8JPnY-2Zmjc6fXRl4cQU5WjV7RMU3tzi45TGVkgckHP-L0Mmj7ibj39N-NwHss8HK9x5i1qIEcWAkWJq_-u1QuLnL4nFJ-wCqOutXPthL9JrrDVKJAc2PcUnH5ipaN6IUYyePuykWfp6yQFh0QypKj0OMKoR61HtX3aUkZbvM8I_cSffUDvjzyV5VEx2-X1OrSzsUz19UQc7SWi7kFvleZqLcn6s7CvX5FnN0AtTwRvJYWNIv-duQl7KjEn68PWSGLSj0ix39LoXlehpKEPRU4edIADGAg8SnLCfYfClYCKlYnUX_qqp8Rcki8iUapi8CaHgwjBJXAJ=w497-h330-no" />
+
+</div>
+<p>You should see in your map that several of the layers are not aligned. This is because one of the layers, DRAWJTC_Troy, does not have an associated projection. First we are going to set the overall map projection. Right click on the overall layers icon (with the yellow sheets at the top of the table of contents), then select Properties.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wZc8Tl-2AuE9N2uIHi3-Aqif_-8vVmgdJD2pQhq0DdA7OpphgjignaB5LuEjb5zQ90WmaziDiFMt0_AIrRFsAQrVAdJIBzo28bOt07gWowELbz6T_eDIgRBWKvtub2DQUjWS4_Xa-FksXyk72wQWofgEStymlvGKUOlRLXXTbNQuAS8pFsYWf8PGDBXIIGrpwykSjwurMyQafVYVupeYLjWkw4y9aF8pL1u9-bkSMXnEgS7ympO0eJDwG_11y-_IsMT16MMYpT9OKQTeC8_PZwucQppgb6qIMCHIhr-kyaQUxtV3JimYIDcag4CoiSI0b5mmEXZgxraXtiGRbN_GC9XzVOwJARHe6e7HpRIampTobJXgc7_SdNm4ww7PreEvUbK7d1BPMnIImkraYS5quePk5jFd7Y-3pPDq_fnVzqWLDoQoJ_H1XUHc5Vbmu-_CRSYDIaYI2GTWdFDRq9qkjF2LL_F8TcelRPoaWLFQ8BjA2Ams8TeBML5FLuGXN8PC5zyOxYr-XLkBrCxqQvOKPbU8W56kMeKQyLzdaQzMV2WR00jJJt7-RwC7a4sK5NrvSTnr9aZa81jU7VBOigGuZGVIhg1t0pYF5iOMywAl0RgHlHrgaJT8=w985-h950-no" />
+
+</div>
+<p>Navigate to the Coordinate System tab, and now this dialog should look familiar. In the white globe click the dropdown and select Import</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bLvPVfHyNZqF5jCPU7t-VQiHpBIBQGCfpn6I2Lu8kcDX75yCJQhpo41Bs1ZFeGPQZoVzttkVXuSBsaKUhqEJZu99Jv_RSt4fPMhqMgXJdws9bH-QvDUjbBp7BSvqhmnr9FV95mrTGZqvOes_g4MrpfeW9LSsSCTbligWtVBIWsaBRUZmZddgovfdPfOjzgV2kuDKGChlgtdVAX4DPrJG1Cz2frZnQF9T85soLOCUfkveZI8d8L_p5mrh9NJ8uJx56VmSL-c84EJ2EHFOp3DaWk1HJpMGjCRfQFJIjTBhJouttr-HXPh9CmoSq4SvLEqU4ECWUKdkuOvZzAEHSUx14GCmIix4mYqWQmpCLMNi31QCjwNJdnI2M7h_C_aWmLvlNK8fuaSMOB4gE0tKztBXMN8CfHIQGQl2xhOJTvQBkghORwm_uAK9Og7O3lsVWwHLqWronn_Dsckmv8VyvROsrUyFQ4OvnUc77GH8mrDZCU9HSOIeJZauMEzt1yEgAr9Np9smVMGdsi4EZuzaS03Nu6EwbMtX3o9bX64uYiQRcNCgqoIWVC6vUZUZAwXRTpoWgFbhlLgyCOl_O9lfff_Iax7G466VbpB0rYsuFja_7LwFm2nSDl3J=w530-h675-no" />
+
+</div>
+<p>In your data files I have saved the projection I want you to use for the final Troy map. Select the prj file shown in the dialog below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Jh3TaZS0vOe9QEduqX_udn64QYBQYL6flxrHjbQPFLdrw-mOF53TeK5xr2IHZKxsqkmcf6yYxAEuNb1ft7fc2fmShdVcQMGCWbzJ5kvGuxgESw0U9WZPyAB88hCGlS3vBcmXAphQDuTWDuIR6LesDcn0amNnwAEoVYbRMrhMf92-xQ_zevTo9Bxa6YwfT8kNw9dQ4NRxhXA9XtSlMSqMGbk16Tt5dIootRq1UAbl5ts_F8gmKlTlhb_HdlB9shwtROSaTBkeQ2JmGRscdtzqstU8249CYHAQJvkhlR-9hJXp68xaP2WSYFY_-wO_Ai4JEXfmgue00aNx32VT36aJGbunBfTZzsnIn51Gcj5Gq_QYxv8ZWAHos2AyP8QtWOCqN1PtRZWgiD69_CZtLyDGekq6yDXTWD99e98Ga4Rzq0wPHIEJA_cZWcIc1N9fY-_aX4neuH-g7f29qVecnkdGWPTZ_DM-DIAp2Q779Lwfc3ZxWKjTDEsA26dxnfAMEUjXfG0HQSOQR2f8bLOhAPKsWZYKmzzLM-O60itl7MRR2Q6BzOKm30I-W4B4Lo7aUVfmR6UfmeeiezayEouracM0p2WxHjp7UAOxuoRWtLNEr4-02lTdmicX=w497-h330-no" />
+
+</div>
+<p>This will fix the map so all layers are aligned now, but for future use we are also going to assign the DRAWJTC layer a projection. Hit the red toolbox button to open the ArcToolbox dialog. Then navigate to <code>Data Management Tools -&gt; Projections and Transformations -&gt; Define Projection</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ydHJxVfSb7-YGiNBLJrFwl5wNBfyVIIRn2fQyRskVpCadypZg9SS-6Ve6EnciF6lu_cfysYoYrho0CDhPlArMqZ1iPNj_jQ_ebFQWxa96_enwMh5Hxu_ix68QOBCLFLzqluJuknZz8NyJAf6WEtl1nL657aSuzxkKCnHNZYNOleM3k9ycWB7fNg8phnS6e6TNm5Zbf5awIKEPYRdzBv1lrTkIrXcFJfJ2_ul6BCaiXD5DS-9Yxq6TbdN07D6qkuh3cX0d8RfYXEDMABrznacb30-4LrTu_pYIxMTtmWrd-y3nNsnzYLMNujRC0ywfIWozXXnFwb0aFDd0d5mc5tZzH7bCD1P7wqQg5qMJXvOqr8zhK4ZvAe7MLBfUqdQrG2np4t950dtgtTlrQ4RPtgPYazXtX76t85GRJQfZRVlFZVae50jQOvmWLkNAJRSBMWo_eJyX0-GOwii5CiYbPbmHz4m439GDPwc6oKGqC6uHMPbTkjobdc5Z3VT8CLikfnERfk81QLPven6WBUE2mvvggxHR9fFwOy5xTBiWm5dvVGy2WYYSWe0Kp4SpJKEJ3VtjEF6eHxYPZwtq2tP7iWszsdyJ5w0LATzQoD5MI88Z-dnl__OHgW4=w300-h704-no" />
+
+</div>
+<p>Now select the DRAWJTC layer, and then select the same projection we just imported (it should show up in the favorites now). Make sure to select the meters projection, not the feet one.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Bsu7TmTkANFhIJZeGG-u_x_Jb8p5t9WBnKaNf11uxUw6W4HD8g4MiFK4NRNxs3hnfBIcHJwu15dYN144JDtqEYCpOs80nCFpVDAQ9KPZUCD17VLIYj1jUb6OboF2IifSz5v8HcPedRDxTe7PXsSqGVNLBqIX0LtEmZTLTndWp1zW1bGwM3OUrxlKEkzKdFgumXvn9gg1t32uToYQlqBOjHDaZM2upOmbg95pi424wlvrkOkB6A4Z9t1OUTDPyFQK6ePBplOdepGsvIKStvw2jJzHxa_LVJ3jHAU2UOTjRu5SwRTCse3FHAxEgFXOF_iroXMwku5_BfLU0G3WfTqcuTSBTNco585xT3yS1SCLynGWDtnfPELKLB7GSfTjywjNxZwGQlwL6POVsqpy3G-sLuvUOzpR1gicjynfpV4ihcgU-vnkB8DMKMDtMuNWW_bGRiK_Tzlet7qgdHwsuMMDqFV_8wLz4DNDFJ0_FoFYhoaTDZfTCfQOaqJqheAWTk2euclG0jt1dVVpKF27pBcOHREUXqcrGypj0RYP6WgOFCIM94wKEtNR9_hmHGfAoLcFkxWleXd_ghqbbFg8qVz1nFT8pwmRJF4x4NPDZQxexFO1mqd6gUjd=w793-h719-no" />
+
+</div>
+<p>Next the dbf file you imported, HomeOff_Troy.dbf, has both the XY coordinates for the home locations (in the X_METERSH and Y_METERSH fields) and the offense locations, (X_METERS and Y_METERS). Right click on the table and select Display XY data twice, one layer for the home locations and one for the offense locations. When you do this the default projection should be the correct one that the map is current in, but if it is not go through the same dialog as previously shown and select the same prj file. The screen shot below shows the dialog for the home locations.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jqGAfBB6BrgifaInf5a20KZ7XgKijRsL3W1YYlRyYSCEOj0_TndV5dN4F1gR4kAEcqefAZpKUzKfDHWbjgj-AFwaPC_iSN09EGJ0qb3av1e1AuQqpuvHtFBXi3rIW_m1Jch0QcMz6UvXACFEFvW00Ufqi63q3DJV4h2KiN6w5NNt66J5VwtnY0Qk_Peuu3sM2V91xDLD47BBgzo6PBZOLRGfpwPrW80Nu4VOw7KCWdv3cdn1G1TY3vTo4j125VQbguUXTLK-eZRCkFCKttHABbjsZJ4FEjFAhHmyLc_k5GuFhuVwCau8805CFxJWyDj3eRzy2Q0uI6sDqJzTp9ybUzyKTNha1vCnPJlOsbaW2-3Y3U7yQm8o503uEi9GxnFARKV9qbrMl2JWRWOqAT8GYA5cQdNJHb-0l_x6ts_CeFBZ0VtKtlZ73TLrkTtI5loEJsTfLHHhEX_swYIwnqA80CBXqdz4td3NXRohr93l74mwQzVS4V4pw1Beg2a0KUHHUMnLnNV38CgbSEFcQfT7l6qJ0W4w55T5ouCFk4KJxfQDX9h2O5GCkSb3YxG2MTvvm3ZpM2XqfR-xuT0DI29LY7XBQeb7DXzPzkH1OzJiVvwvuKvPOfwB=w354-h559-no" />
+
+</div>
+<h2 id="making-arrows">Making Arrows</h2>
+<p>To make the home and offense locations clear I styled the offense locations as bright red circles, and the homes as dark blue squares. I then colored the JTC trips as dark brown. Now we are going turn the lines into arrows. Click on the line symbol in the table of contents for the DRAWJTC layer. Then click Edit Symbol.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zhfH0cV7Db18pXyxAbdpNUzIvEJ8OvKlEGsJ2peteZzABgXHUKjgaFoHDYeSncUoRpD-em6fz779My6iESqGoVcB42Z7CpMfErhY4TbFWIr_tpPiqaKJEip8AslcIBDDu1bRkWKSDKiF1MWQFkU5Uxig0RCTjOCMMMTE8Hlf0SagIh42q6CQzHPUxfAAfYAkusuTpmSYX4-4sXF5MN8kakjlU_ydZHYjicOZv5-DMaTCEORLBkJXTUXVd_dLj1bcQjI7jebD6gC9krA8qnYEdWYJ2hXmGyWxLUi9p5rT1_cjlsc9J5l2hNPoH0fEe2BgpUweLKRtMrWK4UvcQ08uJgP0hwIG5eokq8DzVY74ky6Cz_MSvrHL_W3-eiIFBo2L1Yku1Mmymb0pbDfkD5g6KblzJRYHlGtujTKOzjNwV1ckmXqqgwVYaTwCkDKMdoUqN-GPPUguUm3unlCRHANNnA9t0gseaPo2RmKNDm-LHkAmsJyqY8-RRBK-FOhd1hFGWx8i39Jdu9aM2_2faaTtGuxUjaA9Pc3WyHpG9AuwhAdsnNWRvBQKV017MdWf9hMA78OhEwStAI0UNZ4T9YBCoZ_mIB63S7MpPuURkn7NF-g0FCHFH_-V=w856-h625-no" />
+
+</div>
+<p>Next make sure that in the Type dropdown at the top that Cartographic Line Symbol is selected. (If you don’t have a line properties tab available, this is the likely culprit.) Then navigate to the Line Properties tab, select the second arrow option, and then click Properties.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ixFM12MDEIS2ASKF-QqRy8ejmNsJXiGp_6SXvoLqO7I2RVp1Pw17sZQU42lvmWSijWdPgLe4c-V8sx2hOyQiBT-Xz7GP5fvLZLdqsYdGVwJf750-Pi2EUVcRGqr2S0xWzu2KPd2mtGmnI5awWHpp42Y2GLDsA8iVW31g_cVH3d-d_n_-KHohRj7Uwf_l-eHDB2xrSeJhV_daI-3Pzi5XboonG_v_VVP8DXGuRxWmoORfnx_yq9SRiDQL0pvyj8WdII0EDGFNphCZKqW8o-nsYm8sQE8j5a3UlOkGA8awg9Ca98m5gfSJLAw3dQKGk_Ont0EdXSuFvumN1R0rqTrkbRmW0ZOdd5VrvbT-793A6_tWqST2GnPqgVyRCjIhZ4QuyIUU2n55fu6Fx1L6mealpZphxBHO4_4ygmtRJo7QfBPImRNr5YR-2tfHKrNjju7dtc8jgDDbXUIgrlMKzjq2XxBuw5fCx22OQfuKzG4pFc-PX6KcQFtY4oJE6k3F8wOZhrVmG9SSFrMKU5fCpteMkYY1Aaaoa0QqUfR5d9yDYR6pMFZbmcmGmhYwTUyEsO1LOELBb9fsf6Qhdqs354fPmwUr3sh4Qk2Enw3r07yl_prpHWhINH7H=w699-h485-no" />
+
+</div>
+<p>By default the arrow head is black. Change it to the same dark brown color you used for the line by selecting the Symbol button (and then you will be in the familiar symbol selector dialog). Here I also make the font slightly smaller to 10 units.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RdFE88jCB9paKKLtZ2lnwYasyiMawCCuMHZBNVSKdtwNnT62KrhxUV5rNnPRnBV6X7FznVXMTRC65k7_xdDnsDcK-xE1ZLpda0NNf8mBk0feWJwSarnVxMlsou0drAQ7NAUDXmdC8BJv8StSt1SNicl67q8Abwot76lNaSpnro7crzMZCn8tluHlptKZbw6b0LuA9K-0EYTNjzgzYN12uNRhHNVy4EYqaIFYFVDqE16h5WlBchRrupeWadRlcW3RN7cyPEKepShCrABe46gugzWrQBboYYh1CDbFxKT4oKDQittgR9pTIWZon4VXoPO7FVJHoLQ09GESAJa47Y22xiPmvgXWmGFIStF6dGwj2IjTwfqUlvSxQ7itI9QLv40hsvyA63D8ecMHNmXRRfpPRlOjri20b3giY75Wkm8nXTgckzxqC993Tz_PZcwaLii1Co_Zt1Ta_AlEzEGTT6YksezSQqm9WSwM3yjTp3_u0QZWteJL2JwiD0L4hn-mjqY-c0o-R43ubYwztJBrQoM4EMYuZC2XYoa539O7pNKGdc-KrlQa3q4F04IcDdc_A4vmUpyQOlAv38KkL9Qn1xsOaW-cH4CFEd_0i9jA-u5_ig_KkduTv2A1=w1246-h512-no" />
+
+</div>
+<p>Now hit ok several times to get back to the main map. Here is what my current map looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ewHlsO6YVsUGACLdrNJsfVdLPeFQO5gnuUW51xn1obQi8W1Q9qs4QNtEKSPnOp31zvF3AqCH_JlfqqKPTHKshAvACGJcZ90nVGOIgiUlO3vbDywr7m2EWNmw6wXu0SbSt0Y9Pm5YUocqOFMzhMdRZrhWWih105Uc-oFtRVwdzoQv0Kjz4-5mn-F5aK62AsJ7EGWqipVZsOwBGYwvNn4Xn2hUfOr9RkiEvxuoq_8iWNHsLk3LgHNOuH30mTU9Plt8ztJjJ07e928jlLhr83Pj66_JDcQ7A6DrAbUGBDGBaitx-JKNylq2XUAW9BHwa7Wjii4mNF1hpJzA7DBt-_CJF2Q0zG5sXmdeeM3Zy3co4Z4_ulB7GQP7zhgoYo3f6kUDUbyHjNjHHveYHFmi9jxs8GRHBpna1rV6chk4CB7IrH1mf-ZmDAG1aYR6KcmstgENK5vuisAQ3ly1suw1EovtDJ8liiE3bJFIXhlnBMybE9v8EP2jWEiJliwL_KmXbSIGqIc0tS5HkhLG6wrGmWUxg94e2DiJDtdKG9Bb-4dY-RiS18yeJLPoOtbvKl5QGVtDgN3Ps6-t5sbWC9iddU_RjgNB-y0_iIulIOEVW_tv0s_RTEXcr5xL=w632-h832-no" />
+
+</div>
+<h2 id="making-a-set-of-small-multiple-maps">Making a set of small multiple maps</h2>
+<p>Now we are going to make a set of small multiple maps. The process to insert multiple data frames is the same as before. But first we are going to organize our table of contents by grouping related layers together. First use Ctrl to select the three offender layers, then right click and select Group. This makes a hierarchy in the table of contents, where you can copy-paste or turn on/off several layers at once. Name this group Crime. Do the same process for the remaining layers and name them Background. Collapse the Background group.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KRxFqE42MU4xQCTtT6z-fkjLpHS8MKe-CrrG0E2zxUOcUG3z0C5d1cCv8ONZfpbEADj0hQwBWM1HbLBtkyz9-gRHvwu9wYpKJUExu-rVitChugdLOTnQxZd-qtInmfT_Ku8YoRhnzyO_iLYyPrJ1sVeqdkPhVdIvn6WcTLF-32XKUVtUifUdkcW8mDLXboSOrjqujy2zakP8Onl2ZKYW-llVWv1Fm9zbGieZn70BiCpveuqbA0yDBGHGC36i-j0I4clk_UTDjWPczLY7QJ2tmoz2RuLv2Jg_rRAkt2_pCN2a1q76eGdI43ATIg0Zev7i4B6O8O-aiVhploMIj4fhe-E9uhlGTPlIeGOGzzYZgFih7m9IjNqLBk9FXIK7lvjtuhSIpowAP-96TweGF0SNdvcFgkALUYw942UcpUWaQSD__I8nAJQORqf0HJXM4A1AWQgKDlozn8ygZMvXi9ZePu8Ml4zMD8jx66rYmu6CMvkvUZ-PGhS3V5ukgtXfgeqcKmwi8AX54WDKi2rTQnglCg-2XBFavPm6kMYjiwQ34X56DiUgV95LaLTvSoxNWkwjqH1AQg2mO7bmwYrA_pKsX8cLe6DcvsCITO_2JucQsJcdAcVJJavu=w906-h438-no" />
+
+</div>
+<p>Now insert two new data frames in the map. Name the data frames, Homes, Offenses, and JTC. Now select the two grouped sets of layers and copy-paste them to the new frames.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4cH4dS7fd0u8U1A8UuiTPYYw9RI84Gv21S2JgsOYA86OFExY_WJzXw3bRtwOXVrZyd1-u3aUwj2Pfylr834Qaf5jhX5IUFWpUOW3V76NGs5hvjO4s6pkPmiTblfrYHRUpwLrbGFIxgOriZsvx1ipgqedWIP_-3LG5OcBvAqrjMlLJ2dkGTdgQ55Hqc_bFrUxGIYceJr8-R38hSq3xK_hs9wFZy_EqbC9uvDCuK8nuEArz712g1a-m0SEVBVlXXQeHEfTuCeqDuzoZkQqGCoUYcGQAhnBe1ljadneGxZo-f_nn8I2Ox39f5QWrLn0X4Gi58wY77ceJUO849cCGtc6gEL5irzs5lfSQP88i2mWZD5J29HaSvYzD-uXfP7TX_BINYe48aXfsbMcuMkq4WvrZnds2AG95spHkAQkvbckwnyoCcV2xDXgN3DTrhxltmrwXqAoGZqwwlK4YZRUjUFXHboWjyeWkH71J4mqWgQIhfJbzqqcwhfkbfOlpY01fBAxIQHgqc2cSkOzjKPhxKzCxBNqxYZpGoXf3r9LdGn8MIRszy2WQfUr1Gz0CmEUtCGI-T1GthemZxdDdlhD5mIvpiNqXAJgtkLnbM2-NXVEMQOTTf17Y6fa=w355-h510-no" />
+
+</div>
+<p>Your table of contents should now look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6iSoDQvBd4ylhMNGAwyokvdjeBDwupdUtY-h-zPRVi52AX_Gh5uSnnwqJdoA2HvSCqC_S0aDlk_qDGJnIlc43VM1vvruinVxPflWAAAhBZrwssSUhlR6bfeu88EAOLyyp68fP8YLVXI_t_aFlbDJ-wrlkEszGS0AagEz8TXI0vFHWXgH_Gjjaf9z1CngdPTXg1O9OwntOaZpz6tMKQr5ElQ-l4zDvD1Muge9s6Dtzzpi11XV67mAqqRSVRH7BLn-RIbrsafRyFNu0905eSisofQs2L6MIEOmZnNjP6zZQMspfWnJEsph8cMFlcMm9n1ed33PX5jMI0CIvz-OqSWczdw7fubZJQFwAo_TNxgL0iSnWZ7LJcO8lWcCJdG8nm7Jbn5uo1X841t9CBY4egShy3pAgo1PiuxQKXt8_o9ZnBOG14o5eXunrDgqMFZOlAzhrtVwfyBK1AZGi_NP6xpwioC8rCJpbHFI0G3tB1dQRdrJZprXsNBKYnOqna0lNyT4zRdp5G5MsnAD4N6OG1dzu9TKtgM8_qVnY-BSq-JsoIKehNF-38sJNSJg8-wNYn05m_cDUmgfg-IPgfxmOHbFy_suT_SHRq8drldMvZAS5UVx4HdPPpIk=w295-h610-no" />
+
+</div>
+<p>Now navigate to the layout view of the map, and use guidelines to make each map the same size and aligned. Here I changed the size of the map to be 12 by 6. To get each map aligned, a quick trick is to right click on the Troy Outline layer in the table of contents and then select Zoom to Layer. This will align each map to the same location if each data frame is the same size.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zGTb93PMpmIqAr-qjBnwrPB5Sgqb3nXFggnImzk3IJf2BW5xiwVLTZvrTZQez2yOvHzt5fOBVJTNq5YeNGHcIujLuZx5sdXYvdW-A1qQsWUOwJDZyK9JXL1oe45oN2zmW3PBC0FTBQM9u-hGW4EC4g757LQO9kEnShRgHVaOTNnK-wwxFql-KO4JzqSXTyY_pGSzAQzn4sz3WnU0d4VBphNC0NrJdWUMcGwDOiTWqBpk_Bwq2hNKziTibe_csqEUpXq9u3XafPyH2oiUYF5qfTM8gigXDZb4v0Z9uW9bZskzVUE28NzJt5XPODdJdtrrtJMKeta-wFXAAJXGhgC9lowMKY3I4kuhHFO5JKRWlGHGeMWoOcWWuVzeFi1WmnkB8GmDNT7PsOtb5axNfw5V3ATWEf6Re62CLa8ErbrS-54RQdR9pshd9Bki5pX52LEzOSixfS7BiKCLg9FSqm1iW89fwA-5vLcKU84MRrJ4gkYmn291RzU90fhjIoaCg00wHrSdhUxSG2k0Ut7ZPXBEzDy5DkODfi3S_woYg54R9UE32euaopXcSlTT4rx-jtwbuGkJjgAry_VxLqZxaUC9yUiTCKd9Sc_19G3wI4M-o_V6gDfhtSSy=w949-h707-no" />
+
+</div>
+<p>Now insert titles to label each panel, and in one panel insert a north arrow and a scale bar. No legends are necessary if you label each panel. Here is what my finished small multiple map looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RogSjTVg4mzKTIcRvxMopmCwSG5dx0RqU6pdOwT7W4zaUodVjpp5o6RCl16qLJ_BSq6RaaoSWKH5MOOhPqVbg2GaWjjnmqBghLQ3vbnmCqvXATXH4E14ObyogrIP4zAMIXCl9RaDNqKSX33vmgsyaqSQ32bFVF-pCxUf-zuwwwpR_OKKwIe2ShrvLIfHzm0KVang8-0QIBb7GitUh0UASO7iGHc0C8HiQGOvOz6jDxSBUqzcbCDvr0ogF6E_1OOcezYOS-6_Tf7JD-oBpehzAwUEl02BFCcEcqGRDyrp1fcG3FqqIgRohEMP47hg7mykh18FFE_TtBAdKKt9e3DCusYPL92JoPJjSyH8NrX8oLreKnxW1G04bznTeJXL-kL5yD0N43krjNyPVLi7vZ-bPUyZNb9bbHeK4pm-EtMhPdb9-kEqG-q20xdzZUPp7QtmTzCv3SBg0ofEs-JTiZJGmO_ZGmZ5vHhix8SD2O8m-FBVKa5LYnnJgdkDblu9_9xLtbTHV-sLoDp66nqPcH5ypWrWQHnUZw3dmc3Y3ej-AlZlKBl7SajhOJebHilGa71lO2qNAsm9HEQ1S3P1QKvfEQIJC_0iKT1OvD-S_SXCZ6qulNz81qXs=w1152-h576-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For your homework, pretend that intelligence suggests Mr. Theft from Vehicle is active again. Based on his prior activity and current intelligence, you predict that the next place he will commit a crime will be around 115th St. and 4th Ave., and that prediction has an error of around 1 kilometer. Create a new point shapefile that has a point at the predicted intersection, then create a buffer of 1 kilometer around that point (see the prior weeks tutorial for how to create a buffer). Make a map zoomed into that predicated area, and have an overview map showing the entire city of Troy with an extent indicator of the zoomed in location. Turn this map in for your homework.</p>
+</body>
+</html>

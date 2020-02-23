@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Working with Census Data and Dasymetric Mapping, Week 4</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Working with Census Data and Dasymetric Mapping, Week 4</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-use-of-rates">The Use of Rates</a></li>
+<li><a href="#census-data-overview">Census Data Overview</a></li>
+<li><a href="#proportional-areal-allocation">Proportional Areal Allocation</a></li>
+<li><a href="#making-bins-in-choropleth-maps">Making Bins in Choropleth Maps</a></li>
+<li><a href="#alternatives-to-choropleth-maps">Alternatives to Choropleth Maps</a></li>
+<li><a href="#homework-and-for-next-week">Homework and for Next Week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For a reminder, the readings for this week are:</p>
+<ul>
+<li>Poulsen &amp; Kennedy (2004) Using dasymetric mapping for spatially aggregated crime data. <em>Journal of Quantitative Criminology</em> 20(3): 243-262.</li>
+<li>Felson &amp; Poulsen (2003) Simple indicators of crime by time of day. <em>International Journal of Forecasting</em> 19(4): 595-601.</li>
+<li>Boggs (1965) Urban crime patterns. <em>American Sociological Review</em> 30(6): 899-908.</li>
+</ul>
+<p>This weeks lecture notes we will be going over the use of Census data and its limitations in calculating crime rates. We then discuss the process of proportional areal allocation – which takes data from one set of spatial units and estimates them for another set of spatial units. Also I will be going over some more about choropleth maps this week, in particular how to choose the bins for choropleth maps, and alternatives to choropleth maps.</p>
+<h1 id="the-use-of-rates">The Use of Rates</h1>
+<p>A fundamental problem in predicting crime is that more crime happens where more people are located. Think routine activities theory – it is necessary for an offender and a victim to meet together in space and time for an offense to occur. Places with very few people will have very few meetings.</p>
+<p>Data from the Census gives us counts of the <em>residential</em> population (plus various other demographic and socio-economic statistics). For some large areas this can be an alright metric to estimate the prevalence of meetings between offenders and victims, but it can be misleading. For example, if you count up places that have the most reported crime in a city, frequently a shopping mall will make the list. A shopping mall (and business districts) may have zero or very little residential population though.</p>
+<p>We typically interpret higher crime rates (with the denominator as the residential population) to be more dangerous. But shopping malls are not <em>per se</em> a dangerous place, it just happens to have many people interacting.</p>
+<p>It has been a long standing problem that individuals consider alternative baselines instead of the residential population. <span class="citation">Boggs (1965)</span> considers the use of different baseline denominators, such as using all potential pairwise comparisons between individuals for homicide (e.g. if you had 10 people, you could have a potential of <code>10*9/2=45</code> unique interactions), and the amount of parking space for theft of vehicles. Others include estimates adjusted for the working population <span class="citation">(Stults and Hasbrouck 2015)</span> or similarly estimates of the 24 hour ambient population using city lights <span class="citation">(Andresen 2011)</span>.</p>
+<p>But in the end these are all estimates. Almost all crime risk is very dynamic, for one area the baseline risk changes throughout the day <span class="citation">(Felson and Poulsen 2003)</span>. It is near impossible to get a reasonable estimate of such varying risk, especially for small areas that most police departments are interested in predicting crime for. But that said there is a need to normalize crime counts between different areas to at least calculate risk in many different circumstances. I rather people use some well justified denominator and understand its limitations rather than use no denominator at all because none are perfect.</p>
+<h1 id="census-data-overview">Census Data Overview</h1>
+<p>Because the use of Census data is so prevalent in academic research in criminology and criminal justice, as well as its use as a baseline, I think it is important you understand what the census measures and how it disseminates data. If you ever read research on neighborhood effects (e.g. neighborhoods with more poverty have more crime) in the US it is almost invariable using data from the census - including demographic estimates and spatial boundaries for neighborhoods. We will be working with census areas of block groups and tracts frequently in the class, so you need to know the difference between them.</p>
+<p>The Census was originally designated by congress to tabulate the US population once every 10 years, starting in 1790. It subsequently expanded to collect a variety of demographic data from individuals over the years. The Census still tries to get an exact count of the population every ten years, but most of the demographic data it estimates by using samples.</p>
+<p>The product we will be using information from is the American Community Survey. It used to be that every decennial census there would be a short form that all adults needed to fill out (which basic information such as sex, race, and age). Then there was a long form that had more extensive questions – from this long form is where we estimated things like poverty and income for larger areas.</p>
+<p>Recently though the Census decided to not do the long form, but instead have the more extensive survey continuously updated instead of waiting every 10 years. This is the American Community Survey.</p>
+<p>So instead of using potentially 10 year old data, we now have access to the American Community Survey updated on a more regular basis. The American Community Survey (ACS from here on out) releases three products, a 1 year estimate, a 3 year estimate, and a 5 year estimate. For the small geographies we are working with, they only release a 5 year estimate. This is because it takes many samples to get an accurate estimate for the small areas, so they need to conduct surveys for along time. The 5 year estimates are based on surveys in the current and prior four years. So the 2012 5 year estimates include surveys from 2008 through 2012.</p>
+<p>The Census Bureau mostly does not disseminate individual data<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> – most often we are working with aggregate counts or statistics per some area. <a href="https://www.census.gov/programs-surveys/acs/geography-acs/concepts-definitions.html">The ACS</a> disseminates data at the typical state and county level, but also for geographic areas that are defined solely by the Census. These areas are census tracts and census block groups. The diagram below shows a hierarchy of those census data units for the ACS.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6pahmUB9DyqbRCRJhreY4kcdLmnzcMLb36RYuQpDjf21ZoxOSpnouCwYB87CDYSmMOf4uPh92C0ahsZawZgHCIjfGDRBqXunvDqXm_6T7u8NqDKvjU_YZ-xoNfOMpZU4FqSW_w1v7nwI_XPg82ruc6tDpPXy4gXte8xhCnOThvwGe27moYbkJD88F-nVr1Av2yU3RaVLxlcKB7r_FJeJEKkwkSn2-6majaQ1Dv_TFDnu3GG1CD5TwgSBzRgt1Sn-z34l5wf1PHXMoF80e4JCboIDB7XSJKl8CT5AyM12XGI1tSaGuikw8k9Y9AWGv3VRk6mFOUSDiJLqBqyxHu2U7-1eeXKe669r8WjWuqDQrccfW1NFs5DbW83q-9LpmbiqIKL2Qm23dQdUhrZ7QGa1qirxscQaniLddoE7ngPB8qsNZi6UIaaf6wu9UjHRKvmV3O4L9JE5S7QP3G5-SgPWdzdEl6g8U4l-iKDlYQ6ZwxI84IAp6OND1K3eXfBroSIvv8uC4p5SaSxrHz10aKyPYlf5XPF6vxUu716qQmzHmdi-yo-RzVbZtVPei-T3hGr_e-2_YylSzNCIbVjGHmgFdk6vMprT6o5UnXbJg8q12p9VMu-2lZYHNUeWlMhpJNhiREmhz-YjF2RShBwl8pPxZJyWLjGdIEs=w712-h540-no" />
+
+</div>
+<p>Note there is one smaller geographic unit, the census block, which the decennial census does provides population counts for. But the ACS does not provide estimates at these small of units.</p>
+<p>Census tracts and block groups are often used to approximate neighborhood boundaries. The census intentionally tries to create tracts of around 8,000 people that are demographically similar and obey particular natural landmarks. (So they try to make tracts not cross rivers or train-tracks or large highways.) When tracts contain too many people, the Census bureau will split it up, so the tract boundaries can change between each decennial census.</p>
+<p>Block groups do not have as fixed a definition of how they are created – they are just always small as or smaller than a block group. (Often in very dense cities a tract may only have one block group within it.) They frequently contain around 500 to 3,000 people though in my experience.</p>
+<p>Neighborhood boundaries are mostly arbitrary. I think the Census does a very good job of selecting areas that are demographically homogeneous. However they rarely follow local conventions for where neighborhood boundaries are. Tracts and block groups are frequently smaller than residential neighborhoods, but may be too large for some commercial neighborhoods. For example, sometimes a single street is its own neighborhood, like a busy strip mall. Census areas are never just one street though. Because the census frequently uses streets as its boundaries, people living across the street from one another can be in different tracts or block groups. It is a hard problem though, and I don’t think I could beat how good a job the census does at it.</p>
+<h1 id="proportional-areal-allocation">Proportional Areal Allocation</h1>
+<p>Sometimes we have estimates from census areas, but we really want estimates for different geographic units of analysis. A frequent example for crime analysts are estimating population characteristics for idiosyncratic police areas, like patrol zones. One way to create such estimates is proportional areal allocation, a type of <em>dasymetric</em> mapping procedure <span class="citation">(Poulsen and Kennedy 2004)</span>.</p>
+<p>The idea behind dasymetric mapping is that we have some aggregate number, like residential population per square mile (i.e. population density), but we can improve upon this estimate by noting that some areas <em>cannot</em> have any residential population, like a lake.</p>
+<p>So for example, say we have a county that has an area of 10^2 miles – 100 square miles – and a population of 1 million people. The density would then be 10,000 people per square mile. Lets say though that there is a river that takes up 20 square miles though, so there is actually only 80 square miles of land in that county. We can assume that there are no people living in the river, and so the density of the remaining land is 12,500 people per square mile.</p>
+<p>When we then make our map, such as giving it a color in a choropleth map, the map basically assumes that the population density is equal throughout that remaining area. This is the equal allocation assumption. This assumption is clearly nonsense for large areas, but absent other information it may be the best guess we have, and for smaller areas it may not be so egregiously wrong to be misleading.</p>
+<p>Using this same assumption we can interpolate data from one set of spatial units – such as census tracts, to a set of different spatial units, such as police zones. Here is a walkthrough of how one would do that.</p>
+<p>In the image below, pretend the rectangular areas of X, Y and Z are areas that we have counts of the population. Then pretend that the circle is the area we want an estimate of the population after our procedure. (A realistic example is for a fire-department they may want to know the total population from the fire station within some distance.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TMFj8DrMBAx6878ZcwJY8OFkvXGEmmzQUlxWMzGgbyAXra3sXWpESfwQAvE-s0MV3kKBhMTZCjC5czsjEEfzNt9ohBCaM88z_CpAQA3xL7A3rzj2CLZ0cY996zkrH_iPavXGrQ3odhWEH-e-FGeAsXrV_xRn2cgAWcD7aMye9-3NjBuUwkaheDAShKSrcTlkPiFiXohoGyn974UDdfelY2xGHHVgblxX6zLNGvIcs_IKrLXBRxfNlA9e0OFW3tWIwgovpbCQ0cVvNFNq-fEc0qKHJnJks2iPcK2XKT4yFwjMqD8Nujba7iqetDWP0GxwLE2WZP0H34IINgb-Ool8_7HGLt6IaWCz776emcV4PIKDTbidho3_Ml3eZtu5PmpY9-yAt5INfCX7JS_0s3S3Cn5Yx9w-hUQjWA4cUGIfngngiqrMdNG7BrV6oThj6RRWMPva1b9VOVMJh6E0WwSln_sXxSPb7-0CIa_HdP19Yu0xA_FROVVmzVp12RFskfKRtegHPfiCNVBBedqz7jHkorFJbLUyCeeqZV9b63Bma8ATScFkqPNI80G1cuc2f1x1-Q8SnxTjOQ2zWMJsCp0CXU8yGH_m-YgApxDW_GEOXKu2vd7_U-Vt=w527-h480-no" />
+
+</div>
+<p>First what we do is take the <em>intersection</em> of the two polygon layers. The intersection of two polygon layers are the unique areas created by their overlapping boundaries. (This is easier to show than it is to explain in words.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/K7L7so2qHPn-KdnvzyF71JvNJULcCoYCYqPnmJFEfntOswugOzOGwSULVn4ql-iE_H59OkLxlQQP5aISTqPm-5D0ZKmIqftX5T3BlMcp_Pb1l2EF6ukkue2iJ62K8p-Osw5gMALNy85eX31HbDXo0JrxFAg0gbYrNKdbFdWW1tPF1WNpd8wCVlkQ9U4O7o2MtNegWEnQh7hh4ZGMPlWzixByz1ay7EqaEb9cPTG5G6tm9uSTeonLc3RPo-JNM1ZEah4ARgI4HejYhSFvKVFg5LaEAS93vmYF_NOKGyvtpTv7d3JUBB2OprO8XSNd0pydGnjBRH1smQhN7svVG3gRRhI82Ls3HG4cttXbkauDGbagw-sUhJsgHUUo49hKszI_TL5aPwD4FTUfi_Wvo77fdjFc3RBhPZPHKkNe5jiF_n5Qdr3_B6r_Cm1lxIlvis1ZjInothvTbWtfu-4hOHowHmzj4e4i-Bot1Da77lQY6hOp5jq5ELPPG4m_OfLo5B7D3lqhlWeXuTBgdMJb09RKSD3MpoIAlOxJle5m7NHSu8KEqYV5gwi46o5PB_fgDHwLx4Kufop8HQez7VRnNDLv_R_nn_Gxwxn8RhjS6luU7wam_Mt5Vr4N=w506-h450-no" />
+
+</div>
+<p>Now lets say we know the total population in area Z is 5,000, and its area is 100,000 square meters. Lets say that the smaller Z area is then 12,000 square meters - so 12000/100000 = 0.12 (twelve percent). Given our equal allocation assumption, we then multiple the total population of 5,000 by 12%, which gives us 600 people.</p>
+<p>Follow the same procedure for the Y and the X components, and then aggregate the statistics back up to the circle of interest.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/EEFbo5We9MkfkPc3nSJQ5mntaqDIMg4_zDcD97pEBxjwiO5CHMV7-Hi0acsY0_GOkB8ZpZgG-LPrlwgdgjQpqFVqTVZZwwma4ZPlB2y_qHPif880ZOM_NUQg1EQaWd8Gl29Ucg_KL-nFZUsvasmWAtPGtoOUzY03lVtgT9GXAUQraSpZI8WnwrC9K7kY_4Oj_24R7X_v1cgW4V4jSfLyq_K5TVusgcPnuSIxW7MKolx8IskmCW59CuGkNRYZks0DHotjkS3mUpXfKC87QIihvlaOTupvw0Jp8ImBCmgtZLIucjJRq2oca6aUMHy0_gxUmEda9NiwamvQlGs8rYOLjDjbYyYdpKMCY586yQyTuXY-LHAuUsZBNIXkC_R6TAPI6r7elljTcnRRH0urDL2p-pdAFK1YW--noHSd6M9cvwlXFGO9vQPj2Pa4jbRqH0LMj-sX8XlVV_-fUDVXBmnlKuCJ2yInvaQTWu_kMkz21c6kWdcV1CyQK8W9mzhGDG8LzDtKI_idCaDdtwXfFz5rf5MyP00R5Eq_9NZQIs3RYvwrU73soTxgcjter7NwSi4tdB_v-yvjdoE5xVdbCe7sJAieR1BxIrEEmNKZD-PU6181p9YZrvVZ=w380-h199-no" />
+
+</div>
+<p>This is the approach we will be using in our tutorial for this week.</p>
+<p>Another common approach is to interpolate the data to some very small unit - such as individual houses or tax parcels, and then you have more flexibility to aggregate up to varying larger areas. A good example of this is in <span class="citation">Maantay, Maroko, and Herrmann (2007)</span>, which had the motivation of seeing the number of individuals at risk if there were flooding in New York City.</p>
+<p>In this example, each of our larger areas has 12 smaller units. So each of the units would receive 1/12th of the total for each of the larger units. Using the same 5,000 estimate for our Z area, we would then have <code>5000*1/12 ~ 417</code> people for each of the subsets.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0ohdLVFDNzx-3iVmF-7CJSu2FK1f4zVrp5zbOxPcyv2J03XT85OV22H0c7QiZwEGQTZDiEBWHZkTv-q5Kd0YpMCJ-9cxXnKJQhzF1zK0ElXw09gN-aWHLGLMfJwuhQJTt2X2MXkX9iVcHH9rhcXWJwRvmh3OSurC3AduUL1mcNVzuI6PcqPK7-6POiPgfu7pSjM-ipuvwDFSyyb5sYCx_A8BJGFdzAT5tXNKGsyW6idNMmw5xQgOs-c7sgVtJ1ux6nMISgYErZZy5MDCvMHZdz6iNNZ-ORteMpE1e81CFQmcXE1HsTvRCQzivu4_CUe_NR4c6MCd5Q1KMMue9uzbhCCphJsxha0ABgGAZP26l6DV_LXrRA7uK2yBOaN6aClnz6k6i1zRWfFBBtT4lKltFRYZqBhDE2muCtTJzP01zPVq4OYTQWzyz9diSsIh05KYTRcQDxByi2MOEoRU5w-q-OF_Xj5bDC4i6mxeBahSjYVmyQSY2OIYEUGwP9q8IpAl5iCe5oxzfhfOwAVk2R6za4314nArooivgDDebsaCq-b-qAYNBbF4LMnb4Er5nTSkU5MtXzyIMkiWsBjCy87PDyGDnmLfEONcUlo_KNbKjFFG48ZlPVkN=w699-h635-no" />
+
+</div>
+<p>Then we can either map our individual subsets</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4nw4yzWvZDlNq7J-bQQI91aThwlzjEfUoYmTYPGsEcNKzB6SXKP0FriQcMQ05OeJ7sG9iJTIukYD1oGpMLQyA1jeZvm5f4rm7jSacWXczz0dmsbPDhdHxMIdY1VP7ibCdolQniv3ouQygep5QgyZL92KbyNP7JewrPEYZt3TYFoUnu5ItvVya2yGy2hEwGr3-Oq2ONx6TkGL-Qoc4_Z6u-3TCTYAPLEJHoql8ZSMHRHHF13sie3MysXYWzcK1ypC2gNJKqrkiLW-LGIlX-Xkj3T8PdD326xrjMMJbvvIxofZx9zgI8ggXCg_1s6bLOhRjAD8hvrUWCrhb79_7G8IrAcymKCNSaRIILLkj_avQCKNEC5LV_kGxCk_sIEmUuerGTD8XJVlHz-glzvdNfSkAGd6tjROdV7c0jshhFkNE01Z-0Xh2LPEkjhG46N29edm1S7lqYikrCFZG69Yt5iBeDKnsUA0Ob3HMp3V2fIKGjitF9ujs_9AZN1RgPYXIjiAO09z_GRATBJdc8d-KxXX8PLayfN0vKPiQHUo8Zomwj8_Cr6NLgQ-I9QiLrZsff0tx7qpkf93Jwi4QRxFiqUbUoiNZ5m15fhh830Hlh8SjoI8NLjnsmNZ=w500-h369-no" />
+
+</div>
+<p>Or we can aggregate our estimates back up to our circle of interest.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NRv3bDqJIakgdXWnQx_1pyiCq_TuLBpXgkcsqLFENMyRi-y8UPa6VaTLvIuoXTsMpvSOETdJdbHQId-6vycS-qvDpyFQkzGkQBr-fbBPTRJFPgSOApkal_f_P48rU0nZHlklb8GMT2gP-Gj_1M80w2XHFaVAXWb2D1G8ps9h9IiooJqQMAksrfpYEMTXehjjJS7x59LUHaih-mSyB2LC0zybHpDWR7CIEe1vddlOQFJrS_dKjFYiCZRw8O8UxfSGJ623l9UD--H_qnQq3lTqLrDSBpATeASryZ9sQfrx7AIfGm_A-qluOMwAjEgkFO9O5PJUBgE-JA2HvkJtKYyfNQTp9urAOD97QvmW3QicRgKXYSBS4a5hKyAU9BgICycIBRM3bRxtkviVtZsDfRMV-TjNDh9stsePmKCwDzC9gy7H5z7NP9o77h7aqAzUt1O_BSAdZIyNDLp3igufovAcQC_rXutCniub-ZZljaXRrhZxIntoDu1cfCvxjm02n_OTUbRT9N2__-br8K-XFSNdIc6TBNIOvr2Enc3BGI1b8Dxm6GdGhQLC82bwTxLUlECU0UTG78EGd8MapjYzODzqhnKh6kb-oL1zzZW6DAFE8dCAJp4uLGx8=w500-h369-no" />
+
+</div>
+<p>With the smaller units you may just make the simplifying assumption that if it touches the circle it should be counted.</p>
+<h1 id="making-bins-in-choropleth-maps">Making Bins in Choropleth Maps</h1>
+<p>There are still a few more things I want to say about choropleth maps. The first is how we choose the bins in a choropleth map. The bins are arbitrary, but can have a big impact on how the map looks. Here is an example from <span class="citation">Slocum (2005)</span>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GNXo2fuWEaNKZh_OPlGGtMk4dTynBTwANtz5xTkDeWjACJIEytJeMPRPanEr8Xp3tXwIlBYs-jBpkB1Y1zslM3lH8e80Tvev2pSJN25-XUfdIGZCRxqtritseHI9bwlVgXiQpPXaHWMuIQeeZuViFHSP3qCLLNpFXHGKvQ_IWIAzcvs_pmjWY_MT6IEVavOBHPB9ViDHAPppOT8H1v85AlJnQxKMgSB4R5ptmqFzHB1YaSmnKK4Rpdki2jQQevEwJDCvkRly2FTmBqh_n52S3xLY1OBDGhy9_iMORz_Z3YiJ7u0mLYhgWJQQ-_8VlkZJ6y-vpEGz_RysQOPatTYQB5TTVRucI3fOtdbfCoFAJjkMO6FS-gZqUAy52_docknyif3cb3lXr4-IHeTw-RxRCqN-fYDLDCji9XCwg0zynzDD-1Sw76vKTWE_Aqa6d_deVpDG0TtUomOZvD5k-pFl-_Ept423HHauC1wibMD7awLxhEPLh_fcERcjMzRhxSQJxmD4Hinz1e0hMYkBnikA6LVlKY5IDxXFYhE44xF4-sm3br_5Smpx4cL98NhiOwhw-s2ApAtq4ztop5NmOubhabX0KJeOJTbh-Y_DThAGeMfcaP_Z49X6=w742-h950-no" />
+
+</div>
+<p>Note, popular notation for writing out bins is [low,high), where “[” in mathematical notation means closed and “)” means open. So if we have [0,100) colored as black in our choropleth map, that would mean black areas could be equal to zero, or could be greater than zero but less than 100 (so 100 would not be in that bin). You can of course switch which end of the bin is open or closed.</p>
+<p>Here are some popular ways to choose the bins.</p>
+<ul>
+<li>Equal Intervals
+<ul>
+<li>[1 to 100)</li>
+<li>[101 to 200)</li>
+<li>[201 to 300)</li>
+</ul></li>
+<li>Quantiles, same number of observations per each bin, e.g. 50 black areas, 50 grey areas, and 50 white areas.</li>
+<li>Geometric Progression (equal interval on the log scale):
+<ul>
+<li>[1-2)</li>
+<li>[2-4)</li>
+<li>[4-8)</li>
+</ul></li>
+<li>Mean and Standard Deviation, e.g. if the mean is 5 and the standard deviation is 1, you might then make bins
+<ul>
+<li>lower than 3 (3+ Std Dev)</li>
+<li>3 to 4 (2 Std Dev.)</li>
+<li>4 to 5 (1 Std Dev.)</li>
+<li>5 to 6 (1 Std Dev.)</li>
+<li>6 to 7 (2 Std Dev.)</li>
+<li>above 7 (3+ Std Dev)</li>
+</ul></li>
+<li>Natural Breaks</li>
+</ul>
+<p>Natural breaks using a clustering procedure to assign the bins. This can be useful if you have data that have large breaks. For example say you had data that looked like, 1,2,3,10,11,12,19,20. If you used Natural breaks on this data and choose 3 bins, you would have bins of [1-3],[10-12],[19-20].</p>
+<p>ArcGIS defaults to using Jenk’s Natural Breaks. Note Jenk’s original procedure was equivalent to the clustering procedure called k-mediods in one dimension. The ArcGIS default though is equivalent to the k-means procedure. Natural breaks does not tell you have many bins to make the data into, you must choose that as well. Also it is very rare for data to have natural breaks like in my example, so it can potentially be a very bad default.</p>
+<p>Unfortunately there is no easy solution as to what bins you should choose. When making comparisons between many maps I often use quantiles if I am making several different maps <span class="citation">(Brewer and Pickle 2002)</span>. Quantiles have the nice property that they are balanced. With other schemes you may have a bin that is empty or only has a few areas, quantile maps force all of the areas to be equal.</p>
+<p>My most common advice is to simply not be hyperbole in the map. If you have some external standard which to identify outlying high values, reserve those for the most intense color on the map. It often takes local knowledge though of what is being mapped to choose a reasonable set of choropleth bins.</p>
+<h1 id="alternatives-to-choropleth-maps">Alternatives to Choropleth Maps</h1>
+<p>I wanted to also go over some alternatives to choropleth maps. Here is an example of last weeks homework.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LoSsc-e5PXZOhg1N_sdvtPPX-meiu3v8oLXA-Sq6xZRQtOclpxKkAUfZRoXCOdt3s6DgF_px85hTVhxF5OOrYfmNFXFj8er8AJe4xH_L-j63sMTFYQYCTekhdxQ5nIKfKplKmZOlS92Wsv4X5wRQAoyCHC3nrMezOMjBuk9jnT4QXb42M7HyBujJ9b2eZX_D9eoVXLZA62h_7OTyau6fL4VM5fK9cCmCZu3VkrLxPH6VryskNb-OYeoRXd09h8waEypVS2omBSDUG2shPo_FhrQS2bDwxmkXFRIf5_IxpUPWsXf17J9AH_-mlDm7j0t8NVnIYyQy9h5mPax_5orcOnBCvrSso8ZWaRmWsFLH2KdLP5rYo5Cf7LGTAe1t7CdVf-ItddpIxSbY8K9rnQcw1nJb4-dkAxE-7TL6ZT3U4UCrzmQDScu6dcchn83s5XAIgG7GTh89FVcpZ4q6dvpVWqAtgjHFEQ98cQdke3js5SMLIo3DfE1Slnr5Kgk1XVNckXZvL8lci0YFLr4ihz_DAJtvdZ9Vk5m_8X3KDM4GxDYefhhFlrS-sK0TDBEzfPjtNpjvc4qhybPB15LfpMy1jHjAaa59jbrbKm5bJN1oDkLU-nSj-Cdp=w1175-h907-no" />
+
+</div>
+<p>A simple alternative though instead of color to encode values is to use varying sized circles. Here is the same map using that technique.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ONNuVca2Rswuv9emdCMK4YkKsEg8xJV-mQ_C0913dNgt2NDGKj3MAgicXZy5hpfl5L_0QwsQkbedtRbYCoHfJT8hV2xDjTkaUl74FS1FoTJn-KBw5JcKqAgqjCH9KoHP51WvFYit34vS48Pz0wQ0AmJVE2fWLggmFKmpoby88mBQ7t2gHmxPb08o3O8-vG8sx7cSXHZVLzXETe8vldrkk6dEEHdXDgcK3ExTi-_pTJjn-sjD-52thDPiYHkTD6s73slV8llKYAoZmCo1gQfiWIyEjyelmpgJdACvIDd_PI4Yws1nojBoXiFnWCcg4Q5Dfsrwcgt0AmpsIppqv6kQNwt-If_NhQa_5r_7mvJ8PMAcF3Zu6udritsv5UiBageVEQTVpGQH9ll-HoI-NzpbQxdOP8Kt7BsBki_KQ2C7EnlMSm1L9V67_ipQ22rsrn91OP4O9AT22uOQfrL23rYVa697eR_Ibw3Tk7r3BUA3gWI7Shh6Zl3WlatTW8BCdQmc7HNrun3HjaexrMW_JdH9iCHIFFRfeHIsrAqt5dAqslxvjBNwDPPJxMdfHE-PIhuGNh3u8v0BxzjvUDxCd9MevA3V3JvmV7Un9oNMp42UNjQn1KryM-oq=w1150-h884-no" />
+
+</div>
+<p>This is nice when we have very small areas that can barely be seen in the map - they still can get a big circle though. A problem though is that the circles often overlap. Here is an example from <span class="citation">Schmid (1960)</span> - back when they did not have a computer to help make maps!</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fbi5u9tqxh-HuhlJpzr6u5CzTdZD-ftEi-iz-Af4Dd9alafobMTT34cb0UjAF0nor5IYBpkjuP0_NEHIv2JcHSIZzSiP1f-KVl6LFdj6s8QgTde8cS40lVtSD2_jvvi5S-ETg1zScKFFe1WdbUrfMclqLak4Xj5G-6w8ze_x3Jte_BkQcgGRJdXzZx45r5qF3Uy5VK3gQjtJwBmgfLIVUrW97QlNPcWMTa2_fl5PvqGgNm68qJAKjx45yjrFCCFRf1oqxezh8m_ZQ5iAqDiLmwo6puksz3HD9Xm3oHlyOslie16PBpPGW7VRpGnj-cPL5zKArudxp0GDniL7Y__dFkp9Kq8SeS703KERq1mCZPd83lSH_t8JR7DywNJGumM2VjWPB0midgc6xSeLuI2slPU-c3OQszrm5jtf7z0n_zRplZcLMatYgAjXZqzkHuxiShcXnoW085Y3cm8cIJ8-myvn6hmdZxO4_kByyTJbQyTnHM_S1XKrrFcHEPrjVBkoQLp7AUqDG9czNiCIrlPD67MwVaqYaikaXXXGohn_Utf7_OqKAqG2XLaus2tTCGEdi5A2qmfGBGdtn5gQ0P32wOB2gz9kT7ForFvf2kI_Y96BRF2QGR3l=w615-h907-no" />
+
+</div>
+<p>Another alternative to a choropleth map are dot density maps. Instead of colors, one places a dot in a semi-random position within the area. When the dots get very dense, you can see patterns, and the lines in choropleth maps are not so jarring. Here is our example burglary map (here is just the counts of burglaries, the rate does not make much sense for this type of map).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RAB7KtM8LzUJfwsIlRHCZTxXezG5-FjyJQa9YHG5hucju-CnJhsi9Of4ksm-or-TR80kVDQ72OdRk5no6aLJStxS04CObbpXXfz9Fzr42xM80LeQ5EJHMAQc6lRFKu1p598wKFzBC5fx08J1lVXbISjiCyPVvaycwL2brnKVFi6FqRIRe-vWI2hd424ZztGOMvOneJwL2UASeAEqXWHMdvQh174XnOPmq5UWU-pIJyi97dwi7on94WGd72ZFNLjw0fJyknsomfp7KzH3vkEgCHgcMZyfpjkV7Hsx5QqQus8sgNafONi_uVRB6ZSOyuZ6JObiQe-fgI_BcJkGVLEX_BXeMpW6y_rNU0ptK5b9I4Ei2_cdPcVnVEKc3WCAeaNShOhjh1rvmydPzRqWYdML3wime2YRu1Iy0jEu1fSQi1fVxOYVBPrK5kgsI6vtPoRA4RiuGJBNHOmev_-pSGagh55hcBqKxYPh8J9rebAkBydcrSi9IgtXTrGg-lSiNKjk-v4ZJg4zxmdB4fT_LPb16UjUQSHNQm4OFkfYaC7SOgZ4OjGpnlYhkQBEOIBMPN6YiqZjrchpBFWX8m_SdZ7ZDLcXI0FBKwfP55moaM8r8BmqySxe_vFq=w1230-h950-no" />
+
+</div>
+<p>This tends to be problematic for very small areas, as the random placement can end up in a location not appropriate and can be misleading. It may make you think an event happened at that actual location, as opposed to just being placed randomly for visualization purposes. But zoomed out and for large areas they can look quite nice.</p>
+<p><span class="citation">Shaw and McKay (1970)</span> use this technique to map the residential addresses of juveniles and here tuberculosis cases. (See below.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ckriBvai7yUKSdMmiSuA2sOetfuBWGgYsz2hre72TgmaxM7e7314ezzmHPo5azfR6kRjArAT6RZ_l80AAJfiqRdCqLHHjIslHeoYeCkST7on-w7YlVEAlJpXo2RentX1MckThE6pPdxV4toJBEVxqxVFzdrOrl7ODEkAmFjmtTnph4Q1Y7ygAlw-Pru0ekSPTFJ4ribIEMt9LFcNbm0FaFHPRfH2d30aXC1SixaDgtPrnGjjhtz_PS1Ulewvg_Vqc9yQw41jpDXfshtHHxV0UPSuLtMUzqba3klG51vmtVz1XO6FtcLUeU9sHVCaOevf4HcLjIlz2pwdALiMHHY50NSWZlwL6SI38qYFufyHJTaD9_nWWxCvADSca52HZ0av2jM8RorXO0ME9goBBNys3IxebCURKwV18r6Xhx9Am-4aSS9sYteVWEYHOdJwEp-3SoiJQb4Odzt7S2pRdC-RxWmrg7UGCial1u1lcCjmqxAdTGS-JMbuIeNyA2yAWZ7B6LSZ6i9G4i_IFNVhnvz8n5zsvZWahut9pGkJ2G3OhH21z9YuMHTpiRIj6gllibmk1cNvjfrDFNDHuu8ZhRTvdBJZIUzgG8UwMhlW5eQh0hH6qxDKqx-A=w617-h892-no" />
+
+</div>
+<p>This technique has been used very effectively to visualize demographic segregation by giving different races different colors for the dots. See some examples by <a href="https://www.flickr.com/photos/walkingsf/5559914315/in/album-72157626354149574/">Eric Fisher</a>.</p>
+<p>Often when we place something as a point on a map, it actually refers to an area. This has caused some problems with <a href="http://www.getsurrey.co.uk/news/local-news/misleading-crime-maps-leave-residents-4816067">online crime mapping</a>, in which people are confused when a crime is assigned to the middle of the street.</p>
+<p>The last alternative is a cartogram, which I introduced last week. There are many different types of cartograms - here is one example called a Dorling cartogram, and this is an example from the originator of the idea, Danny Dorling <span class="citation">(Dorling 2012)</span>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/J7rwmqMaehFgNwt9wGM6yy5KC0Qat_0YF4jZNIBi66A_7eQ73qiXaT9DH4IxSWthVu5pzYScMfbRUqNIg_Ol-mGlEOXb4Py7jiJXKzSnqQk8N36a2MlC0c23Cp1SkxHd-quUs6D7WmxPFHQxvbU0zCWFS9pmZg20PWcc41V9-dsobWVuLecQ_15kIaTVQ4LkhQC9LtaVGRuGHCe7xpSQvLL-_3oofjWwCqSx09t7zKLkSrT60Z4SId0VMw4HHhc2Zpr-KEdTn-uvXKS2zXmXALELF-EQlcT1w7VUw91jEVOlP1hTtEaaHfk6yA-icMXOzRJb-imKD5u7MBTMJYj90JqyVs9PZTpiSVK01TZaUjO1GhzYYI5zwg-bTKTxiZJK0laFOYS10IMl1jHw6q8eLw19Pgk18Ojwq2DZg7DmMza6VC0A_YwRpocvZ-GKoD-i0Bh-8DvfWlG0DdY7871IH7-xDxoX865eYaar6sfqS5MjjYXUU0e2MOJMzECvfXXawFtmeYy3cDDAcaBvbtDQWTFXIU19cdDg_WRw_GMkF5DmhOVRL-GQ9mU4PaZxOXFCKCBCeolbO_OCUgsC8-n8CxMtgJgE6Oc8ftRG3FHMj6zqvORn_apj=w594-h840-no" />
+
+</div>
+<p>It uses circles and colors to visualize different data, but places the circles so they do not overlap, like in my original example. This loses the ability to easily tell where the original areas are, but tries to preserve where points are nearby each other.</p>
+<p>A benefit of using such a map is that you can use glyphs to encode more information than just one number. For example, you could have a T like glyph, where the horizontal cross bar is longer for those in poverty, and the vertical bar is longer for areas with a higher burglary rate.</p>
+<p>Such glyph maps tend to be hard to read though, especially when the little graphs are not aligned using a common axis. Here is an example taken from <span class="citation">H. Wickham et al. (2012)</span>. It is a simple line graph depicting hypothetical data over time across the US.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/o4s9EA5oX3PRv_EZ_lbf3qCVr5F9VvkieXEmYDU8O0o-Op0TA8c5c9sMhFKOPRJMU9v2k01-79_iFq-s9XJ9c_1QjBOEykQlIdD75FL5fehI-A0NsK0XsHtAn32fZf5pJqpidSdec61MfPIfEvnZLQIEz37RaTl2KyNqzRGSQu95s3RDmOto1k46kxTJ-KVY1P2HBLw6FQtBWoGVRJGUgCad8K5KkiE95hpinY7zik_aXyysbxdorbovAFMrGv4ZHhgQJZSOCvtg7gTigso-b2CpPQPky4Z5Mcq-pcHWiYtqbP8vJiBO_GaQKsvzLVLjOLr-DWjK7qsEddRI1BXbCqQIshCazmOjpRsj2t2_g9pXEYccsZZ5Ykp6Jr17gqB36BndYnMX6NhNa6mF0keGfGQufpA01jdfmzCmoZE5q7CqEx1E9rV_utnMbbIPLfeNU3nveSq8n9J-8o_xDNQLc2nsUxoJ_NB_e7RC2cQ0cPKX74Mb5YLk5VxKQT5tMwqWC60ky1Rw_SBcG5ssazKVYrwaghtbzXdX35iLrsu-3ZhtR-eJflAAOPES_4NQ005xMsMZNPfBi7AORzpr2SmYr8U5PV02iRzdQCDesBP3FVUl9lbDFO--=w1017-h608-no" />
+
+</div>
+<p>But here is a similar map, but has locations not aligned so nicely. It becomes much harder to visualize regular patterns.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ktd6yYnRCGTW69qtM9O2kYHQl_wZlZlhPaZ3XaZ8Yi0oy9Dztuv5DeunBSr6mdljoXSSbF-EBvG2Q7Wwi3DdSECbEQy08X0aTUjG8CiRkbceoCGTPqHq3e7woH7wRVjBSq4grMMz9Thi41KloS_z9aGVwF12v0bbsHUBwNxBbArfEbXojdjvKREGGDlV31IskZFWra5jXnYqaABjg2052lwmOFKzpk8tx_jogguRkP3RvA1t-d65XsSR1szdrY87rPUeITDaavb8Dq2dkVcvn4VMNXLjUTkmh3bCCFmrCVtjkK6Lkr2fD70Tlh2W7EeBYE2wXmzR_J-iI91AzDmx0vTEfzaDkT1AOuglO5dPyQ6EgK98wOXp0QwmiXIgDuLDddt235707Q81tCOdbhCapaaLe6HYUnCUrFjRLNA_W8aTbT7F6YVTTxlzVTxmQr4PWxuXtceWX5h5v0Lu6D76xtYrkY8IK80fCpEDyEcYq2ypEoHBlcBYCFPjyq6PAdJPXConU14P1HF1zdl6MyqVd1baFAk6rSpsF9M5UaY5Gcmeh3Y9gCMfSTQmKWe5l752knKWQhWq-TPnIyNtmDQghaKsO60XsWE0fH85bmkIaV2gop1PCJAU=w1019-h612-no" />
+
+</div>
+<p>Most of our areas are not in convenient rows, so these can be harder to understand than just plotting the colors in choropleth maps (or making several small multiple choropleth maps).</p>
+<h1 id="homework-and-for-next-week">Homework and for Next Week</h1>
+<p>You will have two homework assignments for this week. One is learning how to download Census data and export it to a spreadsheet. The second is to do proportional areal allocation. As a warning, the areal allocation homework is one of the harder assignments in the course. You need to really pay attention and follow the instructions exactly for it to work out. Remember you can use the question forum if you are stuck.</p>
+<p>The readings for next week are:</p>
+<ul>
+<li>Sherman et al. (1989) Hot spots of predatory crime: Routine activities and the criminology of place. <em>Criminology</em> 27(1): 27-55.</li>
+<li>Brantingham, P.L. and Brantingham, P.J. (1999) A theoretical model of crime hot spot generation. <em>Studies on Crime and Crime Prevention</em> 8(1):7-26.</li>
+<li>Ratcliffe &amp; Rengert (2008) Near-repeat patterns in Philadelphia shootings. <em>Security Journal</em> 21(1-2): 58-76.</li>
+<li>Levine et al. (2013) CrimeStat Version IV Documentation, Chapter 4 (Centrographic Statistics), Chapter 7 (Hot Spot Analysis of Points: I), Chapter 8 (Hot Spot Analysis of Points: II), Chapter 10 (Kernel Density Interpolation)</li>
+</ul>
+<p>For the CrimeStat reference manual do not worry too much about the math. I am more interested in you understanding the different examples and case studies of where you use particular point pattern techniques.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-andresen2011ambient">
+<p>Andresen, Martin A. 2011. “The Ambient Population and Crime Analysis.” <em>The Professional Geographer</em> 63 (2). Taylor &amp; Francis: 193–212.</p>
+</div>
+<div id="ref-boggs1965urban">
+<p>Boggs, Sarah L. 1965. “Urban Crime Patterns.” <em>American Sociological Review</em> 30 (6). JSTOR: 899–908.</p>
+</div>
+<div id="ref-brewer2002evaluation">
+<p>Brewer, Cynthia A, and Linda Pickle. 2002. “Evaluation of Methods for Classifying Epidemiological Data on Choropleth Maps in Series.” <em>Annals of the Association of American Geographers</em> 92 (4). Wiley Online Library: 662–81.</p>
+</div>
+<div id="ref-dorling2012visualisation">
+<p>Dorling, Danny. 2012. <em>The Visualisation of Spatial Social Structure</em>. John Wiley &amp; Sons.</p>
+</div>
+<div id="ref-felson2003simple">
+<p>Felson, Marcus, and Erika Poulsen. 2003. “Simple Indicators of Crime by Time of Day.” <em>International Journal of Forecasting</em> 19 (4). Elsevier: 595–601.</p>
+</div>
+<div id="ref-maantay2007mapping">
+<p>Maantay, Juliana Astrud, Andrew R Maroko, and Christopher Herrmann. 2007. “Mapping Population Distribution in the Urban Environment: The Cadastral-Based Expert Dasymetric System (Ceds).” <em>Cartography and Geographic Information Science</em> 34 (2). Taylor &amp; Francis: 77–102.</p>
+</div>
+<div id="ref-poulsen2004using">
+<p>Poulsen, Erika, and Leslie W Kennedy. 2004. “Using Dasymetric Mapping for Spatially Aggregated Crime Data.” <em>Journal of Quantitative Criminology</em> 20 (3). Springer: 243–62.</p>
+</div>
+<div id="ref-schmid1960urban">
+<p>Schmid, Calvin F. 1960. “Urban Crime Areas: Part Ii.” <em>American Sociological Review</em> 25 (5). JSTOR: 655–78.</p>
+</div>
+<div id="ref-shaw1970juvenile">
+<p>Shaw, Clifford R, and Henry D McKay. 1970. “Juvenile Delinquency in Urban Areas.(Revised Edition).” JSTOR.</p>
+</div>
+<div id="ref-slocum2005thematic">
+<p>Slocum, T.A. 2005. <em>Thematic Cartography and Geographic Visualization</em>. Geographic Information Science. Pearson/Prentice Hall. <a href="https://books.google.com/books?id=2uQYAQAAMAAJ" class="uri">https://books.google.com/books?id=2uQYAQAAMAAJ</a>.</p>
+</div>
+<div id="ref-stults2015effect">
+<p>Stults, Brian J, and Matthew Hasbrouck. 2015. “The Effect of Commuting on City-Level Crime Rates.” <em>Journal of Quantitative Criminology</em> 31 (2). Springer: 331–50.</p>
+</div>
+<div id="ref-wickham2012glyph">
+<p>Wickham, Hadley, Heike Hofmann, Charlotte Wickham, and Dianne Cook. 2012. “Glyph-Maps for Visually Exploring Temporal Patterns in Climate Data and Models.” <em>Environmetrics</em> 23 (5). Wiley Online Library: 382–93.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>See <a href="https://usa.ipums.org/usa/">IPUMS</a> or the <a href="http://www.census.gov/programs-surveys/cps.html">Current Population Survey</a> for some exceptions.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

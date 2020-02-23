@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Aesthetics of Maps, Week 3</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Aesthetics of Maps, Week 3</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#using-data-visualization-principles-to-make-nicer-maps">Using Data Visualization Principles to Make Nicer Maps</a></li>
+<li><a href="#using-color-in-maps">Using Color in Maps</a></li>
+<li><a href="#choropleth-maps">Choropleth Maps</a></li>
+<li><a href="#interpreting-choropleth-maps-with-differing-areas-and-baselines">Interpreting Choropleth Maps with Differing Areas and Baselines</a></li>
+<li><a href="#examples-of-bad-maps-and-graphs">Examples of Bad Maps and Graphs</a></li>
+<li><a href="#homework-and-for-next-week">Homework and For Next Week</a></li>
+<li><a href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week I will be introducing some general advice about how to make your maps look nicer. Things looking nicer is often subjective, but the advice I give is motivated by improving the ability of the map to communicate information. Some people do make maps as purely art, but here we are most concerned about making maps that give the map reader some information. Things looking aesthetically bad is often related to the fact that it does a poor job conveying particular information.</p>
+<p>Also I want you to make nice maps, mainly because it looks more professional. Many of the errors I point out are easy to fix, and people are likely to take your work more seriously if it looks better. How nice the map looks is a direct reflection of how much time you have spent on it.</p>
+<p>For a reminder, the expected readings for the week are:</p>
+<ul>
+<li>Jerry Ratcliffe’s <em>Top 10 Crime Mapping Tips</em></li>
+<li>Aileen Buckley, <em>Make Maps People Want to Look At: Five primary design principles for cartography</em>. (See the online article <a href="http://www.esri.com/news/arcuser/0112/make-maps-people-want-to-look-at.html">here</a>.)</li>
+<li>Harrower &amp; Brewer (2003) ColorBrewer.org: An online tool for selecting colour schemes for maps. <em>The Cartographic Journal</em> 40(1): 27-37</li>
+</ul>
+<p>Here specifically I introduce the concept of layering, discuss the use of color in maps, and end with a few examples of bad maps.</p>
+<h1 id="using-data-visualization-principles-to-make-nicer-maps">Using Data Visualization Principles to Make Nicer Maps</h1>
+<p>The amount of information our eyes capture in the course of a day is incredible. If we recorded what we actually saw in a movie recording, I am guessing it would be around 50 gigabytes.</p>
+<p>We don’t actually download all of that detail into our brains though. We often prioritize some things over others. For example, moving objects typically capture our attention more-so than static objects. How our eyes work (and how this data reduction happens) is the result of evolution. Our eyes have not evolved to read two dimensional maps though – they evolved to comprehend our three dimensional world.</p>
+<p>Why does this matter? It matters because the way we perceive things can produce cognitive distortions – basically mistakes in our perceptions. Understanding how people perceive information can help us design better maps so people are less likely to have a mistaken impression.</p>
+<p>While this topic is something that cartographers, psychologists, or statisticians may spend their whole careers studying, I am just going to pick a few examples that I think you get the most bang-for-your-buck.</p>
+<p>One example that is important in cartography is the understanding of layering - which objects are in the foreground and which objects are in the background. The gestalt school of psychology came up with a theory that the way we perceive objects in our surroundings are by identifying hard lines that define the boundary of objects.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> In the data reduction I talked about earlier, we prioritize the outline of objects more so than the interior of them. Based on these outlines we can order objects in our environment.</p>
+<p>Two dimensional maps and pictures though can be confusing. They do not contain the same depth cues that we have with three dimensional objects. (Note it is a myth that you need two eyes to see three dimensional objects – simply cover one of your eyes to disprove it!) One famous cognitive illusion this produces in images is the Rubin’s Vase optical illusion:</p>
+<div class="figure">
+<img src="https://d.ibtimes.co.uk/en/full/1426245/rubins-vase.jpg" />
+
+</div>
+<p>Do you see a Vase? Or do you see the profiles of two faces? Our minds are confused about what is in the foreground and what is in the background. Part of this confusion comes from the fact that we do not have obvious markings for the outlines of the objects. We cannot tell what is the foreground and what is the background.</p>
+<p>One way this comes up in making maps is many objects overlapping one another - like points of crime. If the points do not have an outline, they congeal into one giant blob, and it is very hard to count up the separate circles. When they have an outline though, the task is much easier (and to my eye often simply looks better).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/i-YJLAlgSCoa47VzTX5_z-GxBSdefuudUOV9zimzsEu1Rf0hSQdwPhbmUSh5rb26AA-h-gagELEQq3z7bxcm0xcj0FNld0AC-C3RY-8O3bz-Ahb4oPzu8ygLUKHT5l80FuYaFh0IT-dL_MweYzfeM_8GXsbvXX3Dh3a6PFN43vIUYOd7LZEbShE8aeWfb-jITNXQi1_ZNqaE4AVv8NMZyNSgS80ZAUOdGl42NZUAlSjLLPYIuBtR3iKcRfMJkiHPJ-AjJs7M_L7gFbEljn0ldyNtQ_-pYj5xzQbRBWqvk5BBQj0S-CNu4JcfwqSqctmgSqtVpX7FjZuEcZuQ_gt2oaVB6fYUi8He58nLFXtGLYXRD7U9JA8BDGPBm7VmnZohXq_JRUCcgYfrDNM9vkZ1p4XGjD2T024NZvv5Uu8-G0ZI4oqW2EF9YrsQxm_eEXj4Z0f4gtqbUd2rqGZTN-mYTUzVUC1r0oeRtTQI71O8FzMoOMTbNLisGzK3neol0sNKZ001CtL3gCwc0cd1gVAv-8qX-MNphgkqawHpua0gsKwkBp0_6gABDKK-kNP_X7H-G_IWv99Py0ijH0P-g_4vhYOFKbTwzkKsfqAC2AuWIB1ODONplCuU=w538-h284-no" />
+
+</div>
+<p>Aileen Buckley <a href="http://www.esri.com/news/arcuser/0112/make-maps-people-want-to-look-at.html">gives another example</a> very similar to the Rubin Vase, and suggests that part of the confusion is because none of the land-masses are entirely contained within the map. She then gives example ways to better distinguish foreground from background in the map.</p>
+<div class="figure">
+<img src="http://www.esri.com/news/arcuser/0112/graphics/designprinciples_4.jpg" />
+
+</div>
+<p>I often like to use drop-shadows to better distinguish between the legend and the map (when I need to use a legend directly over top of a map). Here is an example taken from my dissertation:</p>
+<div class="figure">
+<img src="https://andrewpwheeler.files.wordpress.com/2012/12/cropped-hilton_zoomin_inset51.png" />
+
+</div>
+<h1 id="using-color-in-maps">Using Color in Maps</h1>
+<p>Another example that is necessary to make a good map is the use of color. In a two dimensional map, color is the only thing that can discriminate between objects.</p>
+<p>Color can be used to distinguish between objects of different types, such as the difference between water and a park. Sometimes it is commonsense about how to symbolize objects (such as blue for water), but that is not always the case. For example, you may want to use a green dollar sign to represent a bank – but not all nations use green for paper currency. Also when you have many objects, you run out of distinct colors to use, so for example you may need to use different shades of grey to symbolize different road types. But then it is harder to tell the difference between the different road types than if you used totally different colors, like red and blue.</p>
+<p>In general, maps with too many objects and too many colors can become difficult to visualize. One design advice I like is to take color palettes from famous paintings. This example is taken from Sidonie Christophe’s dissertation (see <span class="citation">Christophe (2011)</span> for an English article) and uses a Van Gogh painting as an example.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div class="figure">
+<img src="http://i.stack.imgur.com/nSMN2.png" />
+
+</div>
+<p>The idea is that the paintings are popular aesthetically for many people, and then have been time-tested to have a good palette that effectively discriminates between objects. I personally like lighter, more pastel colors often for background objects in the map. Often times though it is just about not making things glaring, and not placing too much information into one map. (I oft give the advice for maps that are too complicated to simply make more than one map.) For the most part we will not be making <em>thematic</em> maps with many elements in them though in the class.</p>
+<h1 id="choropleth-maps">Choropleth Maps</h1>
+<p>Another way we use color is to represent numeric quantities. Such as making a map of different states and showing places with more homicides as darker colors. These are called choropleth maps (note it is not <em>chloropleth</em>, a common misspelling/saying). Here is an example choropleth map showing rankings for crimes in French Departments in 1864 <span class="citation">(Friendly 2007; see also Cook and Wainer 2012)</span>. Mapping crime has a long history.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rcw4JDyclBKPUagEXLi24ei_EuoTke26UfpT3DqTTM6aVWRhYA3CuhMlnxlHoQ56WO898iXEKbCSdQDtZJlDxeht8_ybCfv67MN2DhrgHuykbC0WW-xGkpV2YivMFWSIrd4e30RASxOKVdZcGcu-cEuMkDQsD2bgfcez3kfV_j_DjbeYHNkVbGtYi85-3G9riiLGHKfj9W1o-9areUxcoqwKsWdgBNwt0S1LUY0jtQ6Zj4GpMzJePF8Iv1qoHL378qcLqDLXKs7NQM8Un77TcI_Mbw637tLfdbqbUgGS6Dczf9XfV6B_WFQy9Sa1qu9BEtsYsWLEqpGWKKIJ2fxp-bh9cvG-Wgy0w7RAVV0vfXI3KC8h6d_NJwyTdBRGc9EovBjQTeGbPHNPwLFjF0eDREj4w6k960_w_xyYRcR7ATPJ3yy40JYram-Gy4kqef5B3fIKuZseHLZXOsEVHty3vwXs5FXsIHTp7J3GU1YayfjPrAf_6dCmq25Eule6VEUqL8TqZCghCgEIzV8YD20c-t7G11uQShhNuGmytpPmO2sHBhvTbWtOx5qtWV9w0UcSO001VsBLVsJ_VaM8v4sxrJuYh-heP3jC5W56dQRSYRXHoHbdbEME=w567-h774-no" />
+
+</div>
+<p>That map was made by a French social scientist name Andre Guerry. A more recent (slightly less fuzzy) example recreated using the same data is from Michael Friendly (from the same article previously cited).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bRaeixoVYgxXeDKI6zMeJYh3lwisgtzrfCdc9DlvrkechwBBhlZUWErZzabWObocAPJjbJfRDoVIARMGx72xeOAyvawndGQH6cEjXuH8qr9HGLH3g8bCKi-2y4yVsjC47xGTovk4WSJJQu45vUml3tZ86e3oAzGVD_lsqrmDKZYNWus4P4aESkYkyDu8031COVmS7g1s9dGDYeNvagmoeWuvejqv-4sXRl2CSOrk4vwaK-64Z-itptr9VcVEp5nZf3oqRJkOD5yc3nIwUIyQ5mcIWT5LNCPQKH5Fhy-hnXyeKO7v973Df3SprIyM91hjHceTqs7aOVUKiKJ-1KdE-fCO6QjbaeCzf9FQ_0nnL2cq904nBINfzi4IDcywxx7Row71cmUPgIzM4R88Bb85A-1jHE7xa26axTYfErgsyqWZFmmaNNdmlTCuZDnHywbvXAQTTMTPCWYVvoTsshuj6Q72cwXOLSVXH3dNcGCLx7YIM5IyAxG71ilV_506e-dBLEa_t0nEEu425wDP0mflDbtlK0lLH1nCSNZ_nTdt9iktgaiEUangJNQ4T4aY_KWTFj-9Idgv_3JpztoTTAxT90X87_X6XsOV0SRhyielAXi62NaydwqO=w1100-h784-no" />
+
+</div>
+<p>Darker areas represent higher rankings for various statistics. Here laying out many maps aligned in a small space is called <em>small-multiples</em> - it is a good way to pack alot of information into a small space. <a href="http://andrewgelman.com/2011/04/04/irritating_pseu/">Here is another one of my favorite small-multiple maps</a> from Andrew Gelman.</p>
+<p>The journal article on ColorBrewer was about choosing appropriate colors for choropleth maps. They have a nice online <a href="http://colorbrewer2.org/">tool</a> that I will ask you to use when choosing colors to make choropleth maps. The idea behind ColorBrewer is that certain colors are better for displaying quantitative differences in choropleth maps.</p>
+<p>The main criteria is to choose a palette that people can <em>rank-order</em> the colors. For example, if you had a map to me that has three colors that are all blue, but each has a differing level of darkness (the more scientific term is <em>saturation</em>), you know that the lightest color is on one end of the scale, the darkest on the other, and the shade in the middle will represent a quantitative value somewhere in the middle.</p>
+<p>Here is an example taken from Wikipedia (originally, it is not up anymore) that does not have this property (with the legend cut out). Can you guess which colors represent high and low in the map? The Wikipedia map is showing the GINI coefficient for different counties, which is a measure of inequality (with higher measures meaning more <em>income</em> inequality in this map).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vb8pT0tJTvxthuw_ufAxzTVkoVk8mXy8s7kaZp0su9xR4jgFLHQSWwiMQdRaU70X7Gd8ZhK8WgvxEXSSZBZ1j46tHQqPiDMLnFdJIc9668D_kQ_dSXVvgy2lh4wr8LTLNHvBco1sKPkdN6uXhNnjCHdnw5IqQVKRPFJM0JPVjMY1AAqzsmP5q8rShIPh-l483-KATiVasd9JnlKoW06aZe2l6Nj78k3TPpoA-h7_42va6qL0rOai7aGtZaBMRYnwZZ9DimPfiH59zEITnQAWUJKwdLr-Xwtwh1b7rc5o-YnRmNssOeeB8F_4HHeCmpa1esoyJOWuM7B84ZfiRH6qVPoD9v-wzm5j1I87yniOTq1AbwYljhwN1KOyocH1d4GbkwO3fqZ4wT7CXQ4oIR8ACqPDXo5Hulvq23LGvIimTx_UYfdcmuesLlu1LELqNrJbA3iGNxPbPJa8GcoRbpTKjdgdPS1akbDjer8bptbzw0egXxG1iFsAPS8QG-I-Xm5BWWmAECnPd_ZF8tOxi_e5nDGA-0r0KQFRGbXrLOjHfg0I1tMS9tWFyAo12j8NG8ZCs45WHv7qa-h_Htc29cp_-HHsa6w_r_geeO-jM1qzuX9eWRvfDzZ-=w1430-h628-no" />
+
+</div>
+<p><a href="https://lh3.googleusercontent.com/OLXyAyWkRH3Ff28u9M9mlgRTfBEtyePg694iQrz8jz3IgJ0OCS8_VIpV7b0ebpc_b80Ru-h2EmRAE9DAT2q8hhs1fmMqLK9hy15LJ8RMain90IBWnvsJoax5jgqs4N3WScwRIHRBdjIx2EHfR23emZx3Uq4bqL1ZCBOGnk_jiXuOCFmhaX1Rg6Kv8HQ752K7otlu9o6xiOp9PUey4Lwz-XkYVDfLYmZLUCv76yDfaoSNCusadOGTJhvCNPl-eBvh-G4xJARjeZOSa2N_UtTJVIfYeC0at9YC3m0APD3oYa-JzTtQzSdk7hJvRDw_j97yG4WHqrcQv0erSJenrTyizN4RBsH5cL-Wg6D8Z0-ZWWpUTt0Y1F-Qese_rmqC14cEsk-swa_p3sUAzQqEiXCxntWKe-4POKTtbYyq2LY9ajR4vQcxz-alymo26yEhFoPgNtLI746yl5ZIDS1ierjERwfS1HAfnS_v_KuEf5dwka-1gznNIvLVOHEsGO3YdZsM_cgintdlmnRngWZzO_LzNfIboHx1nHjFYj9ZHHKun5AL6npidwfHeahKH-ohSjEujNMJK4dQWEVFMzA1y6eGDIXMWR_MDAX30BZD9vQzcBEGT5WJqz-t=w745-h513-no">Here is the legend</a> - did you get it right?</p>
+<p>For comparison you can go back to the original map of French Departments and crime. Even though it does not have a legend (in English), can you guess which areas are the high crime places and which ones are the low crime?</p>
+<p>People often use a default palette called the rainbow-ramp in maps. This is bad, mostly because it does not have a clear perceptual ordering <span class="citation">(Moreland 2009)</span>. For example, yellow is often in the middle of the ramp, but the color yellow often pops out to the viewer (i.e. it is one of the more <em>salient</em> colors). Another reason the rainbow color ramp is bad is that many males have some type of color deficiency. Around 8% of the male population is red-green colorblind <span class="citation">(MacEachren 2004, 126)</span>.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>To illustrate the problem with color blindness, here is an example map, taken from <span class="citation">Wiebe et al. (2016)</span>. The map on the left is the original, and the one on the right is simulated for someone who is red-green colorblind.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y7Q411AU81QfoOXPkWXU6SNOye3Uv5X12mnFZbgBaLtJCRMBxqH3YVlZ9CUERJeaARgUc6eyPa9z-pv5fKiB0p6DzETW12JBN_FepqZfLF5zVKfOVSYei98gvHue8CXU5XNtFS_wsV2-keeLmyGC7z5NsHWnyaCDakJ7mdAS4rRcoi9nYlSnfn-VRs22-MWB6MYwWUBb1pK2YJYnNeErcDoKCL3u2voy6v4UrnDfPWoo6k0sT4lfkazbUAK1SxOVCMMcDrQNVan4yIzdFfDD-vmmDnJmCuSG60FlrFbeYBnti7Wlgw8ZQSgOCFoWIWP8JcaDNnS49ahel65d0k3W4wlRog6Nb2JMb62FqxdYIZQMyb7nUt4cj3QReEc4WVjxFwMkQ35KPWP1wzW0pLy-RyUqbx_9-DSgfYlm_5BdGwTBDhHMl99gzvtUqOaTjBDEygdDhBej3n278JY2srulkRqNYKa8t9JcsCQss1h2GKVBQv79iM_qBO2LYef2tZugqRsKXIH7l5vYKdRJXOKb3OWd9Pbq-Pp2xRF4z1OQ9HIF0vbXKABJWb8g1r2RzSISLa7ZzNrOymzKGPZ_OOThDh5KywdRelaM4r62_ATqM35OrviKyF1d=w907-h337-no" />
+
+</div>
+<p>(This is actually a 2.5 dimensional kernel density map, not a choropleth, but it will be fine to illustrate my point about color.) Our eyes have rods and cones. Only the cones can perceive between colors. We have three different types of cones, ones for red wavelengths, ones for green wavelengths, and ones for blue. The most common types of color-blindness are people who lack the red or the green cones, which often results in similar distortions. <a href="http://www.color-blindness.com/coblis-color-blindness-simulator/">Here is the online color simulator</a> I use to show what happens when someone is missing their red-cones.</p>
+<p>This map is not so bad, because the 2.5 dimensional viewing still lets up see the peaks, but if it were a flat map the highs and lows would be confounded. The red peaks and green pits result in the same brownish color in the map.</p>
+<p>Colorblindness is not necessarily a discrete condition. It is also the case that over time our cones become less sensitive, so older people will have a harder time distinguishing between more colors. Also some people can only be missing some cones, but not all. The ColorBrewer app is designed by a cartographer who has spent her career on how to choose appropriate colors, so you should always consult it for making choropleth maps.</p>
+<h1 id="interpreting-choropleth-maps-with-differing-areas-and-baselines">Interpreting Choropleth Maps with Differing Areas and Baselines</h1>
+<p>The last thing I want to talk about with choropleth maps has to do with interpreting the data. It is commonsense that when comparing different areas, we <em>normalize</em> the data by some amount. For example, if I compared the amount of crime in New York City compared to Albany, I would likely divide by the total population, so we can then talk about crime rates or crime per capita. This is an obvious step, as crime often just occurs more often in places because there are more people to be victimized. (See this <a href="https://xkcd.com/1138/">XKCD comic</a> that makes this point.)</p>
+<p>There are two additional problems though that the normalization does not solve. One is that with choropleth maps of different areas, smaller areas are deemphasized. For an example you can go back to the French department maps. Paris is the largest city in France, and has a disproportionate amount of the population. It is a much smaller area in the map though than many of the other departments. It is visually deemphasized, although it is more important for understanding the distribution of crime than any of the larger departments.</p>
+<p>One way to solve this is to make the areas have equal weights per baseline (or whatever metric you are interested in). <em>Cartograms</em> are the type of maps that distort the areas to make them conform to other statistics. <a href="http://blog.apps.npr.org/2015/05/11/hex-tile-maps.html">Here is an example cartogram</a> that gives the states equal visual weight - so Rhode Island gets the same area as does California.</p>
+<div class="figure">
+<img src="http://blog.apps.npr.org/img/posts/2015-05-11-hex-tile-maps/hex-tiles.png" />
+
+</div>
+<p>Here is <a href="http://metrocosm.com/how-to-make-cartograms-with-animation/">another example by Max Galka</a> of making a cartogram so US counties are weighted by their population. (You need to go to the site to see the animation.) There are many different types of cartograms. You should know what they are, but we won’t be making any in the class.</p>
+<p>The second problem is related to the first. Big areas get more visual weight in choropleth maps, and these areas simultaneously have the most error in their estimates. For example, if you made a map of the homicide rates for New York and Pennsylvania counties based on one year of data, you would see that the places with the highest rates are those with the lowest populations.</p>
+<p>Here is a graph showing this for homicide data reported by different police agencies in <a href="https://andrewpwheeler.wordpress.com/2014/10/12/using-funnel-charts-for-monitoring-rates/">New York and Pennsylvania in 2012</a>.</p>
+<div class="figure">
+<img src="https://lh6.googleusercontent.com/-T46-BcQrUTM/VDq2EDNKxbI/AAAAAAAABEo/7D6_L0NvGVs/w625-h500-no/Monitor_Prop1.png" />
+
+</div>
+<p>One may think that one should devote more resources to these smaller areas with high rates, but that is not appropriate. Some of those locations have higher rates because the sample estimate of homicide rates is more volatile from year to year. In that blog post I show what the expected error would be though if all of the locations had a homicide rate for the average of 6 per 100,000.</p>
+<div class="figure">
+<img src="https://lh4.googleusercontent.com/-oeVdfPuW_0A/VDq2EadNKJI/AAAAAAAABEw/prAE9ruoy_w/w600-h800-no/Monitor_Prop3.png" />
+
+</div>
+<p>You can see most of the high outliers are still within the confidence band. This same problem often creeps up in maps of cancer rates - often some rural areas have higher cancer rates - but this is just due to sampling error. <span class="citation">Wainer (2007)</span> gives another example where this problem caused inappropriate responses – the call for smaller schools. What happened was that when schools were ranked by test scores, many of the smaller schools had higher scores. This then prompted the Gates foundation to spend a significant amount of investment to make schools smaller. The rankings were just an artifact though of the fact that schools with a smaller number of pupils will have more variability in their average test scores.</p>
+<h1 id="examples-of-bad-maps-and-graphs">Examples of Bad Maps and Graphs</h1>
+<p>I think it is easiest to understand what makes maps good by pointing out bad examples and articulating why they are bad. Here are a few example maps and graphs from our field that I have collected. (All of the advice I give for maps can be applied to statistical graphics as well.) I don’t use these examples to make fun of anyone in particular (you could find bad maps in my own work), but to provide examples of bad practices I come across on a regular basis.</p>
+<p>Many aspects of maps that I consider to be bad are simple to fix.</p>
+<p>Probably the most common example I see is not correctly editing the legend. This example is taken from <span class="citation">Crank et al. (2010)</span>, and you can see a glaring <code>&lt;VALUE&gt;</code> in the legend that accomplishes nothing. Also the police districts are labeled as <code>police_districts</code>. This (as you will find out in the course) is a function of the way ArcMap makes it default legend.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nJpm8W2018Wy_GL7OOezUyqZSbkKvWL5F86CHWSuPSsi6gsQNVI2n3SS8kcoUYJy8Vltpk4PalUioTfed5LEht-srOjXtWfeFwpiE_RHC_VddDum3Z0-pTbEIrfQxIH1QrJYFWogfryyq803_PSz6wxXERHGCHDVfAfGtup-c_Jwp-X4YKJDOS5bBTIbdge_G7PFxJ8BUNJjCYHMwg0wNWvoQAXSFFLNTStKdBfj2l4SgZBzkqaSdTWdnAI3jN70KfWc6I_BqD9Md9iw2CBJc21HEtruZRYEU4LsPSa5ZAGvPBCpRBf9FotRD49Yq4gwlPiYE9DMmPwEoXlzS-mxDtMyYIoQLiArWd0VJ5qZO9r5Ag6ShRMgitPh2ayVrwKV1AqlAOz3ljNirtVuMuoEIRtc3IA7UxCfy3xD6SftW6CNgy2VyJnZnzgWPnEnxal6vJWK56gEqMtV04pKVPnUryVq7nEihYz5AX3CWxfEgJ1vGzlaRj7MB84oqirtq5r8q0tLkd3N0umtKao2wDuJ_jzieP6LByxjfvxyHXRdnXdhjv69K5o90ZN0FjLOvqQL1eePkMOhkOg7O3ztK_KGwJtVit3qSkvO3kM5E2QuSfbrPWt49O3T=w770-h582-no" />
+
+</div>
+<p>Jerry Ratcliffe talked about this in his 10 tips as well. This is often just a sign of laziness. It takes very little time to fix the legend. (As a note, students not fixing the legend is the item I take the most points off when grading maps in the course.)</p>
+<p>Another aspect of this map that makes it very hard to see the quantitative information it is intended to portray is by overlaying the police districts. Here they are at the foreground of the map. If it was really necessary to show this information (it isn’t in this particular paper, but for the sake of argument) I would have suggested the authors simply make a second map of the police districts.</p>
+<p>Another example I have of this is from <span class="citation">Jang, Lee, and Hoover (2012)</span>. Here they display police districts in Dallas, TX, <em>and</em> label them which are largely distracting from the main point of the map - to show areas where a particular police intervention took place.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_kY65Zhq5Kj__cWBdb43v5VxN0o8oMxFq2UtQQQRkTou9FtEyMwqxgzR86aOaG47ih6KZ112iZ0ZbMGXAuXmyegoSJG8VCS72jB1gnsbw6147BBM8_zSPxQ1YGFFQM1_BXNE8RjuJokFmAPTu1lABowzPxc68zEOtVwVIoWjcYA2HQfNw4VU_8XXYb1D7rge89wL1_5yhPKEvsMeaT9pH0cBrr0mTMPWazquPtND9RdSx6mTswiHJXwAiILyxVyteTsHNBU4vJGZSVN7iIb3xXM4l028UYMRBDlc9gpDSa2z7Genydf1ugHtHyP8IP-183S8auroRs9CoDKrWj8oSRGjvHQpRgoO1O8vaSc0aCC1dQhYVSga-lDX31aGKFdOR11kHU5gDlLcaiDqAlh7ybB0cV8BfxLy_zJ21UTwiTZnbOzZD8uHAIBM7PA0-zWPLGS9wcBnSon1daZeXcb3Byl-1HA017aZNBwtJMdjGV8MAlbTGPTDYXNlgqJGLo9z9IYA4VHdJ3St4Jd5HHnc7Nn9aQWyqJq9HrDtZrEBRJ-7iWrU7n11DmiMJSIoODqtB28yf7gxCyo4vh1_Vcp26ejfTEbGurXpGIqZMSS_uEoHyEU14Bpd=w649-h537-no" />
+
+</div>
+<p>The number labels have no meaning to readers, so are simply a distraction and look bad. Especially in center areas of the city where they overlap. They are not needed to simply show that there are two clustered areas where the intervention took place.</p>
+<p>Another common mistake due to defaults is to have legends with an incredible amount of decimal places. This happens in quite a few statistical graphics as well. Here is an example histogram from <span class="citation">Guilfoyle (2015)</span>:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/TRhp6ZTB0bUr1rhyOa3ubwfuIsaLUCJdym89GRq1MFUlQwsWsZ0IyV2shEg3ocPoefzjFXEMTWxw8dmuzmKJdRHoG6hj5YyaTe3nJaD4Ud_73EEmMT8XCmPkkuBkDpxPXgUSRrQt67SrtOr5OJ2n7ZpGIRzrF1CPmsdgV5E9YXrTYFqhrvUQdhj6_7zGSVdkgNbmsTuTI-k4a3Z_uZ2n3z56N5izG2xvHTWwK1mkH8oip0WZ6BEShLfE2-EoX7jMt8-8kSOD8TFPsvWXhd3BFkkIo3ByKGqsgR0PDqzLa75S1Koh0ZyNeFNOsGjET8mcda7AFyOqQ4cPFPI7TbFPZLbIZbYZiOCdaut6qdjvIo5NkQNp_uwhR1PePKDX1fxVOyIPXafl75bQUrnPI867sdSyT9-fKOUzBKtpgBYhUTP2R-7o42jks-GETaCg-Ly-8haNpgN2UrnDFwVM7N6JQhzTEkh1ljb9-0ZOzBNEwvLw0qMsjSx-UB8TJKOJeSjaX9_lnBkiGe-wFka2RijslX9iXqdIGJtIBkX6BUoS6lz7OdXHLqFRfgkvABeVwATmamD_0RsYFsZ9pREUhBYoMFABCE2P_JOU_4pyt3PK_WQjr-euiVmR=w645-h456-no" />
+
+</div>
+<p>For reference this is displaying Likert scale data that can only take on integer values from 1 to 5. There is no need to display the X axis to two decimals, nor is there any reason to have the values of 0 and 6 (which cannot be observed in the data) on the graph. The normal curve (for data which could not possibly be close to normal) is a further non-sensical addition to the chart.</p>
+<p>The next example I have is from <span class="citation">Gelman, Fagan, and Kiss (2012)</span>. Here it is a simple line graph, but you can see the quality of the graph is very poor.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xzYq6LA7_RIQBbW_-sSIvUkUh8ZiWhYtv4-K9G0S8pWbvuI0NAdg0C4_ewBY0ef925XnCc4z34kUGH1-4X6V-98AdU0gIlMpcXBErTDfHTeccS6s2zF4V7oAy5LJzQY66mkgaBpSiw1aeTEtqeGve9-1_ONqfXT8OxzDDcBp_hYgzILIPR4n8WrmxzM8XmeXNeoz9_B3ZAJLQ6Z6bX8Ozaw9VXbOskns6HRAyMGHQxiuor6zW5p7M3IrNGbQxTj4Tl4liK4XZjwaJpKxtLwsjCKiLAj4OsO90we4OnpnfodAsLPTMDHxvXuwq5FbafmVx7y3hg0SDSxrNuG2tHsntkclvklOSvrVMKw-Icj3ONXlqpBOWw4JQJS8F1sBJ89g2C1GGbUj_8iEXAUqRCEgMnHo4ysfdSt-hty-PQOvo4Qv6Tft2M847IRjI82d1anGYnBL7C5GmkmQ4mODQEM2I2X3Er9fhjdyIaMl5qU1EEIA3GnaxWG0Y8ykf5H9jE28Bel29yVDf78nA8ySqniO1PO9vnZ-0b0nfZkPiMiDiet6uNeyr_DI4fLDnt7lLhsUjT2txI4XMlsxsYf8VHhMenrIzlR5wAn3-1LbtEPei_lV-2Z3O4e5=w736-h533-no" />
+
+</div>
+<p>This happened due to a conversion error, in that the original <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/frisk7.pdf"><em>vector</em> graphics</a> were converted to raster. A similar problem happens when maps are saved as JPEG instead of PNG (or a vector image format). So here the graph is not problematic, it was simply how the image was subsequently handled. Pro-tip, for inserting maps and statistical graphs into other documents, just save them as PNG. Many programs default to JPEG (including ArcGIS), but it is often a bad option for simple vector graphics.</p>
+<p>My last example is taken from a crazy table <span class="citation">(Wheeler 2016)</span>. This table was obtained from an award winning report for the International Association of Crime Analysts, and below it shows my re-make of it.</p>
+<div class="figure">
+<img src="https://lh6.googleusercontent.com/-AboYDKFOYDY/VL0OSu5ywuI/AAAAAAAABOI/yvIZkh4SJts/w718-h847-no/Tables.png" />
+
+</div>
+<p>The glaring use of color is obvious. The colors are problematic for the same reasons I complained about the rainbow color ramp earlier. The colors cannot be rank-ordered, the anchors will be confounded for those with color blindness (or printing in black and white).</p>
+<p>For some extra credit (5 points) I will make a room on the blackboard site for people to post bad maps. The rules are to choose a different map than the ones I already posted, and to <em>describe</em> why exactly it is a bad map. You can either use the visualization principles I discussed here, or articulate different reasons why you think the map is poor or misleading.</p>
+<h1 id="homework-and-for-next-week">Homework and For Next Week</h1>
+<p>For this weeks homework tutorial, it shows you how to import a table of data, create your own variables (rates), and make a choropleth map in ArcGIS. Consult the syllabus for when this homework assignment is due.</p>
+<p>Next weeks lesson we will be talking about Census data, and how to manipulate data for one set of spatial units into another. Such as taking population estimates from census tracts and estimate the population at police districts which do not perfectly overlap. Your readings for next week include:</p>
+<ul>
+<li>Poulsen &amp; Kennedy (2004) Using dasymetric mapping for spatially aggregated crime data. <em>Journal of Quantitative Criminology</em> 20(3): 243-262.</li>
+<li>Felson &amp; Poulsen (2003) Simple indicators of crime by time of day. <em>International Journal of Forecasting</em> 19: 595-601.</li>
+<li>Boggs (1965) Urban crime patterns. <em>American Sociological Review</em> 30(6): 899-908.</li>
+</ul>
+<p>Good luck on the tutorial!</p>
+<hr />
+<h1 id="references-and-footnotes" class="unnumbered">References and Footnotes</h1>
+<div id="refs" class="references">
+<div id="ref-camo">
+<p>Behrens, Roy R. 2014. “Abbott H. Thayer’s Vanishing Ducks: Surveillance, Art, and Camouflage.” <em>Mas Context</em> 22: 164–77.</p>
+</div>
+<div id="ref-christophe2011creative">
+<p>Christophe, Sidonie. 2011. “Creative Colours Specification Based on Knowledge (Colorlegend System).” <em>The Cartographic Journal</em> 48 (2). Taylor &amp; Francis: 138–45.</p>
+</div>
+<div id="ref-cook2012century">
+<p>Cook, Robert, and Howard Wainer. 2012. “A Century and a Half of Moral Statistics in the United Kingdom: Variations on Joseph Fletcher’s Thematic Maps.” <em>Significance</em> 9 (3). Wiley Online Library: 31–36.</p>
+</div>
+<div id="ref-crank2010hot">
+<p>Crank, John, Connie Koski, Michael Johnson, Eric Ramirez, Andrew Shelden, and Sandra Peterson. 2010. “Hot Corridors, Deterrence, and Guardianship: An Assessment of the Omaha Metro Safety Initiative.” <em>Journal of Criminal Justice</em> 38 (4). Elsevier: 430–38.</p>
+</div>
+<div id="ref-friendly2007m">
+<p>Friendly, Michael. 2007. “A.-M. Guerry’s‘ Moral Statistics of France’: Challenges for Multivariable Spatial Analysis.” <em>Statistical Science</em> 22 (3). JSTOR: 368–99.</p>
+</div>
+<div id="ref-gelman2012analysis">
+<p>Gelman, Andrew, Jeffrey Fagan, and Alex Kiss. 2012. “An Analysis of the New York City Police Department’s ‘Stop-and-Frisk’ Policy in the Context of Claims of Racial Bias.” <em>Journal of the American Statistical Association</em> 102 (479). Taylor &amp; Francis: 813–23.</p>
+</div>
+<div id="ref-guilfoyle2015binary">
+<p>Guilfoyle, Simon. 2015. “Binary Comparisons and Police Performance Measurement: Good or Bad?” <em>Policing</em> 9 (2). Oxford University Press: 195–209.</p>
+</div>
+<div id="ref-jang2012dallas">
+<p>Jang, Hyunseok, Chang-Bae Lee, and Larry T Hoover. 2012. “Dallas’ Disruption Unit: Efficacy of Hot Spots Deployment.” <em>Policing: An International Journal of Police Strategies &amp; Management</em> 35 (3). Emerald Group Publishing Limited: 593–614.</p>
+</div>
+<div id="ref-maceachren1995maps">
+<p>MacEachren, Alan M. 2004. <em>How Maps Work: Representation, Visualization, and Design</em>. New York, NY: Guilford Press.</p>
+</div>
+<div id="ref-moreland2009diverging">
+<p>Moreland, Kenneth. 2009. “Diverging Color Maps for Scientific Visualization.” In <em>International Symposium on Visual Computing</em>, 92–103. Springer.</p>
+</div>
+<div id="ref-rogowitz2009should">
+<p>Rogowitz, Bernice E, and Lloyd A Treinish. 1996. “Why Should Engineers and Scientists Be Worried About Color.” <em>Http://Www.research.ibm.com/People/L/Lloydt/Color/Color.HTM</em>.</p>
+</div>
+<div id="ref-wainer2007most">
+<p>Wainer, Howard. 2007. “The Most Dangerous Equation.” <em>American Scientist</em> 95 (3): 249.</p>
+</div>
+<div id="ref-wheeler2016tables">
+<p>Wheeler, Andrew P. 2016. “Tables and Graphs for Monitoring Temporal Crime Trends Translating Theory into Practical Crime Analysis Advice.” <em>International Journal of Police Science &amp; Management</em>. SAGE Publications, Online First.</p>
+</div>
+<div id="ref-wiebe2016mapping">
+<p>Wiebe, Douglas J, Therese S Richmond, Wensheng Guo, Paul D Allison, Judd E Hollander, Michael L Nance, and Charles C Branas. 2016. “Mapping Activity Patterns to Quantify Risk of Violent Assault in Urban Environments.” <em>Epidemiology</em> 27 (1). Wolters Kluwer Health: 32.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Camouflage by animals often uses this fact. Animals often have patterns that make them hard to identify those solid lines, like zebra stripes <span class="citation">(Behrens 2014)</span>. (This article is online <a href="http://www.mascontext.com/issues/22-surveillance-summer-14/abbott-h-thayers-vanishing-ducks-surveillance-art-and-camouflage/">here</a>.)<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Another example I like are <a href="http://www.anothermag.com/art-photography/3586/wes-andersons-colour-palettes">these color palettes taken from Wes Anderson movies</a>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>There are many articles online making these same points, see <a href="http://www.research.ibm.com/people/l/lloydt/color/color.HTM"><em>Why should engineers and scientists be worried about color?</em></a> <span class="citation">(Rogowitz and Treinish 1996)</span> for my favorite. Other good ones are blog posts by <a href="https://eagereyes.org/basics/rainbow-color-map">Robert Kosara</a> and <a href="http://www.scribblelive.com/blog/2011/12/07/the-use-of-yellow-in-data-design/">Paul Van Slembrouck</a> (the latter talks about how yellow is special).<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

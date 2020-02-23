@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Point Pattern Analysis, Week 5</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Point Pattern Analysis, Week 5</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#crime-clusters">Crime Clusters</a><ul>
+<li><a href="#crime-pattern-theory---crime-attractors-vs-crime-generators">Crime Pattern Theory - Crime Attractors vs Crime Generators</a></li>
+<li><a href="#behavior-spaces">Behavior Spaces</a></li>
+</ul></li>
+<li><a href="#cartographic-advice-for-point-patterns">Cartographic Advice for Point Patterns</a></li>
+<li><a href="#point-pattern-analysis">Point Pattern Analysis</a><ul>
+<li><a href="#centrographic-statistics">Centrographic Statistics</a></li>
+<li><a href="#clustering">Clustering</a></li>
+<li><a href="#quadrat-analysis">Quadrat Analysis</a></li>
+<li><a href="#kernel-density-estimation">Kernel Density Estimation</a></li>
+</ul></li>
+<li><a href="#homework-and-for-next-week">Homework and for Next Week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For a reminder, the readings for this week are:</p>
+<ul>
+<li>Sherman et al. (1989) Hot spots of predatory crime: Routine activities and the criminology of place. <em>Criminology</em> 27(1): 27-55.</li>
+<li>Brantingham, P.L. and Brantingham, P.J. (1999) A theoretical model of crime hot spot generation. <em>Studies on Crime and Crime Prevention</em> 8(1):7-26.</li>
+<li>Levine et al. (2013) CrimeStat Version IV Documentation, Chapter 4 (Centrographic Statistics), Chapter 6 (Distance Analysis I and II), Chapter 7 (Hot Spot Analysis of Points: I), Chapter 8 (Hot Spot Analysis of Points: II), Chapter 10 (Kernel Density Interpolation)</li>
+</ul>
+<p>For this week we will be going over some criminological theory that is relevant to point pattern analysis - in particular theory that explains why crime clusters at certain places. Then we will go over some cartographic advice about presenting point pattern maps. Then we will go over some of the nuts and bolts of making hot spot maps.</p>
+<h1 id="crime-clusters">Crime Clusters</h1>
+<p>What makes mapping crime so useful is the fact that it clusters - certain areas in a city are more likely to have a crime occur in them. This makes targeting crime at these hot spots just a commonsense strategy. For example, there is no point in trying to reduce shootings in places that shootings are rare, but if there is a street corner or a small area where they are prevalent you will likely want to come up with some local intervention.</p>
+<p>This is called the law of crime concentration <span class="citation">(Weisburd 2015)</span>, but this same clustering also occurs for victims and offenders (and many different datasets in the natural and social sciences). The below chart shows the cumulative distribution of crimes among places, victims, and offenders <span class="citation">(Spelman 1995)</span>. The way to read the chart is, for the places dashed line, 10% of the places in that sample contain 60% of the crime. This same general pattern holds for people as well, very few people account for most victimizations and most offenses.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/DQ8ckW0YYCgWKqOaaWYHdQZtt4vcWZ0xV-co-PLrRHH3xtcLQVR24yN-eC85gOmCqACPnp_Nj9YW9Y3Ze2AEI2sbVpbDjAHKQ3KkGJSe0m1bOxufm2W7oVx8KYj5wNNnhs9V2ncmQxZsaehQQy2OV6MAYkO-D9h5Npw9nGwpBFJr_Q92jct6z8ihuQWOW67WmbCnsu49K8133MyV6lhm97-TVoUO1MIglwgrFMMwrkzVTGavlIMhqeXl2Zu9x8g7wekRHqPvo3BfHQcoFsgCJKS5Tz1JQ2KLjhB0CqaLvDFxbn5HIDb1woni1ljgSAmq2nEQNCYPHaAZe2JJxiKxNKUYC5igdnf07pmNt1pjgU2DKP7k8wuB1uGjJz4O-D9JTpXTWXRHhZ8EDigoABOZKSBUFMBJ83dZVgh2VTSM_gAnivqXCbT85LwK76RnOmygWotWQ_XXAJ1TFVvXXlLLCbojjHSzLgvTTrcys7tMeiEB7CYQyYUPl0drpddf0X_9iqoLCVG6gNdJ6-45o_FWC7ajpZ1iI9YnoWV74LOeeCQQi97i1Jxh0KB8uRiPjBqgwddRWq5q0cW7GtHfLN_22ecohPB0jicnPtiLIwZaWFGHB2eX0cxc=w776-h614-no" />
+
+</div>
+<p>So why does crime cluster? Potential explanations can occur at the neighborhood level, such as areas with higher levels of poverty have more crime. But even in neighborhoods with high crime, there are street that have very little crime and some streets that are high crime <span class="citation">(Weisburd et al. 2004)</span>. These differences are not random either, they persist over a very long period of time. Here is a graph from some of my work in Albany, looking at crime trajectories from 2000 through 2013 at street midpoints and intersections <span class="citation">(Wheeler, Worden, and McLean 2016)</span>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JgDGN6_B3krarZhHIvuk8aIuO5tUdsX-3wkVyyTZRwMbtvlYxbUuCOMu2_q-gnFybxRB20y49GvKO7XuOm_8Pm0T2PowHUrhnNyA8sZOPNQSk6vNMRe2UOztGq_xt9OGE9bV7cr6eecGZzm2XsmH-yrDmrlFVwRj1D8YxFGaBegVuPz9phwX8aJZfrs6eY0NIEVAFU_iKHvaoHOg3NGC_gNH09SZ2vWxOnr_4vVX5NoQHlJsoYUZYSd5H3Ih2vmL5-f4JpHVgtNUwt-g5CCZFQS7c6hyRXY2GokdzHadjkTKm-oMffZZK9cUpiqwpP-asi2bIvNEPB5YMVb_WWsEy5a1RAEMgj6XG0Jjz4G6YGPNs4y7gHneCaKUXKXhcace6ATnsNu7GfI9-zVm7kqlE6x-agaH2gaxDpPK8-b26BLTng0LhJ2ogoRsOxGrL2NrbnKxbySFXpwBfdS_abaIVrZ6m-8Yh71fv_QDMdn0Gtf2_coB45gM1V54XE5vO4bgMMla2TTEa5SY56SrmIElGF7iotqH3_iPAovD9bVJOjuo7Kp66NZAxSbnHsS-iQK7CuwhzllfuHAGhSiixB2AZrEnAUnf0Mmy5ioQeaOx04FHjvRYuNn-=w792-h634-no" />
+
+</div>
+<p>Overall crime has declined in Albany over the time period (as well as the entire US), but what this shows is that high crime places in 2000 also tended to be high crime in 2013. You could essentially make a hot spot map in 2000 and it would like very similar to a hot spot map now in Albany! But what this also means is that whatever causes crime at places to be high also has to be temporally consistent over that same time period.</p>
+<p>Also note that this relationship not only holds for places, but amongst types of places as well. <span class="citation">Eck, Clarke, and Guerette (2007)</span> describes how when examining different institutions (such as apartment complexes or bars) there tend to be a few that disproportionately contribute to crime.</p>
+<h2 id="crime-pattern-theory---crime-attractors-vs-crime-generators">Crime Pattern Theory - Crime Attractors vs Crime Generators</h2>
+<p>Crime pattern theory was introduced in the readings for your homework, and is what I think the most simple way to guess if a place is going to be high crime when examining small geographic units of analysis (like specific streets or addresses). In the Brantingham’s typology, high crime places can either be crime <em>generators</em>, or they can be crime <em>attractors</em>.</p>
+<p>Crime generators are places where there is simply more people interacting and walking around. Often an address that has the most reported crimes in a city is a shopping mall (or large grocery stores). These aren’t typically considered dangerous or more criminogenic though, but are places that have many people interacting. All those potential interactions result in more crime occurring. Others who have done historical work in Seattle <span class="citation">(Schmid 1926)</span> and Chicago <span class="citation">(Clifford R. Shaw and McKay 1969)</span> show hot spots of crime 80 to 100 years ago that also correlate very highly with current crime patterns in those cities, and those hotspots happen to be in the central business districts for those cities. For the obverse situation, think of an abandoned factory or the middle of a lake. Neither place has many people at any time, thus there is very little crime potential at either location.</p>
+<p>Crime attractors are places that actually attract motivated offenders due to having easy targets available to victimize. So these are places that are more traditionally considered criminogenic or subjectively dangerous places. A favorite example is bars (like a dive bar that attracts a real rough crowd), but others also include red-light districts, as people conducting illegal business are easier to rob and less likely to report their victimization to the police <span class="citation">(Bernasco and Block 2010)</span>.</p>
+<p>In practice it is really hard to empirically distinguish between crime generators and crime attractors. A bar can both have more people in a small space compared to the surrounding area, and can potentially attract deviant individuals. So many places may be considered both.</p>
+<p>Another important concept in crime pattern theory are paths that connect those crime attractors and crime generators. (The Brantingham’s often refer to crime generators and attractors as nodes in a network, paths are the ways to travel in-between those nodes.) Crime does not solely happen within those places that are crime generators (or attractors), but diffuses out into the environment <span class="citation">(Bowers 2014; Groff 2014)</span>. <span class="citation">Lemieux and Felson (2012)</span> using national estimates of victimization and time-use surveys estimates that the risk of being victimized (per person and unit time) is much higher when traveling in-between places. My work estimates that the spatial diffusion effects of alcohol outlets is actually larger than the increase at the actual bar <span class="citation">(Wheeler 2018a)</span>.</p>
+<h2 id="behavior-spaces">Behavior Spaces</h2>
+<p>Another theory of why particular places tend to be high crime is that different spaces influence individuals behavior in different ways. Things that are acceptable behavior in a bar full of college students such as being loud, swearing, and excessive drinking, would not be acceptable behavior in a children’s park. These are sometimes called different <em>behavior spaces</em> <span class="citation">(Taylor 2015)</span>.</p>
+<p>The idea of behavior spaces is often not a central theory by itself, but is often discussed in relation to different theories of crime. One example is in <span class="citation">Newman (1972)</span> theory of defensible space, Newman discusses how different shared corridors for public housing can influence collective behavior. In the case of the long corridors in high rise buildings, individuals did not take initiative to clean the hallway or decorate the outside of their doors. For the buildings that were smaller spaces though (like a house split up into four apartments), tended to be better maintained by the residents. Newman attributed this to the fact that the neighbors in the long high rises were much less likely to know one another.</p>
+<p>Another example is in broken windows theory <span class="citation">(Wilson and Kelling 1982)</span>. The theory is that physical cues, such as a broken window or someone panhandling on the street, signal to individuals that no one cares and is taking care of that space, so it is OK to be deviant. One of my favorite tests of this was an experiment that primed particular locations with bad behavior, and then showed it promoted that same bad behavior <span class="citation">(Keizer, Lindenberg, and Steg 2013)</span>. One of their experiments showed that if they left a shopping cart in the middle of the grocery store parking lot without returning it, more people would do the same throughout the day.</p>
+<p>It is difficult in practice to delineate the boundaries of behavior spaces. There is ultimately no perfect spatial unit of analysis to conduct crime at (unfortunately). Next week I will talk some more about choosing a spatial unit of analysis for different types of analyses. This week though I will focus on spatial analysis of one crime at a time, in which case you do not need to make that decision.</p>
+<h1 id="cartographic-advice-for-point-patterns">Cartographic Advice for Point Patterns</h1>
+<p>The first thing I am going to go over in terms of making maps of point patterns are gestalt principles of perception. These are basically ways our mind immediately recognizes the images we see, and this can help us make better maps.</p>
+<p>First, try to identify all of the 9’s in the below image.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jS2JWIoi7WsntfhRu1pPXxtRcI8nIlGUfqRBAf9Elu7c6ngiygOW_qs8dOVU02hbz1_VNwoQZvnexfvwHqIwZE-k2MsBzFfD3wqFPZkbF17RC2PPtRprw_hXroNjMR4ZnwWXLW0f5ypUwoRNLM_sXHizEGjzhbgxjioUgNg_2cZJ6E715gkm3VCOHz8Zq1DyPH4kWPNXPppazJHZSJRzziixp8XZosPeeFjDwqeJh7O7OGo78P7vbfqoIhDKCX62wxaMorHanHnEEqk-1uAsMhQZpPE4tvUNukjEmHn-7dipLyb_4roQrg56-bxppGndxIs5XVnTSzJ9O753ZzLC-54DgaPIUiZ73TbuP0vxZXVcBJQUCUwls6ZaoxLN23RGiv-coTIkfbvGdB5HZIQPjhJF7LlBiUdGhE0NeQzh9unacf1UI2lJQa3AElZBr7WmFcYjPSeFodXUSUkZQp5f3ZHIz4izvAuXEzKeWeCFl_xkoJRQV2LaM5RJHAFjdum8z2kQ44na7JLbd8-tdRn0PlJWBifbrreaFENEoYmT3_uuZ58Y7m2KasGpWyRqpZLtjIJYtSG_BobBZUkyekp2tGSbqsUudPVaz9aFq4NKFRHyPzBRIl8d=w660-h335-no" />
+
+</div>
+<p>Pretty hard and kind of annoying. Now how about trying to identify them in this image.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Qp_iS8graSiP9fCm4f4RjQpQBqDRT6_nHYWr9j3jGHeO0sgUMP1FaIXfDQkN6ztFMBUf5W7rRvIKe99S81880sCGqAxQXNisQMKypOsnRM6pKUgVG1YPIZX-4OLWZSQ9RC9p4WfukrNTN5y0ebXED5acVAwlGnRCIePeRHTE9ZZdUuEbodN1UuHWoUypn41cRH1xMaUaq8nMfbIre_qSmjBlqb7oiThpc44b0MJMGrWuj7ylIiNHRHYxH9tf3ynymhjUeEb0gnkjWa1oO3HjJ33ZtEsu5RqYM7rW7s5w_M5oR26-QTT-_MQ1DjCUuy44pGfNJkFXMwbIk84WZIPh-Df3smbFQeYnG6SeS7mNEA0n06GBLy-asa9VB41izQyl_LuYizGErU-KJ-6tn8GIyTBBC8qLsSboPqwtXcF4wXc4QcO3dVV1MLVmdoAt2O_I8FYVz1GsRBovw61BxwxzEw1YIIJagu9XziPuGZFbJKmQ_coEzBHzvIui_F-_4KennXDGutDkTt_ykTgYX3rvynSn8x-5IDGgpU1L4yc_p1DqeSz5c795dBGKsyGuwvg-O4NL7SuJQcp1hxF-dCp25SDCjHg32qN0juEDjuSwxVjk1RzyGMMd=w660-h335-no" />
+
+</div>
+<p>Much easier – all by a simple change in making the 9’s bold. What this does is effectively bring them to the foreground of the plot, and make them the first thing we notice.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> I could also make them immediately recognizable by making them larger or a different color.</p>
+<p>Another gestalt principle is proximity, we recognize objects that are closer to one another and group them together.</p>
+<pre><code>----
+----
+----
+----</code></pre>
+<p>So in the above example, do you see four rows of dashes, or four columns? Four rows right - that is because of the spacing between rows we. How about below?</p>
+<pre><code>1   5   16
+2   6    9
+3   7   12</code></pre>
+<p>We can easily see the columns of numbers. When learning addition and subtraction we actually line up numbers this way, because it is easier to look for patterns among numbers in columns than across rows <span class="citation">(Feinberg and Wainer 2011)</span>.</p>
+<p>In this example from <span class="citation">Treisman (1985)</span>, she shows how alignment among points and color is generally a higher up classifier than are shapes.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wYMDlNqXjVxGyrgf_xQFhV1sM6tp-mqBGmyIhnnOgRm02rDnFjh6s2akHya5nfkVXYe0dacozrlkuzJl7CRYVBo71GDvuuEDgtVKYKjFyOmnD1D1azeLtHJ71925eugsN2c7IhuD7K95ECnMPocrk2LtoWtsivfSuY_kRmaE6YxRvDo9DYCyj0EACKTpJIo9ZzkmdDsFR5h5xBD386QLvf7BJbGVLUzPoGIyVf7HqVOvlcexf15C5YmRqaVxPQLLn9YUfSbcOSnPt5-49K6177c-tmkc2epcdZSeDnoYVtdMC_RZyzeltHTvv2H0h7mwXICPMKO97mOoAIQDZ95whD6zZUW23FbWXellX5oLM0VcCEy5BAmgH--c322bCyIiidbL0DUlHdp5PrB5bw_ZyjtMbqcQoS4vZ8Tf-3OjDMCyKIF2n_YhVJxj7ZtkfVqe6tlUIO1ZbnJLz4uuzRnrmxzDPTZjDyY-ks3mnZPrkao-2EkAfMjoURc28DBWH3svjMajuy2C8Q9RT_qpZlKgeaEoCR17Nc18ozHZsEHdi-GOksCjcKs1GV0Dvc3nRE99vO1lKa-W6_R-LWYP556wHPkUENY2aQ1sxxZ8BoB9FFHs90nR5qo4=w960-h246-no" />
+
+</div>
+<p>So in this example, people more readily distinguish between white and black than they do between white triangles and white circles. The implications of this for point maps, in which the points are not readily aligned, is that they can become very difficult to detect clusters, especially when you have too many different types of colors and symbols.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Zf9zAX1d_0LHB-14HaH1IY_bmdVrC4TwTftjS1CZzeIZnh3xzWMfBfiq58HHBxr_1Qwy6SMRbevUPdkTcv1OejFMet-y2mpbYW-4uYrStO8KzopfXdF0issrF9BrayoeJVl-Ltqy_4Q4WkOmsYVwRfWP2wRY9KnWFoTynsQiruvrsuB4U0tk6t-UkecXgjf1KarIqSv1aeBUpJlkaD-WXecoKiIUhB4XWKWnTn0KoWHrH6VxkojLwSZZsLjo7tAxdrxTlcNoukBhP9sOUzj298mE4CPfp51ylHWtrRh03AlI8xr3nOn5A1rx5NrDKXAhhix92g8Tr5JZfehIeG-PAs3put57mzDRh3fK8LGlme8GQIpKdkKzZOiiXtbLWX8vEDsUb_esVeIAXEP6fb-C9iI3COqkat7DBF3vMmDk7QojuSZ4Uz0gfRbksL7hXNcrI0r37ihDvNsCi6Krnp8MNe0_Xg5azxA6wm1sIW1qoldPpmeJhP7lo0oadnB3hMWc2nZ8SMGOQRtiRF7fgSbMWAbXVTRY0I_3613r28vUQOyB53ezm3D5AGvkDA-qcjPLcGLQlv2TDgVYoHZWdCcK_N4iEtrAg_EW0qxFVtGshijDVVpz4KkH=w576-h741-no" />
+
+</div>
+<p>This example is basically impossible to tell if there are any temporal patterns by month, nor can you easily tell the overall prevalence of robberies by month. A much simpler presentation is to make many smaller maps and align them.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KqyDhDRK1frIUosCJdEqWE22JNKRwnLedvgAWIWUTKfLtpzjWsCN4PBrHB8TIer6g2TOZV5fpFik3Ku4LRer3BW--6jPNhT6JBexc-KKu0KxB2J5wQAlGMCy5TM67CAl6uo46CiWhfjBsU6O0dsxp9Unu7AGTjpauts3_8hb89w5mSLP8FzmqGDbKbk5ZgIYjZNUW8pPVXfFgi4w5womMP89ejCEhyHjzMjLXKvuklcdP9ieiUCWixHwNLvZ2mofFc4Zso_MhDPEpsmDjAOjZI8i5avgqHGCeF-ekUIH_kQbZHbA9gbEeAY86IGYbYMtSndALFXRhdoE7_NAQseb8oirMvKrW-ayh3fD0358n3sa57wQJFkjtP8bZL3P0lGChQloDSPPyKoh6jkPAH504midDwri3W9llwvT6Qv0o4-pSS9H80hyQVHFjywo48q8fOte8JoIIL6ZMcdirOFkwhxV_gzbHEXf866IiwLVatPDlpHlp5KYQGNdBdulV3pc4c6vzawzjaI4RuU4deSVPMREi-qoAxDuzErxvTd_RB5u71HMZ5YmXIKXij8LTTnrejU9GpxJJNr4q1Mby9umch10YkmY8ByDnLHGNHK4EQFpoGmQaM4_=w405-h722-no" />
+
+</div>
+<p>While it is popular to make crime maps with many symbols that closely mimic the crime (like an outline for a homicide, or a gun for a weapon offense), these symbols often impede ones ability to easily spot patterns in the maps and become distracting. So don’t use them in maps for my class!</p>
+<h1 id="point-pattern-analysis">Point Pattern Analysis</h1>
+<p>I also need to go over how to make some pretty hot spot maps for showing point patterns, because they can be complicated. Here is an example from the online crime map for <a href="http://communitycrimemap.com/?address=Troy,NY">Troy, NY</a>, all of the aggravated assaults within the last year.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_iXrPvrKvZXSl0dL8fd_1bQnl7m7TO4Y4owwOqz3LVI_-bw8Ffn9CTuAl5P_og_Gym5ii3vsyokX5muSbNc1JWf-OSGtU596yWUSIP449swn06wD3-gJzfKfh3Uq-qCWKGzit76YuhTNvg0vW-poq2XMeoe6zhRgaHM7AOXC1SSHEYlfO3_pGip7HjtpqWwno_BBXsLJDWeu49H2J-K2GYYaoIgifvs6zwv2wGRHGCIWUkvfTCk60Dd1Rkf6LaBA4SAcdsO0YmQwIWHbQmJbwaKhInfoVUD1P_0q8QZDCOx87jLSBDY6l_5ADRZwtWsZE6_-cyOOqAtjZetikFkBy4X7AWJSGCUNQC0U6trkQFQ_nuuUpM6MGVw1MwknnotYQHqJXm-qrBwdeKWTCXWKxTwouwiz0O91hv_8RPH0r5WVQnNRTw24dwQrw43IP7gMn5hyhp41Gsuq16SisSyP39O0PkUCxaGfJSN2iFpMkNzl5reMWJwrarY3h3WE2rxRONPBq7MCO5Cb6WsVYVjnF3nHPN3FOzqFdORjkmJ8jYpMYtK4V7Ti9bYV03CK3mu1VOnho0q-XnSrow898NpI1384MIILMQ24_Pr4SUytVdjH9KVts5H8=w458-h751-no" />
+
+</div>
+<p>You may think from that crime is rampant and occurs everywhere! But there are definitely hot spots of crime within that map. You need to reduce the data in meaningful ways though to uncover those patterns. The readings in the CrimeStat manual were all about useful ways to reduce that data to uncover meaningful patterns.</p>
+<h2 id="centrographic-statistics">Centrographic Statistics</h2>
+<p>In statistics, you learn about the central tendency of a set of numbers, such as the mean, median, and mode. Centrographic statistics are simply an extension of these measures to geographic data that has both an X and Y coordinate. The simplest of these is the centrographic mean. If you have a set of X and Y coordinates for map points, the centrographic mean is simply the average of the X values and the average of the Y values. So this basically turns a complicated hot spot of many points into one point. There are similar metrics for variance and spread as well as central tendency in 2d space.</p>
+<p>My favorite example of this is <a href="https://en.wikipedia.org/wiki/Mean_center_of_the_United_States_population">mean center of population for the United States over time</a></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tgE9sWxFv0GvkrptL4slKVFjA0aLutwAOebFyuukW8zUSSEDL-8dqTRJBO6MUuQ0vX49tZuLhrL5bSZYTE2Dp9-_vRQGpsXVxL_0IKBBzKlPemWsroVjSDjb4qI_dN9-G1oWNL-5mAbcNMz7Ow15ve0L0tlqsP7ebnvdb_jWfhdXO4R6C3XtwUEEuHQcIRKSsLTDPzhnn0aBFCpanCxDSNw75FhDAXfMkuWwLRdmt5nDrCVMOuQRv6fZgbiPFTgWYmOlN1BVQiLk2xPdMYF1rXpwXXmascSf1BRJc4uFtK4TmP-ulWW_7rJNhY9prfAIrNexB4zn2mr_MVghWkjdDokVWI0fqehAxgZQOSiq5q2iuDbzh3Gotf0Y_QVbj3qBfLmi2TY39d7UYuZWcI2cgUOShPRXTJEtDq-X7-NbPfRCSn3sl0xX7k1yBJCqfGBXI9YCzREjTIwwj6CDjZDzF_BJqGHsKN-wF7w26hL19l0QIafuJnEb0ZlySf1RAF6O-oJqR-SREnh19abAGBwTm-gaGU8wB_8x0UgPdtdApFx63zR1g2_ki3ZMmdnPXseS_kCUbhtWeInWe6nHgxVIUB04AycDFxqtDRR7kg6uWYtuxJmmvO-Z=w1084-h757-no" />
+
+</div>
+<p>The only example I am aware of using this in crime mapping is in <span class="citation">Frazier, Bagchi-Sen, and Knight (2013)</span>. In that application they examine demolitions in Buffalo, and show that the centroid of different crime points change over time. But I imagine looking at crime data over along period of time someone could come up with a useful example. (Such as a city that is expanding, and see the variance of crime expanding over along period of time.)</p>
+<h2 id="clustering">Clustering</h2>
+<p>Another way to reduce the complexity in a crime map with many points is to cluster them. Popular clustering tools are k-means clustering, scan statistics, or hierarchical clustering. The CrimeStat manual has examples of these. I am not going to go over them much more, as I prefer kernel density maps. People sometimes pretend as the clusters produced are real things, but they are just abstractions from the computer. (In the extra point pattern tutorials I have an example of creating actual hot spot polygons using Richard Block’s STAC statistic, available in CrimeStat.)</p>
+<h2 id="quadrat-analysis">Quadrat Analysis</h2>
+<p>Quadrat analysis is the process of taking a point pattern and then summarizing it into arbitrary areas, often a regular grid over the study area. The most famous application of using this in criminology is Shaw and McKay’s work. This is image is taken from their 1969 edition <span class="citation">(Clifford R Shaw and McKay 1969)</span>.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-Bq26-v2hdSI/VXr0DTly-3I/AAAAAAAABcE/jdIeAGqX1jc/ChicagoDelin_54.PNG" />
+
+</div>
+<p>Often times it is easier to summarize patterns like this if you make arbitrary areas, especially between two different point patterns. Sometimes you cannot use other established areas, like census blocks, because the crime incidents fall on the border. This may happen if you are mapping things that are frequently recorded at intersections, like traffic stops/accidents, or if the data you are using is truncated to the 100 block <span class="citation">(Stucky and Ottensmann 2009)</span>. (Truncating to the 100 block is a common way that police departments publicly release crime data, but it slightly preserves the anonymity of victims.)</p>
+<p>Here is an example map from my work showing how making a regular grid can be used to vizualize several different point patterns <span class="citation">(Wheeler 2018b)</span>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-jLr9X49Wf-I/VUJYVbnSNiI/AAAAAAAABZA/6HBjOx95UlM/QuadratMaps.png" />
+
+</div>
+<p>Next week I will go into more examples of how quadrat analysis can be used. But for now there are several limitations to this though. The grid itself is arbitrary in size, should you use cells of 1 mile (like Shaw and McKay), or smaller areas like I or did or the Stucky article I cited. One way around this for visualization purposes is to construct kernel density maps, which produce a smoother grid at smaller areas.</p>
+<h2 id="kernel-density-estimation">Kernel Density Estimation</h2>
+<p>Kernel density maps I believe are the most useful way to identify hot spots of crime. They take many different points and make them into a smooth surface. So if we have our complicated map with many points, imagine that each point is a lump of playdough. For each point you smooth it out into alittle hill shape. Points nearby each other the edges of the hills will overlap, so will stack on top of each other. Then for your map you color places with thicker playdough a darker color, and those are your hot spots.</p>
+<p>Here is a diagram of the (from the CrimeStat manual). So the red dots at the bottom are the original points, the red dashed lines would be the playdough for an individual point, and the blue line is the stacked playdough.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/foT1O_LLsgYrNWY_bRdQFQbyPuo1IaMdDRiAqsQxlzlujAcuEQ8X0AjCIC9TDUjCNy6ZwPnvJXLSvXRvs8al1z-Zqtn_tPUzhCHv8-EoxPHTVDCsJULYKZIIhj9DsM0MA7m9oZAZOwSmAfEEe9muEkf2TRInyXAVdZxytCkQKGI_F3JJ4DFXHrNz4acxuetogl9rqQviOQJ0uHTg-tTHa0b9g3_fJsyNBV3ubDvLhfgrGcp0o8hbZ-1jD6PNhhdgndABOlJdnujfDY656JeZGx2_rh5yornfjyXcxAV2kGu7uXdMFwpvQX3TFf2DkPkpKWOcIAjyKYzBuqm2u0nX4J__GTdUYBGBuVzi5IDhMSdzKGSW35Zvqc350_76FSXVxNEsjNUowK03ixfSt887xMW8j4M8kkUsl36i0l9kVkQQs-HlaiIQizvaXEXi04-3EF1b62KpzesV9e1eAQfk5-bggiCsyUGndreMBKRJRsHzbHGcSs8AQFq1LV19F-zN329kKVe8qCX29AKzpQQfn7_crafrl6Zqlt_5hFhY1OTke9M33qIelZifKyj5ecZoy74gjTt5B93c-I6n8rPYzxGeC_4CoMzch32CnlOON8shkKnPXY8Z=w882-h659-no" />
+
+</div>
+<p>With this we then have two choices to make, how far out we spread the playdough, and what shape our hill will take. In statistics jargon, how far out to spread the playdough is the <em>bandwidth</em>, and the shape of the hill is the <em>kernel</em>. In this example the hill is shaped like a normal curve, but you could use shapes like a triangle, or have the hill more peaked. The shape actually does not tend to make much of a difference, but the bandwidth does. Typically I use 300 to 500 meters as my default bandwidth for crime data in one city, but if your map comes out with many small hot spots, you may consider making the bandwidth larger. If your map comes out with just one very large hot spot, you want to make the bandwidth smaller.</p>
+<p>This then produces a smooth map in two dimensions that you visualize in color. Here is that aggravated assaults map as a kernel density map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/C-Va7ISgBXssIJH4ZE-5CYBu0Ta_mqhVtcs-h_8EcD5OnJ6-BekAcUKekXq8IwHZBOc19rHGl2B7Mi4BsHgCqq-4JYd39obz7_-wccTqqUX6vPEtcukC4fbADgs3dbE7FM6E5p_N2xac2-1TeUVCRwx32KtE0dEKg6Kt5LzcX9YYKOuMJYr-av0VY5TaUyHBNZ1O2X1mflM5uQJ4I_3RVsW1Sb2dB96Oed0FIiLTmL2ep-s3eeIb6_AUYMUbaBOHh4hKQrTlqNVEVOiA9eFOqpkpLyyGO5NsPjlfqCrMjGj_fVPNF4V7x9WiWJ2IAGS8aZ4zT7ZxsFeAITqi7FA157Kt5tM0GD6Ueh738C2QtQgc_H7BUHwr36o_nc8W-J-eZ46-6rT8H0hKy7_PstZNhiMJ0J9xj_31vbuIYKTz08oyy5FsW60nlHxYEr8U361qfUPvSDF-7Kvja1MlYRSgtbSPaJe-zWRsUXK_apQ2FShwz6iVfaqEtAgCIAS9sSPy7HL9zARY3-bXqezJ0ldq-fttIP0dpjjwDfPmbZWN96JeWQJWFuUYbgo7TKWHx-_9u8Vuiq8Nw02er79aYHAKVQuQ0YW3oq9AI6jSWgtaCarbKijcWMKQ=w366-h752-no" />
+
+</div>
+<p>(Note that are a few things I don’t like about how the online LexisNexus map does this, it has no legend, and the colors are not colorblind safe, but hopefully you understand the idea.) This shows two hot spots, one is above route 7, and one is below. Areas to the far north and south have a lower prevalence of aggravated assaults.</p>
+<p>Now the density (the number on the Y axis in the CrimeStat chart), is sometimes hard to interpret. So I am going to walkthrough a simplified example.</p>
+<p>Imagine that we just estimated our kernel density. The visualization the computer spits out in one dimension can be envisioned as:</p>
+<pre><code>    +
+    +
+  + + +
++ + + + +
+1 2 3 4 5 </code></pre>
+<p>Here the total number of <code>+</code>’s is 10. Pretend that 10 is the total number of crimes also inputted into the procedure.</p>
+<p>We could simply represent the height as is:</p>
+<pre><code>Height:   1   2   4   2   1
+Location: 1   2   3   4   5</code></pre>
+<p>The sum over all bins equals the total number of <code>+</code>’s to begin with, 10. This in CrimeStat is listed as the absolute density. If you take the sum of the absolute density over the entire grid, it equals the total number of crimes you input into the procedure.</p>
+<p>Height also could be represented as a probability per bin. You would simply divide the first set of answers by 10, so we have:</p>
+<pre><code>0.1 0.2 0.4 0.2 0.1 
+ 1   2   3   4   5</code></pre>
+<p>Note the sum of all bins equals 1. This in CrimeStat is listed as probabilities.</p>
+<p>We also have a spatial dimension as well. Pretend this is a 2d map, and that the area of each bin is 100 square meters (so each side is 10 meters). We could then divide each estimate instead of by the total number of crimes but by the area - this would then be a density per 100 meters square.</p>
+<pre><code>0.01 0.02 0.04 0.02 0.01 
+ 1    2    3    4    5</code></pre>
+<p>This sums to 0.1, which would be the total number of observations, 10, divided by the area of a single bin, 100.</p>
+<p>So here we would write the density for the first bin as 0.1 per 100 square meters. You may want to change this though to another spatial metric, say per square meter or per square kilometer. This is useful if you have very small or big numbers, but is alittle tricky to interpret. So to go down to 1 square meter is simple, if we have 0.1 per 100 square meters, i.e.</p>
+<pre><code>    0.1
+    ---
+100 Square Meters</code></pre>
+<p>To change this to 1 square meter we simply divide by 100 - i.e. reduce the fraction.</p>
+<pre><code>    0.001
+    -----
+1 Square Meter</code></pre>
+<p>Now we can change to a different metric, say per square kilometer. A square kilometer is simply 1000*1000=1 million square meters. So we multiply our fraction by 1 million:</p>
+<pre><code>    1000                           1000
+   ------                =        ------
+1,000,000 Square Meters        1 square kilometer</code></pre>
+<p>Note that you cannot interpret any one cell now as having 1,000 crimes per kilometer (it is an extrapolation if any one cell were expanded to be one square kilometer).</p>
+<p>All of these different metrics; absolute, probabilities, and density per area, are linear transformations of one another. What that means is that the shape of the surface is always the same, it is just the relative scaling that differs between these different units. Density per area is the easiest to compare to other maps if they use a different grid cell size, but if you use the same grid cell size it is easier to make comparisons as long as you use the same metric between maps.</p>
+<p>If you want to compare densities for different crimes, you need to take into account the relative numbers. For example, if you have 100 robberies, and 200 aggravated assaults, you might want to compare probabilities (as the absolute assault density is likely to be higher than robbery density everywhere). If you want to compare 2011 robberies to 2012 robberies though, using absolute density is just fine.</p>
+<h1 id="homework-and-for-next-week">Homework and for Next Week</h1>
+<p>For your homework, I will have you make a map of repeat-address locations and estimate a smooth kernel density map. For next week you will not have any additional reading, but will have an exam.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR9">
+<p>Bernasco, Wim, and Richard L. Block. 2010. “Robberies in Chicago: A Block-Level Analysis of the Influence of Crime Generators, Crime Attractors, and Offender Anchor Points.” <em>Journal of Research in Crime and Delinquency</em> 48 (1): 33–57.</p>
+</div>
+<div id="ref-bowers2014risky">
+<p>Bowers, Kate. 2014. “Risky Facilities: Crime Radiators or Crime Absorbers? A Comparison of Internal and External Levels of Theft.” <em>Journal of Quantitative Criminology</em> 30 (3). Springer: 389–414.</p>
+</div>
+<div id="ref-eck2007risky">
+<p>Eck, John E, Ronald V Clarke, and Rob T Guerette. 2007. “Risky Facilities: Crime Concentration in Homogeneous Sets of Establishments and Facilities.” <em>Crime Prevention Studies</em> 21: 225.</p>
+</div>
+<div id="ref-PR341">
+<p>Feinberg, Richard A., and Howard Wainer. 2011. “Extracting Sunbeams from Cucumbers.” <em>Journal of Computational and Graphical Statistics</em> 20 (4): 793–810.</p>
+</div>
+<div id="ref-frazier2013spatio">
+<p>Frazier, Amy E, Sharmistha Bagchi-Sen, and Jason Knight. 2013. “The Spatio-Temporal Impacts of Demolition Land Use Policy and Crime in a Shrinking City.” <em>Applied Geography</em> 41: 55–64.</p>
+</div>
+<div id="ref-groff2014quantifying">
+<p>Groff, Elizabeth R. 2014. “Quantifying the Exposure of Street Segments to Drinking Places Nearby.” <em>Journal of Quantitative Criminology</em> 30 (3): 527–48.</p>
+</div>
+<div id="ref-keizer2013importance">
+<p>Keizer, Kees, Siegwart Lindenberg, and Linda Steg. 2013. “The Importance of Demonstratively Restoring Order.” <em>PloS One</em> 8 (6). Public Library of Science: e65137.</p>
+</div>
+<div id="ref-lemieux2012risk">
+<p>Lemieux, Andrew M, and Marcus Felson. 2012. “Risk of Violent Crime Victimization During Major Daily Activities.” <em>Violence and Victims</em> 27 (5): 635–55.</p>
+</div>
+<div id="ref-newman1972defensible">
+<p>Newman, Oscar. 1972. <em>Defensible Space</em>. Macmillan New York.</p>
+</div>
+<div id="ref-PR1037">
+<p>Schmid, Calvin F. 1926. “A Study of Homicides in Seattle, 1914 to 1924.” <em>Social Forces</em> 4 (4): 745–56.</p>
+</div>
+<div id="ref-shaw1969juvenile">
+<p>Shaw, Clifford R, and Henry D McKay. 1969. “Juvenile Delinquency and Urban Areas.” University of Chicago Press.</p>
+</div>
+<div id="ref-B3">
+<p>Shaw, Clifford R., and Henry D. McKay. 1969. <em>Juvenile Delinquency and Urban Areas: A Study of Rates of Delinquency in Relation to Differential Characteristics of Local Communities in American Cities. Revised Edition</em>. Chicago, IL: University of Chicago Press.</p>
+</div>
+<div id="ref-PR1469">
+<p>Spelman, William. 1995. “Criminal Careers of Public Places.” <em>Crime Prevention Studies</em> 4: 115–43.</p>
+</div>
+<div id="ref-stucky2009land">
+<p>Stucky, Thomas D, and John R Ottensmann. 2009. “Land Use and Violent Crime.” <em>Criminology</em> 47 (4). Wiley Online Library: 1223–64.</p>
+</div>
+<div id="ref-taylor2015community">
+<p>Taylor, Ralph B. 2015. <em>Community Criminology: Fundamentals of Spatial and Temporal Scaling, Ecological Indicators, and Selectivity Bias</em>. NYU Press.</p>
+</div>
+<div id="ref-PR1407">
+<p>Treisman, Anne. 1985. “Preattentive Processing in Vision.” <em>Computer Vision, Graphics and Image Processing</em> 31 (2): 156–77.</p>
+</div>
+<div id="ref-PR1485">
+<p>Weisburd, David. 2015. “The Law of Crime Concentration and the Criminology of Place.” <em>Criminology</em> 53 (2): 133–57.</p>
+</div>
+<div id="ref-PR1">
+<p>Weisburd, David, Shawn D. Bushway, Cynthia Lum, and SueMing Yang. 2004. “Trajectories of Crime at Places: A Longitudinal Study of Street Segments in the City of Seattle.” <em>Criminology</em> 42 (2): 283–322.</p>
+</div>
+<div id="ref-WheBar">
+<p>Wheeler, Andrew P. 2018a. “Quantifying the Local and Spatial Effects of Alcohol Outlets on Crime.” <em>Crime &amp; Delinquency</em> Online First: https://doi.org/10.1177/0011128718806692.</p>
+</div>
+<div id="ref-Whe311">
+<p>———. 2018b. “The Effect of 311 Calls for Service on Crime in d.C. at Microplaces.” <em>Crime &amp; Delinquency</em> 64 (14): 1882–1903.</p>
+</div>
+<div id="ref-PR1642">
+<p>Wheeler, Andrew P., Robert E. Worden, and Sarah J. McLean. 2016. “Replicating Group-Based Trajectory Models of Crime at Micro-Places in Albany, NY.” <em>Journal of Quantitative Criminology,</em> 32 (4): 589–612.</p>
+</div>
+<div id="ref-wilson1982broken">
+<p>Wilson, James Q, and George L Kelling. 1982. “Broken Windows.” <em>Atlantic Monthly</em> 249 (3): 29–38.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>This image and example is taken from <a href="https://eagereyes.org/seminal-papers/treisman-preattentive-processing">Robert Kosara’s blog</a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>For some other examples of historical maps and graphs in criminology, see my blog post, <a href="https://andrewpwheeler.wordpress.com/2015/06/12/favorite-maps-and-graphs-in-historical-criminology/"><em>Favority maps and graphs in historical criminology</em></a>. I give a few more examples from Shaw and McKay, as well as from other criminological work.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler" />
+  <title>Point Pattern Analysis (2)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Point Pattern Analysis (2)</h1>
+<h2 class="author">By Andrew Wheeler</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a><ul>
+<li><a href="#repeat-and-near-repeat-offending">Repeat and Near-Repeat Offending</a></li>
+<li><a href="#ripleys-k">Ripley’s K</a></li>
+<li><a href="#andresens-spatial-point-pattern-test">Andresen’s Spatial Point Pattern Test</a></li>
+</ul></li>
+<li><a href="#choosing-a-unit-of-analysis">Choosing a Unit of Analysis</a><ul>
+<li><a href="#areas-constructed-for-other-purposes">Areas constructed for other purposes</a></li>
+<li><a href="#arbitrary-grid">Arbitrary Grid</a></li>
+<li><a href="#street-segments-intersections-addresses">Street Segments, Intersections, Addresses</a></li>
+<li><a href="#voronoi-tesselation">Voronoi Tesselation</a></li>
+<li><a href="#so-how-do-i-decide-on-the-unit-of-analysis">So how do I decide on the unit of analysis?</a></li>
+</ul></li>
+<li><a href="#homework-and-for-next-week">Homework and for Next Week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For a reminder, the readings for this week are:</p>
+<ul>
+<li>Ratcliffe &amp; Rengert (2008) Near-repeat patterns in Philadelphia shootings. <em>Security Journal</em> 21(1-2): 58-76.</li>
+<li>Wooditch &amp; Weisburd (2016) Using space-time analysis to evaluate criminal justice programs: An application to stop-question-frisk. <em>Journal of Quantitative Criminology</em> 32(2):191-213.</li>
+<li>Andresen (2016) An area-based nonparametric spatial point pattern test: The test, its applications, and the future. <em>Methodological Innovations</em> 9: 1-11.</li>
+</ul>
+<p>Last week we covered cross-sectional analysis of single point patterns. Here we will talk about two obvious extensions of analyzing point patterns; analyzing point patterns over time, or comparing two different point patterns.</p>
+<h2 id="repeat-and-near-repeat-offending">Repeat and Near-Repeat Offending</h2>
+<p>Conducting analysis of addresses that are repeatedly victimized are one of the simplest, but most useful, types of crime analysis. Often there are some addresses that generate very many calls related to domestic violence. Identifying these repeat callers is generally a simple analysis in a spreadsheet (just sort the addresses and identify repeats in the list). An obvious practical application is to intervene with these individuals to prevent future calls to the police, such as through special domestic violence counseling.</p>
+<p>Another example from my work is identifying convenience stores that are robbed multiple times. I had one store in Troy that was robbed 3 times in one week, and the police department took time to go meet with the owner and discuss ways to prevent victimization (someone figured out they kept the cash in the till almost until closing at around midnight).</p>
+<p>A similar crime pattern that occurs is near-repeats, what I had you read about in this weeks reading. A near-repeat is a crime that doesn’t occur at the exact same address, but occurs nearby in time and space. The obvious reason for shootings is retaliation, but for other crimes it is often the same offender committing multiple crimes in a short period of time <span class="citation">(S. D. Johnson, Summers, and Pease 2009)</span>.</p>
+<p>Another example of an intervention to prevent near-repeat victimization is <em>target hardening</em> (or sometimes called <em>cocooning</em> in this scenario). Folks have tried to send note-cards to individuals who live nearby someone who was burglarized to say things like ‘make sure your windows are locked’. These interventions have not been terribly effective though <span class="citation">(Groff and Taniguchi 2019; Stokes and Clare 2019)</span>.</p>
+<p>Crimes that occur outdoors, like shootings (and often interpersonal robberies), are often not recorded at addresses, but at the nearest intersection. (Shootings are also sometimes recorded <a href="http://www.washingtonpost.com/wp-srv/special/local/dc-shot-spotter/">using sensors</a>). Either example makes an exact repeat less likely, but burglaries and domestic cases pretty much always have a residential address attached to them, so exact repeats for those crimes are easier to find.</p>
+<p>Exact repeat patterns (victimizations occurring at the exact same address repeatedly) have been identified for domestic assaults and burglaries. Near-repeat patterns (victimizations close together in time and space) have been identified for burglaries, robberies, thefts from vehicles, and shootings. The time period for these near-repeats have been found to have a higher probability of occurring a few days after the initial victimization event, and the spatial distance for increased chance of victimizations are around 1 kilometer.</p>
+<p>For your tutorial I have you conduct an analysis of near-repeat patterns. There are statistical techniques that you can conduct to estimate whether there are more near-repeats in space-time than you would expect by chance. The test the near-repeat calculator conducts is called a Knox test. Note an assumption of the Knox test is that the overall prevalence of crime is not changing over the time period <span class="citation">(Ornstein and Hammond 2017)</span>.</p>
+<h2 id="ripleys-k">Ripley’s K</h2>
+<p>Another popular test to see if events cluster is Ripley’s K. Unlike the prior week that shows how to identify specific clusters in space, this analysis is global. It can answer questions like ‘bars and crime tend to cluster with each other at up to 1,000 feet apart’. So it does not identify a specific location, but the spatial scale of clustering. It can be applied to a point pattern compared to itself (so you can see that shootings are clustered with each other at up to say 2,000 feet), but I mention it here because I like it to compare <em>different</em> types of point patterns.</p>
+<p>I will walk though a simple example of how the statistic is calculated to illustrate. For simplicity say you have 3 bars and 3 crimes, then imagine calculating the <em>distance</em> in between each. So say <code>bar1</code> is located at coordinates <code>1,1</code>, and <code>crime1</code> is located at coordinates <code>1,2</code>, the distance between those two locations is <code>1</code>. You then do that same operation in between every bar and every crime, and you will get a set of coordinates like:</p>
+<pre><code>Bar Crime Distance
+ 1    1      1
+ 1    2      4
+ 1    3      3
+ 2    1      2
+ 2    2      1
+ 2    3      0
+ 3    1      2
+ 3    2      3
+ 3    3      0</code></pre>
+<p>Ripley’s K then takes the <code>Distance</code> column in the above table and then calculates the cumulative total for each distance bin. Note the <code>[0,1)</code> notation means it can equal zero (the closed bin) but has to be less than one (the open bin).</p>
+<pre><code>Distance     N CumulativeN
+  [0-1)      2     2
+  [1-2)      2     4
+  [2-3)      2     6
+  [3-4)      2     8
+  [4-5)      1     9</code></pre>
+<p>The next part of Ripley’s K then divides that cumulative N column by some factor. Under spatial randomness, typical this is the overall density of the point pattern within the area. (When comparing two different point patterns, it does not matter which one you use.) So if the area we were looking at for bars and crimes is 0.5 square kilometers, we would have a density of <code>3/0.5 = 6</code> in the area. So you would divided the cumulative N column by 6 to create the K statistic for each distance bin.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<pre><code>Distance     N CumulativeN OverallDensity  K
+  [0-1)      2     2            6          0.33 
+  [1-2)      2     4            6          0.66
+  [2-3)      2     6            6          1
+  [3-4)      2     8            6          1.33
+  [4-5)      1     9            6          1.5 </code></pre>
+<p>Then you make a plot of Distance on the X axis, and K on the Y axis. When all is said and done, you get a plot that looks something like below, where the grey band represents spatial randomness.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-IjTid_fgoXY/Vi-ZTOB59CI/AAAAAAAABwY/f2VvrcdIN5E/s512-Ic42/FakeData.png" />
+
+</div>
+<p>In this example <a href="https://andrewpwheeler.wordpress.com/2015/10/27/the-spatial-clustering-of-hits-vs-misses-in-shootings-using-ripleys-k/">I compared spatial locations of shootings</a>, but looked at shootings in which someone was hit vs when they were not hit with a bullet. Because it is very random when someone is hit, it shows the two patterns are not clustered in any meaningful way. If the black line was above the grey area, that would mean hits and misses cluster with each other. If the black line was below the grey area, that would mean the opposite of clustering, the two point patterns are spread out farther than you would expect by chance. Neither is the case here. (This is just another reason to analyze shootings instead of homicides, shootings that result in homicide are quite random, so analyzing the more common shootings gives you more power to uncover different patterns.)</p>
+<p>Spatial randomness can be calculated in several ways. Under a Poisson assumption, there is a closed form solution. But most people use simulations to construct the error bands for several different reasons. One common reason is that crime often cannot be everywhere in a city, but is restricted to either specific streets <span class="citation">(A. P. Wheeler, Worden, and McLean 2016)</span>. (The prior shooting linked blog post I show how to do the simulations the correct way using the <code>SpatStat</code> R program when using crime data.)</p>
+<p>Two additional points about Ripley’s K. It can be extended to calculate clustering in space-and-time, see <span class="citation">Wooditch and Weisburd (2016)</span>, which uses the test to see if street stops result in reductions in crime nearby in space and time. Another is that instead of using Euclidean distance between points, you can use the network distance (such as drive time or road distance), see <span class="citation">Xu and Griffiths (2017)</span> for a criminal justice example.</p>
+<h2 id="andresens-spatial-point-pattern-test">Andresen’s Spatial Point Pattern Test</h2>
+<p>Andresen’s spatial point pattern test is another example of comparing two different spatial point patterns <span class="citation">(Andresen 2016)</span>. This one is simple, imagine you have a city with 3 neighborhoods, and you wanted to compare the <em>proportion</em> of burglaries versus the proportion of robberies in that neighborhood. So say we have a simple table of those two.</p>
+<pre><code>Neighborhood  BurglaryN  RobberyN Burglary% Robbery%
+     A           100         10       20%      10%
+     B           200         50       40%      50%
+     C           200         40       40%      40%</code></pre>
+<p>Here in neighborhood A, there are more burglaries than robberies (in proportion terms), 20% vs 10% respectively. Opposite for neighborhood B, there are more robberies than burglaries. In neighborhood C though they are equal. So unlike the prior examples this test needs to have aggregate areas to calculate the percentages, but is nice to compare two point patterns that may have very different total N’s.</p>
+<p>Martin has a <a href="http://www.sfu.ca/~andresen/spptest/spptest.html">giant list</a> of all the different examples his test has been applied to. Some examples are:</p>
+<ul>
+<li>comparing seasonal patterns of crime over time (e.g. summer vs winter)</li>
+<li>comparing crime in one year vs another year (e.g. 2008 vs 2018, can be useful for pre-post an intervention)</li>
+<li>comparing police outputs to crime patterns (e.g. traffic stops to traffic accidents)</li>
+</ul>
+<p>I have in your tutorial using an independent tool Martin and Nick Malleson developed to conduct the test, but I have some updated code to conduct the test in <a href="https://github.com/wsteenbeek/sppt">R that uses more appropriate statistical methods</a>. See <span class="citation">A. Wheeler, Steenbeek, and Andresen (2018)</span> if you are interested in the details.</p>
+<h1 id="choosing-a-unit-of-analysis">Choosing a Unit of Analysis</h1>
+<p>So while near-repeat analysis and Ripley’s K you do not need to choose a spatial unit of analysis, you do for Andresen’s spatial point pattern test. For analysis of one point pattern it is not necessary to choose a spatial unit of analysis, but when examining multiple point processes it is often useful. Besides Andresen’s test you can often conduct different types of regression analyses with the aggregated data, which will be the next subject in class. Here is some brief discussion of the different units you might choose.</p>
+<h2 id="areas-constructed-for-other-purposes">Areas constructed for other purposes</h2>
+<p>Several examples we have discussed previously are census areas (tracts and block groups), or zip-code tabulation areas. These are often considered as proxies for neighborhoods in criminal justice research, although what is a neighborhood is a pretty fuzzy concept. Political boundaries would also fit into this category, such as counties or city boundaries. In policing research the police department may have created arbitrary units, such as patrol zones, beats, sectors, or reporting areas that you may use as well.</p>
+<p>In crime analysis, folks often make a distinction between neighborhood research vs micro place research (I am a micro place researcher). Census tracts and block groups are generally large, and analysis at that level is often considered to have less practical utility for police departments, as they should be focusing on more specific, micro, hot spots of crime. Also note that when using public crime data that is obsfucated (e.g. somewhere on 500-599 Main St.) it often falls on the border of census geographies. This is often cited as a reason to use other spatial units, such as aribitrary grids or the street units themselves <span class="citation">(Stucky and Ottensmann 2009; A. P. Wheeler 2018)</span>.</p>
+<h2 id="arbitrary-grid">Arbitrary Grid</h2>
+<p>In this weeks homework I illustrate creating an arbitrary set of grid squares over the study area. This is what Shaw and McKay did in there study of Chicago.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-Bq26-v2hdSI/VXr0DTly-3I/AAAAAAAABcE/jdIeAGqX1jc/w246-h425-no/ChicagoDelin_54.PNG" />
+
+</div>
+<p>The grid size is ultimately arbitrary, and so you can use larger grids (to approximate neighborhoods), or smaller ones to be more micro focused. When using very small grids, one would likely want to represent the data as a raster object instead of a set of polygons.</p>
+<p>One can use different shapes besides squares as well.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> Other Shapes that have a regular tiling are triangles or hexagons (haven’t seen anyone use Escher’s Lizard tiling, although it is possible!). Hexagons are popular as they supposedly avoid producing bands in visualization, although personally I think most regular square tilings looks nicer in my opinion. Here is an example of <a href="https://www.tableau.com/about/blog/2017/11/data-map-discovery-78603">using hexagon binning</a>.</p>
+<div class="figure">
+<img src="https://cdns.tblsft.com/sites/default/files/blog/2and3_1.png" />
+
+</div>
+<h2 id="street-segments-intersections-addresses">Street Segments, Intersections, Addresses</h2>
+<p>In micro place policing research a popular spatial unit of analysis are street segments. They have been popularized by David Weisburd [<span class="citation">Weisburd et al. (2004)</span>; PR1485], mostly for practical reasons. They are a convenient spatial aggregation to identify hot spots, and they avoid slight geocoding accuracy problems. Ralph Taylor also thinks they are an appropriate way to measure ‘small neighborhoods’ <span class="citation">(Taylor 1997)</span>.</p>
+<p>Street segments are often hard to define in a regular way. Here is an image of street segments for a neighborhood in Dallas, Oak Cliff. <a href="https://t.co/kugx1Awkxh">Here is an interactive map</a>, and if you zoom in you can see that there are many segments that are weird – it is very difficult to define street segments in street networks that are not regular grids.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OWlaiFepqwU62LJd5PX9Dfu9xoGa4oKXW1gxdVpIoHEDe_Kr8ZI8TGBK05ZoiLtqH7sIdyCCbBeFMVTfDh6Szps6h6zGXJfhba-FMhSthxnexbaab3oe7vHhOkBVtVPQbyJIPHK0kskhzgyAjt4XTpKBs9fIzDaR8HCwBP52msr4DA2Hy3IPQ2ldu8bRj568rnkHuY9ZNk5gW8BH8asr08lGGwiWoozLan_KGPdmzboMptVwBc0jTI4J6Y90EEux3YmsuC5Yes7GHRB4AAkZxT3CONUb1Q1Q8N8r151cDNf37yHZ1MZR7vdSOZY-4DrUKfUwW7U7P7CFJpxnZ_YmKHIHLBsxd0isVIbJg19bDdwKB6Wy7UQgaUR_gAMXVGM_mlhzVkE8bfOR71fWexbx5AXAqDIS2X0y7r8mOnLvmDu9ol7WeRbFTU6xt6aHj-yjE_eScfpHXEnmmmU3UuB_e5kr0EDvOfxDavOz3d9Tm6WH8AqAnPIbw2bRiSbDgZWi6XhrUOeDIzEsHppTEkBL-RMJLaBXLmq1EBidYJxtOENf3TzqV7Dw6B1ek_98MEPwLpR3NQSBXUG7JiqC3kuAy83V-k48a9KRwqyPm9bwDtZAj3RHg3IBzPDsS_86kaA59OoMWJSIFwmh9ZHkwTG_WerN4jembLQ=w834-h889-no" />
+
+</div>
+<p>Another problem with using <em>just</em> street segments for analysis is that crime that occurs outdoors is often recorded at intersections <span class="citation">(A. P. Wheeler, Worden, and McLean 2016)</span>, these cases cannot be easily assigned to one specific street address. In that case sometimes individuals treat both street segments and intersections as their own spatial unit of analysis.</p>
+<p>The final micro place spatial unit of analysis are specific addresses. Note though that for many different types of analyses you need to include the zero areas (it is absolutely necessary for regression analysis predicting crime as the outcome). Thus address level analysis can be difficult, as you need a registry of all unique addresses (and the potential problem of intersections on top of that).</p>
+<h2 id="voronoi-tesselation">Voronoi Tesselation</h2>
+<p>Voronoi tessellation is a way to go from point data to polygon data. Basically anywhere within the polygon is always closer to the source point. I’ve used these as a way to mash up several datasets to street segments and intersections (the proportional areal allocation you did in prior classes). Here is an image example, imagine your original point locations are the dots, and the constructed Voronoi areas are the polygons.</p>
+<div class="figure">
+<img src="https://i.stack.imgur.com/rn0Vj.png" />
+
+</div>
+<h2 id="so-how-do-i-decide-on-the-unit-of-analysis">So how do I decide on the unit of analysis?</h2>
+<p>In the end, although I prefer to do research on micro level units, I do not think the choice between micro level units (small grid cells, street segments &amp; intersections) makes much of a difference for the vast majority of analyses. Some individuals (like Ralph Taylor) try to say to choose a particular unit of analysis based on theory – I personally do not think that is right though. Theory is too ambiguous, and you even have who argue that discrete neighborhood boundaries do not exist at all, and so suggest overlapping neighborhood measures <span class="citation">(Hipp and Boessen 2013)</span>.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>How I like to decide is based on a research design perspective. Here is an example, there was a CPTED intervention of locking the alley’s in-between homes to prevent burglary <span class="citation">(Bowers, Johnson, and Hirschfield 2004)</span>. In this case, you might expect that there is displacement from entering in the back of the house to the front of the house. If you aggregated up to the address level, you would not be able to tell the difference. So here is a research design example in which you might want even sub-address level spatial units of analysis.</p>
+<p>Many types of interventions though it is not necessary to measure such small levels of displacement though. Often the spatial unit of analysis is a compromise between the type of data you have available and the unit that you would like to conduct analysis at.</p>
+<h1 id="homework-and-for-next-week">Homework and for Next Week</h1>
+<p>For your tutorial, I will have you conduct a near-repeat analysis using Ratcliffe’s calculator, as well as an analysis of Andresen’s spatial point pattern test.</p>
+<p>The readings for next week are:</p>
+<ul>
+<li>Anselin (1995) Local indicators of spatial association-LISA. Geographical Analysis 27(2): 93-115.</li>
+<li>Anselin (2005) Exploring spatial data using GeoDa: A workbook, Chapters 15 through 21</li>
+<li>Cohen &amp; Tita (1999) Diffusion in homicide: Exploring a general method for detecting spatial diffusion processes. Journal of Quantitative Criminology 15(4):423-450.</li>
+</ul>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-andresen2016area">
+<p>Andresen, Martin A. 2016. “An Area-Based Nonparametric Spatial Point Pattern Test: The Test, Its Applications, and the Future.” <em>Methodological Innovations</em> 9: 2059799116630659.</p>
+</div>
+<div id="ref-bowers2004closing">
+<p>Bowers, Kate J, Shane D Johnson, and Alex FG Hirschfield. 2004. “Closing Off Opportunities for Crime: An Evaluation of Alley-Gating.” <em>European Journal on Criminal Policy and Research</em> 10 (4): 285–308.</p>
+</div>
+<div id="ref-groff2019using">
+<p>Groff, Elizabeth, and Travis Taniguchi. 2019. “Using Citizen Notification to Interrupt Near-Repeat Residential Burglary Patterns: The Micro-Level Near-Repeat Experiment.” <em>Journal of Experimental Criminology</em>, 1–35.</p>
+</div>
+<div id="ref-hipp2013egohoods">
+<p>Hipp, John R, and Adam Boessen. 2013. “Egohoods as Waves Washing Across the City: A New Measure of ‘Neighborhoods’.” <em>Criminology</em> 51 (2): 287–327.</p>
+</div>
+<div id="ref-PR38">
+<p>Johnson, Shane D., Lucia Summers, and Ken Pease. 2009. “Offender as Forager: A Direct Test of the Boost Account of Victimization.” <em>Journal of Quantitative Criminology</em> 25 (2): 181–200.</p>
+</div>
+<div id="ref-ornstein2017burglary">
+<p>Ornstein, Joseph T, and Ross A Hammond. 2017. “The Burglary Boost: A Note on Detecting Contagion Using the Knox Test.” <em>Journal of Quantitative Criminology</em> 33 (1): 65–75.</p>
+</div>
+<div id="ref-stokes2018preventing">
+<p>Stokes, Nicola, and Joseph Clare. 2019. “Preventing Near-Repeat Residential Burglary Through Cocooning: Post Hoc Evaluation of a Targeted Police-Led Pilot Intervention.” <em>Security Journal</em> Online First.</p>
+</div>
+<div id="ref-stucky2009land">
+<p>Stucky, Thomas D, and John R Ottensmann. 2009. “Land Use and Violent Crime.” <em>Criminology</em> 47 (4). Wiley Online Library: 1223–64.</p>
+</div>
+<div id="ref-taylor1997social">
+<p>Taylor, Ralph B. 1997. “Social Order and Disorder of Street Blocks and Neighborhoods: Ecology, Microecology, and the Systemic Model of Social Disorganization.” <em>Journal of Research in Crime and Delinquency</em> 34 (1): 113–55.</p>
+</div>
+<div id="ref-PR1">
+<p>Weisburd, David, Shawn D. Bushway, Cynthia Lum, and SueMing Yang. 2004. “Trajectories of Crime at Places: A Longitudinal Study of Street Segments in the City of Seattle.” <em>Criminology</em> 42 (2): 283–322.</p>
+</div>
+<div id="ref-Whe311">
+<p>Wheeler, Andrew P. 2018. “The Effect of 311 Calls for Service on Crime in d.C. at Microplaces.” <em>Crime &amp; Delinquency</em> 64 (14): 1882–1903.</p>
+</div>
+<div id="ref-PR1642">
+<p>Wheeler, Andrew P., Robert E. Worden, and Sarah J. McLean. 2016. “Replicating Group-Based Trajectory Models of Crime at Micro-Places in Albany, NY.” <em>Journal of Quantitative Criminology,</em> 32 (4): 589–612.</p>
+</div>
+<div id="ref-wheeler2018testing">
+<p>Wheeler, Andrew, Wouter Steenbeek, and Martin A Andresen. 2018. “Testing for Similarity in Area-Based Spatial Patterns: Alternative Methods to Andresen’s Spatial Point Pattern Test.” <em>Transactions in GIS</em> 22 (3): 760–74.</p>
+</div>
+<div id="ref-wooditch2016using">
+<p>Wooditch, Alese, and David Weisburd. 2016. “Using Space–time Analysis to Evaluate Criminal Justice Programs: An Application to Stop-Question-Frisk Practices.” <em>Journal of Quantitative Criminology</em> 32 (2): 191–213.</p>
+</div>
+<div id="ref-xu2017shooting">
+<p>Xu, Jie, and Elizabeth Griffiths. 2017. “Shooting on the Street: Measuring the Spatial Influence of Physical Features on Gun Violence in a Bounded Street Network.” <em>Journal of Quantitative Criminology</em> 33 (2): 237–53.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Note that when folks discuss adjusting for a spatially inhomogeneous Poisson process, what they mean is that in this part of the equation they don’t divide each of the distances by an equal value, but by a different density estimate depending on where the points are located. Another example is adjusting for edge effects, this results in people giving points nearby the border a higher weight in the test.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>One could also rotate the square bins to better approximate a street grid, see some of the <a href="https://geoffboeing.com/2018/07/comparing-city-street-orientations/">work of Geoff Boeing</a> where he measures the radial distribution of streets in different cities.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>I have a blog post illustrating how to <a href="https://andrewpwheeler.wordpress.com/2019/01/23/weighted-buffers-in-r/">calculate such <em>egohoods</em> in R</a>.<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

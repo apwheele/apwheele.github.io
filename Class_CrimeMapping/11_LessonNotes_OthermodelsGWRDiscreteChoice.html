@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 11 - Additional Models of Crime: Geographically Weighted Regression and Discrete Choice</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 11 - Additional Models of Crime: Geographically Weighted Regression and Discrete Choice</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#geographically-weighted-regression">Geographically Weighted Regression</a></li>
+<li><a href="#discrete-choice-models">Discrete Choice Models</a></li>
+<li><a href="#homework-and-for-next-week">Homework and for next week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For this weeks class, the expected readings are:</p>
+<ul>
+<li>Bernasco &amp; Nieuwbeerta (2005) How do residential burglars select target areas? A new approach to the analysis of criminal location choice. <em>British Journal of Criminology</em> 44: 296-315.</li>
+<li>Graif &amp; Sampson (2009) Spatial heterogeneity in the effects of immigration and diversity on neighborhood homicide rates. <em>Homicide Studies</em> 13(3): 242-260.</li>
+</ul>
+<p>It is a bit of a hodge-podge, but these are some regular models used in criminology I wanted you to have at least some exposure to.</p>
+<h1 id="geographically-weighted-regression">Geographically Weighted Regression</h1>
+<p>GWR for short from here on out, is a way for making regression coefficients vary based on the spatial location. For a simplified example, imagine you have two neighborhoods in a city, A and B. You then fit a regression model predicting the effect of the number of crimes on a street as a function of the number of bars, a seperate equation for each neighborhood and get the following results:</p>
+<p><span class="math display">\[Y_A = 2 \cdot (\text{Bars}_A)\]</span> <span class="math display">\[Y_B = 1 \cdot (\text{Bars}_B)\]</span></p>
+<p>So here, adding a bar to a street in neighborhood A results in an increase of 2 crimes, but adding a bar in neighborhood B only results in an increase of 1 crime. While there is not any specific theory why this might occur, you can make a reasonable argument about combining different crime theories and why this might occur. For example, in crime pattern theory, bars are crime generators and crime attractors. In social disorganization theory, places that have more poverty and in which people move more often have higher crime. You may think that bars in places with more social disorganization are likely to have larger effects on crimes than bars in nicer neighborhoods <span class="citation">(Smith, Frazee, and Davison 2000)</span>.</p>
+<p>GWR just makes it so you do not have to check coefficients in discrete neighborhood areas – you can estimate continually varying coefficients over the whole study area. The idea is that you estimate a weighted regression model over many points in the city. The weights are determined by how close the units are to the focal point. So if I had a simple grid:</p>
+<pre><code>X X X
+X X X
+X X X</code></pre>
+<p>I would estimate 9 different regression models. The coefficients in the top left corner would be close to the coefficient in the top middle, because it weights observations similarly. This then makes a smooth map of changing coefficients over the study area, instead of discrete jumps by splitting up the study area as I did in my original example. Here is an example from <span class="citation">Graif and Sampson (2009)</span> showing this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ULrb1nkC-gkWuu5_O2qSyBXG0NBMehMCcQDO-OGgyZCaCiXfgL1NvxHl85zZMtPbeDkdAys76W8pD5JwoCweXfh3AqcSYwYQgG1z9Ly9sSZ-_Hn_-XmPQ3_XyQv3r0KxQKxlk6HnvYmeUdOXWppfeUmqRGMmNdXewtZ30aHJ-eOuNFL03E0h1DOCec5IpTHOqsBDThzpdiLAa1lGgsksY5huYY1K5cqD7KCOEe-tirW9iyLsKJ98uGRdqHBWfreciFJrzAAjEZRCVMDW1iIqmDwNfVWEvf-8d9GcM19sTOyJUHPlfYyG_FgFyqAeww64ybntMZrVQXrsv-cUPaj2-_xgYkyOXwar5KwE3QJ5Q4XJdT1X1mQmXBKML_ClmpXQMzPcgfXZTdeDjpUEAMn6Ad-BzmWcoYD2H-lGmlylWYwOztsTT1Cecmn_L-JeaMhIaoSZ7S3zzRacofwAIzZ2r6O_XoSQBiDh6LVhe9NQVYohD96mVzSJEFK7fngNfl2uHzkmB4BKo_dgObaPxgsn7jEBJzx6GxYQmiQEZhBLLweRv4iFi_IQ0VtllAxCi0hPakzVAOfFOt0W9lL2aw0Lfa4VrVEfklJWCzB2kKvkV8NrxmWyixYdwermMqNXY0awJ7maX1W5Se5D9RIRXjNDQjcZ_1GlK0qtBjwT8krilecpN1hVu55z0qEtHPI6_cCT5EHHrl3cnhVNoWAXvPTVtEoD=w822-h727-no" />
+
+</div>
+<p>They map the t-coefficients instead of the effects, but you can see that more foreign born have positive effects on crime in the central part of the city and toward the periphery, but have large negative effects through strands in teh central part of Chicago.</p>
+<p>GWR is useful for exploratory data analysis, but a problem happens. If you estimate 100 different regression coefficients, some are bound to be statistically significant just by chance. Also the statistics are not independent, the coefficient for the model for the upperleft is not independent for the model in the upper middle. This non-independence is shown by the fact that maps are smooth - GWR cannot estimate large jumps in the coefficients. Finally, the weighted models have more noise than a single model for the whole city. If you only have 100 observations, then each of the weighted models is influenced by even fewer data points.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>I have you read <span class="citation">Graif and Sampson (2009)</span> not because I believe the results, but because I think they are mostly chasing noise in that example. I do not believe there is much theoretical reason to expect that immigration rates have different effects on crime in different parts of the city, and that is what they found when using GWR. But basically <em>every</em> example of GWR I have seen finds spatially varying coefficients. I think most of that is chasing the noise though.</p>
+<p>For those interested in learning more about GWR, I would suggest reading the book by its originators, <span class="citation">Fotheringham, Brunsdon, and Charlton (2002)</span>. Also for those looking for advice about making GWR maps, see <span class="citation">Mennis (2006)</span>.</p>
+<h1 id="discrete-choice-models">Discrete Choice Models</h1>
+<p>It took me along time to figure out what the hell was going on with discrete choice models. Here is how I think about them. Imagine you had a city with four areas; a,b,c,d, and you had two offenders, X1 and X2. The database set up for discrete choice models would be:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Comitted Crime?</th>
+<th>Area</th>
+<th>Offender</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>a</td>
+<td>X1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>b</td>
+<td>X1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>c</td>
+<td>X1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>d</td>
+<td>X1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>a</td>
+<td>X2</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>b</td>
+<td>X2</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>c</td>
+<td>X2</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>d</td>
+<td>X2</td>
+</tr>
+</tbody>
+</table>
+<p>Here offender X1 committed his crime in area a, and offender X2 committed his crime in area b. To estimate the discrete choice model, you need to have all of the areas for each offender in the database as well, and try to predict here among the four different areas. Discrete choice models are subsequently just a special type of logistic regression model (it is also called the conditional logistic model).</p>
+<p>These models are useful for theory testing. For instance, you may have a variable that lists the distance between the home address of the offender and the spatial area <span class="citation">(Bernasco and Block 2009)</span>, or you may include a variable predicting whether an offender used to live in neighborhood a <span class="citation">(Bernasco 2010a)</span>. (As you can see, Wim Bernasco has a series of articles on the technique and theoretical applications.) The technique could also be used to predict the next crime location, but I haven’t seen any application of trying to do that with new data.</p>
+<p>One particular limitation of this technique is that you need to predict discrete areas - it is not a general surface like geographic offender profiling. Because of this most applications are predicting committing crime in larger neighborhood areas and for only a few offenders (but see <span class="citation">Bernasco (2010b)</span> for one exception of predicting micro places, but still with only around 1,000 offenders). If you have 100 areas and 1,000 offenders, the final database you need to estimate the model on will have 100,000 observations. So it is hard to use this application if you want to predict a very specific place an individual will commit a crime at.</p>
+<h1 id="homework-and-for-next-week">Homework and for next week</h1>
+<p>You do not have a tutorial for this week, you should spend your time working on your final project. If you are reading this earlier in the semester and are interested in pursuing GWR or discrete choice modelling for your final project, just let me know and I can help out if you need more help on how to actually estimate these models.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR657">
+<p>Bernasco, Wim. 2010a. “A Sentimental Journey to Crime: Effects of Residential History on Crime Location Choice.” <em>Criminology</em> 48 (2): 389–416.</p>
+</div>
+<div id="ref-PR10">
+<p>———. 2010b. “Modeling Micro-Level Crime Location Choice: Application of the Discrete Choice Framework to Crime at Places.” <em>Journal of Quantitative Criminology</em> 26 (1): 113–38.</p>
+</div>
+<div id="ref-PR28">
+<p>Bernasco, Wim, and Richard L. Block. 2009. “Where Offenders Choose to Attack: A Discrete Choice Model of Robberies in Chicago.” <em>Criminology</em> 47 (1): 93–130.</p>
+</div>
+<div id="ref-B131">
+<p>Fotheringham, A. Stewart, Chris Brunsdon, and Martin Charlton. 2002. <em>Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</em>. West Sussex, England: John Wiley &amp; Sons, LTD.</p>
+</div>
+<div id="ref-PR91">
+<p>Graif, Corina, and Robert J. Sampson. 2009. “Spatial Heterogeity in the Effects of Immigration and Diversity on Neighborhood Homicide Rates.” <em>Homicide Studies</em> 13 (3): 242–60.</p>
+</div>
+<div id="ref-PR101">
+<p>Mennis, Jeremy. 2006. “Mapping the Results of Geographically Weighted Regression.” <em>The Cartographic Journal</em> 43 (2): 171–79.</p>
+</div>
+<div id="ref-PR152">
+<p>Smith, William R., Sharon G. Frazee, and Elizabeth L. Davison. 2000. “Furthering the Integration of Routine Activity and Social Disorganization Theories: Small Units of Analysis and the Study of Street Robbery as a Diffusion Process.” <em>Criminology</em> 38 (2): 489–524.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Ned Levine, the creator of CrimeStat, also speaks very negatively of GWR models. (I presume for this reason he does not include them in CrimeStat.) In place of them, I know he suggests using CAR models (which we briefly touched on in the spatial regression class), and subsequently has the ability to estimate CAR models in CrimeStat.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

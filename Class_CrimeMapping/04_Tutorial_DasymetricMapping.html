@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 4 - Tutorial on Dasymetric Mapping</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 4 - Tutorial on Dasymetric Mapping</h1>
+<h2 class="author">By Andrew Wheeler, apwheele@gmail.com</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#calculating-area-statistics">1 - Calculating Area Statistics</a></li>
+<li><a href="#taking-the-intersection-of-two-polygon-layers">2 - Taking the intersection of two polygon layers</a></li>
+<li><a href="#proportional-allocation-to-the-intersection-area">3 - Proportional Allocation to the Intersection Area</a></li>
+<li><a href="#dissolving-the-estimates-back-to-patrol-zones">4 - Dissolving the estimates back to Patrol Zones</a></li>
+<li><a href="#some-more-binning-and-styling-for-choropleth-maps">5 - Some more binning and styling for choropleth maps</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial covers how can interpolate a set of statistical measurements for one area to a different set of geographic areas. The procedure we will be conducting here is <em>proportional areal allocation</em>, and this can be considered the simplest type of dasymetric mapping procedure. Here we are going to take census tract data and interpolate it to Albany patrol zones. (Zones officers are generally assigned to patrol by the Albany police department.) The GIS data can be downloaded via blackboard or from dropbox at this link, <a href="https://www.dropbox.com/s/2eygf5n8wb7kl12/Week4_DasymData.zip?dl=0" class="uri">https://www.dropbox.com/s/2eygf5n8wb7kl12/Week4_DasymData.zip?dl=0</a>.</p>
+<p>As a word of caution - this is the tutorial that students have previously had the hardest time replicating in prior versions I have taught the course (although this is not uniform - there are always some students who do fine and others who have problems from week to week). It is partly because there are many steps and you need to perform each one exactly as I have specified. Also sometimes it can be confusing what the point of several intermediate steps are. In a nutshell, we will be doing to the same operation I talked about in the lecture notes with the overlapping rectangle and the circle. So if you are having troubles, take your time, redo the steps, and try to understand what the point of each intermediate output is.</p>
+<p>Although this tutorial is harder than many others in the course, it really demonstrates the power of using GIS - to take one set of measures and transfer them to different overlapping areas. Such an analysis would not be possible without GIS. Being able to do complicated geographic manipulations like this is really what learning to be a profession GIS analyst is all about.</p>
+<h1 id="calculating-area-statistics">1 - Calculating Area Statistics</h1>
+<p>Last week we made a nice layout of Albany in the tutorial. Instead of having to redo that work, we are going to open the map you made last week. Here is what my map from last week looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WRuCCGbq1GMQ6ySMr2lyvbhxTJcTV_kzOUUUH2Obfcox5gfSIaj8qn8JTKljOJUs4eZulfzcHHWktvu11u7VaYvINrGxJ2wzipqEHn6lOVp6hHddkn9i6_B7CBAOMHWPpWceqw5UUDsZpFexEXpdR8-WAAu1Yzp9Y822t4FAsccAJlnAex56d1TxagOpSXiVV_2zP7eTWsKilRKJ_Bc6jRVdxngmX4LJ_Tcjv5hOAkC4_6cgroYG2juFhoipgIHk1GqTuyoEGA3I2EWrTpzbEQ6VTKnxS7DcaPRWxwZNCkgU0ddIO3C2eYQQBMijWWdlIUY3M1xrHJp9VFg2oxfRjxg2TgqumSPV02dPUoOUe-pvNOGl3LbxO3u0hu4QyiwhlxhIGj9a6qpfu8YI2TPxB0132TICqmDbzUGx8_T2ZEFVnoAo6IT03ehx-eFsfOaLmSJznz8-UBkFdeS7afgCAx14F4mlGPNWR2IP4ph9pEYY9nkOD1CnMtpdgR1-YhdjWLaIDsBUvwoNZORNRQJWVth2C0dJxK7d7tQ8Ni-UY2ZM9Xl7RD3u36lp9sGN0e8OPFD8cy8F7R6o59lhEBz_18Ix78jvQLAL-Eh6jS7UiuQS_3mrmMEH=w1188-h950-no" />
+
+</div>
+<p>We are going to get rid of the contents of the map, but the layout guidelines and text will still remain. In the table of contents, make sure the source view is selected (circled in red). Then rick click on the layers and select Remove.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rxANydJHuGmY8PkFm3ywaZhIaQPQi3jDoWxfis5TXIPrP2xG41_slbEmVQTrAWzrdnhGYrNgA5r93NjB-N7GjxiTWNnzQi5S5vIu9kB8khffzfnQmjvcOCldJ7kMXl2749rCqQYUrsWqbLtbXBkzS2oUBZCdj5a0RbGS_QzWnIt7jrXt-Qp_JA_SLUaHWJyFUyYcCpNsUipAlu5kYDEJ3E8PfuNUdvdwH8mZmOsL_-cgyY0fflU4qyti4Wgc8OYkeHi8PwQCOKCynn5SGlYt-xfvGkn653_-65mZ5v12LTmdkfx7snX6_9pUo-SLfPZ3Z3E0k0XIAkO82tIMK1VEbgqLf_mopB5RmBx8SZd6Vg0ija3shLCL_67_n8GdozrUlAmAUb8EUs-gUb05P5HCYUaLFlTXgJdsaWAOnv5UxjhyUTWo5BqW3BRGfeU0LMVpgJNjaxwy2_r_rnxq3wyvZgfwONTHE-g_Fvst2x3yXvEAmZk7BrSlIJWW0kMNYdvES_Kxph1fyFtVtanG3tQDVv0w0j5shWB6PD2MYw1oamDNi5RfYE9GHCMRyGPaBxF-BdV-dLj2inAWbbRScW06jW7foCrnmeRIJn6-C2vrXMZdnOdSHCR2=w498-h682-no" />
+
+</div>
+<p>Do this same process for any layers and tables that are in the map. Here is what my empty map now looks like. You can see in the layout view that I still have all the guidelines. (I also changed the text here to signify Week 4 in class and the date.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gswXS1f0G8KZW2Dpj-RDtHd66o70XXwfUEdT0Scxh3oXJkbBwfEuHHaVdVoy9yJx4KYsgnSOID_6S3Yewhz1oad5YhXGt4EVn-crTmunA0zHX_qEA4azi0IAJ9QUPjoGhHX5uFIWgiSTqugpsMrEjgtu0_WCQTPfb6MlIbxUx3Nqo9dd0AspvVWlJKP_-4p9IHaFtIOwdT-LdleCTQeo_0VTldJPXp5a05yZvDNZN0QE49XMqrEgwakPu0_4iKn9_fI-IjOgjH9QQ24UZiYOWx0gCObsjVhjaO8olVLvBB7A5M0gZoYNmxr9BQeNZGs9tP135F6yvT0EDaeZFNpoFuLGFdLXF0P31xgVmbvUJ25J7_kfe6O7rxXJRl0EK3TxSzTqlbl2NQAmCe_nduMjDLXbaqqD5NA4q9CuKBb7rqUOz2uHl90sgoemqMEWjIrsQJjyn4sfFsNAHOAZu_lW8W3RtEmIxeyJkfVFxEVyeLFF55Tyu8KjTvIM6uy9ygQe7HljTOmvp3BDrhXwO44GmgIafkorPzZ6YdsPVdQE3wAwZISguCwSeUZr4ZjVqmqNMsOIf_G2axMYyNzOi2ZUl45aYkg_0XG-9ZcfCkRfcSmUPYwBMilB=w1188-h950-no" />
+
+</div>
+<p>Now we are going to add in the data files for this weeks tutorial. Navigate to wherever you have saved the files, and import the two polygon layers and the csv file. Make sure to save this as a new map document (File -&gt; Save As) - don’t overwrite your last weeks homework.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/cSq0LcFRM6DWAoU7KH3m1ZcgGxPHR_5YgAlmUQSaR7tf2c5yWfE06Ccgz8ZijAsh5to-gwQdnqx6x6iOrJv7nic3LQeNM0e3lefO4t2lzdi2IpJD1ff4AFrkNDEX_kzzEd2YVvyYzmzaPrippp6s7hZ4Vn4ghv11H3o8Qq1BuKRWvBMbbZ7RMhQfrp09GvaZAcpqxv1ALx98uVjYkZi3DqnAzy8jiBMM_YesZGVhTdxOBaZgD-qWKae2pl72KHuZTJii0G1Yc_4by5n1L225laR20q-yBvJE84pHJJSLI57E3Wmdv7q1o6uC38lQmDEQwXA91f_cvZGAjEjvmWk-ekwF7wu-7izO7DCM_SUCQP7DAiQvREhAcDDsOMMlCdnyWWSiW-57Nnh4_f8UMDxGWCCbLm7n8j1Rt4syzY8I9j7sK1JLvP-PTPDK_VSMr9pXuKjvzskxhkWriIJr6hxmu26ZNiK4eZvAywVMx-4NvTQ2TeLAQQKX8_UhegRFHwapHwMs_HmHiD7gDvCawjDVeNgLPPDj3NJHObr2Ks2H__IlSHOO5PQ98Jtbzi64D7hnNz1akriU3ZFELL2YDtmtP5tUlocz0cbsTwAfWILESqfTqnRDfrHc=w497-h330-no" />
+
+</div>
+<p>This is what my map now looks like in the map view (circled in red). Note - if the map looks stretched out compared to mine you probably did not project your map in the last tutorial. You will need to have it projected to do some of the subsequent geographic data transformations. (So consult last weeks homework to project the map.) Click the layers on and off in the table of contents so you can see how census tracts and police zones do not align in any consistent manner. While they share some edges based on major thoroughfares (like Western Ave.) they do not generally line up.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NUUrT9-oq9pNvPMv6j8Lzb4qwdixLLJyUrz7MVpG2IoJ0iMDwoFBZFIKfEMBSt6rLj2-wIFAmkSdYJpSxEd6x0WC_XLE3FO2C1IK6qjFMui6qXiQEA_TosSaj0yIUsW0gutT9ldXeNZlbm_3iQmC2JA-m6zWklXXWuZFJ_PuQaSvQewspNLUhRasFhbBJKKE8MPf6u1Wc59IX_ZeiaRm5CfSVr8apnM8EY-H1uy_wxEJPxJYPWJ-lJs_k6Z9C6UpSlu1RQTjpGODznRsYF_IFjakDAMoOxxs9R24IJAA9m34J-twAdmTqWKrqm7u8rOVG4YPB6XSVKAjEZO5nKuBgD3A7r-shHQNmM701iVj48x-dhyJl7BBg_ncvHW0cPhgIPn_u_llhGrOt1GPmIdJgfZJDjpXeiS5rUbJV42uheCED6aSHoGKEdR510Hg0F9hZfDOTMAkeVyIuFAYu-5178Z16HHGgzJ6r3MZnG0mmCg6B4rxLmPeYCG80YROGLhY31lXgFqw6owoOJA-JaO0tIP371uwxBLhVD8odEigoYL_jELK8l3hzVAu7xU8iQS52U0yxZZekQyDN4l4ZW9XuGtaflJ4ROuTKLOOx-Ahl32R0zSq2hCf=w1188-h950-no" />
+
+</div>
+<p>Open the attribute table of the csv file <code>CT_Veh_and_Vac</code>. This contains data at census tracts for the number of vehicles commuters use (5 year 2012 American Community Survey) and the number of vacant residences (quarterly HUD dataset for Q4 of 2015 compiled using USPS data).</p>
+<p>Right click on the TotVeh column and then select Statistics.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/pCCuB2HwzBxkZVq3hqRIhlUcH5T8OGvJXQnsshEtc_8voXbKia161oOOJbuog18UtOn9x85Qn_qKZt7rw62SxBypjg52326DBpCpO7xhVglX0IEdkAwEICzmbamxuqAibT48xu3YcuDdioCzivJbpR0usLsB7M2R1YPt3xoF5bzw0vq-hE2nEMbE1cwg2HRH-kOetorVyW4ic3w4-VzbjlRzn2HDiJVxFm05rBmJAR7a5EIEHXOKsNhW0YvsnS2ciZy4Dfgdq8T2eCDWx8zOBIxPhyHzEXBEuuJGGKUfHu-1WE6tJUu-CoFyaAkAxN_4caUSmrQyZUH7_YY95O-pxD2hP1sPxVcjjb4G_g4DIRINBg0rstWISexjbhG9srO3F4rFVpiDPE-suwjIyI93IVxZ7JypgtXGYQSObv9iBznxSF4pLCdnMozFecfrtebS_kG-wvLUs3IJazKTsI3vuqSOYApoNUHY-qM3llPJb1TRH12_jErQXS4iV0wXrcmxaTZgtDoc-cEC567lxOaq199aex8oKwwSVuCZzoQXTRpoNaZ_29f7unFBHK3r94hdCQagb1_Bq1rb7kHYR28gWysxcNErBvIg6v1Yr8rn3OYyg2t8lUBp=w446-h527-no" />
+
+</div>
+<p>This brings up a histogram of the distribution, along with some summary statistics. Take note of the sum, 30,385. When doing interpolation, we typically want the values of our resultant layer to add up to the same values of the source layer. (This means that for every 1 car estimated in the source it gets assigned <em>somewhere</em> in the target.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/eGR-W97z_KrxvteXVDVjuLtbSz5ogZZUs7LfCYJPDTpd_aRRwLgTHajvnBWj-9s7onYFHywm-FGjHl00bpKxT-AxpVxnkx2izs0EJ7w_Nj65s1aJmFekpsZGx9C1BZupsacwtjlIpqCnWhFYLlNi15-cPiN-J7VxJZtzQjdqoRbNjvo1vijqsF4nDMuTgGzI9Hruq9er8hikKb51kl937sEDrfSyKFT048CTDElbANdj-O5h09m25qroIU_C8ZLDJuhy9XDmGpVPX6Iv5lYSYoIH0DI9yTwopxDToYpvkKtPQ6ux5VZqkjONpFireU2kRd2OOFkzRzccXp_cGxTQJRMDAZywbj5gKyNWjNaDiXolZN3kEk81Icz4TZ8RAT7WcauMcFV8lGq9L5yxtdu5WJe2WQpCimlYQfoQxd0NZDlcr_2-TRvWSMO58oX7XBfRfug6LzENIuOzFPFHl0vl5wOCBT0yDey7b548V5swGaVana80FcLimjDwL2mC99AVz1CjC3C2qdEZelyoFZWKFnsYLJfulg4NQVRzU3e50xBNXxCpbuQq8QptLBfpgrqFXQ-yhr9EeKgnpb5WVM1WOShDYI9zN9zN3ntqjlDApNshENhcBoHY=w633-h273-no" />
+
+</div>
+<p>Close the <code>CT_Veh_and_Vac</code>, then join the <code>CT_Veh_and_Vac</code> table to the <code>Alb_CenTrac</code> polygon layer. (If you do not remember how to do this, refer back to last weeks tutorial.) Again, <strong>JOIN THE CSV TABLE TO THE CENSUS TRACT POLYGON LAYER</strong> before proceeding.</p>
+<p>Then open the <code>Alb_CenTrac</code> attribute table, and add a field named <code>AreaCT</code> (all variables we will add in this tutorial will need to be of the type Double). Last week I had you use the field calculate to make a transformation between separate variables. This week you are going to add in geographic information by right clicking on the field and selecting Calculate Geometry…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lk-dhPkJWoB8XtDPhHJd5__a3A-CXMATzbqSb0PNcn3NnloRHoey2UrlENOtZM0HffOxqpfJWLlNRSDB2OGecFlvX91p_oVSXV6lK8YDflpmw8Wo04hLld7m9Kq5v3iCiMZ3djwn7MNwyqyDAnnBLWwgWf9YzrdzUKIzCqBmU8zcOyaYF0wBRBVTQ4vHnA6xhC2E-MS8DKQrRWRp4NKu3l3W2h23CAZPl979VfOHGp0bwjoj_Tw5UBUJbDGZNcIW98H4Ys3YtYlCxqCkM4MZCH-sY41ySYEhqdkRI_3afHS5OoBgah3MfSlSW2saPdcxr63AfbRrY4KwuwEExuAWs8oWYo8lf9chwuHpyiBx4ycke4SGg4rtm5d-9WkE5XWuPJTHQdLoThJYscXeylzUrT7KbjzQFBAQUJ5vGj9-84DMS6hrryd8NqnsUcIJ64xVqlfrNY7v7gl8by1mYCRJmqcVQIdMmLhHCLqS1XUNQsPlEXCJKbypHsllNWkDYBBCrm6fkknXbb2CklUswMOBshSt0sqLSiOh0a05mF8HoF3EePX0uqk-9kkyZU5kUdmM8qj7f6VYW4jeNYimWRcp0uBmjTooeBRkLFpjnt8IJinbx6cn5ieM=w771-h530-no" />
+
+</div>
+<p>This will bring up a dialog where you can add in geographic data into the attribute table. It depends on the type of geometry for what you can add in. For polygons, you can add in area or the <em>centroid</em> coordinates of the polygon. For polylines you can add in the length or direction, and for points you can add in the X and Y coordinates.</p>
+<p>Here we are going to add in the area of the census tracts as square miles. Note I am using the coordinate system of the data frame - NAD 1983 StatePlane New York East FIPS 3101.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ATp7Nw94SZ7JSf54Hj90_IyMPCcu2tQ8dYomRY-RJk4YtVMuLQpwGuRL24nDs9yia1fpR2JyAJCS4RFKp-NxM-7JEhOvKwaNy3LaHfxkpNazZ40iLDdnXvP2bmIUp-VJF9fYB3D_IaHuHi25K4AM3_sVNo8EuBbZTw3uq31ksLjPxHGyAIRhCBK0-y0K8n4Ol-cqPz5XCiLUZZN4wPNQ1AESjJrEC47w2f92aSmv8DCrs_Fnaslhn3fcHJf9RQnAzF6uCSzIw1_dJL0LSrev8-FEDwhk-fXoEdornBXmM7TGMpRfxN7RSeS4qkLaZcrCr32fMKlCvJAuRVYT2G0GvpXOUWc_5QqIxBcd1mXRKbvR7TZ70c3hCTyWkvRyG4jFPFuCU-dItAPKywHuPojxF_AR5BnE2ewvt3Unvgb4G-gYXZJIdkLPIhBU4HywC8-naoFJopNQW2DJsqwww2bj9OXBa_G24mtukAPt9q1FbtBK819jcTePZmS_KxyBx-KcrGQBZbv3-_i7e7DGeyCur1X2fs1bD2bCtra0S2sKY4oqu4m-j22rZ728b1rJqm-rR_jbwusNdm_FvtfpN85Xk1o2ELqeeFedr4Cccm0W92OKIVJC_1g_=w431-h299-no" />
+
+</div>
+<p>Click ok and then check out the field to make sure the calculations seem reasonable. You can see that the polygons are all the tiny intersections of the census tract layer and the patrol zone layer.</p>
+<h1 id="taking-the-intersection-of-two-polygon-layers">2 - Taking the intersection of two polygon layers</h1>
+<p>Now we are going to take the intersection of the two polygon layers - census tracts and police zones. In the lecture notes this is equivalent to the part where I take the rectangles and the circles and split them up into all of the individual overlapping areas.</p>
+<p>In the file menu, click Geoprocessing. This brings up a selection of the most regular types of geographic data manipulations people conduct. Here we are going to take the intersection of the two polygon areas.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1NQEPkD0Mfn87c9D03t_IPGpRXLePwjRg3ImNe50qTOJp42OLttOOkYMYr5fPN-Q6u_HWwCZcIEHgktU8YSAa7Z4A3gIhDwfslA7VuDUh8gzpvBTag68tVqwxZyhkutSMDWDhmtGNbdvySZzgnYGooZt6q6yqxwH1wA0pP5OGR_rJDLD9x4f7S4m8c3Io-mRZFO-hwYgF14lFmJ5GYcMn7K7CtVRNk6qnvuf5Byo4bDLaMqRWOy6c5an22ovnuMh-kt7tRjiQ7pZbtRtbLZnBPBDR-bs0nJbn_87vsuTlcZ-H6GcNwBOk7hURpNUQU5rF1JPWghSHm2NDApsmM6Qi0UBLU4FkkZ3xKOQXISW5UBLLDhb1mQgzyqE07ooW4hE3P5JB0ASMwYnMke_LWX0kXcKWXt7EZIgAjE5JB_loD6D8CbIjehn1SFmnm-fWPjxwFVz-8y9FvaSzi7ngHhg7nLOsWYYtN4jdrcjeKI_bz_NOjQz_tPjDAL1iK7BDHCvJ1k4uxYVyrTo2XvwhnkS1PdStJH2c9K4xidEuqUBOhITRvW991d7uf7abhSWAy8xJOQZCCFbmG0tFcUTUv1YCbeX9b0838CUWBV6J5ZoxXW6FUEHZPZN=w728-h414-no" />
+
+</div>
+<p>Now we just need to fill in several parts of this dialog. First, in the input features dropdown select the census tracts first, and then select the patrol zones second. (The order does not matter, but the resulting attribute table later on may have different variable names or order of the variables if you specify the layers in a different order. So follow along as closely as possible to replicate my results.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WV-NVPLy_V8YRKtpoXrTBco7RRgQ6qgFcj5RaP4-g8xrr_0Crla_4at8yegDwq6v2UJsiEgceK9qrlm2lP3kNsyeqZPJX_u_4feLfbBUrO75OJhWdBs0qny40f0hzJET6b-pVgYCfUfGbs5QNAoJ4OG55f1gaZs20xlHcXpJYIcDEI66ZZCdu_xq3HLUjiKEmjOUPjGzN5cdJUmXdX2pGf8KIpsPovPEerWf_lj047DhcN2MsjimsIejdLZuAIT8rsCx4ye2yrqtdZlVHis5YDg-FvnZfZZN5_fgq5ETfqAQGAPqJDhJMskdA8c8EHdXE8Zu04vrHViwaGLph7C9ichxGxrOeIqCd7kPfgb2qgn5r3GHndxQ0QZ02fRXdQQwEAudh625UiUG5jRwy_bdrm_kxWs81hAkapIu8j7IMqH_8CKYAf3J86hi5wbzBMYHfbAMjam_dGIqoET1-Ydvaywzn9_TS7KDchnYd_-OZDHRqukVGg26DQf3keh_N88InK_3cyKzYVHtMrhCxKqdtqvpgNhyaaxRJ1FoWUxuuiGYB79GwuBfWjvspioZNS0WOrsx_KPjXSGOlHnASeOqD0Fg4Me78HAG-ndkhxNtBjB34rVDw22s=w1190-h576-no" />
+
+</div>
+<p>Next, choose to save the output feature class as a shapefile. Here I choose a location on my local computer in a dropbox file, but you will likely save it to your flashdrive. The shapefile name I will be saving to is <code>Inter_CT_PZ.shp</code> - to signify the intersection of census tracts and patrol zones. Make sure to save this as a shapefile (often these save procedures default to file geodatabases, we won’t be working with those in this class though - so always save to a shapefile.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/k9sQyQyxbPjTWmF6iWaCVBOuKTD0qgnzWbKrVXNfOoJJN6ZAFdZBGhitkwITKTb0n1DW1lzb_ZGZZlBRtSNpVkEWz4Cpqkic4TYJ0zez9Ood6rDoQvHgkXqs7ICVrtAaOzw8Op0CeYSsPnn_O1WyTQwj03GLZ87GeScwxPiyv2Nr_pgxPn2JBZcw0P5uNaBdC_2yyYLLQiIo7sK9w1ShrbPkD9U5WJc5DQPnKpe0l_oE6bXSe3elRoBuHQxU7fCO1S-WZlq0Kp_GoMmUeG3Aak2H7-7OZu2EkRIlk5tnLHIjs8BHuE-TYsGHRloMMt8sjujhTrtb2yu_SuBe0_PX-zRDEaZWzw4vUx_2H5OcSUoKFY1mdJ_UfbAQ1KYuUzd_UibYRamXIPK-k4qLf4OCDhqhMbARNkBDV4uigC4cHR_ZRoxroIlxhgMOVMO-x_wyGq1gTZZzgqA24q7uNRGzs9jekcojKPwBgNvKaMVYMxOBKnbWTrnRLEY1BkXxJK3WMh0M6Hd8D2858SCycsBHXX6bGelt7qMLhD4UW2fh34SGxy_RWRnV_4Fg8M1s43nZOPaPaderrSMl1vJg5oEJh0ZMkj0KIuZ3N2pvI154LUEBnxgdBYmS=w1195-h579-no" />
+
+</div>
+<p>One you have selected the same options as above, click ok. This will then add the new layer into the map.</p>
+<h1 id="proportional-allocation-to-the-intersection-area">3 - Proportional Allocation to the Intersection Area</h1>
+<p>Now open up the attribute table of the intersection layer, and add two new fields, <code>AreaInter</code> and <code>PropInter</code> (again both as double types).</p>
+<p>For the first field calculate the area in square miles for the new intersection polygon using Calculate Geometry. (Same process as earlier in the tutorial.) For the second field, I want you to calculate the proportion of the area the intersection layer is of the original <em>census tract</em> layer.</p>
+<p>In my shapefile, when doing the intersection ArcGIS renamed my census tract fields as Alb_CenT_1, Alb_CenT_2, ….. The original area of the census tract ends up being renamed <code>Alb_CenT_1</code>. So to calculate the proportion of the intersection area with these variables in shown in the below screenshot. (You can also see my other variable names.) Note, if in the intersection dialog you inputted the layers in a different order than me your variables may be different (and in a different order). You can figure out what fields refer to by examining the attribute tables for the original polygon layers.</p>
+<p>In my example it then ends up that you should calculate <code>PropInter</code> as <code>[AreaInter]/[Alb_CenT_1]</code>. This calculates the proportion of the area that the smaller intersected area is of the larger census tract – so these values should always be less than 1.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VO-NqLhHr7nSH2GG8jNSWS6tJyyJbJROot1U2K6Es836FP35BZDT_yc1q90tE5enNZ7YYrlFafnNdkDgErBz51_Nn0924rcZEcOgJdRr3tCgRzfrvJ2xWoFyFZcxka6T7Fc-pfb5xh-tBM0n111dVa8Ru3CJxdm5tUrOMV_3rIoDCHJ80j_IVjCDSA3bEGQxh6K5WgJnQexGZWXMhKp7jdSfStDRDYyDsrmxdoAyNL9XBBI-5Tfert0xVGg6_JZVXEjpbZwfeIoPxGUTM5Oq2q8fmnfUnQ1NPQUezSZt4hZIzBQ3hDYI4sYGyF0uhgpP7Xg1fEYGHlC2FBDMv5K3hn_EfHZH-exvY9bBj8j2_CYLPLIqJoJEaq8ikiIhhTvVyX4l3Y6CzBwB2zkAwfluJBBNYFNZzy9HuGMQ9YjQydeQoYTR-R6QrIEBqK1ZhHmAhjfxmEF8fiZPslFDvQcqa4FW4UgcFcMb2UNUffl4R95cN6YgKYP68XpX6igg8XeziNLSR9OeC2N8_8kEFM0gD1n9wkTw77_ePdH--P70rE4Nm_33IqYCt6Ha7YW5zPyvu1I5INiqSvBdKGAZpUGg65E__1sTXD_ZmECW2IdY8bNyzxXHqNEj=w1128-h861-no" />
+
+</div>
+<p>Next we will be calculating our estimate of the total vehicles per this intersection layer by multiplying our proportion of the area by the original count per the larger census tract. So if the census tract had an area of 2 square miles and 1,000 cars, if the intersection area is 1 square mile (half the area) it will be estimated to have 500 cars (half the number of cars).</p>
+<p>So add another variable into the intersection attribute table, here I name it <code>PropVeh</code>. Then calculate this field as the number of vehicles (in the original census tract) multiplied by the proportion of the intersection area (what we just calculated). In the renaming process ArcGIS ended up renaming the Vehicle count field (in the original csv table) to <code>CT_Veh_a_1</code>. So we will be calculating <code>[PropInter]*[CT_Veh_a_1]</code> in the field calculator.</p>
+<p>Here is a final screenshot of my attribute table. Make sure your results match mine. If they do not - retrace your steps to see if you missed any particular part along the way.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/dhAu9V67eb91-kx1p5idWfIQLHX8EpoWBVkIa4FM1pFSga_6zb4lfJXfbFWXrHBWkV1oJqNvbeJAUsbV-V0a0uB40sThJ4nUO5Xu3r1E2Lbu_qwIeBLEu8pzxMvn9CgUuyRveRpa4Dt5BojJmyjV4tu6JPH0qvUidiZhW7aylWWEFBTKJvmwmrvnBzy4tPZeRCcm0ZgTwm8fj-6LDf5DQ6dJkS_qSh8i8Nmf1_qnCKudQUaPiHsQT44zvtpy9et5jCKCx6DB7YLjCbu4FotUgG0rEjAoaEMSKqLwo71B5chGNopCWB_sa7wpyVGnI5gOvEzkN68BIcTMZPab4q5SmgmBrE0nKFL3FvuH5h5qdhzjlrdIddySQVFJaPunYXweBaukNRGNYsYZCq6Aln-KwpNcZjhNj1tDqPE-tOZ37J4Ygg5MtVA1LZ4a3W2YeDkhIf-YHZhAuBNBUN5CTl6pY2GeVYyJwRbeTyKVIiukq7QmzJ6oL_DCfLcMAzY8pLE7Utujdegr5mwuk43323R8TLQrEsvYhP6vSExryrL91q6IbmoLfY2YDFGkof_PgbwTK3ef8QKwTIc3PM8UQbSucgJwTspXLthOtZB-4lhmYl-2tP3PKK4n=w1189-h410-no" />
+
+</div>
+<h1 id="dissolving-the-estimates-back-to-patrol-zones">4 - Dissolving the estimates back to Patrol Zones</h1>
+<p>Now we have estimates of vehicles at the intersection areas - but that is not what we wanted. We wanted estimates at the patrol zone level. To get these, we will be aggregating the results back up to the patrol zone level using a geographic operation called <em>Dissolve</em>. This is the part in the lecture notes where I take the individual estimates from the circle and sum them to get the estimate for the entire circle.</p>
+<p>In the file menu select Geoprocessing and then dissolve.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YwXuIF9bfzhiTZqvhWjIKKYL2EgYx1VO-H2kzvJoJNvvogNU2CE6jMqQoC9tCx4pa3aWQ4v_5_dSJU3YYREwQabM3NDsePPnZ_W767gaOHg9FQaB-vK_6E8sCxKes02_OEyfOlJC43MIGSKuchbKSzgb2BKBpjUFRpcl3J-8mI4Wkasb6BU7WacGLSQNVIlhyi_o_qhZJy5Ek0q1c8n3tVq3ia8HX3kAdmmQQ3T0AaNQKcmWRdb4s1EahZnt3ZtsDLhDAEXZR-CvToDFKeX_nDgvU9BZxxPesOD7taisd5_Q6UiZrOtIxdkzpj9_V92Ik3u88rfFDMyB2ElxVyPvRbW-1ZvhxPnDdYeMmAflN13HBy1-ODuI-YC96wM-y8OaixmmE7oE_RpcxtLOHsLxUdDQqXdQcLMAcUzTfsROX0F-OLYDSYJvAyjhFJTsv0dA2LFDRdOndtf3EEF-qMcvkXJcqSOZmNajPjqBBRK8lEAnl1OZauC_QNnVUuNG8SInLLeQxCfecSC3_AxGgmGTLvGHxfRXn_8R4GIyNF7P79pIj3UMJgtTHl3Fzl3KAYSw-aL2TD0An6H1y3zbQoxyv6h6NQKo1c5tS_lfiixWjV9eT99gWELO=w807-h488-no" />
+
+</div>
+<p>The help on the right hand side has a diagram to show the geographic operation (ditto for the other operations in the geoprocessing menu). First in the Input Features dropdown select the intersection layer. Then the Dissolve_Field(s) select the ID field. This corresponds to the initial patrol zone ID in the patrol zone polygon layer, and is the field that tells ArcGIS to dissolve multiple polygons into one that share the same value for this field.</p>
+<p>Next in the Statistics Field(s) dropdown select the <code>PropVeh</code> variable that you made.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mn_MIIArzJdWYCB0zCHKhZPxpOuBAgcFjgvicV04hdYm5z7yJlodiiLVBxZggQL9EbrICGLLA8Sd3v3LfEV9IV4wgq6yheBTn8TEdYwev2DNQCDHaHuKt4OunOoht4Dxo3QYbazbW9FGwBOHzz05YSNX9zjWV6ov4ztF6_vrXRX911sWnxA-s1QqvyFZTyXeo-e4ohx6YG0LCBuJL8cZuSE71S3Hq1dJWRyFk9ZhDqhLKIaMkUUDUtot4u2ORdcHCTHoZiBV4jy6t8KJGgKBSfvMkMsBbIoXyr7A0EqQqYfSQjJXq60xe-ibLrQ4gR95lGdjcPPdh_rExHOgjEQrWymcDlRHfblWA0DH62zcQeZV2Dajjl9DQQpCUckb7Nqy8QmaZS6yH3n57rM0FNlmFCnamAzhvtVzqEaBMlt0aFIh34-bt3UKTteP6laFsNxYG4NhtPVB54Pjc1V5GqBWiTewnb2_3pKM_xBzhtxTOxGf4suEdr41EXFkcD0bu_1eZhycnu0xJQgW1zzXgine7J2DpVm1P3dXfhuCeWaMd4x-rEe2RsT9CUXZtBHpvAZZ1d0LkUT0X5Dc8vWs86-5aUQq8YRlXVFfWs_a9cxsxkPWjxUxURlA=w1192-h577-no" />
+
+</div>
+<p>This will produce a red X signifying an error message. Here it is just because we need to specify how exactly to aggregate this variable in the resulting dissolve process. Here we want to sum up the vehicle estimates.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WGZfHkyGs0KT3RzctaXbsqTZXMUvpRZ1Bz3YQ9lVmFjT1otN4UJTE67DAVhlp7Eh7X3XBnfFoNj7oMOn8wuMGS4H3RoqTeXD2MY7eQZOgYSVlQ2K63JlqaQEly3exp4cpam9FAjF6Sw1wgB-K1Shsp0x430LmtGmSHZScyeaJ2NlP1oqrFV_C5x57tU3T-PTT1pnG3dKr00QkcDt2MCAfvTlBWzyQGgQXjkWkm9ga6d9e-eWcR0nHff-oPGl0FA8BOc9mc_9ZOw-ZSIOQvImjmNuEGWaOyXbCSQucS_r57uGBl3s8yAe0ojsoi--tl4Hg2npoZemq63Pa1somP5O6wJ3Y7OaHsUGHYh6neoEIdl9Ll-62YW7dfhOC1ZOx-rTjHmBZu1wdg0Lm0SdrX8IJmnuWa3Mj5h0Y95VAsboUo1y79tx1y3KCyCpE61J2KOj7d-xx5JVQOr42UzWeV6ZJbhYLrx5DuGN_kZ4I0dFEENFVN1cnfqOIyZoLQXPDybtpUd5NqvU8kfsEE6Xn_QXxis_FXPo7QprQFFEzxZ4pdwr00TSJ-R7Y2nH8Rr1_sl4825vLuMLqe8zgMZt-ee1WWqkBV1t75KsDBbZo0JGn5bPh3z9c1GD=w1192-h579-no" />
+
+</div>
+<p>Now make sure before clicking ok that your options (highlighted in red) are the same as mine in the screen shot below. Before clicking ok make sure to have the output feature class specified to save a shapefile on your flashdrive (here I name it PZ_wVeh.shp).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/nj_gtjWeFoxzz5Ue78TzsDHUwF9Nh3Y9TaGF7TCaWxbZz8ld3c2RjTMHKvPptNI31hLBr6WJNl10wf_dFBxriNLFW_xPh219E7lgCruAOG6nAT6XLYVjTMeHK5AIjIcqll0zWm4B5K0nqbLM9ioosHU-LrwLr779aEL3y4_UJfaOht45iZ-3bRw03ndHJwvEtTcEn1nMJXHsXwVVthgMakrQrJEsLdfcZutn3k_fJ6ipZGAqYBjBs5kzGr-f6cmgb7his8JQnJtfNWXw-phRFI95eyLkmCL5BwHKQNyhje95ahQzxSfF0BFl_ajeaukJ6_8ZZObsNw7UVeCOLhsKkAlisGk2Mk1AgrMOv3CE5mjqpDhe_hHq4aT1OKFu0FK4tar2Kl6eCxEpdV0YA6CRYMr1RHkohm1cXKjjJsAgnTT5cWZpDwiIC4ik8IUOthrBGxK_-_GSvNTgfMba-pdoXJaoNyTqOcHdVa6gLxse_uRwgEGtvNBZzBAIsUcJpa3l04vyumGJaHp_vAWZtmUkvB_pbvJn-W6R1xFqmJjjqpopOJT7O5nrySIAkWb9Xdw9wG3vwQnC5dq0Gn7MfkHJu2mhQ68YC6Fg6qcoAr9S-YFvHjdF4BAE=w1195-h652-no" />
+
+</div>
+<p>Once you click ok, ArcMap will add your new layer into the map. Open up the attribute table for PZ_wVeh, right click on the SUM_PropVe field and select Statistics. You can see that the sum of the vehicle estimates equals 30,385 - same as in the original census tract layers. While individual patrol zones have a non-integer estimate, the sum of all estimates is the same citywide.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yH6Izg8zjLWv0NfBjxg9p_dJt4dSeMPAEJdM1Sdj9r2-Lnp-OXUAt_rgXow2zUmiAYX4XKPoXZ-oi9iFJf6gLwP2PGibhqSpb4wPOX4QCgVBGYmgsQGk76JUEvq01lzr2Uuo3FEHZQTYEH5e36UFlr7Iq_gqkOB-e6QVwbqWriKW6Z72LEU6X8-QHwuEbpx62ue_GW4MEbeir1kx9-bOLMAnBthh67Op2M3yXVRyV4HVAvsraEHEQQEuAQ8TG092EsTVCb9dUm91qyo7tPPKrv3hrghc6HVzPAiuFcFTc6ziEcRUXipjxkTxCommMu6m6JvIkks0H9lBvuXpUN1K_XZdCONqj_-m0819CuSXoiyIJSvAsICyWG0yHuDeWXqpyOE5r5fpVURe18FaUx1k8C5iNcrBsW2uNMRqGM4bOe67HJ-eHAlMuxyQtF_T_RlRU-QbOZYOWXADltpPaKCtu-sWb0G9Sq11ykx0LvaC8-YDVp6Bv6GBxhmGTUp8EF-xsAJqJR67PSyrqPDfP3k5P-zywzayrInUBAVYsixGM8QFiUfAzFn_jDeIGjqgWrt2dwMrj2YLSIhRbetFMyCBbOBy_xUvI1iVCq_RnvEXzka-nJB705rV=w633-h273-no" />
+
+</div>
+<h1 id="some-more-binning-and-styling-for-choropleth-maps">5 - Some more binning and styling for choropleth maps</h1>
+<p>Last week I introduced choropleth maps. I am going to go over more specifics about making bins, styling the polygons, and then adding labels into the map in this section.</p>
+<p>In your new PZ_wVeh layer, right click on the layer in the table of contents and select Properties. Navigate to the Symbology tab, and in the Value dropdown select SUM_PropVe. For the color ramp select the greyscale ramp, and for classification select 4 classes. I have these options highlighted in the screenshot below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/6MmlOg2cRz8L5EITNBtHrtw1PAhQp3UCyv9cipE7kqFccmldyS7reL5Du327C3lrWrjb9bFgC88oacb3IqzEROetpj9aNFOsJG9SJTFltNxHzwOBq-3IQk0U5d0uDmEzlKFOQOuaL5L8ReVhgzeNjZqVuUnCq-opBgcBD_IV7FNJYTTH-GBFfM7acp9uDsP-n1zHaSdQNVAmiC5-wVChxCAnJ6C8zdqBpoaJrLypgfX4snZxCcRhCsLBKYYesoUwdfnNTc_Fu07WNXoEz67_vnTW2_nLnbTqeZ7_Oka7fpCkpDyfPa_SAt09GsJaTS5WddpVvww7YKQUbOpAeauQZtb9-MT4Ys-dgweoTgGbCFElBFVkl4DcUphhEDfRnOwTbRG4TCsZQ0PqRfWh7DUCnn3XicWDS1Y_rT3Aygj93gF-7y2yTjMkdscOGNNSGqSv-UdlWVLeR49Hqa5IU3BHbP2tDpUMGN9hexF9ogByx3uNgnaHlnr09dL_HAcKLjwNdEI8Nw0-pIPwSGZyRzpxn5dTWjeAirbk0KgVbuUAP6aVpp01vgrm7qkKUz40aMdLFSQ2EFd_WHKoInFq-iuAlxn6zq2e9ELMyrsQAyOXqWy5MG6FRXT1=w660-h518-no" />
+
+</div>
+<p>Next click the Classify button (to the right of where you set the number of classes). This brings up a dialog that has a histogram as well as other statistics for the field. In the top dropdown in the Classification section, select the equal interval option. Your bins should recalculate as below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yLag3mkiVQeHn9NhhIkblTHG_HnrlHga-gnACfuuL7OECIkReVhMP2ugUDFQ38SYiSJZ7Eitwk1kWWBJ8Z-vozTRNRTNMN918qNep67D7amEu3VQBPyOns90SlXxLx6bYNV8V-yolb33t5gZcf71BsetmWkp4x0NQq_L2KFr-xK-im-uNNpSQ3hD_2sZDo1-gcKHSVAAxKDmIlHtkcvcoAo7fCre2D-B7ywvmhbfq18217e4kogaclIpV8MXjgqYQqzMPibjUsX5PrbD6RaOpkA0d3LoZ52oY6Q7CtfwX7LUfwQ6vNp0fAJ6a3K5Xl8hdOEBfK7lcsbtDRkH4hH1MVbJonN8DL5LDuNBosAlEFStnXCEI60Q6QVxfH9kBHfoOdeH9jpnT1TFgrONQnZI2NiiddxrdOLpR6ByPpAszsD10voalhUpn8YcLRiNOotUg50jsJx8z3L16QEJQTjXn7ZXNqpcPF0MSE4hk4nSUFBj5C299lFAuiqvVh93xkpzGeUqYD1n7gKl0FCXlzjVufMpOjpCdwvL5vmU_5S2y3Ouu6NdMztoMxwzEchZ_fIQhBw1RHxS3uZxoY56a9c6XgWgerXQnCPC767Z37IkbysqmcbljGga=w630-h481-no" />
+
+</div>
+<p>Since these equal intervals are so close to 1,000 each, we are going to adjust the break points slightly. In the Break Values section on the right hand side, select the lowest bin and change it to 1,000. (You can also drag the blue lines in the histogram, but it is very difficult to get an exact value.) Then change the 2nd and 3rd bin to 2,000 and 3,000. Leave the 4th bin at 4,059. (In general, when changing the bins arbitrarily like this, it is easier to start from the low numbers and work your way up.)</p>
+<p>We do this to make the bins simpler to read and remember, but leave the bottom and top numbers so people know the range of the estimates. In the end your classification screen should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tc5WBJ6Vr8Iab17fXpvRZIwvvNmEi0NeRQgIpPwVJ9lZ7gKf2xAQvN68WoFgEGmyI02Jvjyo7HapOSUFeFpNpwTdcbCRbKi2D08X8aIkIyLlZqDHtb5lvzwm21y_dVW1XmUBxqPy34tP2wnQVPBo_069dCHGki7B43Qfazz_NuiKLe22qpxUAPPlHTaqym1pjvFn0YtzYrhY1hi5VRkzlwYZLa829pv7oqbNuAF9kvaQhPLXoTgD0PU7mKkJaHY5fLNnUg_lC3Ug4x50Wm7yNkdQYp2GGFcKlw0eFGIu1Fjbc1GMSwIPSQIjWv1s2Ku9m1gc4T-BMIZhQrNsDUBbCljc-ZtXnNBMxo2XIvWAHRmTu-Sl3tg4t5PFRbd9T3UHUBbn_PMTQjnsNc_dGRxVw0Rd0ea8v1UnuhoeFgwZLqyZXJmbwi9AklpgQsiMwYaMCQy9VGyIAYu4muw16X5yVNi8FitmqnLFbJ-NVtFoNPXcqS7RcP8_Wqseu7eYdbFhGQs_ZWcut4nhxHTaH4d20YLV8RQV6V5jkKDQTjm4QYxlR-faDGlj9Ywf5F6NsRQYTLp7CyKFGkCxpZZMZQ2royS88eDvVQeE8loBY9GPRDdGhD9U7ZKq=w630-h481-no" />
+
+</div>
+<p>Now click ok, and you will be back in the Symbology tab page. When using the grey scale color ramp, the default grey border ends up being confounded with the areas. That is, some areas look like they don’t have an outline at all, because the fill is very near the same grey shade as the outline. To fix this we will change the outlines for all the areas to be white. Left click on the Symbol header (circled in red below) and select Properties for all Symbols…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/lpJFeOTp2KH2Uctz9gaxlSrODJ2KT29IPAyvqj5reXZKY6zQVL-ZG7Fad47wqNgjmVETVQvAT1VmHPTqBxsi80loCPLV5elj5y5cWcg0eHsRmX9OMQZ1ghXTUI3uqjb5jESDSfDl8IEfPtZjcJYyuNZ_zmj9ly53CEVWXQ0XEy9FdPRnB6G2b_quHTIOWzJJ5yynfD6UM84RiYGm4_RBiOtAUlZz2YA42dMRYQ2KYVLr4YCO40NNurASn_nEZ0H5Pfqqaqp7mDHyQkRQ9g2qGGzAFhDdSQKmP0MjPIaEw-xbZMJQ_73UNlty9OMhTKUFG9CkzH1jllFB6-KVMG247iUxcE-CDmXBJjIJ3qMWm6b1n4YriVDEMYFrYyLzRZTjBO3KXyHV1A6xJaRLDqoio5LMCjo-_NO-it2czntCBKQ7tii4fZqUZqw-ihQS714667fj2XpFZSVBCwS69KdCutQNbeYP3U0rZNRRcFYJcqoZ8RU9aA3XLKZ12WDfzNZDQV1dMK_uq0rnC19KB6dc3wKfySYAN1ioQI3lHAovmfk06FaotVorBA8-hQHqZUGLkLyBkpsPAyvCZhcu35IEjlPvGR4CBHx23pwLrLZmQqlV-FlE0hFx=w664-h523-no" />
+
+</div>
+<p>Now for the outline color select white, and change the width to 1.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/n_RPWYt6uw1PAKBku9s0sl3spXPLflVtONmUvlVYQfUJCV0-ZeAbhoHd-RrcQvaCwoHTjuRGQPOVlP2au62UcOxgoZaMnWHgT2IZcWccIuwmRQGwluRY-ZZXA-BGvlTVLW4faOxoRj78CvanEMoBSJqs89D1xbnJ5Stve98Eh4ciy_hWfeHfUqgN92gi0F3bgLD4IwAlltspBxX3zKtkNiwbqwjgcZYvmOEwpal0nSXqpTJLJj0CDFXvKQxaxSYJjMV6oBvna146G6_9sJuQNYRS7pZNvYgl6Ad3RVAdwASe1XDVKAOcx1BpQwoTDOE5LzMAtO0UGeodlla2ILAn1EkdFiUR8S8fK_Q05KN8YAh3U35iGAjoPWiXWpvJdxIq9KSc1gvMWpm95szqj71APkF426OAgAOW4iPDwtazAfasSKcAYJwpGusBgv2al705poBSZ-x7OgBFGobGe39VZZVi7kWKxat03kKB6lzO5YMUR7K2UkV1cP_Q819HZ68Nx8FZAiNh55GUigb7CC_BNV0k-zi9D1oBHD1CfE_-1cMNY2wNhv1hdq-EutNZiuSOIFaRJLHGmBGDtJMzZuoQNmhSV5uIRyuMmzgcjpdiIpOYNToHVpg3=w523-h500-no" />
+
+</div>
+<p>Click ok, and then in the layer properties dialog navigate to the Labels tab. Click the labels in the layer on, and then in the label field select the ID field. Note here is where you can change the size, font, bold/italics of the labels etc. By default Arc places labels around the centroid of the polygon.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/m30Fsb7RffsnV3WQfVthJG0k-p8wVmnG52xX7lYbJ8q9H1GKLZBJwPr9aP7nGwbwzi9mkbdrEM2Y3HdNyOh3V475fX3VzGTuCcAJDo_1ZaGFCc4Qe7MLn36n_ckbXzMjtJd3T3O2fY4eoU-YA9BenP_TYiBY3lLScPl86mD8F4DTzosVMVlvpx8PSFO1PTD34kZ1FhcGOylXS1Ji-rA8dTpFxIqECUtv-s2lC7IjEdo4LjXgKM6-m1pThpJ8MZ-Lo-Qqqt6RYOZhnFkTc1V4XXkEd6e1r_slKc-JDmwoNS9rQRAwFHvv8-lI57exEo8PKqbDMJcdtI2XClk3HMAwZssoXwIcmngJFGCqgzQpg9oNkxa8DUnNiOnVX-aOWoOUAB64ZY_O-CfmJoYXECEyNElLSU8BBAz3JIX6OKJZPmRBsZefieFYxH158KtljPeyYO_FxZ-GELmFR--F0VxGQZQAhS4ArShvAKVfAqXWXAFK6ineljf2JiawN-fgo16SGdLZpMRteXbAv7z3zamKbZxEDmm_lUHFhLd-eeTHjxh3-hvcxDNxMaP3aLJBNt0mdxmm1N-F4qd5Jdal0ELziJwHf3mFEjReNhRhezNgBmKdlmbeDel3=w1207-h773-no" />
+
+</div>
+<p>Now update the title and legend in the map to match the new items. Here is a screenshot of my final map in the layout view. You are now done, make sure to save your file before you go onto the homework.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/f4LTdFUC_LLuYcGrOBadcPRtg7Cbsuh-ghv7gO2HJmbe84OX5pRypz0w78RY8wU3fE97G3Gp4y1kt4icr6MZEGzv76mEArLnN6raoRNIEtRoxaiQ21iLSH-gMsWQyZ5qveVDC_njIzrJiqr6RUvplV6_pdoIzmvmMu8F2czD_nU393owcDluuWB4RSEjc6v37fxt7fsysWI9H2f3e2C1qkPN2PGyLatfpcPFRxKVi58k-U1qVB-eufv6cZmr4Xrj_z_im1C4nddM80pceGJQLk5TbjfKjA6jE1ErnhKhgbfBwKpX--NVKtctMgulvKqgkT7XWP-vTjzV87Pd6HussuOuffnChIL-ykQI87UMmLf_dP53fZAo6SMVKkAR_7ZBFy8uAPD8zDHY00rJ9WXSdZEKknCx7vWp26zIkoH3iIM6IufHPL-D73w2I9sEOnwxrOVwCOfZ7fwVmBfhzWcWe1kZqi3OsZrrLtVV5-s-5aLsF3cJCLlu_DL_V0fDGKD1xAP2Wz2KyUVLpyiXelgnguQov-KdyWFHiAWLl9Wl2mq-DVmfe4DHgaehB3lXWurjUMNLA5bC4ooxiSBV7FXUi1_hlnkRLKUD4IMtcEpkw3N6FbsH2dBz=w1188-h950-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For your homework go back to the intersection layer and calculate the proportional estimate of vacant houses. Then aggregate those estimates up to the patrol zone using a dissolve operation. Exactly the same as you did in the tutorial for vehicles.</p>
+<p>Then make a choropleth map of the vacant addresses per patrol zone. Choose your own number of bins and the bin cutpoints. Export the map to a PDF file and turn it in. Make sure to have your name along with all the other map essentials (legend, title, scale bar, etc.).</p>
+</body>
+</html>

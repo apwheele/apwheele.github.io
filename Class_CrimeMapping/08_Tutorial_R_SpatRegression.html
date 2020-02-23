@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 8 - Using R to Estimate Spatial Regression Models</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 8 - Using R to Estimate Spatial Regression Models</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#introducing-r-and-installing-packages">Introducing R and installing packages</a></li>
+<li><a href="#estimating-spatial-regression-models-in-r">Estimating Spatial regression models in R</a></li>
+<li><a href="#homework">Homework</a></li>
+<li><a href="#extra-notes-for-reference">Extra Notes for Reference</a><ul>
+<li><a href="#extra-notes-1---importing-spatial-data-into-r">Extra Notes 1 - importing Spatial Data into R</a></li>
+<li><a href="#extra-notes-2---fitting-a-poisson-model-with-non-linear-spatial-terms">Extra Notes 2 - Fitting a Poisson Model with non-linear spatial terms</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial goes over conducting spatial regressions in R. R is a statistical programming language. You can fit some of the same models in GeoDa I will show in this tutorial, but I typically fit such models in R. This tutorial is to get your feet wet with using R for conducting spatial data analysis, which has quite a bit more functionality for statistical analysis than any other mapping program. You can download the data used for this assignment from blackboard, or from dropbox via <a href="https://www.dropbox.com/s/nmle9smvs8k0xw1/8_SpatRegression.zip?dl=0" class="uri">https://www.dropbox.com/s/nmle9smvs8k0xw1/8_SpatRegression.zip?dl=0</a>.</p>
+<p>The R program can be downloaded from <a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>. It should be also be installed on pretty much every machine in the SUNY Albany computer lab as well.</p>
+<p>If you are interested in digging more into R, there are many different resources. For spatial data analysis there is a book I disseminated with your readings, <em>Applied Spatial Data Analysis in R</em> (Bivand, Pebesma, and Gómez-Rubio). They have a newer edition out, but it is a one stop shop for many of the types of spatial oriented regression models you can fit in R, along with notes on manipulating spatial objects.</p>
+<p>Here I will first introduce how to install packages and interact with R. Then second I will show how to estimate a spatial lag regression model. In the extra notes at the end of the tutorial (which do not need to be done) I show how to read spatial data into R and estimate an alternative Poisson regression model that includes non-linear spatial terms. Also included in the data analysis are finished R scripts that show the same code. While you could simply copy and paste that, for learning it is better to recreate them on your own. They are there though to help troubleshoot if you have errors and cannot figure out what went wrong.</p>
+<h1 id="introducing-r-and-installing-packages">Introducing R and installing packages</h1>
+<p>To open up R, navigate to the R folder (or program) in the program menu. If you have the option, feel free to select the Rx64 version. Once you open up R, your screen will look like below. (Note if you are using a personal machine you will have needed to install R.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/n476jZoY9mus47NNck88U-4QOcGHv8t35AtqcJA2SGlPDs7BjlKk0TtfR-BP6VC8xpb2DmUbuZ0eqR-Np1EFCa_DM0n0oLAT8k2fZ3YqE2zkvNMoWJWnokjxN5dtUhOu8Qx2r4003jkdvklTe-1KnpKUlWL5pKeS3aqPkcGkBxBiTiGdBWiPBQH6uiJONcjDJBLBq9f2DFCELiZGOji9Nf8W0w0DBxQ-SyfUnZYyCsMTLARzSBTqPEDfWvYo_Hfdr0sxC5m_JJoODO-lpe2BZHMlU794jpT9KfaPg7w3IKRhwdugJLrzvSHkTMfWdayo6-srRSNjGpoRN2EZtd6742PsOAcLvXcQM8LcqWH3EKP9s0InTejpeCfCtfQ2wEHkAUAwMVlASFxRVNUmMftA87xHHJVVrfq90iZT6x5k7aO44vMaIZSlbD5F2SPxC6eC8clrhKU-8NSfb5U_pt3Id7-aRc448dPqxZKBO1AzpfWimf-sUpT2XJKHJa21bHbYERNVX9GKhuQ87fKF_xQFapAatKQEaI4RQhxXhHCqagGgJ_Czbn7vpRL3S1fhrrT7ib5IBguMENzNCeRnf9S6X9XF2RnffQ25wDGI_ft8xNalJm-7Hxdp=w1188-h950-no" />
+
+</div>
+<p>R has several windows. The one that is open is the console window. Go ahead and type <code>3 + 4</code> at the blinking cursor in the console window, then hit enter. R will then print back the answer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xT1IbpJLtq4-MkmkUmGFA79RSANcb7XEjscLbi7sdHHPBtGL6Z_iNpt_YmFAecYZ67aP9DawzoV8U-pvOpSvxPJ2b051BGNFuo7naLA9ORSBAEOuJ5DQkfE3QghUlr0n5JV_eP5ClwtbgVBtxcKHqNxZmeeD7zKuDzovHSBEJFiaF2hInS8-QfsD47oOR1aJKW9_meQJ64B4hhp48jtqqZHwIRowval2pfSJE1neCDRPUa2R-1mfj9hhlsYAY36WKW89jZVFb2Q3ETLeGOZAlkjti9ZfYzItlqNA4mRGlMWIyBV6Jil_yzfAhZmsuR0OkEPPcE3ge_zHUoNcOxQ8SEvkL6j_K8K30ewWj64FOmjfcT2w5VRL9YnjEPZfMZPcWfd1TyatRdGhsNY7o6iVOygHGkcN951H2H8YLTxW-3je1V3XAbWLPoQIfF4gCRF_e_j_yPh-2585qloxFEL70DZbvno16E4ryT1KxsCpjIL_Ng60Sg8H7cC3FibJPkCplF9m3984T9EIf_mirtStI_SHFRlFlV-1i3iSslsVMLYidGbHE2RyCGAQEyoJ2xhQja2IZCDBY1kqxYt4uBXIdLtBnQiY6-R_DodzBnZ1-eZU964-VSAV=w682-h472-no" />
+
+</div>
+<p>Now we are going to open up a new script window. Go to the File Menu and select New Script</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rbhSrUxj8I8E_Am9lFhahlLKhRPf0ooAiZSDwUz0sbZ7v-rna-zZUqKOC-_YaHCJ3GWuKLbhMDU9TVBRr5Fl1EI9ti-tLUKCQ1Z3LTmfzXH_6E67OQFNiMv1R_qgYDJhBnW6k9t0HguRQJ6EYyY1jjwkomFm4-YmVJFsRerVjCaN6m-u8SPX8hgffkyvRE4xJI9YVz4ljMY8UUY3NRZD-daiuwSZmdQnM_vDfRR69Py3OYH-hsXZOJSuOC1_6ZKDMKMi9tQc4m2xi-KnHUnZ8rOr9Pxmxz2o0tOgo0tjDYaSQScjQWBF4ZiVxB7HmCvpy_3oG2jlOnm9hY-opHBxWuvSCPow4Txz80x8-JYibT97vJYhRCcqtTy4pADDeHVjgpyZIiSENREX_0AJV6RGLyCipdDP8AMMRUoTFDWgwKDYmZUtlRBlYaobWu5SJ5EHVAMQXS1DI_QVhXTnt0ko_-6CFsf94jQWxc_lz0Nvbt1nyFsTTeLToEiuZtdIlBgByMhHrXvI0m-_zkgZ2j67ZVNd3eT484Jwo0IkiDUNVFlfNk-nOjTLbsPS0GxykVmNpgIb9AKdG0NySpfpd0iP20f6S-pu0GXeCYd2-INcI5bNQOw-nest=w688-h551-no" />
+
+</div>
+<p>You will then have a new blank script location. This is just a plain text editor, and can be moved around the space.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/7lMdstsyFMnmTUre5WapBbzhKtBKT5ipnN75SFpX6rGN7-egyIbi5JD7Oc50dulqGM_Vfi8TdifzB9rUqpHh_HbpWLOlhQSJ7QZoWbeTLWE2Ckk4yDTvsxYgCnxH5t8icLVy07wTEVU5G_D6Ijhzrvl_mAlsTNZ025u1HgfYQsEk8B7myAOabWMvZSkgBSDPY44-rsAURV6dlal47MvD1q-anhBqIRGXfKRYVmW8eA0u2aE2BNIaBResujX59f3orZEnBeckvz6Fvst_DVPsFF3HcxMPTdff9C14nbVK8LTk_kvZ6DfRS4XKPPmdbGmcOZsN--S_8ud09uclwFc_UOTIZCpXzLm-MFlcPyQIiH8JnuUPP09sFv2fePRUo6spBKV7CH0cWgyv37_FXD7P3w5yf1BolBchL-6rq9hulXz33KYKZ1rZZJndOUQ7YqtNKty0Jr1IDFiRE13ODiIWWUvgh5GhOpqKOWc7WFliNzpM-iP1vVoYwXz-SR2nB4kUy8j6bQ7CIUV1vL7hCKM_v9e5RWGaNBNr_lkSi2pr7IkljavxJIKllNZlAci8g837ILZnLUWtX3O1XCJ724biqGFtucPX2xscct8uXbv6DE9SVOXnm4SZ=w1104-h792-no" />
+
+</div>
+<p>If you type in <code>2+3</code> in the script, highlight that line, and then hit enter it will populate the console with the command:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oHwWY7Ux_IgVwk9gkmKXR0uLfstZ9xlUtANSHAfe4wQH2LRqU-xVPzdnX0ptZHP3Npck-5yx_x72T0u4WQ0dMnW88OQZg_WbDRV1Bh1iiNB9R_6PJf47UaoSdjEztY4Ce7KzRpjF8G6Upg8y8e3FcTjAGorUZyRyB9xstBgFu9Ab94Q9RfGqkE1uLutLlvqH269f2362JoNoKpfKCDRK4smxoMtZQ1Hbd-hUnU9bLFGeaAyF8j49C0zuBjvz2vlaJeCBmoG-0gsvb54MpdA1sPOZC42NwGGc8bjlsrdc-RvEOkVrYStWJKPbBH1X7MrltVP3DYm39qPrXv7Vleh8d-gT_hPgQY97l04eS6BzVV95o2Rpk28BoS3HYyvCQkE9NhjyHhCvcee3VlKee06STdAXi69EXnkOFbggCi4zPntESaTubKiyHeB99NdrBXsLLCtbq5b5rJtLitAQqI0G7zAMfQHKbm7EABOpeqKHwmF9Xqnbo4UcXjRie5VwhEqhYQyUiABek8n_w6mXV2jTJq_nkajZHSrAbf75zjEMLTQ7riyg9ZC8w5sUKZh1GzpmRvwG2UON8itZEU4xTAxivbyWHwAOM8RepMnZNCn4bKM0O34-tPX_=w1279-h475-no" />
+
+</div>
+<p>You can do commands either at the console or in the script. The script is better to save your results in the end to a file.<br />
+Now we are going to install some external libraries we will use in our subsequent analysis, specifically the <em>spdep</em> library. (It is supposed to be shorthand notation for spatial dependent variable.) Since R is free, many people contribute their own packages to extend the functionality of the software.</p>
+<p>The typical code to install a particular package is <code>install.packages(&quot;spdep&quot;)</code>. But since you do not have write privileges on machines on campus, we are going to install the library to a location on your flash drive. So first create a variable that specifies the location that you have write privileges to - such as your flash drive.</p>
+<pre><code>MyDir &lt;- &quot;F:\\Spatial_Analysis_Course\\R_Lib&quot;</code></pre>
+<p>Note that I used double back slashes, this is because you need to escape the backslash - since it is a special character in some circumstances when R is deciding on how to interpret or print the string. R uses the <code>&lt;-</code> symbol to mean assignment, whereas it uses <code>=</code> typically within function calls.</p>
+<p>Now we are going to install the <em>spdep</em> library on our flash drive. With the command below:</p>
+<pre><code>install.packages(&quot;spdep&quot;,lib=MyDir)</code></pre>
+<p>You will then get a prompt to select what mirror you want to download the package from. On Window’s machines I always have a hard time downloading things from the <code>https</code> servers, so I select a server in PA and then click ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/OZCYJxScvZuzfZMihovL5WxEX_L-IONkQMmedcr5sfFUo7HFhlAK1TmE63iPg-v6dAEzzyhO40pVdBnEtIdKF6KieEO59ospP9IDdcSeN1UcNnVSi_Cl4xLugQ2KfFiU4ZuFzSOgpvZvkYmji7lTh5HfnsVAuhc3NiV8hrgCT9F2zeB2fgaBbxKfoARHsVitRDt4nmrKo77V4opmeWgA7aa1i8J3oBaHBYc_NspZcMFLZdSNxm8WZYNCygJ5whik0yVSWs4xt8FWhnBWMImJHRbdVTRksyg2yiBhmhvpl8omHz1fy86UgD5EUPqvGuxgExPpL85jIprLAg6EVJfk9tDqfJ7tg35-H0oigE_eyCaRl5M7iaLBoOC11-dId-vyiPXCY4Wa-XpyNGN_aQmbdncHZbfbAyE5_oUCu9yhp94oUEoGntvNEgsDE_H2Qc_P5AmQdhSrR8XGUOOqq6sCeQB0aY-_64f46tuH3n2C2kEdOtMeaRckUUGviKNeVijCyCqhrEDBx_wcY4yTagiM4i8kooCL-MGDgYtrCixVwWNXA0X2k86znKVAQMOe6oPEfKKS7ThKWiQaRK-53BY9tocBkHGN16GkFrkw0QRPCnWg9ShU9QZT=w1278-h884-no" />
+
+</div>
+<p>R then proceeds to install the package and tells me everything is ok. Before exiting R, to search for the possible arguments to any function, you can simply type <code>help(function)</code> at the console, and it will bring up a help document file. So go ahead at type <code>help(install.packages)</code> at the console and see the example help page that is opened.</p>
+<p>After you are done, go ahead and close R out. We will restart R and import these libraries in a new session.</p>
+<h1 id="estimating-spatial-regression-models-in-r">Estimating Spatial regression models in R</h1>
+<p>Before we being estimating the spatial regression models, we will first load the <em>spdep</em> library that we just installed. Presuming you installed the libraries at a personal location, you can run syntax like below to load in the package. Note, you need to change the actual location of <code>MyDir</code> to wherever the library was installed on your computer or flash drive - e.g. it may be something like <code>MyDir &lt;- &quot;E:\\GIS_in_CJ&quot;</code>.</p>
+<pre><code>MyDir &lt;- &quot;C:\\Users\\andrew.wheeler\\Dropbox\\Classes\\SpatialAnalysis_Grad\\Lessons\\8_SpatRegression\\Lesson8_Data&quot;
+library(spdep,lib.loc=MyDir)</code></pre>
+<p>If you are on a personal machine that installed libraries to wherever the default location is, you can simply run <code>library(spdep)</code> and R automatically searches for the right location. Now we will set the working directory to the same location, <code>MyDir</code>, and then load in the RData file named “RurSpatData.RData”.</p>
+<pre><code>setwd(MyDir)
+load(&quot;RurSpatData.RData&quot;)
+ls()</code></pre>
+<p>The <code>ls()</code> command prints all of the objects currently available, which is now <code>RurApp &amp; QueenRur &amp; MyDir</code>. You made <code>MyDir</code> in this current section, but <code>RurApp</code> and <code>QueenRur</code> are new objects you loaded in. The first is a spatial data object of the counties, and the second is a spatial weights matrix made from a gal file from GeoDa. You can see the spatial object by using <code>plot(RurApp)</code>, and see the variables available by using <code>summary(RurApp)</code>.</p>
+<p>Now we are going to check the amount of spatial autocorrelation in our outcome variables, <code>LGVIOLRATE</code> and <code>LGPROPRATE</code>. This data was taken from <a href="http://www.icpsr.umich.edu/icpsrweb/NACJD/studies/3260">ICPSR study 3260</a>, Spatial Analysis of Crime in Appalachia (1977-1996). What I did was take the average of the violent and property index crimes between 1988 through 1992 (5 years), and based on this average calculated the rate of crime per 1,000 individuals based on the 1990 census population. I then took the natural log of this variable, and this is what we will be predicting. So written out the dependent variable is:</p>
+<p><span class="math inline">\(\log(\frac{\text{Index Crime Counts}}{\text{Population}} \cdot 1000) = y\)</span></p>
+<p>To check the spatial autocorrelation we will use the function <code>moran.mc</code>. But first we convert our neighbor file <code>QueenRur</code> into a format that many of the spdep functions need using the <code>nb2listw</code> function. (I also have commented out a way to make a contiguity matrix directly in R using the <code>poly2nb</code> function.)</p>
+<pre><code>#Many of the arguments require you to specify how the weights matrix is normalized
+QueenList_RS &lt;- nb2listw(QueenRur,style=&quot;W&quot;) #Type W is row standardized sums
+#QueenList_RS &lt;- nb2listw(poly2nb(RurApp),style=&quot;W&quot;) #To make contiguity neighbor directly in R
+moran.mc(RurApp$LGVIOLRATE,QueenList_RS,nsim=999) #0.2316  - global Moran&#39;s I based on 999 permutations
+moran.mc(RurApp$LGPROPRATE,QueenList_RS,nsim=999) #0.2837</code></pre>
+<p>Unlike say a simple t-test, the null distribution if the global Moran’s I coefficient is not easily determined. It is affected by both the nature of the spatial weights matrix and how the data is distributed. Because of these we use a permutation approach to artificially create the null distribution of the test statistic. We can see that for both property and violent crimes, there is quite a bit of spatial autocorrelation, much more than we would expect by chance.</p>
+<p>It is possible we do not need to worry about spatial autocorrelation in the model if our explanatory variables are very good determinants of crime. Here we fit a simple linear regression model based on the variables:</p>
+<ul>
+<li><code>BLACKPROP</code> - the percentage of black residents in the county</li>
+<li><code>EDULSHIGHP</code> - the percentage of residents with less than a high school education</li>
+<li><code>FAMPOVPROP</code> - the percentage of families in poverty</li>
+<li><code>UEMPMALPRO</code> - the percentage of males unemployed</li>
+</ul>
+<p>So we can write out this linear regression model as:</p>
+<p><span class="math inline">\(\log(\frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000) = y\)</span></p>
+<p><span class="math inline">\(y = \beta_0 + \beta_1(\text{Black %}) + \beta_2(\text{Low Edu. %}) + \beta_3(\text{Pov. %}) + \beta_4(\text{Unemp. %}) + \epsilon\)</span></p>
+<p>To estimate this model in R we can use the <code>lm</code> function, and the idiosyncratic way that you specify the regression formula in R is <code>Y ~ X1 + X2</code> for the linear model <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>.</p>
+<pre><code>#Simple linear model for property crime rate as a function of black % population, and % female headed households with children
+Mod1 &lt;- lm(LGPROPRATE ~ BLACKPROP + EDULSHIGHP + FAMPOVPROP + UEMPMALPRO, data=RurApp)
+summary(Mod1)</code></pre>
+<p>You should then see in the output:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rwvrAt402lsaSzflNdG8lzmQOpJJT9DeXlASzxQlwK9b8xti62v60ET4iNhFPs-UQxn76EWK8i_2GQVsX-T8H1FFgGJdTDkeVuGRtAgmkgPc-idL1GVT4bF0FTCjGiRcDkVErD0T6nhOAjtjwtMQAquY7AbxcFOdMZMfPAsr7njiDgbgotDc7gbI6Cf56-ndzyCqNV-YIwWUsK1R9RSkOFgnrFgI9I9Ji1at6GxTAhPHnw73rTerTacHEMXtyIcv4yT14SlwPYZ6ZnyA_ftSDLg1Urs3jndzO2g_BzOtu9vUb576B2zwMDiN0UdYIBOpG7WWdIE73j20ADVCHdz4NDnulNGJPplM3zt8jtsOUhKxw737B-p0vWUmPGjQI8G-cVTaymaS239_er9BmMCoZFRLUEWLb8V0Afq_aud-rX5zqzasDZbwWT_mlgIJG1GROmwH8UMOCRmlgpYwYWGYmu-h7fUR2hYLRTZ8CVbYnCbTx739lIBDCCcgmMPSQbH8otfGWqFLx9R8tdsPYv9LmwS8g-1rrvSWJkMrQlSu5VcFv8JR2kfUNFL74OEPQwOi_xJoZi0SEqCdA25ggyjQC-45katO98xnPaO6ue8ZUq_tlbhPcXsQ=w782-h487-no" />
+
+</div>
+<p>This gives you all of the usual stuff you want when interpreting a regression equation - both the coefficients and the model summary. Now we will check to see if the residuals still have any appreciable amount of spatial autocorrelation left in them using the same <code>moran.mc</code> function. To get the residuals of the model we can use <code>residuals(Reg_Model_Object)</code>:</p>
+<pre><code>#can use residuals(Mod1) to grab them and check for spatial autocorrelation
+moran.mc(residuals(Mod1),QueenList_RS,nsim=999)  #0.1567</code></pre>
+<p>We can see that while the amount of spatial autocorrelation has been reduced, initially from 0.28 to 0.16, this is still quite a bit. (Ignoring statistical significance, you probably want to aim for 0.05 or less.) Now we will fit a model with an endogenous spatial lag to attempt to account for this auto-correlation. Specifically the model can be written as:</p>
+<p><span class="math inline">\(y = \rho W y + \beta_0 + \beta_1(\text{Black %}) + \beta_2(\text{Low Edu. %}) + \beta_3(\text{Pov. %}) + \beta_4(\text{Unemp. %}) + \epsilon\)</span></p>
+<p>So we include an <em>endogenous</em> spatial lag of the outcome variable <em>y</em> on the right hand side. This needs a special estimation procedure, so we cannot estimate this model using <code>lm</code>. The Land and Deane article was a critique of individuals who simply calculate Wy and include it on the right hand side. Note the two stage least squares procedure of Land and Deane is implemented in this same spdep package in the function <code>stsls</code>, but here we will use the maximum likelihood formula in the <code>lagsarlm</code> function.</p>
+<pre><code>Mod2 &lt;- lagsarlm(LGPROPRATE ~ BLACKPROP + EDULSHIGHP + FAMPOVPROP + UEMPMALPRO, data=RurApp, listw=QueenList_RS)
+summary(Mod2)
+moran.mc(residuals(Mod2),QueenList_RS,nsim=999) </code></pre>
+<p>We can see in the regression summary output that the estimate of the spatial autocorrelation parameter is quite high, 0.32. Typically with positive spatial autocorrelation, inclusion of the endogenous spatial lag will result in coefficients closer to zero and larger standard errors, which is the same (with the exception of the education variable) here. The summary of the model gives a test for spatial autocorrelation in the residuals, but we also use here <code>moran.mc</code> again to give us the same conclusion. The spatial autocorrelation in the residuals is now 0.0147, which is within sampling error of randomness.</p>
+<p>Now with a spatial lag model like this, the total impacts of any individual dependent variable are not simply encompassed by the regression coefficient. This is because if change one of the explanatory variables, you also change crime, which then diffuses to nearby areas. To estimate the total impact of a variable, the spdep library has a simple function called <code>impacts</code>.</p>
+<pre><code>impacts(Mod2,listw=QueenList_RS)</code></pre>
+<p>Which subsequently gives us:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XKJv7o89YQE5w5Xt04MZWmNK2-_cagt3EQv2rBL_pJ2axD_xVLGF0sSZZFHvIaUOM1nCTO61a7OyJE_L_ur-shA0ALhK4qXFC-P6GkqWY8sIw8tVRQby9ZQ276n_NDXQGTvPOAx3uELF6YtrlbqmQF4WrgoOvKxKsTs7QXKs5RseDtYqcS_s_2iQ-NTqfYvzAUwCtfYXKFAjx4_4g3fp4UbnWazVd8hVJRqDy-ncAEWP3xLuAjiRkKyWPtbHCd3o3GNhWzl_73dScVzMiv1wDYuYG22r2yyYSKtLEFMMrsvRl880FrEP3XORKctT2NotLZHeaYMgLBk9ZgUFFF3bMDazJXAlii6LamXt3Pa5KRRt0sKdbyv85pvBDnojhZIV3lniZixKDs5HpDyOhXtZLKj_4wGDhhQULG9ZT8GXaqg8WsaEoHz_ehb2xy71ExTvnn9sEx29USC3EtJuKw5k2Gtq0MHEV1JmxRzpLD0NiIEfGsE2b9E0Q5KtShkX-KErmqMcQGAE55rgGPZoqJ0-Hn_oKKPEBvNdF1Bzlnn6YNr_ML4cxL7YJ5i21eDRUPc_Jtzk707b02Do_TPYgP7caqjlRcWLgbeNZgqmi95aI2clrAzTo0PA=w777-h212-no" />
+
+</div>
+<p>So interpreting the effects of the unemployment proportion, so holding all other variables constant, we subsequently have as the total effects of unemployment on property crimes.</p>
+<p><span class="math inline">\(\log(\frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000) = \text{fixed} + (6.17\cdot \text{Unemp %})\)</span></p>
+<p>Let’s say we want to figure out a change in going from 15% poverty to 10% poverty in the crime rate, with setting the fixed value at 3 (<span class="math inline">\(\exp(3)\)</span> ends up being very near the mean property crime rate in the sample, which is around 20 per 1,000 individuals). We would then have:</p>
+<p><span class="math inline">\(\log(\frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000) = 3 + 6.17 \cdot 0.15 = 3.9255\)</span></p>
+<p><span class="math inline">\(\log(\frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000) = 3 + 6.17 \cdot 0.10 = 3.617\)</span></p>
+<p>These are in terms of <em>log</em> changes in property crime rates. To make these values easier to interpret, we need to exponentiate the resulting values, so we then have:</p>
+<p><span class="math inline">\(\exp(3.9255) = 50.68 = \frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000\)</span></p>
+<p><span class="math inline">\(\exp(3.617) = 37.23 = \frac{\text{Property Crime Counts}}{\text{Population}} \cdot 1000\)</span></p>
+<p>So we have a total change of <code>50.68 - 37.23 = 13.45</code>, a reduction of slightly over 13 part 1 property crimes per 1,000 population if we reduce the unemployment by 5%. You can do the same exercise decomposing these effects between local reductions in property crimes and reductions in property crimes for neighbors by substituting the direct and indirect effects into the equation instead of the total effects.</p>
+<h1 id="homework">Homework</h1>
+<p>Estimate a spatial lag regression model for the outcome of logged violent crime rates using the same explanatory variables. In a word document, make a table that compares the regression coefficients and standard errors for the property crime model to the violent crime model. Use the <code>moran.mc</code> function to determine if the residual spatial autocorrelation has been reduced and whether it is still statistically significant in the model residuals. Write a paragraph describing the differences in inferences and estimates between the two models.</p>
+<p>For 5 points extra credit, estimate the indirect spatial impacts of the explanatory variables and describe one variable in terms of the direct, indirect, and total number of crimes increased/reduced given a hypothetical set of inputs into the model. State these specifically in terms of changes in violent crime rate.</p>
+<h1 id="extra-notes-for-reference">Extra Notes for Reference</h1>
+<p>For the in-class tutorial I have you start with a spatial data and a weights matrix already imported into an R dataset. Also the models I have you fit in the R example can be easily fit in GeoDa (although the indirect impact estimates cannot be easily obtained). Here are two extra sets of notes for importing spatial data and fitting a Poisson spatial model if you want to know how to do that your your own work.</p>
+<h2 id="extra-notes-1---importing-spatial-data-into-r">Extra Notes 1 - importing Spatial Data into R</h2>
+<p>In R I use the <em>rgdal</em> library to read in spatial data, and the <em>spdep</em> library has a function to read spatial weights matrices from a gal file (a neighbor file we created with GeoDa last tutorial). So first we are going to load up the libraries <em>rgdal</em> and <em>spdep</em>.</p>
+<pre><code>library(rgdal)
+library(spdep)</code></pre>
+<p>If you do not have <em>rgdal</em> installed, follow the same instructions at the beginning of the tutorial. If you are installing libraries on your flash drive, remember to specify <code>lib.loc</code> as well. Next we are going to set the working directory to where are spatial data files (shapefile and a gal file) are located.</p>
+<pre><code>MyDir &lt;- &quot;C:\\Users\\andrew.wheeler\\Dropbox\\Classes\\SpatialAnalysis_Grad\\Lessons\\8_SpatRegression\\Lesson8_Data&quot;
+setwd(MyDir)</code></pre>
+<p>Next we are going to read in our spatial data using the <code>readOGR</code> function. There are other packages to read spatial data, but <em>rgdal</em> is the most extensive and also imports the projection data.</p>
+<pre><code>#To read in shapefiles use &quot;readORG&quot;
+RurApp &lt;- readOGR(&quot;RurApp.shp&quot;,layer=&quot;RurApp&quot;)
+plot(RurApp) #Plot it to make sure it is ok</code></pre>
+<p>The final line produces a simple map in R’s plotting window - this is a quick check to make sure everything is ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/1-A6JyakT3etxw2pBIYhhYfVKawWNAHNqNC3nKAky1KnZTcj0n1VugXhIMrL8ZPFuxKmK3Ttr-g4trzp4cvlwv61MM1Wgj7bOlHvdXRe2g06gUBskKA2Xtn6cMGMeCRm7LUKlzxnmLOlI2AAlouLCkoO2xliAwPZ_tvqPYHvb1aPkMgzd0c7fdiXY4k3z_kqupClJ61TFxf2SjrFq0EQl5D90YCBgVMxDuXwIW23MVd3hc_Iac9xUEL80_eXm6SEjG4rRjo6ROCNap9fc42g-T3YAj9qAJ4rSeBIV8OcD72f1m2MyB8LC5ohO2TO2ytqSP3G1qb0Hc2YY7a4nYBSR3hjQqVmO3Q_QCPYHvyjTGDGXQSsFh9Zb_yWs5hX6-HFFdD509530bvMBGAgnTz5qpqhWUvynet-R5uoBcCejKNSibyAVhuWWJUZOMsNq2oTcF3WIdaW1ePJ-eJsTuW0GyyPrYHobBv8t2_UatR2RiGbcy4R5GKtMSb7pF6pKuOWPjr8akXH7bujDTtldqxE26WzvvlDPN0vx0X5b2IK7Cim7E1gwfkv8B_BebY4xy1pBSS2RGMRFRTka7pdOHuMI0wOVWOLXjaru4-YeJHKEBpc_9iS9gjw=w672-h671-no" />
+
+</div>
+<p>You can also see all of the variables importing by typing <code>summary(RurApp)</code> at the prompt. Next we will import the gal spatial weights file. To do this the <em>spdep</em> library has a function named <code>read.gal</code>.</p>
+<pre><code>#To read in the gal spatial weights matrix
+QueenRur &lt;- read.gal(file=&quot;Queen1.gal&quot;,region.id=RurApp$FIPS_N)
+summary(QueenRur)
+plot(QueenRur,coordinates(RurApp),add=TRUE, points=FALSE, col=&#39;red&#39;)</code></pre>
+<p>The line <code>summary(QueenRur)</code> prints out a brief description of the weights file, including the distribution of the number of neighbors. Similar to GeoDa, we can easily check to see that all units have at least one neighbor. R has default plot methods based on the object type, and here they have a nice connected plot made for the weights matrix. So we can see what neighbors are connected. The <code>add=TRUE</code> option specifies that it superimposes the plot over the prior outline map we made. Here is what that graph looks like now:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CwVifaR53kB__S-1phgVsOQBJkwG8N4GNbSqQrJrJUKnYdbloBL9WXbytuRZmcvcTmOqODolt-g8YtIW9ZR3Adq27PQ5I4OREvHxT_KzVPleMA19-RPBHmjhqxbtjM9B_yzDrn16T6YNnexAwrjQjfE_iqN-FSxJuzS_-1FmMbp37uLrjw64CQVm5Qk0Qc_ZrmTceWSm3JiovibDBIovvpK-0q5MgG-n19H0Jar2lmd538PsDN0C4-WZx_oBp03uXnZOJM4542-uzEvcO5wl66z29TgTuUmDNT67aW5WL5XXRKr6VU6jAeZp53M5BSoVDsMsUu5EAPLWqg4WNA9tY-cJ8gbwhL3c3ZNgMjb2zYuS3IUg8syEfUxCYn9QeYoFQJzwrx-eGzevICRQXAlGEN5n4irr8SHkQ1z2I3JphPlQwna3jm8BUW4ROmSd5YSkN57QUq0IByOtFQkzkmg88ADAWOUvpnGbd8DgueuUeEc99oSzuv-HTSIgEYSfGJvweEzFE_xbYKZ0NDxxODKxCGdaDxQio6ezjd74Uo_L9NAOxPGCZRfNrQQTtpWZUsCyTlJHH5oUGJQ7eDK4LzRekL-giKbt6IdYKAUUPkcbcOOpni1YLcqj=w672-h671-no" />
+
+</div>
+<p>Finally we will save our file for future use.</p>
+<pre><code>save(RurApp,QueenRur,file=&quot;RurSpatData.RData&quot;)</code></pre>
+<p>This saves it to the working directory.</p>
+<h2 id="extra-notes-2---fitting-a-poisson-model-with-non-linear-spatial-terms">Extra Notes 2 - Fitting a Poisson Model with non-linear spatial terms</h2>
+<p>For your tutorial I had you fit a linear regression model logged property crime rates. Often times, especially when predicting at micro places, linear regression is inappropriate because we have very many low counts. Here you will likely want a Poisson regression model, but you cannot fit an endogenous lag term in Poisson models easily.</p>
+<p>An alternative then is to fit a Poisson model, but use non-linear terms based on the spatial coordinates. This is in effect very similar to a spatial error model. It also works quite easily for large datasets. Here we will use the <em>mgcv</em> R library to estimate the model, in particular it has a function called <code>gam</code> that estimates the smooth terms of the spatial locations automatically.</p>
+<pre><code>library(mgcv) #for fitting non-linear splines of coordinates</code></pre>
+<p>Now we will be working with the same <code>RurApp</code> data that we used in the homework. If you restarted your session, go ahead and redo the part where you change the working directory and load in the data. Then you can follow along below. First we will turn our data matrix from the RurApp object (a SpatialPolygonsDataFrame) into just a data frame with no associated spatial data.</p>
+<pre><code>RurApp_Data &lt;- RurApp@data #Gets the data frame from the RurApp spatial data
+xy &lt;- coordinates(RurApp)  #gets the polygon centroids
+RurApp_Data$X &lt;- xy[,1]    #adds in the centroids into the RurApp_data
+RurApp_Data$Y &lt;- xy[,2]
+RurApp_Data$Prop5 &lt;- round(RurApp_Data$PIND_AV*5) #this is a fudge, since data won&#39;t exactly be integers</code></pre>
+<p>R with all its potential objects are incredibly complex. It just happens that <code>SpatialObject@data</code> is the right code to grab the data matrix from the original spatial data object. For most spatial data objects it is also the case that <code>coordinates(SpatialObject)</code> returns something - here for polygons it returns the midpoint (centroid) of each polygon. Then for our new object we created <code>RurApp_Data</code> we added two new columns, <code>X</code> and <code>Y</code>. Finally the data in our object is the average of property crime rates over 5 years most of the time, but some of the cases had missing data. Because of this I multiple by 5 and round the data to force it to be integers - what would happen with actually count data.</p>
+<p>Next we will fit our Poisson model, including terms for the spatial locations.</p>
+<pre><code>PoisGamModel &lt;- gam(formula=Prop5~ BLACKPROP + EDULSHIGHP + FAMPOVPROP + UEMPMALPRO + te(X,Y,k=5),
+                    family=poisson,offset=log(TOTPOP90),data=RurApp_Data)  #fits tensor splines</code></pre>
+<p>Note you can wrap long commands on multiple lines in R. The formula is equivalent to <code>lm()</code>, except that we now have <code>te(X,Y,k=5)</code>. This is a special term for <code>gam</code>, in which it fits the model based on tensor splines of the spatial locations with the interaction of 5 knots for each term - so 25 new terms that need to be estimated. You can estimate the tensor splines yourself and include them if you want, but <code>gam</code> has various nice functions to automate this for you.</p>
+<p>We can subsequently see how much auto-correlation is in our residuals from this model now compared to our original data. Note the <code>moran.mc</code> function is from the <em>spdep</em> library, so that will need to be loaded.</p>
+<pre><code>moran.mc(RurApp_Data$Prop5,QueenList_RS,nsim=999) #Originally 0.0809
+moran.mc(residuals(PoisGamModel),QueenList_RS,nsim=999) #reduced just a bit, to 0.0529</code></pre>
+<p>This dataset seems to be a very good example of using a spatial lag model, since the logged crime rates are close to normally distributed. My dissertation was a better example of using such smooth spatial terms though. So this is mainly for demonstration purposes (not that this is necessarily a better model given these circumstances).</p>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 3 - Tutorial on Choropleth maps and table joins</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 3 - Tutorial on Choropleth maps and table joins</h1>
+<h2 class="author">By Andrew Wheeler, apwheele@gmail.com</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#working-with-tables">1 - Working with Tables</a></li>
+<li><a href="#making-a-choropleth-map">2 - Making a Choropleth Map</a></li>
+<li><a href="#making-a-legend-and-other-map-layout-options">3 - Making a legend and other map layout options</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial covers several topics about map aesthetics, in particular for choropleth maps, as well as working joining different spatial data sources together. Make sure before you start to have the spatial data we will be using for this tutorial downloaded and unzipped on your flashdrive. The data can either be downloaded via blackboard, or can be obtained at <a href="https://www.dropbox.com/s/re57s0iko1ncjcm/3_Choropleth.zip?dl=0" class="uri">https://www.dropbox.com/s/re57s0iko1ncjcm/3_Choropleth.zip?dl=0</a>.</p>
+<h1 id="working-with-tables">1 - Working with Tables</h1>
+<p>Before we make a choropleth map we need to prep the associated data. This part of the tutorial shows how to merge a spatial dataset with a separate table that contains the information we need to display on the map.</p>
+<p>First open ArcMap, click the Add Data button (circled in red below), navigate to where you have saved the data for this week, and then add in the “Albany_CenBlockGroups_2010” polygon shapefile.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vJ50YXsOSzCklxLbqAnR_V66bkq58U1IX5-xPaAvACkCOdBOeeS9KoR6-t3OEBbihxflkwB0Bsp3p175YcZQVbc1pTcnfDbAdqK4kUn57wHjMKnQJ8bPEuHWaf4SXyCbNADcyp5nRwuv1wEDWpDMotVUrCqScQXnuLgM9kiOGnCcfsTdiTwWOCQLlC1fc_mVvR0GwJMX1XXlISMpWMUYlN1L-6Dm5QhawkvYtdxah4JpLnRZzu_5yAndokK7P03fVhsYBpbpWHCUc-1VcvIWLU2ocsMIiV1YabgqlBDinUvV0x28XR8BQ-kzjM0-OOHcp67FR8DFMwXKh1ZdbE9g5qxmnstNdHuHRT5vrDBiZilXWaT_6UGOcIIxD4Z5y4sS8kQfMi96qAypcE_tVkEliwlKc5rgwLtv7l62MgBe9VCi73-a2l9hyDRJxE1njQjGKXDPJvPiV74fbnAwJ66FT0emWK96uVCnfL3j_iMxevrBmBJBHCb4XqF2p7aXWjvhdvksMSUKfqOSdLgp-fS_2UEVizBbAtQLtuMOumHsk9BjAaXgu4ckTW8m2vCQVe3gQzDAHC7vydHqf1LFN2qwsvMiIOnjJAMYdGWXE-1sBs8STpbu2iq8=w673-h533-no" />
+
+</div>
+<p>This file contains the 2010 census block groups for Albany New York. Now we are going to look at the data associated with each of those block group areas. In the table of contents, right click on the layer name, and then select Open Attribute Table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LxZdV1iNTaUFdSTLfRO9oqovnX0FGkZ8qZ4g_e6zkBt0uoG4zx25Gth57fXmkGvqYowVdB_n3Ck_r8styejjZItHbnv4a7FUudheoCssCsK4AjefNDktmcoy9o6UrxNUBHbPG0ET6iA-U4AXPghGAbcNL9V0kiWLPgttyyHj1XsKFFqL4EdLkaa6fzKTexOnhZAiZx6hOG6G6g7On06WssCnTOV8CM70pW5nXaReXgaOE1pyffUmNAAc3vpmu0LjB55v2DiKSKtqsyK9c0SzIzUUKIVPSg3ilqnvEz3vs2wHnklyfGmwEUoNhDltxeGLNXTR6TTwGKqieaOpMzYMohXcUgPzd9EZNi7Ygl1i9mKwJKBKVgx2X5h7QVFQHL_KTRToWMaCq9QXTo7Cimm3MKJSMoKzMFaY7lhqNniV6Ng14GWKu6nzpehipkhVG9568aI4dRrtSVXnCWb7Qg3Hzl11s0sSQHp9vuD07ClN69fz7Dyk6q2X3YtNRAH6Px8ipeE0fdY7eR8R5djEpy3LWTP_RPKQNsFDBkL_6TrmG_ws3BTfm_uvGzXQr_fAGSm0ik7B32dht2rCLSQfg7vaLhdNCdexb3dacy3vuCbvVRAPHojD-RNd=w875-h758-no" />
+
+</div>
+<p>You will then see a table like below. The information in the table happens to be the unique identifiers associated with the census files. We will use these identifiers to merge in Census data to this same table.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JzcJaKd-NlvjFUlAk029zO-JVsM90AzcLIGdxOc-CU1fMTAIy7s7LDb3aOVGgPskcLL1MEqK6OJbHxQ48AYD853dW8fWbn1IHEJ4jgX1yjLCcGDa69epW86_00bW_MDixhwbEOZ-r_LqIeU2bKs6jqAYMz0Joa5UsBcHX2Or_03Ypmm7A9n8VnQ7aSpp4JygKqGmhEDtItdFlqyKSj-tjv3h6zwxKDT2ElKNH3FXAmHBaCCzSKI4i1FS4JJezeOQMPgj1cS8VT5TzqMi6vsWzdWDtvuXnfABZfvRqPF9oHE30uVOS-1pEYoccMUYZqchp1dHfxZpo8xFFEm2XN5efHreYFuYHUOI6xOzUIgk1E1e2jpZuYbIAfbefoUtZLtmiFnup-xP13xs-KlOOXaR2RkFUOc0sglp3NXZ6eX46wFZz25URZm_lgbFsJz3esg5FPoRkXVBRSg5NUglhy4GfS5Yq-NJz75GJtOD7M7uaoQ8d06vMMvruIldn9a6tyboKxnFxybvM_mu9d0q8tnMWTlz52VDnOzUM7R2CtaXuRXbvYNotIYMhSQ2nV7paaIa_6a1wXdctlsVF6LBzpIxw7FacAzDqT8_7T8Z7k8kwfd5uEEKoq9f=w632-h510-no" />
+
+</div>
+<p>Go ahead and close the table by clicking the X in the top right corner. Now click the Add Data button, and then <em>Double Click</em> on the ACS_2012_PovHouse.xlsx file. Excel files can contain multiple sheets, so ArcMap wants you to select the specific sheet. Here click the ACS_2012_PovHouse$ sheet, and then click Add.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-HPDfnLIcmuqSpGM5PNDuoQ5wGOUnthxiD1mERPHJvNMnkRXtRn_JQFfqOr2T3Nt3eRpOHMpy1pDgBaaKioUXZgmxgeo8rVUxEWl5iUtnUfvtuKI1oya6ACDd7NX7TVLSABJ0XeHNRlw9Kf0Yx6yq6uLgsSQVP3857iw4z8eEiRhzG4ha1PxTfuIWVSF7raznxG8X5oaEwlwPOdxSAVcW5aAGj8LFbGS74q-FGezfio6eoWTwiFI1PIqg1hduCri0Z255sSFMjZQm_NqLPxPIT6zEzkP2W9VmR_UT4_vFAWsR_y1QW3_GZJj20uG8xC1HautNgW9YzRpFHKobfrsb66PIFNwb4u7yGL1-cIuzs7yApznkY-U5qfJj5qk_jGcdWxCjxpc8rtTM0bGFUi71pA1tkIGGDb9r5_D-QZUXsgAPMgYYNaQzqzbkKBybwZqZpXjZ2OUppwS5K6rYJ6MmqnHarhiy1eITiUY4OBlD2MOFrU90qdOF15Fm8GQf1giIkW8QeduzHeJ6Gxv0T-EvaTEZ5dt0LWgOw-Yd4QEVcyOX12cRVP4To-MEInsFgilJaLQ5Aoq6gTK1CJ8FHfT1DDNWsSj10tVfW8pko_Ec1YKhou_2EET=w497-h330-no" />
+
+</div>
+<p>In the table of contents you will now see that table. Right click on the layer and select Open. This will bring up the table that was contained in the excel spreadsheet. You can see it has in the GEOID column the information we will use to link to the polygon map data. It also includes the total number of households per block group, as well as the total number of households living below poverty.</p>
+<p><img src="https://lh3.googleusercontent.com/vPyhR1EuBUbxRhz0k6dEdlwhzdT3w67t9bNvxqXSZnLs23ZX9aX2R4mhAqTNEodskdOeZ06cjQfbwddxJvH322htjCYB2tq9GAbmA8ML9JKKPi0ucb5pJyZhtA7gWW2eo_W-7f3FTk1Dv0sQrnAjDqAGC8rco1fRSExy8zIkNBS67-0JfnRPc0UVxMf_ch0bEy5zp5YOWHFbly1ZtoiF4WCJM28g4gzs6zeMn-7so_tAMvEAtU2VL2nYQbKI4IMdl0nl8hL7IrRvzFM3E9i55kEl4FfoDA0CG7iIhWxuQ5m-7VwVxBe2Wn3roit2hZIxe54IN0_zVPW3xC9d-nCr33dXHdw-yXswO_nzaPAbZZqPc8klTsiiVdhIftQnd9D31A7NI-95NsZUax_aIAQNsAD9sO9ija8S4TeQtP2edZ0cKX-EHbLuk6SJfFZtQTe0NY32paB_EQnwIT3UNhqhu1pVHy0342yaOZE3sEerSQdj425ryJhBP7AafndW73Vrauxx4wLBaHwUyY1QZMupOcsnrcHDXCJjeueFKeZhBvTvBLM7g9DFCYQmHTvItzel9XfiwvG-UkUuBVL4xfyZB5g7-yn7vOFudGIDlIKzhJ-Wq1hbLSJm=w504-h519-no" /> <img src="https://lh3.googleusercontent.com/Qf49HsguhlOsrAzsNciUPvkWrJbxMGtUaTuj8iCQSgrz_1G_aLtoDSIWsfLnSiLIeSUNA5ZV_TUEURtGvcbbuztFxBbekuQQwb_WBCKBZKAFx1AjtReKVYA8lHS-PZTsaS71Bj-sbBjQAlttRkt7n9I1tSROHUUM69j8kqI6P1ZqX5UwmXMW9xOJ_YolqOzd9RIv-BzrY3Hf098kw5XrngdpVNzxiE7ZH1Gi501eFIKTmqUo9k76ikKheAOfSWjmI9YB2S82h6byt10u4axAd0TqTQR3KDI4CdKFUwenNh_6RLX3AT8T-YnroO474ckpfC_sq8tIesSUqs3Br6hjacBWMFt1vT7ebauzSsdh5KeIkBnCRK2zb48-dNPINBx9V24KrWJNFqATER4dXt6rABPDR6LyifyDG4zagVs5l2oopWsyTfh5hBMAtfbeZIWnJ91QMCjQ4QpaWBn4avPBFuSlg65nKZ2rrb8rWE4NZJReJdwoBVcDnTD74wQ5wKaX7hUvQhOM6rdcbfoeRDwZAKVhzI6GD12d-crB4psRBAXJddc7psqth12Iy4d4fZcim1QL5_vPxtqVWgXMNjfTwSbyZEI1C9iPgXoUBddffv2-P491DzUN=w494-h756-no" /></p>
+<p>Go ahead and close out that table. When you imported the Excel table, the table of contents changed slightly. The format it was showing data was where the data is sourced from. In the table of contents now click the icon that looks like a hierarchical diagram (circled in red below). You will now see that the table disappears from the view.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/vQdHvm17VF3hk4VXuFuiEVtbiAROUbMTOSExK6hPdLgh0xoXXYQr50tVQj5qgqfDytRPqQZMEZKFVVTcZ8sKFBQuHsWtoMDG17jXVMzRJoYZdorVcTZweiVTxxV0quKP2KLZEWOOFZWMAeLDxPwlCpr_O7Wz9aVrxYE76LcguKOKe0cOE0LMCKBuE0ai698UXuUt293zKeRWMVIS3EfxlHWV8yhk9sHXldwdqxk44HOmqzItm3WqVZkXLdM2VrcKTfEa3zGqot5LJ3UaKn6XXkTgg6RjU1DQBgEyk_XlyBL9T1qJ9TCtzO4jsn2TeAixPsW01SA2gfUbA4meYkFC7atcAJUT56-vUSclUYwgvzmA0T3T9C-EgeueLUo7gUBh03l61iGxpV_IdXEwHjoRtrJi4q2QrD2hI6oVsV2BA9gevPVwDF2nVrY92Mg5aITlg3g0S9hHwhhkgsdlOwEmh0Wvw6KjkJcJ1CaNU6ob8DVzb1B1j1JF6NWAstIthusu1ww12nwgq977S9x3PhSIIx79KdsDbbVAf_1wlnJ7B473NWbtmqeaw5bkBlAinHHnbeBsf-EyTl3t_rNsF5XKc-JzNhFwdvFuZo8OHZSH_CuLxkPpXuUu=w306-h150-no" />
+
+</div>
+<p>This view, List by Drawing Order, is how you determine which layers are on top of one another. Because the excel table is not drawn in the map it does show up in this view. The prior view, List by Source, is to manage the different data sources referenced in the map.</p>
+<p>Now we are going to join the excel table to our map data. Right click on the Albany_CenBlockGroups_2010 layer, and then navigate to Joins and Relates, and then select Join…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/T4zzy790k5jvr_caa4bsKheExrCwH-3KdLgJtojFoXLxLnVr3zxZSgWUi1zzmKh4Bnal2VsUVDq5KYkLM2VnCfniv83JI7Z3BZkskxlSYAqe_7VgM_GhVGL1C9Jjteq3q2yocHMpx_W821CdMW31sSoE96c_TV6y6NNmLShMtn4CSC1Ih4dzZGI2S-jL1nzig3oTYgGXYteqHXu_0PM5-uOxuePV18CRLht4DLfV-SnwrKavi5PfM_O7raIrZ_khOUFhrE9QJRWeK6zEU6YiOFPl1GngEvW8fbb4XZK49VhXoosH_thAcAHCoGtvvDYAveB4JVjVMbCiawdPOkH8RAvQ6fj7zy76JET-4FGZunumP050coaDsO7EnvFp1Qz8pOUSXv9ypk09HYOtVxBJSCXMm2SSUXfHQNro7chS_nHk0POxa1AukTAnissaiFdGi172ugfiGDs3YdjwWiqgx606-DOqge2bAJC5ESTOcdTIvltaFFK3Z_WOUNdg-AS_mNCIClJjUVp4BbX6K9rLMfdnD8eSWFDBtb2rhUZJDKqD9_ZeJxbghW4GZBUzJdOqx2Bci8cqkrbpCvcGVNrpnjOivK1SOSZurFOTfeMzzNxHiPeaufQG=w890-h696-no" />
+
+</div>
+<p>Here we are going to Join attributes from a table (the first selection dropdown option - highlighted in the screenshot below). The variable selection portions in the later sections allow you to select different fields and the table to match the data from. Here we choose GEOID_N from the map data source, and match that to the GEOID variable in the excel data source. (The reason there are two variables in the map data that appear to be the same, GEOID_N and GEOID10, is that one is coded as a number and the other is coded as a string, when matching you need them to be of the same type, so we use GEOID_N because the variable in our excel table is in a numeric format.)</p>
+<p>Once your options mimic that in the screenshot below, hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/aJsPgXeOy72UNr2ujsWhX-w7DC2PQn5tiIWifiBSWqkMbfJ41NBRcvyj8bzy3ioP0MuRagcXnC-Dp_srQbh12GkF5l8Z251zbGlOAm4cmAspHm7t9KvXC2x8ujBGTFdsh4I9GjpM5J8gWJaSLaVt8F_ZmoGjm0seJkbDiEiGM2q--b7fIlimASACzoVkixkMoMbWwS0mbG26UdhxL9gaz9EZOorDyAqE58Zz3iTbRdNDCZQIM3nmfVa1yHjpsziALgTxFo86kwt7rMvz_hrm7DlC5qr9BqodYqrWcsq83JN1A_xC_4T6QW1PxvcHJ5V9iGiB6-xMUjo4KBRCbg7HxLDeY1-N1D9m-PWfeaAnfD5wKM8dcx1SPbxOba_DZri8tFrTtKnufJmh4Ql3CksIfCi_qHCIRrR3A_MZHkcOa47LK_iNR9OpaDNhKwe0N6m_wTzAw6fiIbb2ZkxmkFv0OgzAeW0VvpckPDPa587_r-rWDCa3gA7hZOzCLGTP69SOAWGaFwrsFvrNTIDOm3m1YJYquPZZpk6LtTZOzZ24U9V8Ph5uD1RS_FmwhNfaV_Mg_wQfRtXbwdoKqwzv7aoIA8OhDKR-1Ze29-ez7udGj6ATLYjCOq1u=w441-h603-no" />
+
+</div>
+<p>Now open up the attribute table for Albany_CenBlockGroups_2010 again. You should see that you have TotalHouseholds and HouseBelowPov fields now merged in the attribute table</p>
+<p>Pro-tip: Sometimes fields being string in one table vs. numeric in another table will cause problems in trying to merge the files. One quick way to change the field type in ArcGIS is to create a new field of the specific type you want, and then in the field calculator just set it as equal. ArcGIS will do the conversion for you in many cases.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/EqD8GJBlhiSAsFWSQXJmBwsFyHkJNS08mOJonm8WKBwihshq807CA3FDtUugPOk6fSeur3UaQhfEo3ozJEtSjEqPq6IFCQxb4rNEVlSNOuj9xIwWt9arltNlWvV-UVHOwjF0bWlo_y99z4sZjFj7lmdBK-D2u_vmWVcixBBZO95U_RjPEMsERex9wtjkQfgc-Tlh8Glv6_fo080AcxP1ZcFhsii_fwIE_e_z2-JwPMZcFcO9tCtZujUXNhqmmpgfqnSyPkxdFn_mZUiCpST6QaB39BxoQ-zE9l-xU4v122L01IEgrjfVE6B4b6TCgqM_7182jBbg6GxQ5SgxBDMp0oywekkemwzVeTy5whZB0pnQe1QdY19QL2l8L38CiT9gSYWc9viLBnE1DbNOqsAC1PcZsgK94nOWhLmCRXL3w383X63q_6h9PoCccNeMYkWHigBte5GLqjxbCSAFMymshl4qXJ9D3BHayRtP5NcPP9RmMrjxNrn4GRmZ1TsFe41oBMk7ilXLAFmWwD3Z1aQjaYn8Mgap1gRemw8aVoF6K9_g_eZRQ8FGnG_CQjSSj1Ni-hu_vfIfYUFO6_7CXL6glrACU7YM8BVr9vk3TiCCKs_nRoIzIhg1=w1096-h756-no" />
+
+</div>
+<p>As the last step before making our choropleth map, we are going to make a rate variable - the percentage of households below poverty in a block group. Select the page like icon in the top left corner of the attribute table, and then select Add Field.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4YdXyquob2c3rSlO2L1EjjL7ODb3HjHKOHQTYLh4tAN_VCyoG8BgElJ7WW_cbtLuiw4Ir48UIjd7wI_KLPY__Q__0F8BIB1uDiZOXqMvjyMIA92FYAn2elX2j84mcB6NKAcSL78fDzx-tB51eh5RUE7yz_Dvs6vrFc2PfHwkrd-MuBnmHqj3RUkj2ddQVk8e2kRcXTu8jZUzz7UQ04hVNtAZm7PelsQx5ORWUNrZ2xrLRr3F2rlvSyeWHwBhdex_mC3ENalLQLahKvFMAhA3dlaGbwgGjMhB5fx1Z2mmwhsJoBAR_NFzHsow2TAbMtHf5TV5XAzBSRoPZckGiVsdloJ6X6Xa2yYQYjvbZQO48USfQeGCatHc5S-5V3Gg09qLovkQr17RW0tJOOkeOxTU8zYgl2xvzRHj6acnOURX2QUJNE2eZJTVz0rQvaBmcs1_bhJ_NBbpEMOF5jffXN13II7ivGe4FzkSPRe_PkAxY_6PbTb9xtk5Rb-duqT5ZydIEcKygB50bCjWVyK23flFp9Hyj9-3Rs27zzMPgppqr89_QBJdLGo6EZpP7089SuyJl8VpgSomYECE9VTbM5EgsXu8igy_b8tWtwzVP-i65AHClqhV47cB=w938-h557-no" />
+
+</div>
+<p>Name the field “Pov_Prop” (intended to stand for Poverty Proportion), and then for the field type select Double. Double refers to double precision floating point value - a number field that can contain many decimal places.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/472ex5Qg17ECrDPv7yfgVUwl_uuhLUEHnaWS9FIKInXdg8k0BvFikHGdHdgMKiWc8baZIGY5lz43EBKgbcWXfGzsUL7jEaYfvZfI0jJnpexIMkSEOOVxYQOUhY766J_srMr1HcXmq7Z1Ji-v4aeHtQv9GDVi9YA4ysuhrwayW2oSq8AR6OSdM-3pZzYJlvr2jV1GgmrUwKI6EFWkkkNUqzo20DkaALzYZHg4VevkOFD0lxPu644HEPV8S44vGoMpAxJ2_b1fbcMC-BBM44fpXiQuisYaw1JtZobGzdK18mc_oyFAr99Ie47XtW4igLaG61YWW2qRijVS3-2K78vO592oPqFx0hlfAdis7i6JAlijpkwjV8SfTpFm7QXjQ6aCgrdcE2C0r9dOwyRm3Q3EePp6riQ6XDbhnrmYJQW-Fm90Mk-Q1-YewOHj0tMeAZvfgECAnPXPC8DDIkMzqW_STfFx_KJDnDRu-8ME5BpUhjABmzaneKEmAebuWS5zFb1vnVf0QuDQyjvXd4H5dH1lZqrrrdI1eJTpfENBItshohxS84x4QITD-WPVGpfzySMzfY9PPW9kkv6-3iM1AABaqUzg2opsCRUMZhbtgyk0-JT0AfDZKNXX=w297-h299-no" />
+
+</div>
+<p>Once the options match the screenshot above, click ok, and then you will see the new field in the attribute table and it will be initialized to have all zeroes. Select the column by left clicking on the field name, and then right click on the field header. Then in that dialog select the Field Calculator.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/t7LyheDBWUPlaxj7Q_73tcfGIIOGrA1RHjZg9dcL2yGj1TT064jK1_sDBT63n6xwkxhjuPugPQzGha4cKFm8EQMpS5-bPtjxGsYDuj3eIeuliJ23LER6K6rM3RFppMVHZCFkvldXfiGySrdInXm6sm0HjZMgaKKEq1SlNiXys2waNyOEixKBw3KiIQQOWWVednJ5CWUVkkvrQjvPz8y_G9-aMaKw33G1Bsb_GNHUy662O3r4x5CTZDJdAEDlM4TRiaR8HyaliYjXS1eRTnMAPsSl3bB8j-o_01Hi5-J_PRTfQPDUNGBD1wTMrwUqS9E3gunUii0wDe2xfqaKg7yTWwL0VL-sMqXqeP_GQdXmR-HDdgVr_S8HO508bjj3eumrah5yuS4OjCe4QcyKuXBBa4Kg_5pGJS3K0b_OiH_eUYT3ga8u_PyFuTY7q_h12rnG7cgnOvUzLHCVWdA9sKAkFe0K0CZ4eBXL95DJqDi5WZ8PsXHTKtvUpq_Ul8W-ZruMOMcjXtLaurbYP4CB2vg1yZbDJadEH6-M-Z8d4DsXAc6R4fcAz-jvv9adv-b2I0_yMvF66mEunywWZ7V09a_l_fYnLbZt714qp8ZAUHsIx-kqsfWBj6Bu=w686-h490-no" />
+
+</div>
+<p>This brings up a calculator like dialog where we can divided the total households below poverty by the total number of households to make a proportion variable. If you double click on a variable in the Fields box it will populate the calculator below. First click the HouseBelowPov field, then type a forward slash, and then click the TotalHouseholds fields. The field calculator then should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/VFj2Si9vwgJQ6FurGjnjuK7QlEeoQ2S7yomZobIpsz7PcY70f-XlvQSkWKOi9qJIH-sFNtViJRUWFqEFjFB2DZL13mOzrnTbhRK0AEOTWu7svGWsoUI41tQI2Q9llUJnNq-nfJBWtPGKt07HqpVIYAja4t95pcRFAQd1_0wmeCVuYp1vkwxxtBMahID3EiFPZ86VI9NS3U6zpF5jKUacWg_8_bnTklKhyYW4GofIlqgA-u284XJANRq19WgwfI3kEzs-oo7jS-b1JoXrzBG5Qfw98SLgpVwbxtjXP9XiVOtblLuThku5AG_-QONSjSuTJJjoNCIcga2sJ3e7UebrVa3T1Iwho7XHcTePTPssom8JiZMgA5ESImt-_Oi-yPs_SGxLPSJgaq4Qm786P4vANMGqW1W9UJtj8k_Q7yK7iC9kc4rihg6Sx5-v9yxkxuWMu_oeocBQu8QhiuO5ri2nyvClrBrv0yLZlUnaKrfHikRWvAY815s3Qx2sdEGm6Uh6o2YBDzahRVuCbdu7XwRSQ1VNhrzWkhJxgnIWnEjF3U2sv6VuHeyDpPOa8OUyTa1X4PwLuej9H5Qo1Al0FG7TmeR-p01kgMyboguMONT9c3O9SyqhaeKX=w467-h563-no" />
+
+</div>
+<p>Now click OK, and ArcMap will take only a second to calculate the field. You will then be left with a field showing the proportion of households below poverty, which we will map in the next section.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/T2GuZVb0JUHmHz8Hd6pvvr1glhyZgYkJUr0e35fMm2pMhzSDvAkPdjyzojRRkLDIltn09n-0uqgQRvJZWIVyuP5SDRvjPF4x7MWY6hR9_PgT8QEHIbuLEOonciuqLlR7DucDyd2GSIz5KNuBEO3PEqdruBAANVWPxrlfspTxschb8Hje619DukuqAhVtZtJcfCFwQRaxkzi6YNsMf4cV-QUqtWtmdHL7z8KGtyKbhUlLMu9Czq02s97xwErDmbFvWYacTDx9PAoa94zmOln4ou6f4d7PnW3u1Kk4VxtlkGrel-_J4c_hJW-1lIYDMqGu2AE642uihAOqQCeCU6NQOLmYjAtruoTsW_YnFKLE9zW8RgiY97aAPzdm5v6rt6E_L19H8I0M8Dmx09-pLzil9a7AgbxMm4YWdi9IyVem5sGDGuS7qaqPkJYzfGgLl74u0i7LWvpEtT4PS2nJ1HzFFPUaLYwV5ovHgluysQAfnMGAqgXQzaXyn8pxyWcLcaSzFzXpLdNFKk0UjqrQyoFB3NJRpDEnVp0b-gS1NQqfO7dB8HfF-OVTbJf03Y8od2SlNs2N7Z8C5SaFRza6marCP7kMRE_UGa2pB9iU6MthtUaojTX783Yq=w758-h515-no" />
+
+</div>
+<h1 id="making-a-choropleth-map">2 - Making a Choropleth Map</h1>
+<p>In this section we will be actually making a choropleth map and go through the process of choosing the bins and choosing the colors for the map.</p>
+<p>If you haven’t done so, close the attribute table. Now right click on the census block group layer in the table of contents and select Properties…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-qsApF6KbF1vJubnr00alIwJLvYgMow664OpPbo3d_vbhG3Ru_UZ4qdVjE9GaahhruGstAE3h-xuipJmaBe_YiMQAfiB--Tn6UuV7BpQOVegQOTBSODdgfkDX9xKy0Zm269_VoJvEabC11FcQ16MAFsd3SEUzQTQ4LuxbI7n5tzcs0k8TICOmxx6tr3HpDE4oG2bgxNFrAqRp5xCff08n-I8l0vQDHEhfq-FF9AUXOTuyji2FnyNpYtI_9jGdXVOq3Y-A7r4XKS-fTRTFoMHUUey0Burto_RH0yOAPtjoREMPV6_a31kqfqpG1KFcSR1DAq_nKYMWcNmEEGbNzsS-Iae4VmDrdOnsXXyMOcuFGzruruLctnojqyRNxxCKn3Q71_3E88eHWCg27NazB09Hx03EgYlSSlBsOhbLZ8U13Pwv5vP_rYXfyXGNx7SktYgPiI520Nf829iuhjwPADezR6MrkUJdZUELWlEWQbeZcqtPw0AkZC9B-nTJ5tJ1Kipr9Wz6B2jWOfaKMr9MllDDaP3iKXQKTK2Qz4GGHw97YtdPDUxBqzsVpX-YQ43R0lhBy4XErc-ULovysRPwM7PMs68XJvQNx_Efi4pmGFtZ2ONYb_k0jkw=w802-h738-no" />
+
+</div>
+<p>In this dialog then select the Symbology tab. This is where we tell ArcMap how to color the layer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Sq0Ky-KhUJhF-sScS0m70DY4IDrH2halctchIWXlo4rQJtggEtcj-wOIBd0NOb-2SD8tU8srI488I8a5rtNvgpUKuymD56kA-tG1El8NwLmia2Tsi1jtJHu4hLVLw6c058YD-1xpBW-cwPqAIzQ0MWF93_sAh80UU7remgodLKXmJRp-Lz-pDliO-8RCubFW94k_Z1w_1TsDqKzuLl7_Fimo5YW34eTzrrvdXShsDaZ9HL3rJEDIJR4lOfmAzUeVE3gR65vvV6JzPhLKERV8zDe3u5pVJ_Cw2h-pvjcTABHwmfpog_R7L1da1ln_o8bEh_2MZHUR1Uzg0DnE-w6kzsMCzXwrheLteVVpdxDmx-UMSBMVhahxwjNm_H5n2Inh03rs31edDhngfX6JvCuFw3d9BmjPAEF5wTX6r3OAh1Q4iKQFErxBNVvVjW9XJb9jciV1xQXBiQbKnl4y2bdkHW1sM9tEYkFq8SgWjzEzqznYytwzSJjOIcya7_LHY0r80c91DN_3zhupavFAS-7h06QfvytS78FQBLAQvrT4rYA5V8tqpwkxNPJUvBjN6SGcx4SJ38pozJWsePce8ykt-SxzywkrmrCP7Gkyb_od5fk0gIdAHRN1=w660-h522-no" />
+
+</div>
+<p>Now in the left hand side, select the <strong>Quantities</strong> option, and then select the Graduated Colors option. In the right hand side, for the Value in the Fields box select the proportion variable we previously made. (The name is cut off in my screen shot.) Your layer properties dialog should look like below then.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/js0ndBq2m1KJgNsTDWkhYkCMfPt0EiVmfaEFYW1JBlPI0W5rUJ834vYdi2UYbazdCFjdrFZL5Unq3EHjU_D5LcLjjbxhYo_xgp3-wywSw7_vCliOPaZXCD55URm-9kszzwe2fVnXt0CmMrfAPwuJ-_ymF2X4Xg1Kg6UEjy9Ge--6sBgrMV6I3U18C3QNwTvBCpUvq3MAwV88MkWjg9NzlbOYSW6otLjoGDscC8L440QGLo0PCy9_3hefeAhz1AXEy-BAsvtE1sHpF1DaG6cvUcckLaHHIReMzJ3SdS-VRv0ViqdUJCfMVVY-QFlfUSrNTY7bXoFWOWWLIpcmq99TdPQ2EPcL21oVQ5avgPCvpYIN61sXFxFAP6ERJd4vy_DzApJJU8lyHFUCUKiP_XpO7do3FHkl6ldFDbftEojtMKWYSzRBtTf4SS5_E0wipxB6c1V7Asecq3jZoEVl1a8jJctZJo5xzpGRpsBKuOKpLalW6W78yGZvl45tu6L3oOXv7J9qn_dLEL5aKakORV4SLeffHwrrF2PzmnTzEsD6dyppe1_jgfLlwvGkvD16LuPvpwsO7h7TUs-oUNupjcrilyY04hQ8f3kzX5cTSbseSxcdLCj9zuOv=w660-h518-no" />
+
+</div>
+<p>Now we are going to change the classification scheme to 4 classes, and then click the Classify button.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/x7_x6l2O_4Ux0NMRgsT8B2yrB6HwXdxkWsKpcidFJmDC6tbhLWyqApGHccYaEg4eVHY_lKJfgK17BPqYQnu4COe9wB4UFBBXvD-fji0lcEZOHZHHaNwD_ofYm3fbMN5WMrp6cPg_gOF0pEHfinp2I3TyWtbPrV8WokGAosTQmrCG58qe8XIkHOVKuSb_3CdRhQSc0xuBUeu97Pbcxg-YkopkxPCFwWdEEB8gew6iBiHNGSItIODyTAb3byLT3MCc0KPmuZYfi3UaZ92u9nUmKsYWArgKMuMUGMNoHOUY0n3rgYgmYXlF4pF3kiozXLJDHRO-Pv37SgO-ogl6MWMYw38Swz5dpr5gWRmppHZEYOmOR_aK1Kg8MR6eLH6YVZbI3D-QfdjkZ6fHKYpoVbUT8XZ4vElLCL6wZUnpd8BA3EiC1oAxMbA8CTJTs30d4EykNvM6oqL52TT2nj3MZ_eoZWJonM3hi3bR3ehiEWzCDYcBMHJ7iVLG9psO5ZMAs75rnUBDVvZIF6feiR_yDsH4DUp5yh9_oqNtRXNzCqPbnCm1WkHhowcNVGxmDQ11yhDljj7xa29uF7Ud3PMAsECHANBVE_of23oLFwgWzTtW81pyUsMI3YQc=w660-h518-no" />
+
+</div>
+<p>By default, ArcMap chooses Jenk’s Natural Breaks method to choose the bins. Here we are going to select quantiles, which with 4 classes breaks the data into <em>quartiles</em>. We can see from the histogram in the lower portion of the dialog that the distribution is fairly uniform, but has some slight bunching at the lower values.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Hd-xgr-L-8w3No4wA_lbNHPPskBlGh4v5jCka-0InPAk0QOMV2cK4xa3aHpZqB0UIzYEE-UMMIPl4H60prZn4mkXD307dpjcI3mlctVUr-nOfMkRLphq3NOG-G5iIj0Wk1d44vla-HNCE5e7eNykwoSBNFe-fpKo_zytAHKj_bRAKXG_XspG2wUr3YVeajK9UOpirOznnaSlFMvS_tXcxgRlzF0546VPJlVt3JDvSg6AeGgQTgavqycvHxLK-N4N11I2SnpWiRjwpLGhGUWiiccNWYAowf2cZtxhds3WC7C3Iao7frSXve3v5prKL99zkF3kK8Dz2oDhZ_l8mXaOcEokaKJcnOpNK3VkrUF25Froi3v0JVNThT48y_eMtp-NHAcIveWeUPBXWM6QuwiPRmwRozbkJXP4ZyVzSd5Z9FKazXsf6ogl3fbzdeGjXOGCtlK0wOQog53381jXeoB1eoRD4x_x-z99NZKIfXf9E6Wt8zoUDtkHi4TvK-Hy8ItYxMsOY_JRq55JoyivSeELi3FDBF4DeYLUsKeSVTOHSzMK6ivZDcYrBOYqlcWsVyCncZoE_TXsk4xCpKonNHFX35NhGDOnrGlwrrUBt0y_B_H1aHEUxIkr=w630-h481-no" />
+
+</div>
+<p>Now click ok, and you will be back at the layer properties dialog. The last thing we are going to do is make the labels alittle nicer, by not having so many decimal points. Left click on the Label heading in the table, and select Format labels.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2Y1FtuL_5sAaN4wQNzcThWctB6ZRPePkB52ZvapPDzijb5pE0TvGS3jHd-ASYUMRpfzRFX8bmehG6bQ4S434tQgmmRpcehBTpyyAqQUR9Tu_rJplit9v_vbSVN_NC4Uo-7-U2-S_cy-pAdfr1QHjjnIYD-HogWxSUf_kwmPVdUHaQYiKF76GN49qkYiVYrtlxgHv-fBzGatTuXYM5gMcgEmD6jmJ4U8TQLGhzwiKUhvTLbjf6tvkA8NhIOfvn6dCFqmk3GrE08XbyhebpfamMK5lmfRAr9wJl6TBlRK84dW_q3dq-JuwLuoXmUeUPBSFDbEEO5ViQ7E8gqfQrtbseZCdNWK5uSMY73ExSd5LKnBpjpXz5qiXv3KOP6iqeWlirQYflehpilh_dKLypx_Bp135rougKGMLkKEk_HYSb34NdyVEhIG2LUEByObibD-6osTsC4kkDKsRcdgt6HLjEeK_aFSVhaZKMV89vrK3s-T1FOOo8NXpsug8GP3OLa6cTA8u7-7p5Fx_1Yqs_kL4LABR10bvUTmII1cwCYud20_EW0NlZyY2RoUG7z3Vgr32bUvogPpM2vJHxbiH1VQxX0b1mNZHbvEPOnFpoBLUNN11bfI-NTz_=w675-h529-no" />
+
+</div>
+<p>Now in the Numeric options reduce the number of decimal places from 6 to 2, then click ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rgAAgEYDF2xWwy6QThn1iZTYiCZjebyoRfHetna2XQ01REknF--X9e3tS6gTiLpA9d7NdPWPPu-rygo-D-FWRTjE30suXW666y40W65wbCvINmH0xjrj9RoDuqdMKIaHdgjc7ZIpfhMKmi9_bK4fgY2SZZF8XKTCjXZwX7USe2auXJQPDzKhLB7nB-HT2uk0eF_V-b5OYNHPybOb3jUFTB4MLmQyftvYgun2IxHkTWpC_fFrLYIxRv9XpYueDUUdfUEMAenLbcZzNHePfnzwWxAoMJVcb0kfGAf5TLnXuIuIM0QFupXZT19KKrb5d0VsuXNe3kNka99cf3KkwGwOBFuOBlo0VyTY_9HQNytUeSrvOpI9NB0gA-uUmkqHwsprkpZpj-k1V1H-z-u66MFvw2lJAPWhGDhmpy-au6yNfXVWI4akqgZjf657NCG5bbn9YCOYBZavmoi0ETXqqVlf2R6ZR_vu1sDnafOE4lL_sNwLrmy-k2xP4fP0laPEtywvbv5yHm5Oo8yLikTtSZO2gM4JP-12IBM1Wgud_Cv46wwS5f0tPTkInY9yyWc6pYs7Jp2p7s4w2BUP8ow_Az8YXq530vxst1crgB1qnBBAHgM-5kA2V3zu=w354-h374-no" />
+
+</div>
+<p>Our proportion labels now are a bit easier to grasp. Now in the Layer Properties dialog hit Apply and you can see how the map looks in the background.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MwzaCpbujpXYS7FCrNLq98NcWArUUjobM-t7oLku0PJFH3ewE_xuv-2iCNelhiaVjqHi3kKyq7IAFmBNRwjc1iucUgU3AFuTX0ZmZMgA-aStpq4EZKgW5w8qd2XxLCKuJJ0ZCU-AH6oBt-TvrvylV5Zf7ITxdKbqFUjhoK5n4yMAdNElGiOJNwb9vPa7OfJOsFtGkQnj4zxZlrvnSG8l3plD6LFtKM8gFNfk0MR68d6StMkjh1VvdWjimQKkBHjvwvNcsHvSl6S3JtUDWmbuPe_KqbqeHk3o_lPtsKDltcruvZifW2I7kfWcWwKke8AepsiqaRWn6bdHBcogiHnxds2-QnWw4i4uglbUcn-5zDqhR44Nv5eo2J-RQHBRwxHeeWvshC-FWE1o3iFBFEpEkMzKRPDiueehIeK5Yot6aLiCIDTjwHKrk_5GGHvZLBT3U4hIa6RTjevzhCglLS8f7IBDD1WzkBr0boh4zKbO2RqYPVMfTo3-toEW1wUeAkGAPKOLm-2NzZ1TnbGrTeHVqzxCxB8ld3uj-3YBfwAv9vQuYIBWCpns8Yl4olZzgk9T5VNpFpBRf_ZpirNMxoIt9UoH0KjWh1SNstnosFqtXFB7Fd9K3C4h=w1226-h791-no" />
+
+</div>
+<p>This default palette is nice, but for the next part, we are going to choose a color scheme based on one of the ColorBrewer palettes. Open up the <a href="http://colorbrewer2.org/">ColorBrewer website</a>. In the top portion change the number of data classes to 4, and then change color format to show RGB values. Each change is circled in the screenshot below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/XSUCpoZFcLec-N5tnIpJNiKTFgGoIZogGRbViHFmohJQ7xcATuu9oRGI6FvbM_3BaieYZqF-tVyFcO2jnx9EGBAuVkLzhLXHG7LcpUgsOffqY-0bTeMukbupZmsoK12O8XTRiWTZuqXBTgLmqDY5XnEz1Pi0vVSKJQLqy3a1WPr8g8wTK1MqFWhMd_2foORzn0qaiAnbiS6bxDqPvlVJfzErQL0gEI4-oY3oLoKAzZDRAdcaCg9geqQ9jMF4bw1W31PZt8C_O1QF5GPQC_y20Sh4ci_MTIqhHzYJ4xNAfZy8DjlyAAFHQqpF1_7iHY7v_PaqzaO7tFe6tL9Qlp2y3WyYMnCM6mm7seFD28U5HSWSZHXesQE-8QdKO2y1ltXSGCeRPPkEELG3ZYQiPIk1sV3N6AFYO7FmTmYkyEVhw61RkxLgF23fHsAmhi_W4YMTvpurIAqMRCIIzFiOzxYGOM24PK1VDfTClKsJyCCtluUpTKU8HXa4OZ56bMhzlLYJmQc9h-NFMRURScljZgeHsdFMCwi62EcHLF_JxUhJMzSylZSXOtVhJioYS0Qj7wcgnadJYRh1s1SoVbJeQ8iZs6BNLtfqwG4rePfT3Y-weENlJdEEPHbY=w1048-h747-no" />
+
+</div>
+<p>This gives us four color values going from light blue to darker green:</p>
+<pre><code>237,248,251 - lightest
+178,226,226
+102,194,164
+35,139,69   - darkest</code></pre>
+<p>RGB stands for Red, Green, Blue color space, and the number for each color channel goes from 0 to 255. 255 for each color equals white, and 0 for each color equals black. (Unlike paints, colors on the computer screen are in <em>additive</em> color space. Remember white reflects the entire color scheme, whereas black absorbs all colors. So reflecting more color means closer to white.)</p>
+<p>Navigating back to our ArcMap document, now we can change the color scheme to match this ColorBrewer recommendation. In the table of contents double click on the yellow color swatch. This then brings up the Symbol selector dialog.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Dxe4Mv8ixKps2L4on4vDjzcgvV49MyuVsCNh-oPCltScjbace0E9YzEwRyHIZLlwsTxFinpGN3k1rcCJgdrexZ2gngEkRBFYi-T2thnIxczQj6Puep936h9I1nQ46HWmyty3LhVliUW2xB0p-J5iKIxJUFfMFbfB_hd9qJHKkuAWVRfhV9hdEjqhoslH0TwwC5NRZDSkC2M2L9IHKXF_QCP-phDbCGf_OQvx80mp3XdvXcTg36u1gBLms3ReQKhN3CbxZWUR29gTtUYYpGEEd4jy-iLzGZLnAKgqmWW_V9R0bTuY7lNtp3vWblScWgB18Izynms6d7UMHVg-KIrbyCC-y5hRTPeYKaaGXt9aub3MbCY5njBWzSfIwYpdL5R1zRH6WJRtLYRKxLT9cBWn-ok1FWg-eelJmkC4l67zhp-hWyQXvVvc6faGhfp-wr0oioNVTow8JxfOuu7_-eWnAn44lCVLgoZ7u1LkSaapsi_nVS2e6vD7lvh3lcZ2MeEHpTdWqfu_ta6k7-FTeQzI8y2V3_B27rU6cPN-e22s6nmbQGo3u84lQnditG8j-Pcx0U-jXTrXhCGJEh_myqmPgktU8-c9rSRVfk6PSvyV9lN1fS8vOgCq=w833-h522-no" />
+
+</div>
+<p>Now select the Fill Color option, and then select More Colors option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/uE4bA4a8JMczIJPvbyHHhgODufi8I7r_iNLSxiTynT19vVrBfNekojSRhTUkoWH3vEjjnRUdaDSsb1QvIHo96HmaLxxv_515y4bdwLACbmWcy4GrRbf_NbllwbuEs0W5CG6uRG59XB7vZHo_JR__SPdk9Szrui8tRuiggfdlYKlGodBypAvmSYPIALuO7c0JcG2qjSwemtsO0Wzg0eE_BVHL5xKOJosxjWAHi_FmaxqV8v_yvVv3XkS1MBy9eWMkb747CoIUgtpIIrpSlY7Ho_bS4qeCtTj4zTvOc6OXGGqtBnhjtORHodyKmJJz5nNBaBUg9DZJvGmhsLNvPgAWWRst2fgAi6DGOcaJgQJVgru-MWp-N51cGYz9sZ26J-DBpatZvkjvVNwhZCRelVK_2SB1QnmFqHBbOyEm-_shn-3_JBuykDkyMUDgDxCfAtCh35-tsPEZW5oTgdVKp50vAf-c8e2ofqqEDoCqBV0aorxDJbPIhOsiolP92IoGGO8jVQHF-ZyGD4SNTUaT9N3teKv-xudfFbGyHzT_9VKeefKeAlxV_fyG6b4HG1PmhuVTv4oP2LQNeGc2cUXD2KBFATWDWWSMzIJfqD2J4u1C_nlAqiOV7RtL=w664-h501-no" />
+
+</div>
+<p>This will bring up a dialog in which you can type in the color properties directly. In the top left change the input type to RGB, and then fill in 237 for R, 248 for G, and 251 for B. You screen should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8OHSSM1V9CJtDITK0D798bbAo7q9VKBnbEcELTfFFLvDgL2nEKNjUKrQ7HMzCCuzJxQR-K6W8O9kl6D3uVt135VHwmnbXvQ-nyDCCbt0lLFehYLE6wBi2xtp8vrm7uUsKemkKy58XZgKnzQFKbUlqwDRrqORmgSJt9Qq3NecHX0mN3swmkQBGcrEtPCacgu_u4e-ko2caaNmM9KeJRkjQNyaADB1N2BVmPINOoQckMavkXnDRgiVXq9zo5d7ZbxnU5QSVEuWs-qXgCzxU-djZhBAleh3eiScVw-rdLWwZjcH8KhbjYGWBeYpXH7LRS6r332URGEjHVN-_1VEpvjlg0SzWTXZx57i3dlv6cVgS_6h7jxGBXfZnAlJhMvTOZKzS8o1RhfDf9_AKzLRJeA3fIBi5ah5kADUKWz7l-5wT3AVNzeyW01cLIpDT9CaervpZv-3VMtJZNjG20zO3vcUS4CJoe7BUo2HRjfM-7-3UmySuSBFZWWJsTj5S76osy_SpxCvmlty__Rrq_8Q43v7i0_I-4m9GoOnH7txSbIL9613CH2HKy_JGVLYDPr4wLlUgLC88lmthrfAqr4YRiSKdCFu2_7aCZ0nPLBGfytzn5HIH4owDmNZ=w222-h200-no" />
+
+</div>
+<p>Now click ok, and then click OK again in the Symbol Selector. You now have the first anchor value for the ColorBrewer palette. Repeat the same steps, filling in the RGB values for the next 3 swatches. In the end your map should look like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tKnK1h7XE_ti4gEcFGVWObIe8iJORJbuy1MBMURlap4_RZ6l3fEEu-gPrOtFdkliaxl3BoBeLvaJVlVCXX8ewaEnr2GnPQKN9G0lJrTW821kVc0XLqCTK8u0_yJRCgiylD_myDREFBHGlWrRDt0CG_H7UgwLx6QRm1cPNu9wcytAs5Id6sovr_0fXJ8XWEETZjgYCu1mZmFnrLR4kxgu8FGf8rC4LjXKLWWX6AvYSuqipSPq_ZMm6DM-rRJVJNw8XhzmbGEKdfSH8Y4pp9fNanH9Dc8Br8RPCwdpkdJF19zx_tF_g63369xNMOI5slZ0n2Imp8LSqRGZBHTcQVQvno48yqvrg-hVUMVTYtauGVKkXyDybxALHVxzjuSzlngSaiHx-j8dB-DzrRxg6Fqo6U3GBMnutNme1bnXq5yr3K9RZFsqMKC9aL4id3vzt-d7_ach1tVIxsu63nfWs7zBTz3xGcDsA23fQTWPE-iu1hRY8IBaT3WTklQLUgQurJOoFUPpqEJa0XXvqE7Pw2y2iwg5o9HuEaNBS7_s1IDkRWAL4O9AUoVxtnw-OQXfvYoFR9iEnmPmGAtdIMySLXQBPyWLJDxSXzxhxWSFz0c0FaJqg3NftEtU=w1230-h725-no" />
+
+</div>
+<p>The final aspect we are going to change before we make a nice map to export is to change the projection of the map. The census data is not projected, so appears stretched out. In the table of contents, right click on the <em>Layers</em> icon (the sheets of yellow papers stacked) and then select the Properties option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/CzUoHGiHpjzSomfAMAWKE42PmbjrpN3ri-V2sB3PsyA4Yt4rpQPkZa5cO3rbihAQcNiOUyB8FsoyO4JcWblSl5hvyBfMH3C7VyYuOVxm7q8Ih5R_4uL0PWcYJfn9gOa0D0xi_jQ_shFah7KxzDjDUxReiPJ0S2CAgeYvXfgoD9Kc3_kzDrt0UcPuSjEt3cPn262CoXjuYWnn4ma1KldSK1Jg-ms5jHIBU9QKkQSfa6k0FO7UxaWqM6e1-pyeRmMY2sbA3O0Zns9lzwHpM4urD82NIfvaWWgv9iFwantBbERLMdgb9VFpSF2DSBWFyGtLqxP3MC4uay9-Ka5Cp6-pKNEw727y5FLTtbCjs_baCK3d3JwnuXaM_BiYwpPRR-09KXENWI4iTeHJUy4o1rXSakNgHAfgGdHJLTKVJq-f0GmPF9PG2nHatFgQFiUx7MhbWqjRTI4E3Hu-2lV1Vnkj1f9Kapylqq677K1ZTaQ32tq9MHfEA2cWEi6R_Jm9Eqryfnyj9hOnsO3F77TeyDkVaDujHGCWzEKPim9ZvtjjfakM5aGrtP5Wvdzz6WnrAbJv65f4MXuVtJueJkpoY4ll4S7pEib_v5TJOiGcG9IFhiJpWnPX5tLm=w450-h752-no" />
+
+</div>
+<p>Now select the Coordinate System tab, and the dialog should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MnUNB70y-SNenDkEx-DM5h7sLo4d2ZCekwuTKS5CXsPT3H92cFc1bDutypAAyQPcgFZfkBQ9chnemOPD9TKg8Uw_M-LIbN5Q4bnIWvNinMbs8spPm-S0cJ7ENLXeSA9BLb3tBGU4TP0kUk0qHaFwIyMxSw6-wEqosnavzreBqh_fvkWOZAUdPBh7K7fZdxBSOGH5ECbCdRi6LTuILM8EOkqff_TUuh6f5S06kkwoFdvfsvE8izrM7qG8uiF7A-synHVDlA41drRrrQ9g1xUOtJVMa1fYG5A0yVBE8xlS6eoz6BZdAS9aLPxtq_2laVazDhxLO9erqMCuFDArLNvgLClU1ydGNZSWKmtSkx0t9QkeOpUPXqL55_ZvWQjFUdhQ5LcpdpjKq-eCy-WSSn7829qhxkSeC5NHfu_2a_2kC28H51oXA-Usfm859NFyDLtDZgCNGIOwT9LkLg_qdNWeWljkNyE98QCbRYLkbEYurh-fxSvQE6x5LezrbPOqfzfBgIeoicFTMEzagX1xhb4U0D6RRM10H30nR5wD-rMj453DXq7GZMh6ACIjjHeQSgh2J5EDdVnlZcGQiORDldJNtZ0opPTjvOkfRXh9Hf-DmBbLzMhNCOlC=w477-h620-no" />
+
+</div>
+<p>When you make a blank ArcMap, it inherits the projection of the initial file you imported. If you noticed last week your map did not look quite the same as mine, it was probably because you imported the files in a different order, and so the map inherited the projection from the robbery point file, not the Albany outline shapefile.</p>
+<p>Here the census data actually doesn’t have a projection (ditto for the robbery points last weekend), it is just defined by a particular coordinate system. (Coordinate systems are more like different ways to measure the shape of the earth and define reference points to longitude/latitude coordinates.) Subsequent files are projected on-the-fly to the projection the map is currently set to. We are now going to change the map to a local projection based on the New York State plane system.</p>
+<p>Scroll up pane all the way to the top, and then collapse the Geographic Coordinate Systems menu, and then open the Projected Coordinate Systems.</p>
+<p><img src="https://lh3.googleusercontent.com/5RMiwOJsxufJDZETo7bNPbfEb9rt3eo_Ku0yPjywR8WcVcW3CXWUk5lGUH_v9AF89qvqKUjST2FEuqwXrnFWAOLF8Q_oHL5K_C6bFZF2XMpfOnhqEnqdgRh0O7-HeTvMZ8hxE5vQX3TlrejEXx4_fWqfik8O0LUwBdRdg-5Vr4hf2x22zD043PZbhfojoBQwJQocUWNgZsInQtCc8EKN5G_B4omMSP_3DhOvcDhWmFvh2RROBF7zN2RvyJCLGV2yi7i34_yL-uf7ZfBdEGuTrcFzAjQCTCbkMEr50iEaP7mVstw6lD883jSkEYuGeG_1wK2vEiDSb56zGnmbNZucYiH2PkpbNus_yFdGPSDo7gsQK0hJsHJ94JKNCZiWHBAecPJO_v3TVANQONZbGOfSlfjD2_5Kc7y6uX3dfdAYI-q2ytvfp7iHe99LHQ0euyUNqqMdkuCJhGDNH9ohrH8oIabBQJeIe8ySpwozUfecrVd_4vrkuDa68kI9HmOpt-7RkEsOiXSrbDW5Gg32eDsSa4303nPq2BoJd-gL_CnWBig9O1ihAaGRK7e60v5HgkeSc7Aw5hkm9HDQBkam5ZocewuU3_etAf9xIP3C2BO3c9NmzYXdBoZD=w477-h620-no" /> <img src="https://lh3.googleusercontent.com/brMmTCs54wfDUSDa2BnT9HsJsf8C3j0slMihC8kfY32ituiFREsqD5ko_es0cQLpeQSTOAq2BK2rQWES58Ph-y0UU3SlNPb15eKxhtqtgJwWRjl7ojPlQeZLtht99Cia7cVrL53JgFUXWQ_bjOO4sUX0eFpesDcyf0bKddo676zzUtQwSr53_C3JiqD5UQ3-bDhZkV-j0RaIvrATcLDqNoXigZdcUyQTrYm7fwBtryJFk0HMH8nyzWL1lIxYoma16LBxPtFpQ6xhrLWdPT4_9rsSzyiReSChMGNMuKgC76EOiFJYUanLz2pVU-NFFhg45JgzBK_eDp2LDDlumtdnNps2ORacWx3AnGaLTsjY8xm5URQATlT7s7Db-0reFlA_qSbe0gEAQ2yqs898KhjA9CwINVk_6PdWN4ep1PRd11KRof09UdJFnbgjvagyd0tyLdkkapTb0Oo6Rc1d43GNWBaO1a-KXjITpyCxGyJxKNpYx05n9j3np37FO_UqPjguyYZHXvA_cm8KEq7VqzxSTmAMLX1t3Z2zgCp3cfVgRYOXwFAwwM5u1QrWJflZes4aIq3HM3wL7Voq0QqfvQY_HLYGP6w67hzsmMuCOisQSFAB7CpL3pUi=w477-h620-no" /></p>
+<p>Open the Projected Coordinate Systems folders by clicking the + button, and then click the + button for the State Plane system. The dialog should now look like below:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/r53REUHY1nkQpwtZc3-kqFcHONENiQU9qQOQsDfm_TWNJDAW30C4dDcCMlRkTgyMZu1WpH6VElqS6Ewn33GOvWEKM6YzoWkXr7TXyIl-pQpHnLLU3HKmb2chJYcNUY8ESCbY7vgDC6H_m4dUa-eI8kn9egFD1uypa1JVQvKlW174tTVtIdgN5oDQh5ans7a7qAhAOCCAWtNQCEJsiZG_h2BQtmHKZ1tqp5pkpRVKCR_CKYx6qTmEHBMatnzPmW7oQFitmfP99HvIKa42dy6XHUFBoRO7bacMTPzQ-F_ca1gN8RzNBUJ5AXvaf7rxvv07ntlaMxCr7M1EVW1Y63HrbT4-JCbRlp6CgYfRujjX7tq4nthwLHFC533g0wAtbzb1EDO-XKVuKa5huvorVojk9VjtosJiM36u6ciywg48IOPVms0Uaxb5rsrOjFw4HoalnynflV2IGfwTfSeOI0tNWCTwJV1nKH41PYc_03aKcgUezZZxWhdcreF80VxWhvQbajzh8-y-w7bxF-XtFgYbeNupd5yspHBGSzLABkKaqB0teAr7XeTZJnl0aosEpS7ucWpJoy-kwg0WrApTc5Js5twVtDrF850UTtdFrt3EPNUQGMoaLx0u=w477-h620-no" />
+
+</div>
+<p>Open up the NAD 1983 meters folder, and then select the option for New York East FIPS 3101. Your dialog should look like the second image below. Then click ok.</p>
+<p><img src="https://lh3.googleusercontent.com/RgoScmAyXcK_xGqBKiMlPx7Ma0tFFlgf2a7cfDWbSoAtZeE1CKEGSori2dVQsLQv-yCWir_eQOBJcnOJxSipeTqMmwCSfw0lwYhILvbYUZ9mcuhLTf75GQZkEqDjLStGno-65eDYBe64Qk8o1plr0pIZmTshx4Z70rsa-Wgp3xQVJCYjtf4u7s2FYyfQqMZ0Ffg6siK8x-Peg5_jTaEaUeCfqceuunmwu6Lnw2jHlEauZ1qcRuGG2lPqwmDO5LBzbK-zZCm9_AkpDQ5UmOQ6epVJORaHtIzigb4RQCWb2ff5MDaKx2zOquvBveDG9BjNIRHkWVJY9uV5mrn5bC-NfP3XXQftQL9_qxSdrE72ba9s1vaw61WeHPlnaebprQq1AbIJa8Eg6mJFA9K3Wnu8cezHBWle3NlGvk-YNlFFaRHqIGdrW0KAYyND7Bp8sJ-Jq7yTt04x3LAF9Mi32wVZ-RsNDNa1S7v42yyYArWSzv22GIytUTRvonOLgP6JeoeUfIwWl-aFmWMPW32Tt9g_fg953Doqz_5edx3QJLkMxzpug5PeyMkaDJau5giCO6tqmIJN8hhSLrP9jQE0wbsc7GILSQoMxx1GJ1nfST3MgT3j_KSLYVWZ=w477-h620-no" /> <img src="https://lh3.googleusercontent.com/c4beJbEtRRTE6K-2rHeqCe6ZKX-UUyfs9jqbF4xPPIAzXOVEZtI_-4qGdf-X7DIHP53-M5czEoyS0p0AhaWaniPRqTTR7N7NzuZIoFvngv1Ix1jZW5wRVENW_Ya7XpTXf1U0NFz3kePbgF4m0SaJRt7cHOg0CJC8b5BBivNGjCCbtbR1kL1Nevdp_X7zYeEOcZV4hiM6CKSMhj4nWfUAStCuNpP6qTjhQ8nTOTzcNC4GkWMUpwAjw_8feEmu_k6MqFIjUni_0CXAaxZqyWTxjwL15eetlnSLxoVwAusKstgJK2P1LrRgdMU769cFpcZZtKCnFiQ7VcFI5LgQT1LkcC3frqlAEm2Qp_NtA9PLJjALq27AUf7gdflN96qTFn1k8stk3TzCWCcbhlbg124EWEfdBuuIDxVr3lhf-YKaUJBfW4SqfiJTjAVm6_PWMVSuzBTp8Fjdf2av_LXo2aQh0zqiJ0X4qNIvcWsSdzPc9A1GZqdYsZCWrh96ujU1z-MebTepLLwdN37g1uPh5oDeOdsjtONV2u2upAIt5ufEyUP3jYAPKAqcHHhzjG3QNr2a-deVQkNOcHrFgH2sjLg_3rYaa7Bbpor7U3xR7JYrePkCi4lg9fnY=w477-h620-no" /></p>
+<p>Your map shape should now look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/aREeqv43CcUuaeB-MnpAjSt-HobJTpd37yViUbbsR5zOP6EgnEsRlqOeUQFI9Qxy7gtqpmKvRd34-Q8N5GiGVWglvEWu0RCp0ig7tI52d7JJ1dhcBEA842J9eINNsnj6jd-GydHuv-OLvZo-PLW0DiOeLn9AC7DDtJhEC0o5sDgJmv1Egvmcl8ceYQEO-_nNqUcGTGvOFQRLz4xY9VzN5SIzXx_hRfogPocypndV8-swz22AQzHkuQyESNu-rPkQAXYe5UniT1On4ctRCSXUdwYgiGWLnUN-yfiew1-M8X0BvkNu1NHCL5oB35A9zHcIpB6geAD_3FCfJ6Cu3o5yAJG1owM1z7grHFooHys32BORkg4rIibJGCBvy1hDAoidXulm-zFsU5NSyNZVBB_i27Hw4FFghSoMCCGKSgB_Bz8vjkGRqtOOQGaVAgchGtAim6RP6RSoVgbvdNTpncP5r8yDZ1w29PkON10gltOS53og_d69Hu-sX8sfDrZ7tXQN4hAyXl5hgEWCgHCBhJ3r_K83yFW2GqzMU6UqFVCu5Wf3d-eI50H-nIPtWnINGunbRaU4Hrt_c_8ZV4Tj48DrXXvuDewyUfYFZ_TagUvzIXEtupi-wATL=w833-h688-no" />
+
+</div>
+<h1 id="making-a-legend-and-other-map-layout-options">3 - Making a legend and other map layout options</h1>
+<p>Now we are going to go to the layout section and make a nicer printed out map. Here we are going to insert a legend, north arrow, a scale bar, a title, and your name. After all those components are added into the map, I will show how to use guidelines to align all of these properties nicely in the map.</p>
+<p>In the map click on the Layout view (the button in the lower left of the map view pane) to go to where to set up the map print options. In the file menu, now select Insert, and then select Legend.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3F0rFjj-vmaSXBKEgQtf1s7HJ-igRgUpu6ZvQB2SEXcCy_1IhDMuEwNZ7Fj2-9eRWSKu-WvLM6yfLWdoGly8FFoWNBX2TWBdbSCWm1G_2LHZh1q1_RPJPU2HEpoVYOo5c9x14Hk37bMMGE7B08xB_jDyQ-qh2J6hiwIfx_eLx8awQvCZjD1yex_4eqL0jThAoGyfBYBjPUHVymqFCX6pGIqr11om5u7rPopPEWLnBgiZKGTENvDwWfPbfWAIW_rQALVNtOMZe2NA84UyUiwJq2NIWsTYDDVF40A3JsADNfewcp9ElV139YLDGacVw5mD8dWqcqCGG_1amPuLdd34oPR74lky1NGVeTUMG228tlvAHrnfjyQC7CrTkIEN2UU26860Xa0SW4H3LGiCZqGTaqT-KLUle5IGD-UAt80IeI4bl7rNQZVSt7Q4DkRGbIJke_1d-rBw7hIvlZjSmtXKYOEURCEATYcaiUq_qf7Aq6YMphDFUrt3Rhie_rwL9Ksc-_cJzMBEuCgcKRElUZZBaRPrATTHwiAtbDSr3Z2iZ5hZlor3P7E8QFDPnu8Oev3NdZmiM65jGqZc0biy6-uMvxNj1xD1Ukh_2CtZZ-taYjKAPD2HhVJW=w1069-h548-no" />
+
+</div>
+<p>This will bring up the Legend Wizard as shown below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/4tWRo992YLN9FOFXA1GyjNT_qWB8MDmTzF7aoiIL5UJZO_0eJLT5At6R75pTSuDtYKuuialiocMEegjgb1Sb9rpkzQvvw9hFQ5WDdvsQmFjZHKuynHkYlfIupZcP2iVCE6St-VX1HSKenQgcfbYpEoQ8KJhBxsZ_yDDuIToDx9qdKQWYcPh5nDV-6Ln3oEE1Vy-at2RLqmKRaVcBfA8RZ4ACpX0pyAIefF_Mu7-JMlNsIlf8fhGZC9QJVx48lwyG5h7BKKlA3Z7edI5fGcT6lynEl1P5wXG5yoY9SDzSUgUlHksA6V0tPASuETRtvLYqFVbKjS_DVUL_l_aKXnRymEHak7skvxlHbdc4EpEgdwzl3LDkb6cNQTWTmbILz6ViwYzFbdPhspH5F7M_TNmn8OOSLrI6gh9l_pg2-zkJ2GC__5sJchcyeiBiqk3b-2rm89XjMsMXNMjUMx-Zsv4XT7MWXJXepL2J6wbKr9FRggkTxojDNVF8BLvR4QnOfl9-Ia2zq86aQSMayGtHQYXETh_9iYZUIBUugiIedCsXrWvuvYQxG-bkz-FmeTT62zmmcGGhXABv508Vlb1EqxSNY3M58g6SI4-jX4FPVo1T1V4vWPj7n85d=w581-h433-no" />
+
+</div>
+<p>Hit next, and then in the legend title clear out the name Legend (as Jerry Ratcliffe mentions in his tips, the fact that it is a legend is obvious).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tUqjueMSs903HWDo4aV9iryRkTFyTG2DNuKsXJO3LXTnrcZpszEsh1W638nVseiNPpEpmpS0RtvPF2kPTY6zPTUqj-VuiW9MiOXBbG7rfWS9Q4BNa7_Z7A-PW1TaGkglN-3J21IYp3esnrUixdj8tu0f8h4yY7iAQuB_jJ85kiOzOn8-ekRNP10nbrcnJQ_zkEgIu8FwCBCbWO3muh0NXOd0KqtZ1lXn1vrvDTo2HlTQt8CH-U4tAY7jmIWbjmAp-reDyAGmpmFjNtMAQ4uD9e1J5Drr--gPljdGUgiIOBCIrDwW_o36fgxHW3bFDsmEfIqZQRCFhzksKFkIfAn2YKcwF3e30J3XD-xKjVTa9-Y7fqhjpP6GTzeD36edg3HsoElINXKKJSIsaY_1LKX7CqryE0yog4q-tHwkJ0JP4JQULjFrsFCbcnbJLe3ciOhUQAW5SZCxGVIVkPRlPTwr0bhPjOZ6C7A0dcWL61ztul8zMlwh6DdZFiXWGs5xnZJexpMh4G5t1t50lbpFEV21c1vGgqJYjlSeup512OlBCFBV91nqKQmDPflxQJq5IPiOoNEtZ0z-Vf8F8kZaFL43VqaS_MqOc31NBMZVWkMh-EZnkF33cRO_=w581-h433-no" />
+
+</div>
+<p>Then click next, and you will be given the option to give the border a frame. In the top drop down box choose the border frame that is 1.5 point.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ceeb0VGo8UMgjyfdYyhx_v3UKT-fgjJs-z1NG-haP2BDZhteuVdcNe08GE07xLUfBypwbHxXUZd1D-Arf223UUGE-JZE3Csib5mNCsRSIVyT18Mn44Xm30VFJM674qtZqwVpg35fqlyYecmP7Eq5Pih6W17thcWbmWMkfRLPy4v0VjwSRjoD2f5xYaSdLXtVl2_Z3SYbStrLdgWFc1TZujuJm62ZjJYRESsgZ6oPFsiFoWFfyaZoCwZ04TdBzgqd79Ki0bSQDfiqOcSsE09nQAQI4jcB3GkulaUffW4TYg4zS2f2Y4Vv_b8f_X7kAthLB0qcJP0FMArRnRM8kYTNGv0g-hCQfqEDwK_9k8J043OcnWGZflAQU7suFbaegYFwu4RLl4g1ZdM0KPZhG8XTWY0B97bRPrVAUsozZdpZ-GOeqfIAMymJbbrvHzjM4pF8YkzwjwK-tK244tlWW8Fk-gfRbnJd93tQljFpvM-aieWFHQTbNC0424oxBd4n768si3qRr6dyES2D1N2jsE33MWhfh5byMuCpT4wLPDUCPQzsYebONTC9Y8BZWl_6zt1O04rlZMX008fNnVvlrYs8-6YalBRuGXVY3UZY0hm1plKrBdTwdzc4=w581-h433-no" />
+
+</div>
+<p>In the next pane, you can change the absolute size of the color swatches and the shape of the swatch in the legend. Keep the default sizes, but select the area icon and change it to the Urbanized areas option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/syTWsQegnS0Cu0MSIa6KuJQhHKLfN4xDSb0rS37sR0OwTRES8ulCbY-RjeBmxv1uNOQua14Rnee4Qk8E9AUxIYJEwlW4WO2Y6fOes3dlyd3ROqfc6qVBQvZS5cHiyTe6eLSQL7VEhyAhhuYC-c_Pt-sCDDLrhwzxW2lS-29x0nDh2XKoa_7sIbq7hj0bJpvA1ZVVsJTp_-FdhK0oSdhRI10l85XBAQS3pf-RxrzjrYvI5bEHQM_sfICn4HX2qRQfmqKhawK_9F0GmxoWZWyCBK1wq1c2ofXsNcHp95XbvmkzG6UDdp05CeLGWIgcal544ozfWMeHtqclkGyEt1Nx_lhImC-T0v-d2kite-VZ2WghiiEfznG5j3TqUtcyJd9mZ252K780_m614AHPfFdjAldwaiGYieBKjmzVN4L673X4HmNNO15VACbQP_-IvkF9ZArHaIUOIZ9b7R6MKKBY-k9XHBb7j85Ip4bBsluElINzv5NtaUmaiWibtH3MBVkTEmuBx-cYbCUF45tUsBruT2sXMJgRSJcTYfWcbVkEV_LoyuSQe4B1QcvxCXLjmABhVYDB4WNVkDNMdEtdSf9cVs2yIsGV0p8kXNI5iM7HlZ03wgwx9ftC=w627-h473-no" />
+
+</div>
+<p>Then click next, and in the last wizard pane keep all the defaults and hit finish. Your layout view will then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hYEBDhmCGANsaEAq36gnlqmAEuOnDId1eNkSzPBA00HC-WT6frht7yTFIHoickg_-Su0gL7ov9hXRKbjhQWQPBpVRAaZ7RJATBRnAPWXYViUfbkli-gg6uaQgN7igUkRUmi_cRMNFLgJowZA5_F8SlavjFeRTUFrDEw6Xxr1Zi6CiMZ3Mexa83b9FSyV-DKYj-KLuySG3Lt-mkow3BzcLW2lZ-MZ0OHu1Xq7QSec4RTnV6JFg_t7a9FxffoSGQFmNL716DQSYidgNj8HEaTpBei3dyEXakBh8PABwWXHRRt4aAUaaJEUtrCJXuz2jYVC9RYcOov2fAWudq6XRKVjyguZ0U5KmvBIwcHd6gSPPa4zlgxS03B_nNbQMeSedoLdRkOOWzV0MIqbkLVnVY6ms3zAwLaew0gIEeLa-p8qZluyGFa8AC8ypyEy_r4yMXK8be-goqoMG28UuF78kx9ZPYl0-m48E09-cRRXWgU8e9mBS-U7e4esSC0Q3nNLhg7VnFd5S42sNGVAcnMvnSsl5YNSHtnj4Zis0vOvCPScdYJFhf30lBj5_vQUy60B9f_WsnLovML6Z6jHlIwXarjNLIMCxmq68am_YQOACjTd3pSW5t2oj45s=w601-h766-no" />
+
+</div>
+<p>Make sure the black arrow icon is selected in the map (circled below), select the box that outlines the legend, and then drag it off the print page. This will make it easier to see both this part and the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YUu1jpAR51iCYfGfIyY__6ew2FotqzoB2JJVVxwJAGIHEc6rXMWD3PlczrOVyytClQFq9vymGWI1Sv6-KtC632WsS45ygLTiLp0Ba_uFLh2O-vcJiP5FDlZjWZJrGfuoYWVd5C6dteL0VjKcIwBmke9FHUwqKlIXR5FUYNMV_SfOFS6onRyhlkeWKpLjoqYAh6kAGC6k9gkT8gqhTWUadMhQifkJNHPzAMRCNaiHbU5eqYVslUI-ScdEyCyukEq4cvOwnYNlBbaZJjpHkIPpzsxjJkgYsSSuY3BulCWPxkfA72gvMJ7DIRyYbfB5G3RQY-R8DM2I7A5vitaeog9-cBVpCe2--l91NJNLjxWfGmIgttH_VIzH2qSweSJfWEWgsKK3Q0Rb4yCtA-T73tuyf-RQ27fhEvKi7zDP0j5LLbRrNHmneHfA5lMii0THN4f7EO_CMGImW1mg3UCSXJRwFFPsIVgGm9zRqh1PTL5MtrzXplhHpANN2Qc0AjNlRTKs-n2ECcwBFsCV44j73tDijUzxtKOca4PXuibXqSCoPM8ZIBqiBe2-93UIvEWvgd2EnWqGRu0TgSuItlMXOo9k41rv5LxPHzThvCdo6wwcKQLgy9DfKCZ8=w889-h745-no" />
+
+</div>
+<p>Now in the table of contents, we can rename the text portion of the layer, and the changes will propagate to our legend. Right click on the text part of the layer in the table of contents, then once it is selected, left click on the text again (this is the same as renaming a file in the windows explorer). You will now be able to edit the layer name and change the text. Change the top layer name to Block Groups, and change the bottom layer name to “Prop. Families in Poverty”. The legend contents will subsequently change as well - and the map should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iF01k9kXTsJj1xEaH3LuDXg6580uvX4t2VaN0cl8SRXKaTzgpjQrl6wlDrRfQKk6mr8sE2M7n8wmCIZrwVtoAsX3o0s2_emHDanAFAVnrx6EDo85iKqLWATyJLVa-OsWLru2nQDvm5L1TgHy8Pt43ks9sqSE7QwJsVikVbpLruegavfDzo5vLxDuLI5KCX2Jm-JwI_sncbK5DSJBh2o5yMJ0wcGvwxqpFQWocAMJuY7CfhKIfbpCJiI3bw0tQAM_x1bnvHNS5vjhU__jPd7bf9-gG5rhoHI69gcwEAXnAUm3AS32WFm5XqdJ8UI28Kf8V_Cb6gRjj2KyW7xN7prv6mhcl18Yxoeh2wW1I7s4-GjvUSBL4CMGVcD2AXrVllhfUDAZ72rA9ckL2WP7PIgk16UGzz17fsFOPABHAmqjH0zOu2TKvM1y_03vFqJqWF26QcmryybJORcKJd660SZrzJ80cbd_3srQfh6yp9lcpQAanWZeA513pXQcpsR80U7zqmrmFnjNEh9JntxyhSONXAke-wDakk8svb4BE_Owzah2jYeNUmW74_dnDmXu-eSRYipDC0ujaPVWTcRgRJjPOzfAqwIDKNzubwUyX400XsDr_Kb-0_5p=w532-h450-no" />
+
+</div>
+<p>Now we are going to add in a north arrow and a scale bar. Go to the file menu, click Insert, and then click North Arrow…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/P-nCsiI4jdQlHWjlXxsG7aJsHP_9aJ1eZz9PksxxltDMW61w-lEk65cLOwFsHzAA31GQLxYIEAri4Z0nxin5yliG_qwoAEcxZq-BfC4B5zO-4k0G_F6RwdiFwTk-tl-wcrpXktjw7zuXSPk4NrqmIJThNcAL_w9cYXg5VslzPH-dv3ja8ReTimoKya0tZfxYxDcmzzULBfI3OYeYTXtI3HrlVT0KHXGNgL5jBV9OH8y4POOk8Wr14jjLsfIseqwm_eMlLSC1aWluWFztErMFsPeUn5hS8G9-yn0VFmaSv32QAZiL6SCRETiIw8him2gjyzuQV47NDONpZij03vigjvOf7zI8yYchvpci5sErS63Stoj1pjDrwuXi7Bf0hyEO5F86ASRhDBrdCquzZWWM-qJlCgCBxjpgE5Vsmv0Dtf5BLdFvznXzAOtQWAoEXQnXUDaMK306kPNrYJK-uny0X0E9eNepVKFjEuHlQBfTBlOE-K4dxb7RKRc9k34h2PuFbPTSpkPRRqQPYx578EMiEpKfQVh_4iKb20cDtT60DPjEMtip0kfNaPkP8adj1be1-C26tJZ72TWwDftBL1WQWd1rUYDGgyUzArsf4HUenPWCiUmq-Z98=w577-h350-no" />
+
+</div>
+<p>Select the second plain black North arrow and hit OK. That north arrow image will now be imported into the map. Next select one of the corners for the arrow and increase its size in the map. Then drag it outside the print page so it is out of the way (same as you did for the legend).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/qIqZJkLqjMo2nKjx2e4x0WGDW8TOlLTS-ngD5xpxxRH6o0DmOs9V6XmdGac2BGxWzL6N9Rf06Io1yyH2FlMX2kjhgsNr7r5Xp_VVDy1uNM6TULrfX9wNVBonyqLbsOlEm1kNTvz-XI4B4GFWCKhKtW9TFjxC0JcZj4JW0UECsdIv_YpBTgIBLJrVezGoUsLjWHZmIWcF15aYg8sEBpzL3UPLXcG3J9W_vMBKxcRt2sfyZSBS9HzmbxnrVuQf26YHenDSBiQeIWhiCDY_-uU0qRM1JCH0AQ-AE0wXjPaVlmabcbSRqRKQqctfVtkUK8boOnu1Yn4c1352A0SWa4Dd42NcBFAhQ1n3_q_pb3sDT9LssXincNG2f6I3QW2GtXJhq-fSdFFlp4y-ycx8uRcql4NesYPGJVdtcIeuPWz5zkpjlXCr3FCPrBd4nx1S2jIBauLOZkL2NeyaoqF2N-FBCYrwtcGn8B8y0J5AiTB7lIL6JMLfp19wiyVD32-Y0omiQ1ftaLisOcKXwWJCYnjoNt2NbSU0q74i2p-IH6dKJh-_UKhdBnSq1zFegnLh6QYSuepD9T75AZx7dlyP9mGKdixrM1nkAYbITpGFrQQjetyZWYlIGZB0=w842-h808-no" />
+
+</div>
+<p>Now we are going to insert a scale bar. Navigate again to Insert, and then select Scale Bar…</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/jSmPXv4vq0ceuszzERVBs6BTSEohdMjNgFi86LG9iRW8AKY3eLFa1HsTL9y9xEjDSlWgV_2ZkC6MhcMyAg2aNJEfZnKORrmNIc6BzmJaKAvE5ZyWSr8-hFb7V71Hwnm8z2U5o6DW67sMJYMmKfOP-OnCdKLudk3xLUASbZ-eV5-pWCRM2JpdM-JJrsJYi8eaRMShuQbdoEt3miTR_xh9uKsGuKRhMrhnqSf1ppehZqKAaEn6qyDrriAIkOJKDmUXXV6-PWvVaGISHndEYmXmu3yRib3Z0YQXmMzzP_krGAAytySo--cYPAt7ilhkhUapz2NoCdCXpycyYjSZOSMggp9So7yp1Pq0CKaJ4OcZc6ErSl0Pkj0z9std2XbgwHKYXdMFCG8Xwhnea6y8R4lFWzglUN7ozi2IX9BQjq_I6XFA7vuuRnVY8Z-zcbZdT7rxwpYsHDBlfhLajFRXtvOb-ybqnG0lR0ZZM5cBFMkaTZUZ52rTSr-TjzXmYylnK27096MFPlne8_8yLMOmU8TwTl9_q3xiVkGX9Ti6ZRInReTVuQSkFIGGsvYsawFc_miKqAGOCHxm_jK5tU7usRQnuH63RPS0dpSczDbTQnoF4FunBWjVIk9M=w593-h341-no" />
+
+</div>
+<p>Select the single bar with an outline and then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LEllPJRGLeCFJG_sQRJkBecGmBkLjB18DhPpEk3vMTLR5bdIpnaGo4uQeJmz8Nlw1JVOTkhWbEgjzHrZmM3s57l3wqcoDo4qUST5XldzDXGUa3ak6vJ4yD6Dz2eY84qcSbXhv_kfjWSTpnMw6ioeGC3wYJbCdnHG9LFWwQsKNAAx20Ir_kdRAOTRLYrLmtU1Y0GAa-s76e1YJey1QZSFG42uotx0r5ziVfA4hyjteSyjpx8oeBi5PMN_8qD1tIz_o4zbQ_I77csMxfsHJ78kYKfJ2Ukm-aPHguH6kMqrqPlefGSJGq5oAZmp1X86irg1ZRzl5lMHmWNYXnw7YSe15R-_zK4hk_dfkPmp8ibOZ9FGkXHoLCI7AfPjHbgu5s6EC0_Z0q-ny9eSJGvs1mfIGWF7R33dz4VYm6KF8QinMRziy-BucHLu3vMIcEfjwkB1coR3O-Y_dLuvIxRq9oYhc0jngIQiAMFPWjmV8L1KNIs7PoBoxyzzgEUtf7xs2dxqVOOlm-OkEggt1ZGYrqPctD9GHEc8Rt678XOZq_8Dqxn2XMeHs2yeK4pnlioF3lCUMqn-Y2CvjT52cwmPkBrVHCi4s_zTOSxh16d3Je664o5SdzVJRf9A=w504-h446-no" />
+
+</div>
+<p>Select the icon and then make the scale bar narrower to be 2 miles, then drag it off the side of the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/09576_4bR11ey_dItue9GxNM0tdIxOo2Rp4CivE3sImjcFACdrDFZlAQ8f6CRlq_quzE8COjULfscjIR-HhIbvKUpKl8nT150Q_ptVQjhPbEVYYjsKDaHuxPX4JAfvHHtxpHh99wEz911g83VYi9b9VT1au7WKDqp_kvF-ZSJHOzO4PxMPTA-kttvdd0QosILJRFl8ineZKiPP5nnie-n7jmPkGf4jkcQ8jwY4vmQIzt6qhwMnGkem9EHq-rljFbGa4_Vn_FEwbMZBU7zmHh8d-OZR_FH0i_bDhQQIh6uhg2_h1OU8PEtIePIOBzFfvF0bMO8kjXFVlrVVWEFNT4rOTvm-KhADY7VaAAwPlI8W70fprQOeMeX-x0oMSdJezFrs89Ft7_3SA4F-pFfoe_o0WEECnLPd0OZKXzaIQO-XPh7sGpAUtT1YZEXefgTp2KH-3sloYDdJuh79LowlZv1jRLVbydnytGMqkQ3LcznCfKG3cyrMF-4PYv24-KimSyxhDORctvB98tZRNHwF2Jzas8DZxQ48OZTTBPcfGO3d_AXoEB92yYL-hq5xW9uNaSpBEieP0P-0DAWwGrC1v67dOSxI-TSRBnQ9HctuVBFn1Xv4O78tpT=w868-h809-no" />
+
+</div>
+<p>Next go to Insert and select title. Title the map “Households Below Poverty, Albany (2012)”.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mLUJEeJ6v79QaeHewHupGsdBaeioZGyZB5N8uAXDIFTaB6PX8gc6BgVE-N70NcVk-eyZGj309bh-cgwl3-_YjSkwzkd_V1ep-BfdIXy9zgDTZwyeS7iR97IM5_Ed9fC_elLUFKupQczW02f-WKUZDLCZKXH1kFE-SMjTzPsrG2I7XVwiFn0zPiYP2_7BXZ7nGKRPJa_36vuWKgxjXibnnwSYQcUfF6m-hPH8FadY1LANiFKQ9AC5JPG9JssHFgubBnmZ-kwpgg5evIgCsjHQoOYd6qZTE1HB8-mF_Zj1h7-Ra4gt7IEEFaUIy-Jg730EGWNP9308mLxJT2QIAi6BALIp6k5ugxARXZ_63YshHdDS2ZQjBOy-Tvcf1hHv-KHcC7jRQMLTM9n4oy3NqILWtde5L2BJ-FmJWBipqtTfzt0OQ6VxQSWUPU_dMISL0kGDQlLW0yd_qpBeXY8CzNRcsyA1Uxvrutx4OxHo3274KLcaXK6RfSehDdMXcq_s1Q52LQDe49Y6pmccwA1R_IPgitcMuxrkfz_VYEju8B8jT3tnaaJ9b5hCvVcRzJXWoPu9UuNc3JcVqVL1t53lDLXpH2kjyeHGzt_IaPwdInMJa4JpRf1OwlGP=w860-h815-no" />
+
+</div>
+<p>Next we are going to insert arbitrary text. Go to Insert and select Text. This imports a text box (annoyingly) right in the middle of the map layout. It is hard to see so it is circled below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/2NSvYQtViOcdmfOF0NA9eZLIoukCKXx3MHygbXtX1EMnpxCrP0anTA_Wa4i3YQ86quaqM192-7y960YQB8J66erGAHUhXQGmGH0mr4S__Q5odICmKWXhU8gKHEBKV4aVnVJf_0nx35EYZFZUgLg_AN6foAaxSsQ_DjYsZM3E9mzgNLs4uHe5oAmhOYED2mGjVW6So05zs5BK-2IWqcS5f7Oe3gUccdY-alnsfq2eC3nHdgY-j7F2yZi3OVSitaadVu12DHQzXfTrPaSZymeG1wgI-YkbKEX4YRu0u1LiHGy3Pb1J_25TJmBtvBbuUNoEUieqtNzhECuV3-AC1ZB2uM79UQKXzS5LMpqNDUUEHPbVs-RYpBFwjSbVJj7d4b7kCoDpDzOAzYqDlgAATmG9ift-RrZ2_K-5MHUImiE1O5iv9QfSl1JD_S2uIN-p0s7O8B5SQOzqvztLuVVWGV3kYMsAvhH_8gSksjjZverIrbHcmu6pCshNz-8USqb2jTv2U-WdCLAGK8-WJ6pLM_bOy7cz36Rzjw3tpjmHV5Mavou_M1bSM-wq7AU9G-TOXbLg_vYk6UzOifLIEZPni329UriCAmho-2JV9T0UnMMFcR9EoOjtAkn0=w827-h783-no" />
+
+</div>
+<p>Drag it off to the side and then double click the text box. This will open up a dialog where you can input text and change the texts size and font. In the text box type “5 Year American Community Survey Estimates” on the first line, hit enter, and then type 2010 Census Block Groups in the second line (you need to manually enter in line breaks in text boxes).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/ry6oo5bXPfhVGnqaHAEr-vWyYSzPDkgTdG6sWoGgb0WbcsLLlm4_YEyyxYfgBhN4JFNGjQ6ZB3392EpKU7KLpLue6zQFRK5Kd9sjzckU3SfiTAUSEXnn79QpRPcpr581LVKN-lKoFf3jJPINpQI39Wc7v9B8H0JhSPXw-5zNVvpQBBEO8KKqC9BWZdrWFOuGNAqo0prWwW-jXQ5GNqGgC6r_3yioxnkTNjC4TETK-C8-xvQZO9aVEAOEvcw8yqC_axZxmy2Ay1cXoiQGghUsHZbOTY8_SJDH7oKwgY1Epmdj8v3vjJmVhAT8fdcoZIypaU6tC61gzwFdQCfADCyaZs8lQSDMRXMXwOZZFD21EGUTBU0BWBJOKQAMeYvIVCKQeLqjuLRbFB2aq6r1k8GwirzpVaWLT_k0r1dEkjlQ-M_gNj-XOe0ppEGwNLcHw7t6qjXYY5maUptMFCcgavH3AzFfEL1YxMSZvVBd0b0UHZchOUW_H9M64U0D2OrPJ6NW9D2FqjDzgXttsqancfGKwCQEt9mj-74ZzvjxWLDval7SlGas-Ju2SF1dD25OeSKyXq5W-BuAnj25L_T36YFnnabN_I6g2HdI5qJOw_W0KiXjyHq6bPJf=w390-h395-no" />
+
+</div>
+<p>Now hit the Change Symbol button, and then change the text size to 16 point font. Then hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/gLHIuCDKkS5NjPbBE70STDdvrJ7gHq65KptF9Cvp8-UJM7DiJstyUG5QDUSDNStYBbySz2aZq7w_kQWpTtViPzFReK9lJgomVxjS-2jYo8b72Hkz4rWB8T4UCvM0319Hh_HSN1040kSph_0ul6_85wi3ZYzgW9h02YtOtFP8Q-liTj6quRIcJQOyXm0JEezoJyjdGQPAzl6vNDhFjI7PXCSy-1WFUfNaBbbltNF1hJ2d9hcOsodbE-t9JmtRicMhfpChXGjIcnRx7y1ISUMKnlIP-sRyGOCF8himESuPEc3WPNuL3--L1VXfZcU3JdlDR9ijcXEsK54Qobkki1uLTNKBqgDanoK0uM0BHuJGPTrmR6M2edDAC4NyWyxOBTFQLrhO78nyuC5pbuHTInGfhjitXyp483urcW9_y2NY3bPJO5teKq-oPjP6if1U-6iBFcx67YtN2HybISTBUSgMrS2EIPiWXCQCLqF_MCVcObmyq642t6E34Cpt-Ucc_RizThpmLmY-QqOgisEzJAJin0ruWWgxJJ-V9cGHEDhRnBdrBZ5UyVgAxXBj5xydqg_NM0sub_T9MGKjCsV8yuLYkTw0vZ0TzNmcqukEtG3vJWcK1LP-tGi3=w523-h500-no" />
+
+</div>
+<p>Back in the properties for the text dialog, then select the left align button (circled below), and then hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/_qSH_lG7SAovcTKzMz_AdAl2YCrYBuOQuy2a2juJ8g8AGsnxMFbrvPkNjqzqkV34CJZbvwmOO80jea4vnlQrvkc6Alh26rHOhcZg5WL4E1rv-t5SV9HBkvFm9_L23nNGeWBsP-nR61aR_jpSHTWTW0f_9j0do0_bEXu9oGh22a2mtDrnbACkpSvGNopkxdqb6a3p_NTI5CxLYaZw9oER4Gx0a6wUcroFu3YSa3z_F5J-zZ4A6FTDjMc3_4jd3fuyZycRYn1bI7FZUyYaiN4lB3fmHXSOF1oWCwpabvY7r57bnKGX2xzxBJxlp0oCxcuOblIAS1bAMpGL6bk4cjFupl4mYIbP5KIOLLBfyErTzENaMo4AMhUfTLHcARc8FtQP6aT3_lOwvOBXIhP_u9Y3I2HPs6RUcYhpZiKOtl-hJ0lsXL6jLTbYhv9RwDp18P2KU85Zp_MPihC0Ibz86wJVedhKhiZ2AYHj7p0cPQVpmUuEaudz-ZhyajWkN2Qb6RrUNBxerVu7odkRZFBiwzVtPDYucr2ZQobND2aIJgI0dMs-bGL2fcP_3ei1AdVY_JIL4BN187M_fJs2uhuZ8cRLveTA1McXjz83ggCNbSZfik8fuJehMzkE=w390-h395-no" />
+
+</div>
+<p>Now we are going to set up the map so all of the items, legend, scale bar, title, north arrow, and text location are all aligned nicely on the map. First right click on the page area and select Page and Print setup. Change the map to landscape orientation and then zoom out of the map slightly so we can see all of our elements. (See the prior tutorial if you do not remember how to do this.)</p>
+<p>Now in the outside rulers, for the ruler that runs left to right, select the 1 inch hash (circled below). This places a teal guide line in the map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y2R8UA47wS_1nWiZHJ_skSCFz3_3nP-1qTHFYwvWjg6ODufZbXlDQrVMfjTcJAb4RrNMiv74XidOluiEwkoPcicfx2UsnyYHSV812aJPilE41IQ9570DKa08DMq_HLoHzS2CRyViP3HcUl_zY57pWNlJhsDpeep0-cImjirT-hnnFOb0kjzUXpefuiDrerdAiIzBGb-O319tADOm26tHae0YRGv0-K4amtfZfrM_-ZtzMW-9BeVY4a5cgWmYn_FS45dZenxKrlvH0Ajeo1hAp99ELDD3FXYSyFHghdK_ZaKrixwiRAiVPhn3xq8mZa-t_2E1vHdUjaG4HA4fxSlyiTbCLD1doYLQm9MJJVr6JZ2povPGeAZPQDFNiOkSbZGzHZQzW6RAtQEqXn9gIMuGvgHDchZd63OWfjLz1uCF4W60eCDNJbyqVigJDC513iXUdE2nGnTmBaI-zPZUaHqQc4xSQrtppgm_nbfZ-zvAEPlKs0TwJIR5KB7QVhkYpbo30_zh-lH8rLaAr08-0GRikpHTbx_cFuXl2umS7dfOanYTbpjCV2zdFZeoDYZKNFy1bmMcL2miRUrVzqrXCrbjjGY7QPFqYzpKqGqYAAtLMBuSkvkNA97L=w930-h645-no" />
+
+</div>
+<p>If you drag items nearby this guideline the boxes will snap to the guide. This helps align all of the different items nicely in the map. Create another guideline in the ruler that runs up and down at the 7.5 inch hash mark, then drag the upper right corner of the map to the corner formed by the two intersecting guide lines. The map should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/yukb9l0PvAoYXEmdQf1IE15KJGkNshTXfxO8Otz_yrz4j_MpF6nYfOGX_x2dkmpAPxRQ0GBoaPGtccZnMW8VM-YWJIpXrHXrdVDRtO9B4RoCD04PQIKc0dLgJgu8GyhR5wfQTXvt-x50DmgxkIdzcc-T6DNTonUwvt6j6zvONf4A7iiN94XW4vANS3MnF4qvqHo9UkhpbaU5815olcUz_dw1Unv_H3TuEHYN0L3K_9rVD5B8EWT-9EZwjWEzfXEAWAomeHBO2MsTZoySApJa4fJO6ucDKAF7Ur8Pw1evIZr9Ps1OXAhR05GMaxxEdfeQummiCoiNbAevdqwPrc1VOr0Tt0OBBeyF2BagyZ2-8bNHoSRIpFeqRA27gnZohc0qY_MG6laIGjCHVCNgWILlcM_c5BbvQdWpBVpqRify623HdXMQEZCEurNhdfJ134-Oz4ffKqNaM49DO4HQyu6zT9daxUQMdzDHPaEyc-5zFMTA63U4WasOT0X6IuSL5WtP0RVxAeDpX3KHCem68QsKwTGDgOIju0lcRQCALC-av5Ya64c8jA4RpaA0qwk6g6a9aFLkcg15dmzAHlkxnvV3-ePpBKNeKMSoGW_bu-NwC1To4swRQtBE=w910-h689-no" />
+
+</div>
+<p>Make a set of guidelines for the other sides of the print page so you create a box. Then drag the map frame so it fills up the box.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NRdJieWOFS_tajpZ_Sntb_sr4Q4LuwcOBL-pTHUDy1rQonhV6phsV66S_AHglshhy1I38bOR1VJ1B_m50BWS9RKEsAXlZgmHHfBD1TvVgyxihlxumz3G2MCcnZ-zrLLHwvD77tOq02zPcfNqd_obamvfGKjI_V_7Zajm5vjk6pus0ErOfIDAd97gnc_Z6OSfU6kUByGMFVMjdHi6q3otanLJI59ZYlpGZ9UqUKDqQq5kvKnBIV6iPdwx9aq-T8oSQTB1jse5wlul3QEMSadlIfMPSPtfDfVT-BmPFqF9OVMCCU5v3IYm_GRRq21ZISGBPibYTWiDWM_t1wD2rqiQp5TrbABD6zX3vueK09rCffWQ09k18nkRdZlIwS78sTpXYFg1mgBM0wMkoAAEGKqr9NjwLTpbXjs4n39MvtN8w8r06o4F-zeuclNVb7ynPHesYe_Mv7hABeMFlUWyVdxvWEO1HpfI4tCx8u7OIRc0EsXiR-RVjZlVGhmxBOx4CUfe-bu9dE6jdp0Oa2FaOZzdFj2VT-v_b58XW7xrsqRYfGXTjtHO_vdDStmHweuwQG3kRGV4ecUWG47S3PoyDgy0tNqzqyZ2ECMaVsrR-wyDFN05am_kGbHN=w917-h627-no" />
+
+</div>
+<p>Now zoom in on the map of Albany so it fills out the page more. Then drag all of the items into the page layout. Choose locations for the items so the do not overlap with the map of Albany. Here is what my final map looks like.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bnBAbK-a8UOPASVpANuIFjudEOalbqZ3J7PbrLB9a7U70AFnhT4F0bx0gPHIrdZoqdd483xlTou_DGiqPKzOaVJmmuxwgvxepfGMkQX7o2WzLNeiNxRyCdI66ktqjRaL0S0k3MUgvKpdHBz7JHxVduBgUi6eBSBKNiJ44Mwqafmhqq6yjwM0uNxcMdxIJIRcrMpgLkh3T5NwQ_1Bc_YlQkYZHtyBBpkDNGEyNbFOystFA0Tm3Q5E8VtXca9nvQEKa4p6iN1Uect0gEMrR9yjFM3JebfW3lE-KEx47TuUYbxx93SX0o9ldMbUsalBN5QFyqOETrnedlej_-m5SgWa4KSZd8GmHSWsQwlCqX5o2MsG_CwGtby2Mm9SY0dvX6y4vr3Xw9Misg2Kecj16aBQpD-fAgITvYox1920Qr60gzNa8KmfG__wUcOzCcrije2L1MFvLS0xjq70Jb9wYbZ1TyP1SajqtGz-IwsQfnrZBiYfcZY7gHoA7kQ_X_BRFZ4aC_NI9H_gipy42YAIkg4x2MHcoUhOYv9Tr5QTBe50Qt52MzImps81TLkhXCt6ZBSOP55HdQuEGXrrW73hk8oQ2EQU_Dwj639Zh_EpsTK_DkEELMCzY-id=w909-h606-no" />
+
+</div>
+<p>Make sure to save your map, and export the map to a PDF file so you have a copy of your work.</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework, there is a csv file of burglaries per census block group in Albany in 2010. Add this table into ArcMap, and merge the burglary count to the census block groups. Calculate a field that is the burglary rate per 1,000 households. (Hint, it will look something like <code>([Burglaries]/[Total Households])*1000</code> in the field calculator.) Then create a choropleth map of the burglary rates. Use any sequential color scheme you want. Make a legend with 6 breaks, and format the labels so they have no decimal points. Retitle the map appropriately, and insert your name and the date somewhere on the map. Export the map to a PDF file and turn that in to blackboard.</p>
+</body>
+</html>

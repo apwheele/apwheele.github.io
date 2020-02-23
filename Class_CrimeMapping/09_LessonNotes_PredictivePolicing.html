@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 9 - Forecasting Models for Crime</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 9 - Forecasting Models for Crime</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#an-overview-of-forecasting">An overview of forecasting</a></li>
+<li><a href="#leading-indicators-model">Leading Indicators Model</a></li>
+<li><a href="#self-exciting-point-process-models">Self-Exciting Point Process Models</a></li>
+<li><a href="#risk-terrain-models">Risk Terrain Models</a></li>
+<li><a href="#how-do-police-use-these-models">How do police use these models?</a></li>
+<li><a href="#critiques-of-predictive-policing-systems">Critiques of Predictive Policing Systems</a></li>
+<li><a href="#homework-and-for-next-week">Homework and for next week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week we will be going over the three most popular types of models used to forecast the number of crimes at particular places currently in use in criminal justice. These models are:</p>
+<ul>
+<li>leading indicators model <span class="citation">(Cohen, Gorr, and Olligschlaeger 2007)</span></li>
+<li>self-exciting point process models <span class="citation">(Mohler et al. 2011)</span></li>
+<li>risk terrain models <span class="citation">(Caplan and Kennedy 2011)</span></li>
+</ul>
+<p>These correspond to your readings for the week below. (The <span class="citation">S. D. Johnson, Bowers, and Pease (2012)</span> article does not go into detail about self-exciting models, but I will try to introduce them in a simpler way than the more mathematical treatments.)</p>
+<ul>
+<li>Cohen et al. (2007) Leading indicators and spatial interactions: A crime-forecasting model for proactive police deployment. <em>Geographical Analysis</em> 39(1): 105-127.</li>
+<li>Johnson et al. (2012) Towards the modest predictability of daily burglary counts. <em>Policing</em> 6(2): 167-176.</li>
+<li>Caplan &amp; Kennedy (2011) Risk terrain modeling: Brokering criminological theory and GIS methods for crime forecasting. <em>Justice Quarterly</em> 28(2): 360-381.</li>
+</ul>
+<p>For understanding the difference between these forecasting methods, pay attention to:</p>
+<ul>
+<li>What spatial units are being forecasted?</li>
+<li>What is the temporal period for the forecast?</li>
+<li>What inputs are being used to generate the forecast?</li>
+<li>What crimes are the models being used to forecast?</li>
+</ul>
+<p>Answering these questions will identify the main differences between each of these models.</p>
+<p>The main reason I am spending a week to go over these are that there is alot of buzz around predictive policing. I want you to be well informed, whether you are a future analyst that has to help your police department in choosing whether these models are worth there cost, or if you are a researcher and want to improve such models in the future.</p>
+<h1 id="an-overview-of-forecasting">An overview of forecasting</h1>
+<p>But before we get into that, we need to be specific about what I am including here for forecasting models. When people think of forecasting crime, lay individuals are most likely to think of Minority Report (a movie which predicts who will commit crime <em>before</em> they actually commit it and preemptively punishes them). Here we are talking about <em>where</em> and <em>when</em> crimes will take place - not individuals. The motivations for these predictive models are purely to <em>prevent</em> crime. (Next week we will talk about different types of predictions to help detectives find specific offenders.) Sometimes people use the term <em>predictive policing</em> to predict to refer to individual involvement in crime <span class="citation">(Saunders, Hunt, and Hollywood 2016)</span>, but most of the time when you hear or read the term <em>predictive policing</em> they are referring to predicting that a specific area has an elevated chance of a crime(s) occurring during a specific time period.</p>
+<p>So here we are basically just taking some historical data and predicting how many crimes will happen in the future. A very basic model may be to predict how many crimes will happen in the year 2017. You would likely use prior crimes to forecast this number, e.g. if crimes from 2000 through 2016 were decreasing, you would likely predict 2017 to decrease from the 2016 crime numbers as well. If you are in a city that has been growing in population, you may also use population estimates from 2000 through 2016 to forecast crime as well. But note that to forecast you need the inputs (the information used to build a prediction) to be known before the time period of interest. So you cannot use what the population estimates in 2017 to forecast, as you need to know that information by 2016 to make an actual future forecast for 2017 crime. Typically even for those long term staffing needs one only uses prior counts of crime. Demographic shifts are not very helpful, as one often does not have up to date demographic information to be of use in the forecasts. (The census is often a year or two behind in disseminating estimates.)</p>
+<p>Such a model could be useful for long term staffing needs (e.g. if a chief needs to add to the budget to hire more officers because crime is likely to rise), but it is not specific enough to be of use in more day-to-day operations. For example you cannot use those citywide yearly forecasts to identify hotspots and direct more patrol at those hot spots.</p>
+<p>The type of forecast you need is dictated by what you want to do with the forecast. The subsequent forecasting models I will discuss are more specific, either in space or time (or both), that do help identify hot spots that the police can target.</p>
+<h1 id="leading-indicators-model">Leading Indicators Model</h1>
+<p>The leading indicators model is based on the idea that <em>future crime</em> is a function of past crime. So an example equation to describe the leading indicators model may be:</p>
+<p><span class="math display">\[\text{Shootings}_t = f(\text{Shootings}_{t-1}, W \cdot \text{Assaults}_{t-1}, \text{Assaults}_{t-1})\]</span></p>
+<p>In this model, <span class="math inline">\(\text{Shootings}\)</span> at time <span class="math inline">\(t\)</span> (say the <span class="math inline">\(t\)</span> are months) are a function of <span class="math inline">\(\text{Shootings}\)</span> in the prior month, as well as <span class="math inline">\(\text{Assaults}\)</span> in the prior month. Note we also have are spatial lag notation, and lets pretend that these are predictions for block groups. So assaults in the neighboring blockgroups in the prior month, <span class="math inline">\(W \cdot \text{Assaults}_{t-1}\)</span>, are used in the forecast as well. Finally, I wrote this as an anonymous function <span class="math inline">\(f\)</span>. The function can really be anything you want it to be, like a linear or a Poisson regression equation. It does not matter. The fundamental ideas behind the leading indicators model is that it uses prior crimes to predict one type of future crime.</p>
+<p>In forecasting, all that really matters is how well you can predict future data from historical data. The causal relationships between those variables do not matter. But if you knew the causal relationship between the variables you would be able to make the best forecasting model you can with the data at hand. There are a few different ways that some crime can beget more crime. One is via reciprocating violence <span class="citation">(Loftin 1986)</span>. You assault me, and then later I get my gun and shoot at you. Another is via a broken windows like process <span class="citation">(Wilson and Kelling 1982)</span>. Someone sees people commit some crimes, and people think it is ok, so they commit more of the same or other new crimes. A third example is that offenders are generalists, so if an individual commits one type of crime they are likely to commit another type of crime. Crime is a fairly rare event – even in large cities a few prolific offenders can move the needle if they go on a spree of many crime events in a short period. So any of these could be a reason for why prior crimes are useful to predict future crimes.</p>
+<p>Any of the models I present can be used at any spatial unit or for any time period. So you <em>could</em> use a leading indicators model to predict crime at the citywide and yearly level. The typical applications for this though are for neighborhood type areas (so not small hotspots, but not citywide). They can be census areas or police areas or even a regular grid over the city. The time period for these models are also typically around a month, although I think the idea could be reasonably extended to smaller time periods, say a week in advance.</p>
+<h1 id="self-exciting-point-process-models">Self-Exciting Point Process Models</h1>
+<p>Self exciting point process models were originally developed to predict earthquakes. The idea behind them are that some seismic activity can predict very near term future seismic activity (pre-shocks and after-shocks). This idea has subsequently been applied to criminal behavior. If you have heard of the predictive policing software <a href="http://www.predpol.com/">PredPol</a>, this is the type of model they use. One way to write the model would be:</p>
+<p><span class="math display">\[\lambda_t = \mu + \alpha \cdot \Sigma g(\lambda_{t-i},t-i)\]</span></p>
+<p>The way to read this equation is, that the intensity of crime at time <span class="math inline">\(t\)</span> (lambda is frequently used to refer to a Poisson process) is a function of a baseline amount of crime, <span class="math inline">\(\mu\)</span> (this can be thought of as a long term average). It is also a function of crimes nearby in space and time, the <span class="math inline">\(\Sigma g(\lambda_{t-i},t-i)\)</span> part. This is just another way to write a spatial (and temporal) lag, similar to the <span class="math inline">\(W \cdot x\)</span> notation I’ve previously introduced. In the <span class="math inline">\(W \cdot x\)</span> notation, you either are a neighbor or you are not, but in this notation the <span class="math inline">\(g\)</span> function weights crimes closer in space and time. (I generically use <span class="math inline">\(t-i\)</span> to refer to both space and time.)</p>
+<p>So if you consider the <span class="math inline">\(\Sigma g(\lambda_{t-i},t-i)\)</span> term as the recent weighted average of crimes nearby in space and time, the <span class="math inline">\(\alpha\)</span> term controls how much recent past crimes affect future crimes. This is frequently referred to as off-spring - so for example one burglary may have on average 0.5 offspring burglaries nearby in space and time.</p>
+<p>So self-exciting point process models are similar to leading indicators in that crime begets more crime, but it is typically used for much shorter time periods (two weeks or less), and only uses the same crime to predict future crime, e.g. prior burglaries to predict future burglaries. The theoretical reason that this works is because of near-repeat crime patterns in time and space (which we have talked about previously in Week 5 on point pattern analysis). So I have only seen it applied to crimes that near-repeat patterns are relevant, e.g. burglaries, robberies, shootings, and thefts from vehicles. Also these models typically predict in very small areas. PredPol for example used 150 by 150 meter boxes to assign areas for hot spot patrols in this experiment <span class="citation">(Mohler et al. 2015)</span>.</p>
+<h1 id="risk-terrain-models">Risk Terrain Models</h1>
+<p>The final type of predictive model we will be discussing are risk terrain models <span class="citation">(Caplan and Kennedy 2011)</span>. Joel Caplan (a professor at Rutgers) is the main brain-child behind this method, and has many journal articles detailing the technique. The idea is quite simple though, build a regression model that predicts crime based on prior crimes as well as fixed factors of the built environment. So an example might be:</p>
+<p><span class="math display">\[\text{Robberies}_t = f(\text{Distance to the Near Bar},\text{Robberies}_{t-1})\]</span></p>
+<p>Risk terrain models typically incorporate factors of the built environment, crime generators and attractors in crime pattern theory terms, and use these to predict future crimes. Factors I have seen used are bars, gas stations, apartment complexes, ATMs, and I’m sure others. The factor may be coded as the distance to the nearest one, or may be coded as how many are within a particular distance. Things like bars, that can cluster, it may be that the number nearby is a better way to code the effect (e.g. five bars nearby is a stronger effect than 1 bar nearby), but things that are more spread out, like ATMs, it may be the distance to the nearest one is the better way to encode that factor. The anonymous function is typically a logistic regression equation, but could also easily be a Poisson regression equation.</p>
+<p>Note that the <span class="math inline">\(\text{Distance to the Near Bar}\)</span> term is time invariant. This is the case for most factors of the built environment. Due to land use zoning, even if a commercial establishment closes it will typically be replaced by another similar commercial establishment. So these factors are not useful for near-term forecasting. Risk terrain models are typically used to forecast over long periods of times, typically a year, but make predictions at tiny micro place hotspots.</p>
+<h1 id="how-do-police-use-these-models">How do police use these models?</h1>
+<p>One typically has a forecasting model based on a particular need for the business. It is no different for police agencies. If you want to reduce shootings in your city, it does not do you any good to predict burglaries. The temporal and spatial scale of the forecast is also linked to what the police department wants to do with the information. If you want to have a special hot spots patrol that changes locations once a month, a year long forecast does not help you decide the new locations the special patrol should move to.</p>
+<p>While these predictive policing models have shown moderate success in predicting crime, I have not seen much innovation in what police departments are doing with that information. The self-exciting point process models have shown moderate success in just using targeted patrols on a bi-weekly basis <span class="citation">(Mohler et al. 2015)</span>. This is not really a new idea though, and police departments have done similar without the newer types of predictive policing models <span class="citation">(Jang, Lee, and Hoover 2012; R. G. Santos and Santos 2015)</span>. I don’t think chasing dots on a map though are the most effective way to reduce crime long-term. It is more like a perpetual short term crackdowns, which can be effective but are not permanent solutions.</p>
+<p>Risk-terrain modeling, with its focus on long term predictions, invites more of a long term strategy to reduce crime. This may be targeting specific crime generator locations with CPTED designs or problem oriented policing. Joel is currently doing a large multi-site study on its effectiveness, to date I do not believe he has published any evidence of police departments using the information to reduce crime. Problem oriented policing strategies are very tough to generalize though - there very nature suggests a local remedy to a local problem. Personally I think long term strategies are better than short term ones.</p>
+<p>The leading indicators models as advocated by Wilpen Gorr are not used in the same way that other forecasting models are used. Wilpen suggests using them to identify when <em>precipitous</em> increases in crime will occur. So you may predict if you will be in for a really bad month of shootings. The idea behind this is to try to use extra resources in the short term to combat that large increase, which will typically involve traditional police responses, such as more traffic stops. I have seen burning months like this as a crime analyst, but I have not seen evidence that police departments effectively quelled such increased behavior. Models such as focused deterrence or those that use street outreach workers may work better in conjunction with leading indicators <span class="citation">(Braga et al. 2001; Webster et al. 2013)</span>, or models that incorporate intelligence on local offenders or gangs may be useful as well <span class="citation">(Groff et al. 2015)</span>, but again I have not seen any empirical evidence of the effectiveness of the leading indicators model.</p>
+<p>It is really still an open question what police can do to effectively reduce crime long term at hot spots.</p>
+<h1 id="critiques-of-predictive-policing-systems">Critiques of Predictive Policing Systems</h1>
+<p>I would be remiss to not mention current critiques of predictive policing systems. Most of these critiques revolve around questions of whether such predictive policing systems are racially biased. For one example, <span class="citation">Lum and Isaac (2016)</span> show that if you use prior arrests for drugs to predict future locations of drug use, it will be biased to areas and neighborhoods.</p>
+<p>This is a bit of a strawman application - no police department is doing this, but the overall point is one you should keep in mind. The general point is that your predictions are dependent on your inputs to the system, and this dependence can introduce systematic bias. If you want to predict places where you will arrest more people, the system can only tell you prior places you have arrested people, it will never spit out a new hot spot. If the police are biased to arrest more minorities for drug crimes, the future predictions will say you should go to places with more minorities, even if the prevalence of drug use is just as high in white areas.</p>
+<p>This critique makes sense for when you use <em>arrest</em> data to make future predictions (such as assigning individuals to a chronic offender list), but all of the predictive policing applications here only use citizen reported crime data. This is not as subject to charges of racial bias. Think if you have a neighborhood that had 50 reported shootings in the prior year, versus a neighborhood that only had 1. It makes sense to target the higher shooting neighborhood, and maybe not even do any special intervention in the other neighborhood. Due to long term historical patterns of crime in cities, the higher crime neighborhoods are also ones with more minority residents.</p>
+<p>This puts most police departments in a bit of a hard place with those minority neighborhoods. Aggressive tactics like stopping and questioning more individuals can have a negative effect on the community, but not doing something about the crime problem (under-policing) has just as negative consequences for the community.</p>
+<p>This is another reason why what police do at hot spots of crime is still an open question. Even if aggressive policing works to reduce crime in the short term, it may not be a long term solution and may have negative impacts on police-community relations.</p>
+<h1 id="homework-and-for-next-week">Homework and for next week</h1>
+<p>For your homework tutorial you will generate risk scores for intersections in Albany. Risk terrain modeling as Joel Caplan typically does it is using raster data, but the same logic can be easily applied to vector locations. (It is just a regression model predicting crime. The spatial units can be whatever you want them to be.) This also gives a tutorial of common spatial operations, buffers and selecting things nearby one another, in ArcGIS.</p>
+<p>For next week we will discuss the journey to crime and individual mobility. That lecture will touch on predictions for individual behavior of use for crime analysts.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR1715">
+<p>Braga, Anthony A., David M. Kennedy, Elin J. Waring, and Anne M. Piehl. 2001. “Problem-Oriented Policing, Deterrence, and Youth Violence: An Evaluation of Boston’s Operation Ceasefire.” <em>Journal of Research in Crime and Delinquency</em> 38 (3): 195–225.</p>
+</div>
+<div id="ref-PR124">
+<p>Caplan, Joel M., and Leslie W. Kennedy. 2011. “Risk Terrain Modeling: Brokering Criminological Theory and GIS Methods for Crime Forecasting.” <em>Justice Quarterly</em> 28 (2): 360–81.</p>
+</div>
+<div id="ref-PR137">
+<p>Cohen, Jacqueline, Wilpen L. Gorr, and Andreas M. Olligschlaeger. 2007. “Leading Indicators and Spatial Interactions: A Crime-Forecasting Model for Proactive Police Deployment.” <em>Geographical Analysis</em> 39 (1): 105–27.</p>
+</div>
+<div id="ref-PR1540">
+<p>Groff, Elizabeth R., Jerry H. Ratcliffe, Cory P. Haberman, Evan T. Sorg, Nola M. Joyce, and Ralph B. Taylor. 2015. “Does What Police Do at Hot Spots Matter? The Philadelphia Policing Tactics Experiment.” <em>Criminology</em> 53 (1): 23–53.</p>
+</div>
+<div id="ref-PR1555">
+<p>Jang, Hyunseok, ChangBae Lee, and Larry T. Hoover. 2012. “Dallas’ Disruption Unit: Efficacy of Hot Spots Deployment.” <em>Policing: An International Journal of Police Strategies &amp; Management</em> 35 (3): 593–614.</p>
+</div>
+<div id="ref-PR693">
+<p>Johnson, Shane D., Kate J. Bowers, and Ken Pease. 2012. “Towards the Modest Predictability of Daily Burglary Counts.” <em>Policing</em> 6 (2): 167–76.</p>
+</div>
+<div id="ref-PR919">
+<p>Loftin, Colin. 1986. “Assaultive Violence as a Contagious Social Process.” <em>Bulletin of the New York Academy of Medicine</em> 62 (5): 550–55.</p>
+</div>
+<div id="ref-PR1794">
+<p>Lum, Kristian, and William Isaac. 2016. “To Predict and Serve?” <em>Significance</em> 13 (5): 14–19.</p>
+</div>
+<div id="ref-PR1635">
+<p>Mohler, George O., M.B. Short, Sean Malinowski, Mark Johnson, George E. Tita, Andrea L. Bertozzi, and Paul J. Brantingham. 2015. “Randomized Controlled Field Trials of Predictive Policing.” <em>Journal of the American Statistical Association</em> 110 (512): 1399–1411.</p>
+</div>
+<div id="ref-PR233">
+<p>Mohler, George O., Martin B. Short, P Jeffrey Brantingham, F P. Schoenberg, and George E. Tita. 2011. “Self-Exciting Point Process Modeling of Crime.” <em>Journal of the American Statistical Association</em> 106 (493): 100–108.</p>
+</div>
+<div id="ref-PR1452">
+<p>Santos, Roberto G., and Rachel Boba Santos. 2015. “An Ex Post Facto Evaluation of Tactical Police Response in Residential Theft from Vehicle Micro-Time Hot Spots.” <em>Journal of Quantitative Criminology</em> 31 (4): 679–98.</p>
+</div>
+<div id="ref-PR1787">
+<p>Saunders, Jessica, Priscillia Hunt, and John S. Hollywood. 2016. “Predictions Put into Practice: A Quasi-Experimental Evaluation of Chicago’s Predictive Policing Pilot.” <em>Journal of Experimental Criminology,</em> Online First.</p>
+</div>
+<div id="ref-PR1667">
+<p>Webster, Daniel W., Jennifer Mendel Whitehill, Jon S. Vernick, and Frank C. Curriero. 2013. “Effects of Baltimore’s Safe Streets Program on Gun Violence: A Replication of Chicago’s CeaseFire Program.” <em>Journal of Urban Health</em> 90 (1): 27–40.</p>
+</div>
+<div id="ref-PR21">
+<p>Wilson, James Q., and George L. Kelling. 1982. “The Police and Neighborhood Safety: Broken Windows.” <em>Atlantic Monthly</em> 127: 29–38.</p>
+</div>
+</div>
+</body>
+</html>

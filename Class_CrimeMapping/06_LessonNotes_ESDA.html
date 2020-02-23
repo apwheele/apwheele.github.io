@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 6 - Exploratory Spatial Data Analysis</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 6 - Exploratory Spatial Data Analysis</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#interpreting-spatial-effects">Interpreting Spatial Effects</a></li>
+<li><a href="#measuring-nearby-in-space---the-spatial-weights-matrix">Measuring Nearby in space - the Spatial Weights Matrix</a></li>
+<li><a href="#measuring-spatial-autocorrelation-using-morans-i">Measuring spatial autocorrelation using Moran’s I</a></li>
+<li><a href="#homework-and-for-next-week">Homework and for Next Week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For a reminder, the readings for this week are:</p>
+<ul>
+<li>Anselin (1995) Local indicators of spatial association-LISA. <em>Geographical Analysis</em> 27(2): 93-115.</li>
+<li>Anselin (2005) Exploring spatial data using GeoDa: A workbook, Chapters 15 through 21</li>
+<li>Cohen &amp; Tita (1999) Diffusion in homicide: Exploring a general method for detecting spatial diffusion processes. <em>Journal of Quantitative Criminology</em> 15(4): 423-450.</li>
+</ul>
+<p>First, if you have not done so, take a few minutes to review the test from last week. The test is simple, but are core concepts you should be familiar with to be a competent crime mapper.</p>
+<p>For this weeks lesson, we will discuss analyzing areal data, also sometimes called lattice data. This simply includes measures for spatial areas, such as census areas we have previously made for choropleth maps. These take a different set of procedures to analyze than do points patterns. For crime analysts, you may have aggregate statistics at police beats you want to analyze, or for researchers they often use census areas. People who conduct surveys sometimes can only survey individuals at the zip code level (through mailings). You can also analyze much smaller units, such as individual addresses, and much of my scholarly work splits the city up into streets and intersections.</p>
+<p>Point pattern analysis (last lesson) is often just focused on analyzing one type of data, such as assaults or robberies. This weeks lesson will be focused on analyzing the correlations between different variables though.</p>
+<h1 id="interpreting-spatial-effects">Interpreting Spatial Effects</h1>
+<p>My favorite example of explaining spatial effects is talking about bars and crime. Many people believe bars are more dangerous, and this is borne out in much research – bars tend to be places that have more crimes. You could get a sample of addresses in a city, and then look at the correlation of whether the address is a bar or not and the numbers of crimes committed there. You could fit a regression model, predicting the number of crimes at an address as a function of whether it is a bar, along with other factors such as the number of people who reside there, the age of the building, whether it is another type of commercial establishment, etc.</p>
+<p>But the power in conducting spatial analysis is to examine the relationships between places. Places nearby one another interact with each other, and these spatial interactions and spill overs can help us better model whatever phenomenon that is under study. Continuing with the bars example, bars can both increase crime inside the bar, as well as increase crime around the bar outside. This can happen because people need to walk to and from the bar, and they are more exposed to some victimization (like robbery) outside of the bar.</p>
+<p>So we may end up estimating an equation predicting the number of crimes on a street as something like:</p>
+<p><span class="math display">\[\text{Crime on Street} = 2 \cdot (\text{Bars on Street}) \: + \: 1 \cdot (\text{Bars on Neighboring Streets})\]</span></p>
+<p>So here we have if you live on Main St., if they add an additional bar to 1st St. it increases the total predicted number of crimes by 2 on 1st St. If they add a bar to 2nd St., it increases the total number of crimes on 1st St. by 1. This is a spatial spillover effect, and one of the fundamental reasons to be interested in spatial analysis.</p>
+<h1 id="measuring-nearby-in-space---the-spatial-weights-matrix">Measuring Nearby in space - the Spatial Weights Matrix</h1>
+<p>But how do we measure nearby in space? To do that, we need to define what exactly “neighboring” means in the above equation. When working with areal data there are a few different ways to define what neighbors are. The simplest and most often used is if two areas “touch”, they are neighbors. I will work through a simple example to illustrate. Pretend the simple grid below are the areas under study.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/0LrR3tZ2abK-iFwyvLveuSLNyXCl-PCXQmRsh5KwsbguwLQnBSSkfoSuzU_14Ziyn9GHWSCWg8nK1gsRmcYhVlDbM7M0ruwELwSv3QlazrBm0ezxYFbFBJ8upbcj3nQlbMzJN0_3z4hi4tcn17Zsyg2kP57qUP68qFnyAxCI9uoavJzVu6WKoS-F3O4W_yhWeqGMBnNW1aIAjr-rc4Dvj4-lZJ9BB1ZG-BrBTMPVAppC7iY5BMl-gL7TrF-WpOpCfFXu56GhwxhcWkDn0wHe4jAL7n3hW0ZPN0WwgQ-y2xyb8xduZl-f_iTH-mnNdaMXWub-3ESEkMZATfk7w8fsV1QzVjb17DrHbbsp-CJSh2sA46LbIUXtOF5S1T3Qv8MK7BnOBtvBTvJR2WiyPMfNEuB3VrX8BCpYBnpaoUVAPXlYkS1Il1BgxKiQmlLp6WV5GESQNuKgC0kXuDVmwqds4hqDTlViEAUdyNFJViomoTgUiH9BlZlykqv41Xpi6Oeq9vhtDp13vErsj8RDHz-JNbTYgpV1Bmb9b32vfOynBNfHBnp829GXRm2xV4EL5uQJXS-M-11_VPNk6LNfqjnzwwgC1qIm-UOZ00WGhKxvzqmPp1SRC1fR=w319-h321-no" />
+
+</div>
+<p>The individual units in this example can be defined by the row and column heading. So in a 3 by 3 grid we have 9 units of analysis.</p>
+<pre><code>Aa
+Ab
+Ac
+Ba
+Bb
+Bc
+Ca
+Cb
+Cc</code></pre>
+<p>So if we define neighbors to be touching <em>only if</em> they have a shared border, then <code>Aa</code> would have neighbors <code>Ba</code> and <code>Ab</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/i6SbH-bPNu9SMgQdocPsTqHCfzsreyzzBds5EeDfY5Cc8I_eh3h7kzPwAoEqJ2cwJ4iHpA9UI52f77rEDafexbZqDeFH9K8gYTfHOG45Srjms6yJ6ur1M988Vp5LkqZopOAoCbCjFXg8vgHA3cC30VMEviWl-FWeM3tpCvhql1jSAsG6rxOzgW6tdqWzebPRxOQjbXKwWXmJzS0lbNB3A5bU67PCVPOj45x2mh7OjnA3NJahx7GLfQV3d54lnPgUW7Kj7EeLVtOuZ0YPonL70TsMxwNhyroNqbecUhIZzm3TT-EFn5bthDifciqcpmCiQ5tb05Oug9O6GGkj7DCQsQOMWbqQnKF5-BcRAUISYYHrsvf2eT9szeE-mCXno8eeJbZhqleg60SqpqmWge0a05weTxfv5ln9SBAFdxD2GrnyaPcaJ0LytNmB0zLbmfojfQ3TaYviSvFHoYDuy1htC6etXBKYDA9Wt-HJCO4IGKSUziWC6DTTfbRkCWa-KRKgm8QFchZRkys8DNMn5MqEW7Qa23Z5sBeFvpAr_5DegzCWLM3XpBo8ya72Js5F78cpxaV0XHmX25QhUfdpcW1GIZgJuN11gRhwm25JvH6pr1oatu46qXYZ=w328-h327-no" />
+
+</div>
+<p>This is called Rook’s contiguity, for how a Rook moves on a chess board. There is another way to define touching though, including even if they only touch at a point. In this example that would make <code>Bb</code> also a neighbor of <code>Aa</code>, and that type of Contiguity is called Queen’s contiguity, for how a Queen moves on a chessboard.</p>
+<p>There are additional ways to define neighbors beyond just simple contiguity. You may define neighbors based on a percentage of the total shared border, so two units that have a longer shared border (e.g. US and Mexico compared to Mexico and Guatemala). So although both are neighbors, in that example the US value would be weighted higher than the Guatemala value in calculations. You may define the closest 5 units to be neighbors, and that is called k-nearest neighbors (where you can fill in your own k). Another common way to define neighbors is via inverse distance weighting, where points nearer by one another have higher weights.</p>
+<p>A fundamental aspect of estimating spatial relationships is calculating spatial lags. I will show this using our same small grid, but filling in these values.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HUWioL9WHvZHA_vYCQ5Xf8oZK5oX1vmzQGU0bNjaeEciiZCkySwJ7B5TXJ20cwQ2zoCLePkJsP1QpbFGnXxcT_fA2FyQXdJDn-H7Mk_nkTCJcOZuP8DTO5_SIJ4VZt0J1_7ZmlEl5qze2NxEKxOWBaIGGuxvo6CPGYL8LQJRT4Dz-q-NFfMk12HlG7Oq9HBJQBRByZJPCqToTUj518ylegdZcLbHWpCTkQqnk2tiLb7njYhJ6tvbeNoLc2sEgOtyYlAqRDDnm1lBUpcBvpNbdmozyC9LJctS9g15-K3cXOhi7eXoTfACy0GIU5aujvrShf3smPF6hZwqQVWYKZRm1LbdHryN5yk08ebV0XaExwOMb7kE1pPbNw4QrkKNoXr9Z8C2nXMTDqZ6czlgfg0RfhOHcoQd0o0NiRVXrf-lyPHUhAwLZ3XvbrmRYljkWks6KMpoK11sPrWUVztF2dkSAxw2cuCu8YSsEClmH-ciE62gqUROTD4tow1RP8-L96UMSNvoV2s-NmfknSoiTPgcaAKNoAAE96HuiYK1X2DyKYm8zHfNqDcppVrIDX4d-rg0NBPGDFw3dNkfdz5j-ZIithj-2oqZXY8OTlK_bLS44BllsVaEunf7=s355-no" />
+
+</div>
+<p>So in this example, the value at <code>Aa</code> is 2, and the neighboring values are 3 and 5 (using Rooks contiguity). We may be interested in the sum of the neighbors (8), or the average of the neighbors (4). But I am going to show a more general way to think about calculating spatial lags. So imagine that you have a spreadsheet, that in one column has the values, and in another column has a weight. Define the weight here to be equal to 1 when an observation neighbors <code>Aa</code>, and otherwise 0 (also we never define a unit to be a neighbor of itself). Then multiply the values times the weights, and sum that column. The sum of that column is simply the count of values in neighboring areas to <code>Aa</code>.</p>
+<pre><code>Unit Value Weight Value*Weight
+Aa      2    0         0
+Ab      5    1         5
+Ac      8    0         0
+Ba      3    1         3
+Bb      6    0         0
+Bc      9    0         0
+Ca      4    0         0
+Cb      7    0         0
+Cc      1    0         0
+------------------------
+ Sum of Value*Weight = 8       </code></pre>
+<p>You can refer to 8 as the spatial lag of <code>Aa</code>. Note that if you want the average of the neighbors, not the sum, you can simply change the weight. In that case, you want the weight to be 1/n, where n is the total number of neighbors. In this example, <code>Aa</code> only has two neighbors, so the weight would be 0.5, and the resulting sum would be 4.</p>
+<pre><code>Unit Value Weight Value*Weight
+Aa      2    0         0
+Ab      5    0.5       2.5
+Ac      8    0         0
+Ba      3    0.5       1.5
+Bb      6    0         0
+Bc      9    0         0
+Ca      4    0         0
+Cb      7    0         0
+Cc      1    0         0
+------------------------
+ Sum of Value*Weight = 4  </code></pre>
+<p>You can basically put any weights you want, so this should clear up how you can generalize to the differential weights example.</p>
+<p>There is more general notation to calculate spatial lags for the entire sample than going through one individual set of neighbors at a time. And this is by referring to a spatial weights matrix. In our small grid example, we need a 9 by 9 matrix (because of the original 9 units), that encodes the spatial weights for all 9 units. Then each column and row defines the neighbor weights. Then you can calculate all of the spatial lags in one operation as:</p>
+<p><span class="math display">\[   
+\begin{bmatrix}
+   &amp; Aa &amp; Ab &amp; Ac &amp; Ba &amp; Bb &amp; Bc &amp; Ca &amp; Cb &amp; Cc \\
+Aa &amp; 0  &amp; 1  &amp;  0 &amp; 1  &amp; 0  &amp; 0  &amp; 0  &amp; 0  &amp; 0 \\ 
+Ab &amp; 1  &amp; 0  &amp;  1 &amp; 0  &amp; 1  &amp; 0  &amp; 0  &amp; 0  &amp; 0 \\ 
+Ac &amp; 0  &amp; 1  &amp;  0 &amp; 0  &amp; 0  &amp; 1  &amp; 0  &amp; 0  &amp; 0 \\ 
+Ba &amp; 1  &amp; 0  &amp;  0 &amp; 0  &amp; 1  &amp; 0  &amp; 1  &amp; 0  &amp; 0 \\ 
+Bb &amp; 0  &amp; 1  &amp;  0 &amp; 1  &amp; 0  &amp; 1  &amp; 0  &amp; 1  &amp; 0 \\ 
+Bc &amp; 0  &amp; 0  &amp;  1 &amp; 0  &amp; 1  &amp; 0  &amp; 0  &amp; 0  &amp; 1 \\ 
+Ca &amp; 0  &amp; 0  &amp;  0 &amp; 0  &amp; 0  &amp; 0  &amp; 0  &amp; 1  &amp; 0 \\ 
+Cb &amp; 0  &amp; 0  &amp;  0 &amp; 0  &amp; 1  &amp; 0  &amp; 1  &amp; 0  &amp; 1 \\ 
+Cc &amp; 0  &amp; 0  &amp;  0 &amp; 0  &amp; 0  &amp; 1  &amp; 0  &amp; 1  &amp; 0
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+V \\
+2 \\
+5 \\
+8 \\
+3 \\
+6 \\
+9 \\
+4 \\
+7 \\
+1 \\ 
+\end{bmatrix} = 
+\begin{bmatrix}
+V \text{ s. lag} \\
+8 \\
+16 \\
+14 \\
+12 \\
+24 \\
+15 \\
+10 \\
+11 \\
+16
+\end{bmatrix}
+\]</span></p>
+<p>In general, if we define our spatial weights matrix to be <span class="math inline">\(W\)</span>, and our set of values as a column vector <span class="math inline">\(x\)</span>, then post multiplying our spatial weights matrix by our column vector products a new vector of the spatial lags.</p>
+<p><span class="math display">\[\text{Spatial Lag of} \: x = W\cdot x\]</span></p>
+<p>This example the spatial weights matrix is a binary rooks contiguity matrix. So the spatial lags are the sums of neighboring values. Later on, I will refer to a row normalized spatial weights matrix. All this means is that the row sums are constrained to equal 1 in the spatial matrix. The effect this has is simple, it turns the spatial lag into an <em>average</em> of the neighboring values, instead of the sum.</p>
+<p>While this example is based on areal units, you can generalize this to points in space that do not touch. One example project of mine recently was to examine surveys that were aggregated to the nearest intersection. So in that case I defined the spatial weights to be <code>1/(distance between intersections)</code>. This is called inverse distance weighting, and if you constrain the spatial weights matrix again so its rows sum to 1, the spatial lag then gives you the inverse distance weighted sum.</p>
+<p>You can define the weights based on many different factors. When examining streets for example, I may define the weights be distance to get from one street to the next, as opposed to adjacency <span class="citation">(Groff 2014)</span>. If you are examining nations, you may use some alternative to space value, such as the number of imports or the total immigration/emigration between two nations as the spatial weight. In practice, there often is not an empirical way to determine the best spatial weights matrix, so it needs to be defined based on how you think the units interact with one another. When examining spatial units though, fortunately many of these different ways to measure nearby in space often produce very similar estimates <span class="citation">(Lesage and Pace 2010)</span>, so it is not too big a deal for conducting data analysis.</p>
+<h1 id="measuring-spatial-autocorrelation-using-morans-i">Measuring spatial autocorrelation using Moran’s I</h1>
+<p>One of the most basic analyses you will often see is a calculation of Moran’s I. You can think of this as a measure of correlation, except it is a measure of the correlation between a variable and its spatial lag. This is basically used to see if a variable has any of those spatial effects or spatial spill-overs I was talking about previously. So if the bar spillover example is true, it would result in high crime areas being next to other high crime areas, and would result in spatial auto-correlation. There are other types of spatial effects that could result in spatial autocorrelation as well, such as if crime begets more crime. If the outcome is not spatially autocorrelated, we can then safely ignore any potential spatial effects and treat our data as if they are a sample of independent units.</p>
+<p>To measure this spatial autocorrelation we most often use Moran’s I. The scary formula for Moran’s I is:</p>
+<p><span class="math display">\[I = \frac{N}{\sum_i \sum_j w_{ij}} \cdot \frac{\sum_i \sum_j w_{ij}(X_i - \bar{X})(X_j - \bar{X})}{\sum_j (X_i - \bar{X})^2}\]</span></p>
+<p>Where <span class="math inline">\(w_{ij}\)</span> is the spatial weight between observations <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math inline">\(N\)</span> is the total number of observations, and <span class="math inline">\(X\)</span> is the value we are estimating Moran’s I for. All the sums (the sigmas) just mean we are performing this operation over all pairwise observations, so we are comparing every unit to every other unit.</p>
+<p>But the Anselin paper about local values lets us make it not so scary. First, if we z-score <span class="math inline">\(X\)</span>, this makes average of <span class="math inline">\(X\)</span> (the <span class="math inline">\(\bar{X}\)</span>) equal 0, so those terms drop out of the equation. Also this makes the variance of <span class="math inline">\(X\)</span> equal to 1, which is the denominator in the second term in the equation.</p>
+<p>The first term before the sum is the total number of observations divided by the sum of all the spatial weights. When we row-normalize a spatial weights matrix, the sum of the weights equals <span class="math inline">\(N\)</span>, so that term drops out of the equation entirely. So if we z-score <span class="math inline">\(X\)</span> and row-normalize the spatial weights matrix, Moran’s I is then simply:</p>
+<p><span class="math display">\[I = \sum_i \sum_j w_{ij}X_iX_j\]</span></p>
+<p>Note for any one observation, <span class="math inline">\(i\)</span>, then the <em>local</em> Moran’s I value is:</p>
+<p><span class="math display">\[I_i = \sum_j w_{ij}X_iX_j = X_i \cdot \sum_j w_{ij}X_j\]</span></p>
+<p>Which the <span class="math inline">\(\sum_j w_{ij}X_j\)</span> term is simply the spatial lag of <span class="math inline">\(X_i\)</span>. When you make the Moran’s I scatterplot, as illustrated in the different readings for this week, the X axis value is the Z score of the variable of interest, and the Y axis value is the average value of the neighboring z-scores for the variable of interest. These values are then used to make the High-High and Low-Low spatial clustering charts, and I have an example of that in your homework.</p>
+<p>The sum of these local values are then the global Moran’s I. This is what is used to see if the data are spatially autocorrelated. Its expected value is <span class="math inline">\(-1/N\)</span>, so with a sample size of 50 observations, you would expect a Moran’s I value of <span class="math inline">\(-0.02\)</span> if the data did not have any spatial patterning. The variance of this statistic is hard to construct in practice though, so we often do a permutation test to generate the distribution of the statistic under the null (as discussed in the Anselin Local I paper). The idea behind this is we take the observed data values and randomly assign them to spatial locations, then calculate Moran’s I. You do this randomization, say 99 times, and if the observed Moran’s I value is smaller or larger than any of the simulations, it is statistically significant with a p-value of &lt; 0.01.</p>
+<p>In my experience with crime as an outcome, the spatial autocorrelation is often positive, but not large. Typically between 0.20 and 0.05 for different models and different units. Some things though have much larger spatial effects, such as house prices (which can have autocorrelation values of 0.8 and larger).</p>
+<h1 id="homework-and-for-next-week">Homework and for Next Week</h1>
+<p>For your tutorial and homework, I have you use a new software, GeoDa, to conduct some exploratory spatial data analysis. The dataset is from my dissertation, examining the correlates of crime at micro places in Washington, D.C. I have turned street midpoints and intersections into areas.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR1086">
+<p>Groff, Elizabeth R. 2014. “Quantifying the Exposure of Street Segments to Drinking Places Nearby.” <em>Journal of Quantitative Criminology</em> 30 (3): 527–48.</p>
+</div>
+<div id="ref-PR926">
+<p>Lesage, James, and R. Kelley Pace. 2010. “The Biggest Myth in Spatial Econometrics.” <em>Available at Https://Papers.ssrn.com/Sol3/Papers.cfm?abstract_id=1725503</em>.</p>
+</div>
+</div>
+</body>
+</html>

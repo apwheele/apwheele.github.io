@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 4 - Tutorial on Downloading Census Data</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 4 - Tutorial on Downloading Census Data</h1>
+<h2 class="author">By Andrew Wheeler, apwheele@gmail.com</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#downloading-the-bulk-data">Downloading the Bulk Data</a></li>
+<li><a href="#pulling-out-the-variables-of-interest">Pulling out the variables of interest</a></li>
+<li><a href="#downloading-the-shapefiles">Downloading the Shapefiles</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This tutorial covers how to download data from the census. In particular, we are going to use the bulk FTP downloads to download the census variables (e.g. Total population) for census geographies. I will also show how to download the shapefiles (the actual geographic data you can map).</p>
+<p>There is an interactive tool you can use to download a variety of census data (the variables) called the <a href="http://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">American Fact Finder</a>. It is somewhat self-explanatory, but you cannot download the smallest geographies (block groups) from that for the most recent American Community Survey. Also I like doing the bulk downloads, as I can see <em>all</em> of the variables available for a particular geography – figuring this out from the American Fact Finder is difficult.</p>
+<p>I have written a tutorial and a helper macro to do this for those <a href="https://andrewpwheeler.wordpress.com/2016/11/25/downloading-and-reading-in-american-community-survey-data-python-and-spss/">using SPSS</a>, but here I am going to show you how to do this using Excel.</p>
+<h1 id="downloading-the-bulk-data">Downloading the Bulk Data</h1>
+<p>Census data is very extensive, so the documentation can be overwhelming. Here I am going to try to make sense of it in some simpler steps. This part is to download variables at particular geographic units, such as total population and median income at census tracts or block groups, from versions of the American Community Survey. Specifically we are going to download all of the data for tracts and block groups in New York for the 2012 5 year ACS data.</p>
+<p>First we are going to go to <a href="https://www.census.gov/programs-surveys/acs/data/data-via-ftp.html" class="uri">https://www.census.gov/programs-surveys/acs/data/data-via-ftp.html</a>, which provides key links to several locations where we can download the data. Subsequently select <a href="http://www2.census.gov/programs-surveys/acs/summary_file/">the link</a> in the top right of the table. This takes you to the FTP site to bulk download the data.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/YaNhMaYJi5D67Q1RbxdaF5Npi8MtphtNyNbE9Os1YEMeku9t-k8XEsSV0Dc2LIaKIb471OSOKA-8U8RmH0M_H-Gr3VUbKOGpTyqlP5O56FShOMptjUhOTsh2DulpSqFiHh5PVOPX-frSdV27KHyKfS3-LqFqtpB0oWDLbkarR9H36bMNEw0HJun6rfu7mAMw249i-BNhsjupXee1iRUqb80SBSC_0s-WNAVj-lgx9JVnuECL5u6XFaGplHU3SrNMDPXmBW33KkhwipDr06_r6K8y14HEbgcwcmpgExiTRPThfo5R9_1wLTPmGNZbmRAFd3gVFbEiFYOYUiAdn0RPF5kk8xkO5_EFbhAiQnAzH6rlXxlNi5U9o6UDK2jvgzF8sAvSO-_sXUvaM-7pGsWTVXdO1g0F96OBqPtPa4qkuoJdJSE2XRUrXSQXr5Bgo9oeNitLMZIuUbp2aR0LRz5DY6R4SJjjUcGuOHYTFIWNiRgqj3Z7UkLRD4TZP-6vS7exB69Q-0LTf7f4sodnpqff3dalMRYY7Ezk_F4ltgNR6qV5BIRWM1JdjGrxIfOEjM_J712ca9IGYASrtj8SC3D4IWixtsM3a7i1HxuX5BmmFDqsNQxtfVZJ=w977-h768-no" />
+
+</div>
+<p>You should then be in a directory that has separate years. Here go to 2012.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/y5QqBspZyB4gyRWh1lwDaIDB8KLAk3irrzEZhUxLnGniSZyYa0hjhiNcnqF3vachSBAE9ldkDyw7v9hqQQoHF7lQJ7MTcwe_DjCQfTU3O4n_648haGDHnqcNYcmSnMCZOP6P14Ke0SdFBHlZaPLrDGQz0JNxIpCjQKuZwTUQN1n_TYV0nyaGQ42xkwr0D7q7QTBM1KMvbHjTQKmCFHDcS9PClKrHUA_GaKKjwrZs-MGtWeelBMKtiR-Kop5LH0Riv4ir16v53MJFuzRUpmpjd4vq-MXf_i4Eh6Wxl0zr97s_i6if7OYLknczRTilVYNgxeuXh_Zl7FiRYmfxyFcoeUPEuz3SUFCY2AXS4t5o3Vm6-Oah0Mejdu5iLGFG2rWQsYdbTZDJIkPTnKYF0PCtvA3xtcMe5ldrmy83q0HbLY5FsCt_6HCH7Jqiz1svjmAnvqZUEd4b7GgsW7JXJU7ZQlg5dysyHdKX0VZlIdXxdAdqI1Tp4NYS_Za3lmltX-GEJDR5rJvZCDcPXvrg3GtgeBcSs8wtaqg8v_unzQn3SDAYps4aemhCt4wPTKbnWLnSjgTwXIeCsz15bcvvSH6LQ3fwuXOL-aK7UfNxG2fp0n621gEEDX6y=w454-h367-no" />
+
+</div>
+<p>First lets go and download the data, so click on the [data](http://www2.census.gov/programs-surveys/acs/summary_file/2012/data/) folder.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/V8af4P3GaQvqMyYL6OW4f-DrAyhUep2mm87FKCzncLxe24dRNaSQsNmOCdKaN5AsQ_9R0MpcQFZsqE5FMUrmHts15AElvHKjtiGWxDDl574gORMJv47CteXjvX_qC-Zhm0LbuCrPR2dms-FLShZV9Gk5FA4rquwd4r30AJz_Gi8upq18BHxdJuQV43VJfTqaJSTXprV26h7PP6qqnFmrsCi5SOuVDw4h006FwqW_ZDQ2VhdkyE6MEtEoUYd-P5e8mB0K52GruL13qEKYxcshkDpAl_pGx5fy-ldM_59PcjdD0EUzd_irBcuTALxZ1khsdZD7CdmPJ3zS7UhGZiWStJHEysRtVIZQ0p1SOhWmV0eFWDdY0rThfFJHK8Rft0DArkr8z5DifZcWOtgxvdJ4DP19MbBIS28xFEaD3qn6_W1Lk8poImUmIKIc8_YE5h2arXYprt0q_rxQ0VXSqvyBbPaddeyaFZw_kHSQdCSGSHu1nRqh4g-utcdze2MzQ5QUHr-J7UrlyFDoxFsKtG7pyW0eaf2gjREgB6QWqTiAycoFsgN0H_YoQhGP-Qr5iB9obY1IzSsWmW0pT74ir2qEBlGf8R-23pAVW3_V0GklOYjim5n_1rww=w463-h165-no" />
+
+</div>
+<p>Now since we want to work with the small geographies, we need to work with the 5 year estimates. First click the <a href="http://www2.census.gov/programs-surveys/acs/summary_file/2012/data/2012_5yr_Summary_FileTemplates.zip">2012_5yr_Summary_FileTemplates.zip</a> and download that into your folder you will be conducting this assignment in. Next click the folder <a href="http://www2.census.gov/programs-surveys/acs/summary_file/2012/data/5_year_by_state/">5_year_by_state/</a>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wh9KVtrMAWxnOWj9WAcRz8Fz_IWY1_mcg3vL8fZHeD8ljPKjj7QNeMhhm6rbIC7jkFtPocRN5bqwJ1mIJXNKM92s6SeUl0tx2Zvttoc6hVrZy4myGtHv9D0DG35m9eOc02j9M7MFbh4nTUtqmJbnsWkOXvzgxm-Ysn10t3_Cj8sQZncQb1zG2KhCxisou1s_aokTjFE6_mglvP4Om1j4wehZ35B-C4U2RrUjRA3uXF-OKb6_QUT3rGrNUruA4lX4GYIiewd5WzwnZ3rcgmg3DRqrU-rQB89lJU9ipwPCzXaCa3OQn1--uE5wz4DNBPcDU0scueg8iwfhv2axIsENA9wRE-4vrd1BQQ0odB_CSKK6qSBT6QhzNzwBtLdGtZ64neCfPM-Ut1DCizDTUbCXOyogwBvjddEfWoZMYzHrFnBz8khFSnvyWbGxexRTlupuMTqoZAdEzryDYhNGWG4GI99OkLQr2mmGpsTVpbsuPaUOaAmHypgyobt1lC1wYKFylHmoffH6yhIi9C3AN81EA5ZLKzOihcN40ErcTl9-iRuHE382JlVxIbmhwhtcECrkLoGX_vu7P0uvufxg7x9XozaR2n0SLEOzlOx4xwSDIJWq67dO201T=w621-h414-no" />
+
+</div>
+<p>Now navigate down to the file for <a href="http://www2.census.gov/programs-surveys/acs/summary_file/2012/data/5_year_by_state/NewYork_Tracts_Block_Groups_Only.zip">New York tracts and block groups only</a>. This is large, so may take awhile to both download and for your computer to now unzip the file.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5cy-GDMros7iMteMXNsfvnkKrP18vw0wtJr0Da2B2IGsmgcgx6yvNaslXE5JJoPM19CQ6siqsVxYLBfSj-BWyjk2K1XZOnO7p8McRQB_fZcfWAmIj4IWcynWlV6p7NmZeXY7BaOf1nhNXBYGn_OkuD_uE3v72R7LwOr8-JiME0kjf2VXJgKkDEy-4cVpoJMADkq7YqCc6Y3DqrNijL5JhFO-ydpmgrr4XDXGyBUSPIQmkXy_6UysC6-tMHQ7_vqFJO4SYQjZFrx3t0G6l08NtphTdOsaAknyQBtjCw3RsmAJ7UCBiTsIh-ye8dJfUdzJ8Z3Tf2mKJ2NC-BbDuGSVM7-kmrW4dZX_tA59dzh8kUc746Y06UNnwuy-ovWiRb3JKNGMLI4tDJ22GjYV5fkagiSw7C_JzVZqY2hhSCVwkgFx7Bd0X-bEdLsZ03SGZnERyNOWCfvJ8mUgTOQ_PHaIcQ2fqV-9IhcWojcSpIk1Ig474cwqtsYIFKMXRckJE8ihbS2PWYbrs0ihSsXhzJ9H4kcsRvPAuSz9oGrMlt7cW5I1c7W9Aa_j8gCVacGPnKozpE8op2DfQwHfsdx5Z9CuhCBbyFwPaK_7L0p8ZHusjBJ_zCt4sd45=w755-h580-no" />
+
+</div>
+<p>Before we leave will download some of the documentation we are interested in. Go back to first folder you were in after clicking 2012 that <a href="http://www2.census.gov/programs-surveys/acs/summary_file/2012/">listed data and documentation</a>. This time select <a href="http://www2.census.gov/programs-surveys/acs/summary_file/2012/documentation/">documentation</a> and then select 5 year.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/J20fYHWcMhjhVBaIm6DQhB5PKh00-oaATLGv3kiXTU3yj4bpXAyvKuigDgR42pv8WSEliCpTTyhJjoLQx40_9zh8wrEsldlt4FDCWUc1iageXdNp5BIYGksWA51A9SkzBDIwP8dKR3jvr58Nni96WvwNwHdLOPslTIKgjPiebWa3p3JUZutlg6eSOB3UkpMjzRkNPv3qa8VLY32UOqcni1LaxrUtZ-Rv9RknuK5zsXSa7w3RxGHJU2lOYpTINojpqRcjzd7vdH7ha7-fXIxeTol46yVUJUZToDwDbjEN_FWItjyQS3EZbtuiy4rKBYlUbN1kzD0Lq0kHOb495s0V1RVx3J_Qh483Wfxfjo8yST_mo0G1ocAdBu2bMfF_g16LNR257Gv3WAka_GOZVWQL3R9IO1N8nT9-k2RDLlPaJk-KjT9XM1EMNQ5j_wugd-zUExGx05e-Ua7-81__jNSw8D6gSsp06aUMJvv29OUUxhi6ZL61auz4BEI-jnkeI-RrLoxuonvkSiQZHTwN5oZHZQ-as81vB3d8F7i6ovuohs9YXOOFSCKfKJJ2I8TJPBlnq7jEtJIizo11ydNOnImpwgmYChf3iNUzgo8xwpW_Y0EfX-sx-KYu=w484-h166-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/O_W8j7FelAlsSRoevWJu20OgbIAhpQBCcLjQJuLwi16xuSDzWxvtjswU-7yqq4NtB9z7YiZnenEG2jEnJASLzzyEIqKhB-jyNJxXaNs8th-GGEFzUZ8gt_WDv4V2xLgP6y3z6tma4rT96ZGjZ0sWO0JOtNFPu1W4C6dIvm0vbs97YpafcKk-Zq5lIiKAtp5lvJY4_8zX2TV7OOepEdRYq3MJtcOxfevCOXMSWdccQTOrlcjLYEvci8iHgUbd_EumEx1iWk_eA4kXwrO8ZBhn3HVxFm9laoWZt9pRxkFqi1jH7lEy7RyuRNRZW0T_fVBYMtycJbr4yScF5vEOi-AgIn8USpkXa0uo2epgCekv9o75ZpGToX3wniOeYlVABUXKKGx1pd8rqH85-AetaQdWa3aqxAFGPTa-6GYmFBKVU6NlfggLDDQuTwGGqPTXBxpNJh5vr5mBDDexUYbVgizfD39Z2Uu8HXBJB7iOcirJFXp1gjUw9Msbb27RupjsluFG0Xb_R3EIKgmo3AGjFBZqTEN1nbkPn_PUZgdSoIJHX68b82B_kl9si4VXt2K4VGfXsFAqV7-za2jdP4bsNOlYaMBzND0Ys5SSq8vsSlJfHTz00Zdl5cGT=w467-h181-no" />
+
+</div>
+<p>Then select the Tech Doc PDF, which in Chrome I can open up right in my browser.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HqzzDJgQn3S621Wavl9KpSExs6GRyc3rNdE0VXQ3UNLSDnGUSLFbEOU9LeerkcEYD9WRDc-1hN9pyMpRO94NOPy-WAFjglL3pUDk8Gmef-oItlPC78fET3ZWCqTF74LAyCRQyaWWxLCPZjN2Yigv4OuaLoHpAlsgSjcRUqUd8jxaPfGum9fQaJC-LzMdLrgM0Y8FgYJ0Ah1nAZKHZXa2YK862-FrTmwuJqxW8qEkTfszWgqlpc01SiXaYo9__c3y_aMNFqe_mDJgz4gk15JzfLA5-4nlJB9Q7e5uIKIMr3OPrgqzUY19CsV3r1JibkBuIiM4UNl6-SomM9YUE2O6m6MvUy-uHEZIctaCPcjZEEp5iGytk57D0YTyNrH7bISzukTyl_V6Bg4amcX9QUwd3SBmM3BRM3IAJpf_Kmx6i-q_DBCrf4BPkreIpOav8JcdCGNeRqidEAjgl5y41N0odEDPCB7e9zu47qtPVdwFqPJk7u2g9HuTucKCEBbgLBGMLxTmAP9ZI_TWTVJwtLiWMvjSGLD70gCiCFOAPsI4kZyFk-fhLeRVPMgGfVrPR9SZRdy1VCl7UMNrstx7qkdJD3iEATp_eY_m98WbiKLDrWJT4InpZ1MB=w553-h150-no" />
+
+</div>
+<h1 id="pulling-out-the-variables-of-interest">Pulling out the variables of interest</h1>
+<p>Go ahead and unzip the files we downloaded (the actual data for New York takes quite a while to unzip). While that is going on, lets go to the documentation. Specifically, lets go to Appendix E, which starts on page 46.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/n5bAKaud9P4nubxMATx2ZtJCy1W-MxGIE9HycezGkQuxf8JY6Rcmzyz0W58M9oxWQFBNnCBfRjCwPu8CQCMSF3XrjVrwECFzRGTTN0T4nuJcHP58pOPIFwKCnHL-dpkC9sKcHaEAQy6qH3Y0Q5zy7G75wYn6YUG_b_migrJgI6-vaQATvlSkgCPtThPkKaXShXq9LR9APTSg6wyM2Mio8w6aZPp3SSgIbMC5a6Fhnx_pE764i1TWQ4s_Ifi2HSmxfuwIdvlQzW7P5LODuteW2a0tUUfS7JQWQIWxIJSJYX1AoIl0Rm729Jzl6ubY65u0mz1DVEnXlRuL44AvzGfNx-XC7W3rVof_3pfzKQER5PPfLY7N9rmi2mkCbwLcfv9O1atfF1P9Sp-v7Jk05AiH6sg3ABwpPBl6Gi9VAnteuEtoQKOZupWhoBd9dGnW2LSI7IroJPQP7gSdLyCwSId2BexpUyek-3bdQbvi6jZ4VeuZ9KtHe8lod3jrwc3FHYFB5kOrYoh5K4_GbJa5-UrINsZCl3sVK7jmXN9ZAvk6WqtrF4xsqB-uB5xSDD-xTBJoAE7iJfcV4Wf7KVUqrTldpo69dwi4C3oReJqJXndKCFCJsc66dx50=w784-h499-no" />
+
+</div>
+<p>The columns you need to pay attention to are the “Table Title” column, the “Table Available for Block Groups on Summary File”, and the “Summary File Sequence Number”. The Table title column gives a description of what that table gives estimates for. The “Table Available for Block Groups on Summary File” says Yes if that data is available at the block group level, if it is empty that data is only available at the Census Tract level. The sequence number tells you what text file the data is available in.</p>
+<p>So now lets try to figure out how to get the data for the first row, the unweighted sample count of the population, which is in sequence 1.</p>
+<p>First navigate to where you unzipped the ‘NewYork_All_Geographies_Tracts_Block_Groups_Only’ data. You will see a series of text files that have either an e, m, or g as the prefix.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/RZSwqq_d1VIBZ4tV0klAcd0EzuRY9LaetEuBGqcoQ77X8GDvZYaZUMRgRGIsbWmeuh97jcOKWGa8qlmNPRvBZStbp9pkHhOJz0U093Y-AMzNG648p4w9IAlpsUhiV9m3UW5HTupiyTmaEIrHmOGH-Apr4UP29biKNo64Z5ROtPp9e9qKrjKM1TWo9CQsBLrXjAYLTDe8WtFR99w-rPAGTh8AZtSw-HoTTs8t4DFSjF2IFY2uofewd4KDmFvaqNrLbbbqo61LIuBKQ0ZfrsLLYIXHXKbIvo1FmvQplejIJWc_wrfCGkJGtnUf-LFmnSNWtNS9pAV_ERy12w-PyxyU-TawC5vkK5dp5c-5q0GODgY_360GGMj9BqUrrH7aeOn95-T49ovTc0pmrLdsOAhdKg--L6sEarKv3YzTgIR5L9OyKmwkFZzmZ9r0Rv1BrwYM5v6CryAM_Y_FjwVrbKd1NNObOm6rPOK59jgCt_bdSH-J57hJheiZOsGoL0BBhVNbArQzNSr3YL-W82wrH7QUrgMltVnHyiOPNp9MhiMbtThuW6i7RG-b75bMRpnfnbHeZ6Ron2z-PuTRIhk37zSsmvTLaGtQJvG9I5p-V1zkTh_nlg8ABPAY=w765-h950-no" />
+
+</div>
+<p>The e stands for “estimates”, the “m” stands for margin of error, and the “g” stands for geography. The suffix data corresponds to the sequence number. The stuff inbetween corresponds to which year the data is for and the 1,3 or 5 year product. So for example <code>e20125ny0001000.txt</code> would signify the “estimates for the 2012 5 year ACS data in New York - Sequence 1”. The margin of errors correspond to the 90% confidence interval of the mean estimate. So if you had an estimate of 500, and the margin of error was 100, a 90% confidence interval around the estimate would be 400-600.</p>
+<p>If you open up one of these text files you will see they are comma delimited, but have no headers to describe the variable fields. We will use the File templates to figure out the variable names. So now navigate to where you unzipped the summary file templates and open that folder. You should see a series of Excel files that look like this</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/hlOU5UKhGLX4-04BHVdeSvmhiPqZ2hNS3ssE2gMd-UjzLfTxYORS8OWNjLxBNBJtmFhN26KQWye4NE9I0gXYGtcXGqagmRnohQEroc_yrfy02nsKvfnaYD8-ccQjhipNSPrOUPyw7PIC2LbPWNqLkO4x2ZPyPBFbdrk2b8gGVXGm2DXox2tqX0ALRnkbsWTTDxQXgy4WDfCJQ3GclASRPU425gj9xbe7hkkvvhLff8wOZCr1Q5yFFbpUblW7vQERV5gwIfAY3nQMR-IEApbui6h3Dz2tgnNEsALWaSCcsgiR0H236SFMWjX0_EnFK4EwRfLfi77x7_ohaSiaIbt2gH8ll3QWglX92HiA2iJOmRqN2K61-vkXChKhnWXnrNsztwy-gJd-0CTaoQBjHx_fRg9uQs0ZtzeDt2UiKAV0RQVHQdKZBblcZ06zchNftGPUEy0Lxr7T6fT9fg9hA0muI3o62G8FLjAzZesuoJiKTcDGapTjgtB6NiNatbp2UgAVmQx9wJ6mJlM2cBMWr2sPo7DzvgpXCj9ps_76dSlRNSovewvtQgpQtDjJeJgdtMc_xtubVK0lpNS8Y2o82zN-ZukRKKkD2P9w1mJYzvEY-kU0rnNke8-D=w626-h491-no" />
+
+</div>
+<p>Go ahead and open up the <code>Seq1.xls</code> file. (Note that this Set1 data file is not the population estimates, but the number of individuals and households sampled at the block group level.) This lists the variable names, but now we want to import our data. First select the A3 cell, then select the Data tab and click the “From Text” option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/GRfVqVV9b-usY3QmH1IEhRCVphu2pEF1N0ItMK2LKHJ9w4VsRk_OyJZAxvaFNYxfHEjDPUtXHVVGOUiB1_-7y8ZkjZJuGQhbOONQcVCuffCt_HPUsEus2M-BbqOcJhnDHwe9TaldHxja_LKieH-hsaRETjYTzR3UYpekGzMHdMtfkoFTSuclanABfTDmcpthMGwB18nEna1kev81Z8JUz5VNUkwP2pNpw6_fobYpkOoJBE118Yme_zdazgpUslinw7E68T76B-ZRpXWqLjUXeGasxIMmN3DCyeUI1JYcGTTYJ3aqPJKUfLGANq1lPMZwC3ter7pKP7T4qE5KWQZJ0rPaafTBlfWPXppTslOvOZDYxOWpuHhf38IwcsOPxATSo5RzBRSpNpIdfhkAGTW0UBpxpXLnLMVehTTAIlWRgCohG-QxEfG0nXp8gv2eTH5XLnp3CjA1QaLKK-ANrAcm2ocCFC3aH6nzHVD2FTsMfjz2m-qVtf_tj_tQtPtOZ61L__dNnSRZ2LnwB48xM_7be8y_XtJ2rvVFY8kH7jbfCNwl4BQcuZLwl02Vo7EdX1bvWfol_F4demTUhpsMVlgdmpVcyfDvYiyhuarTnGIwBWf0i64KFLC_=w1249-h526-no" />
+
+</div>
+<p>Then navigate to the <code>e20125ny0001000.txt</code> file and click Import.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tAUv-YHB1IwnsNonZqUMUF4YRwEJKt3vQ4tkKXbK_f5Zh8fbmz4i0eGZst_VkGxhVKXsZtzk9HHjdi1ysoiF8SyIbx52dXJxtMkZyWwmsNwmRwApMgxa_nYJmh_jByvUsN9_zyf7ZPjXezpzuzVn-hmWQFvrfM7hJy9ApRN8toJEQLb0E6UW4NPNGjXLAzWvahQjpRM01vQC8D6w7Bl7tXgiq_3l9_mHS9np9Jy9f68-fxdvdkCXIQZuWhLRa5Zs5pf65m3kRGebW9kL-0o65kzVY0rc1DcTQyDG_nkMsz8tCiB-OXY5FFbmesarQAr2gEXdTpdEevnM89PTouFqERUCjJzgg7Sav4avyNyvZTSmHeovX6W2zmec5a7aeaaSLe-NOfE5W70D6UU_znj3FG4Z_Si8v_a2ansoY-kmI6ztsi1Z4MMTmNDudQL708zv3KaSzHTiFuKog8kVyHFNkg4gBYoZubYv32UpmmZXEsp6kdpxFkWfxACkwIzLxY4KGbez81t9FD5qahuKe0cPtBJGIBVtjBoofY_kCv32j32UI9J6mCXcYbBCZ6W5eRCssAYxLHnChbw13yG4EGM1j8djgZb-GB_Maoobp0ZIDtXoidusfbhw=w1249-h525-no" />
+
+</div>
+<p>You will then go through three screens specifying how to import the data. For the first page the defaults are fine, go ahead and click next.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/mew4qXHa-SWfZT6sD3j9YpO8PCiWlDvodnfTIMY_6ahT8sA2YgIeo0xbR2mxfVj8sTdEQzJ0aHG2tz90lBpAt9la9IayqM2E2ZS-GcKSws8V0yokq5nsWb6BZ5v1eiaw6TvJEde2lIkFpAA-0_PgFQ9T2WjWkb4KKrKAcnpYaiDiD6Qjy-skojw6tEhmCFFLxHWnzMBOCe1rtSfxLbioAZNmyIV-jsZhxU6k4jEYUVKLLn5H2a_2H7wTgdE7i2P9jCm71AHfU7FjEM_N_jMhlg_RwHNauO8RS8ygTFV9DWOKofkRP6bzam3aQw1KYzXlLurV6c7d8_5MC-tTsbNTpMeMFfTyTIHeCoTyMuVzU5NY-3672SCXq3GqAH2FvkxjoZ1RyJqRpwahiNvQQHKPSRFUahMIafs8-NUL4mpZZF-YhOMoFrH9b3_AX2xNz3NQNts5Su2h38ke3AfQF9cB9yIDiOkAQ4hLEn8ViYuLWuVK_FUS8IDvCCW5K4WH4uJeQXDHwoWZN1S4IpImdjPjtCWCWND5mBAbVqgBilccYpG4oBUJEfvV3M-u6AefA94GpxNuoPCDN67fcSn8BXINh3enSWSY-_5l47fBRAZk-FhUVb9Ct1_L=w579-h434-no" />
+
+</div>
+<p>The second you need to change the delimiter from Tab to Comma. Then click next.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sdnrrwNvLNfZ0UWHLvGWuyNms7DYQNFVwV16AtjF6U9ydQecXOLHxOnx-u3oqIavyzSLmFvPUrlGKVobFHySwbW2BUA_NU4FjjlXnFARDoOJrM5Gr3_HbvJw1a0gMzPgGhc--KazrWO0QmFmzKwsLRRFk9q09zzqnlG64humlf9s9xOdlCnBA1X4aMDQLw3RNbmys733WCAMDMqTXSswZWOpTtK4I0-Z7IZmMfvR-ZMnxobOOl9Az5C4vgHe5kkES6KtSE9G8Fc_aG0G5ibVGWAqYdrTKNlaG9qjcdzBxgBxtpfM3a_F1TtMlXFJQ-XoDTOcJz1vPZK8qYXR55XxpbBmMMZwTwYrDPfetieWgErGkG_QSMJkgeV4_fE7liME8dBuwkYCEOsFhh-ZMg4Yj4Qus1NinBmWg8wQjYkQs0uMydIKGYMKkcnxFiUqUtk2b7aQx2cvMEFXz7vVb5QY3kuBu8INSu4fmfV8tORthmToxa5YjiosHbHxPyOrKBnmB0sB2XhgygodZfUcZPoc24Y8rNRgAH0TfRAS6NIR81iFdDNIYMtc-Sd4ryJl5yv16sTnOl-IhWVChFLI4hwjlNv3RS9QR27aVQsqrrLJgXW9DqpNX6eu=w579-h434-no" />
+
+</div>
+<p>The third step should give you a preview of your data. Go ahead and then click finish if the data is split up like the fields below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/QobKm42XGRsF2ahAi1fghFNlqgI7yGnV56bwChyQVTPrNtF6uFNPHrujkOkJsYEdsQAJRPgdehURPsHWINsJs3xDNFlhiSSm4_P5i941IZX3n5k6Ms6Cyx83inceJjdqe2hoshm9p5xQB2pKqEmyXWTQRHhrDtoaubqNrOMwSweG-jsFdfXCd83zjHlyG3DlRmGS6vc4AnVwYQfV6PALvgeHV6IdNQK7dRgNIFCcufFrG5cEgcgKeEMdqXKD-dmlbSsPXGhDeI05HS4-2w-OMVMxnkKGtf0ecritrKveySOrRW0ogu8wqbIJxWFgK8MObpeUIiRsSRLyOZty3oA2MRgGVqUKfpdJGtAjQZO2ocG4mZvpiGk7Qs1X_YLVx2bnI63K3PiYHKS-vK-BQ7O9MmJX-sxAdYYWWux4iIc23PdQxGVx8UB42UWRFSpExLyKKQGBUdFo1kbLoTzwZZxjfm87eCrNDPZHAtR2DebSNbB7nGznugC1v6roheG1lDD4Zg3GEi-5_8KOu2bkvD95eW8_2eu8TFf9zcovDRmKkGlIl2wARujNB5D8oZRxkCgL3rCcPr6BUnS94X8tDsNROobiuUnUrkr9GLa-63hpyGYWCGPkSRXH=w587-h434-no" />
+
+</div>
+<p>Now it will ask you what field you want to import the data into. You want to import it into cell $A$3.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/HUh6oi6SQ-4IiCB2FYqZu5SY-aqJUEv2ANrYu1WCXLAIsEw7T_gnuBtdgVoLO4FqQ3H5nGCSLue43C2Hf0wGbvTnyoAfNX0NYSlM_cvWIx2_TpM2S4hyVIchjbUsWvV5SFU0MN5oYKJtUn_V_dcQYC8NUBTOFkls8XY38Yv7wvj9DS_dJIXi1-X2fSHT_J2HpET_A58uJVnethleIvdBGH6nEoChJQNpS3bQ2pY-ZRnCo-ivkmdyeUKX3W1z98syTHRhApF3lszo9N-iGiltLmI8aPrIsr5DPXEEy5sdUH3dgkZWMeTEuJVzYjQbPZ0JUybiEn4mxvetFCNhAkC09_qZeDtNfpQuTEbEEBzvfTljOQcNa06IRr5TTGL5R-VpvGiJFOQH_o94ozqVgtGG7pd8DsQZrm7xZJoY028q8sV-lyoWlM_xgQHjSjVZfNaRkOyBYBUwgx-Rl7mKon429TnScWsGFTB8IfpBNj3DT7fQg5I0tLTwVYUm9uhVO3Hu0WUcYZcHlMl0ZU2queWzT-nAje9f649We7OpU0gdArO7xv7Puc5u4A20ehFwDB7tXnMzdN_OXYN4kZXCi10CuCPWGLMX9RZ0gaXAlSr0CojxS5NtFE3G=w265-h174-no" />
+
+</div>
+<p>Now your data should look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/W2g4CV6VxMhvsFn1DwfeAxg4I9TR4Ql1YFw5GDNyIY7barSf-JrVipF_jPyV8tg3UWWWSEUclMy-ZSu9zsa2C50yosXKD9LXQDz_3LSVpsvvuQu5HCsi-Y4tO5PLfX6inq58Dow9mrZGBS97ktiC_8BlVVOiQIxYtFHQOZbCWHf2QzmHZYWwX3QmzapI60EaK7hCRhLMdzfJ8B6h0qx4w8_ChgDEX8N3t5krOzQydqCqoMUSivWlJ44XPBP_o1BXcHS0Cbyo3F-RjhOFz8T0EKs0D2gTMs4HkyP4VGcLuC3N4WJ-Vy_hfXig5vmwO0p9V5PG6URk0NSF1bvl69abVMVlojGgcbcZzlVGkYQiGLs4TB_NwpSkdK8osZ9YIPDyzU18AGtaUB-M3b9iUW5HFitQ_LilwJjZZyDqVLyGv-xFwWIha4gmfmLsfbYTnOEUhejs8dR_u-X79UWS8FwMO9FPogNLdPbxnC-DIwLoqk_hmCfpkI5FeiHXMzx5b5oBAVGRVsBDUi5gbSoH4rOyU_Lo32lMxR3Ag76PBethq27GC3MgR5L98nkZrbsXeNRakTvH6mE-jQKjag2Kc9H4jx9J3bd3cHWcsiVBf2_rjLiNeLWuajpS=w385-h268-no" />
+
+</div>
+<p>Now the F column (LOGRECNO) is the field that allows us to link to a geographic area, but not in this file.</p>
+<p>Go ahead and now open up the “2012_SFGeoFileTemplate.xls” file. Do the same text data import for this file, except import the <code>g20125ny.csv</code> file. This should then look like below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/T-zhnHL2VcS5FiBIr1N1o5H6Z9YCLNCqGJ-JJge9uhmNRqstLYs2MA_J4UzQeF8envB-zJKWdR1nGRekD8nEGELfPFMUfcY3E16peN3Arg12nSOGKTYAFrTZHpjUESjsuyme5lyK5HPgdwRkHwJ8FZXPAcRbp8kCyHSO5_iSJR8Ugc89_L716x4QkwS6gVTMFq0CNyXzlKXvkKfq0WqpoUrJpWZ4OkFABWx1dXhDar3a2fqsdPHhpaltfhWTWFLmVvrCawWssXASQu0AM0rTS6FJa5wuEGuAu4tJewO5qrJKVhlvpoMB6zztT865o1e7oZh7zvTb2-t0BMd9z0pmaAJpeeuGZUys59YI-LpKyUd7DjDZdwEoFDdRCPnrSuHdqtL43ACHmVANjSA5-Qq8qpbEgoRwpH3-U6W9ZvgZyNfij9wT8-TDy1FwgxQd9CDqSIWedsW3iOCRRlUkip7PABr3F6mQ_wHWmKowHeMcL1q9cLLf_wN5EFZGjWkI09F21eYoFNAP1s-nOWaV3Dsf9IRyfD2By1BB8A_dSulI9ILYN_CUcz--NsKOBvW76tVkdkSMi9qm78wcV4rE2h5pwwPXZB1JkVzkEJogEsFZ77xB8X3zfk1n=w1217-h558-no" />
+
+</div>
+<p>You can see in the E column that it also contains the same LOGRECNO file. Now we need to merge our two tables together.</p>
+<p>To merge these two tables together, I dragged the geographytemplate sheet into the Seq1 file. After that go ahead and save the excel spreadsheet as a new file, so we do not lose our work.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NL109g83y_7eYT36jMbrZTu4S-zWAQA5Gk8QtELENnHpwWd5vHE5pwRO1Xp-ZZp27PdTCmN3VoXvtF5_7Sl1ku57IuVHjJSqKB30BnU2utwGqn7lb6csxyZcm1xJcp1QeLwoPD53JHlwdpVEuFzGU1gwnGWy9ZJDF4FXc8rf-uaMTNTwJKxtPuLfpQjwEtt6bw1gxCX_X_Lc5rlyko7REoyG-MSR2SR_QHbvme8ewYUEsbMxwECMMuNfNP_d9M9lmfxq42N37PkZqFS3xsypgpez-dsa03O5Vquim-ZZmWRuvdOgoSABfPCEy6qft0YC3xxwTPRUORxhU_tQ9ga6UMJ43J6QoRl2Sz-O5ggdIZxoN-f2i5vzHK9ZOhuSKEuvOKqMgIqixwVSuZBaZko6YvZL--57A9RQxQ0rcYMzqmCQfIdLi5diZ-Otqnrqbjstak72mavRz7UVCWiFRPaecMV8DCUcwPzxKVPwddrHn_s2pQsFjas7g6I71hp950pIvNQO2U2hg4rzq1dJSwkgnEiRZacTqkYEMi3y4LQ_iENgCfLdGfuUyeibh9AgiRVn8p2gHePBgSmQW09imxnr4Er2lqYcr-6gcnChKc9IK3mNxRbZHcjL=w471-h168-no" />
+
+</div>
+<p>Now we are going to create a named range and then use the <code>VLOOKUP</code> function to merge the tables together. First in the Formula toolbar select the Define Name option.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/WXwv-dm3OUNiKk0Xqdz_LsbjOuKXEuPOHaBGKfwJCTqtbUGPhD-OaqbB33FpsMSYHJ02fu1cCcZUZGjOkAoGke5zJFiRCteSJ57VEWemTdusw0bzS5R5wAZaa62oeAGzbPq3GUfvSO5maehq17d0ZNtdd6nYRldrj1BrSD9vXka9tz94XmZfQnKoaXLTlGaKFUvdht8QouEiB6hKyCmENjc1SKGhsFSj3CB8k13lwS5_jXCCF9xVkaunHOw5DcXeTN0aJrVGFIr7tsSJ8DqWejR6kIOzPt7M0h2dOAHF6Nmr3OfzJkfJM7oBbbi3eM-M4K7qrmbgmufeXKSLibzVcgAOHZo5NIY1M2-rcXwGJzTVS9_u_SE4h_i9ayUQqwOaWOyxRnJgzmOGOiHlRrX7Qu5-6iB4rtUYIUNBTVS5SlbnnIkGQXIcLTOIDbNd_H_L1ON3QyGY0U2EHpnoLEPB6kHjYisDDZYITrL8aMMgmWbTMFa-m_F7sB_G9WY9ZCUSFe_u5vUZn7_SuR-v7NxjfV1Wmp4LzfiC8qH4ojcmyy14PLwYJuQLqzng5wmaLS2yiUHVQck5DWAs-w76DzyrPfVz1PUP26q8eCN8yOoVHmKKhTQpDsda=w1279-h150-no" />
+
+</div>
+<p>Now name this range <code>GeoLookup</code>, and in the refers to option select the range of <code>=geographytemplate!$E$2:$BA$34784</code>. For <code>VLOOKUP</code> to work, the matching column needs to be the first in the named range - here LOGRECNO. We can then specify which fields to merge that are to the right of the LOGRECNO field.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/COBaz9Z4rAPqxY_00hJLND5IMsQtVXYHkwzTvcBqTBC8NwUq-GFn-JWPywVe53Fhl-VBf0eeWqpe6TtawKejvJ1KqG80TyVvEQDslMoOV6WQ-6-SNzZHfXkSPdNDntCi2A3JzO6yc4rj20zZ1hJtBQXoFekbcOpbYerlqME1e3Eyffz18WUDJlwaLueA0aa2S0SDaH7YvD0Y76msVAhzDt5huR-tDioq10IincbsW6t3DxYht2lsx61sPOxc-PfZi2AZVbgYg25xy_7rYqs9gtSwooMJESHHt0CeJGaC2933LeTTyM_fUJz5lcRsdmSBPabw0ns5TAwdUhLjkthXb1Sxu35ZPgjlkl41aHLNEGdBbs23_KgkmT1BdHoLVscyEx7QfHZAr7BK_Pb-u9fTgDKbVXzMen22x5GdhiFMbK2u1u3wI0PYafZMjn0DhiSapT1wE-M6PrfFDm6_GG0w5q1JtBBDib_gK6Vsdyj1wFiJAPTyhbNnrQ3G0kqKwEAEsfBxB7v799F9PrnmEWoLTWhK7uK-2VyrJoKUFR5FGGUKY_F5FZzcTR4o0jfAA7XAwHH-hC499Qjf3WOiaHECyeQBSgrWThXm7enI-_QzaqW5ajBD3Sfh=w316-h238-no" />
+
+</div>
+<p>Now navigate to the Seq1 worksheet. In Column I and row 3, type in the formula <code>=VLOOKUP(F3,GeoLookup,6)</code>. Your worksheet should now look like this:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/y16zN5HRYEQmxGFIVB2CbotzNrSrkZH-MSXx6kMLjwkfcW9LmrCKn5VJzfB1jzSdEfSh1JWpN8Vp3R1wv-J8rEOMRr91jn4UQAofeGIJxNNVUowEczOe9DwU4y8xT9X70P5smVntNJq85evsFXwKdJ0p3pcEvVn5PeKYi8l2IgUEm_5rRLnz7cTr9BbqKbARwMpRGaPvkPOIO4qqims_fYMLp0wG1p_N7HPBaZ7bB0ZC3H-0aaGcgetjAwWv8B8qUeAGhHlXeOEcSFgN6yCWhEp7sWskQKCjqxTeq3rhYrkByOzkMNShs3Pdl-hZHgjt6nxXOY7JimNKCoIWFrJgotRBYv2aIYwnCwmiosYXlL1EB_wCBMVtp30mPT9e7fTUmIYRe9AYXofq8u2NUUurRRjymgWoJS6jXwZIO59-LEt25u2fknFJZjIoliYRrmGUcuJcdAWGgfzStF2xoujpTbJd_sVjyefUy6f-1MLEHAcCbZ48LmKWymElgbX-pScHqqCIsI7zJ8STJNMjWlUBxfGnlnwAOSaQeF_YKzK9RClMWZu6xfZhLaNnd5UcQkU6M4XzA7gq0uTTMeTIlT3GNhkwtCxQX6626PfljhwR_pUIaHU4d2Op=w765-h251-no" />
+
+</div>
+<p>You can see that it imported the value of “36”, which happens to be the census defined state code for New York. Here the main value we want happens to be in the 45th column after the LOGRECNO, the big GEOID field. So go ahead and change the VLOOKUP formula to grab the 45th column. Once you have done that, double click on the lower right hand corner of the I3 cell, and that will propagate the formula down to the rest of the geographies in the state. As a final step, then rename some of the columns (in the second or first row) to more meaningful labels). And then delete the other header row. Here is what my final spreadsheet looks like:</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/iKmTxfmF54Ac8g8S4AE0JD7KaT9QJLQpDsKf_2rJUkvyDIs-4BNwvbHnrJRwpNRd68FZwJ3dWCSPx77Uqo7tifRPduRl_VKheCw9byAXo9xtEcuNOejgLTt6ZinzsX4B1lAp6ygh-p_hnnhrUisPFbc0m1z0GnVQec9WJIzpun7icuYlqoTwREMj9tkcevRigNx1uBmrru92AwY6_9-nU1_q9OCoGsM1DPREln61k54XUoiK2Yv8IzWzuUY6IeSIgRzJLKeBf97_8_pAVYMuEoXOkU4btUQqzKbdJMtcBjJdEgi8HlI-VCCykj3vAYccqV7J4Zn9GRIlmUJ2YuNxqXPfQ_VyOmg6P48FWhiMx5_kaWUwoFkIiWY95Duc20NL6EtB5L_0tru10nvV9s-p8LdKgiOSCrfi4mX6N3GDqlb7YXn6iGGuODVbrVpJYyecu6rERYQBhY9bKgYYOHoGPKnjmvz2_xpPkZYZ3r4CTG4p4msYYNzrKxYoq1cLLmTt0GfrBESoHTxn7w_KJNYusQz5I1Wi5uMA6Ki9YJ7hevAlR-eCxaa063IxEoO8iIjlRmdsEAM-M77eOpTW1sdpeHGLyAT17OaNtt_YnEE6oJmQlfbPpRRF=w501-h662-no" />
+
+</div>
+<p>We now have the necessary info to merge this demographic data into a shapefile. The field should be familiar, as it is similar to the GEOID10 field in the prior tutorial. If you need to trim the field down to the GEOID10, make a new column and use the formula <code>=RIGHT(I2,11)</code> in Excel. Refer back to Tutorial 3 for how to merge tables in ArcGIS.</p>
+<h1 id="downloading-the-shapefiles">Downloading the Shapefiles</h1>
+<p>Now that I have shown you how to download the bulk census data, you may be wondering how to download the actual shapefiles for the census geographies – so we can actually map our data! This is much simpler, and the online web services to do it are much simpler than the American Fact Finder.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> As an FYI you could download the geographies from that same FTP site, but you need to download them for an entire state. This procedure I will walk you through you can download them for smaller areas, such as a specific county.</p>
+<p>First go to this webpage, <a href="https://www.census.gov/geo/maps-data/data/tiger-line.html" class="uri">https://www.census.gov/geo/maps-data/data/tiger-line.html</a>. We will now be downloading the census blocks for Albany County NY in 2013. Note that the years after 2010 use the same geographies as the 2010 census, but that the 2000 and 2010 census have changed their boundaries.</p>
+<p>Then click the 2012 tab in the webpage. You will then be given an option to use the Web Interface or the FTP site. Go ahead and click the Web Interface link.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9B8cIjw9KCT7o6hGlgylZpGapkP91rcGqxIE1BrqG6zMdE_PJavzLQi_7g0s3vh0v3kaLGXkRSbqVJhV-b6dutG4gkzn0nUimBFMX3BGPC2Ms8zucteKt77CDSCQqnJsxXv8OT76RonndI1RFo1YTp-MEVKrV2BlFcSKveNdflwoSXd546JxwRgUwzOeUy-4uQRzgIo085_WA5a-7Brbr9v-ShhlNIwcZWsxke_01A4XU55gg5Lqt7UZlJ9BaJ_2O9Qp6yQ-x6DzhZymdfYWm4jbX_0TormTNuBnnS8ioFq7ZBHU2ek0u_aAAx-rqLS8CfpTlZtm6BB_O7u3R34ee2g9vCrJe3gzZSjN029Vzf9udHqL_H4Se6g6sRIxSl4ve6-UCBrW1oYuPTshqjauBtRqqNyWJwuj4WJXNBAgqZ7gyHsy8P-X-KD0AeByHeOBCmssThls3iDkS5mn8BIIgU5YgfkFDgV_2C1XBXOY2WoBJG5deqUwa7n3jo6vXqzbiVqIQSa5uSYIO8z7tayAjXkrCuNlaU5MLyuuF3GlFMy_UW-18_oX1qbg63hy_681TrC96KtpxqRvZS_2c5PXXDvxh3rtWfXiN9xBMgXx5PSBK0o68_4L=w1062-h409-no" />
+
+</div>
+<p>Next you will have a self explanatory set of drop-downs, a year and a geography. Here I choose 2013 and blocks. Note that the census maintains the same geographic boundaries for each 10 years, so the 2012 block groups should be equivalent to the 2013 block groups.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wG4xB-BM6CAIhwPVCe0iS2SdUzDGUBa6rg1RzpjQZnK1d3UN8dsfcQSA7cx6CQDwqx1AB4l5eKnoqRwk0xDjHIkIlitbsfm-FnYNa01UedSP9Qr581QgI0gMlovYMCxLNYt2DsR2qpgru1Anu5b9cqjteUnDMoHRzC97DwK9XCihJ2E77bUWzpthRkfzQYL2Ss3bXJ7JTk25q4q9Zic-Omdlx32tyc01Gbh1CKAEmXoUFvE-trA9bUmY6CVS8d9606Wtc2VmaFwLAdDzTO6kG_mAhcS7MjR2HqtZkPHHLx4ootgjAVbqMDHIl4HwGUSGhCf_ky_xNwolmjxfaAbihyDiq8s7AY2-fg8xckHjbQJdh0YAgdgoJThop09o358VTyfyM-5YtZQRydZ4YlbdSyw3yXfTcFNkS0Y3MAm4GtEllaTj2HKO-TL6iQ_j8RjYRqNTqLET9yKQuQTmvo26yrys-3li1bF_evniEdV5JC2nWKmIFd7UGbyFvnYJWsf9lmVDjv5iloGOX0l9Zf3DTheZmf1_M-F96a7FFfNVPJ1MTSIHiuxx9DGBrEmD0vA3dnACOMArAl73L2g9dNyUG9IRq-QpmbC3grdDgsMetYRjW9xBwVwN=w953-h332-no" />
+
+</div>
+<p>For this set of characteristics, it then asks for what State I want. Go ahead and choose New York, and then click download. Note you may need to turn off-pop ups in your browser to get this to download. (I’ve consistently had a poor time using Google Chrome when working with the Census websites and the American Fact Finder.)</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/MfUR5YTQIhSRurcqlnNQIjUwbFl9RghpS5If-6uTecVNXujGxsU8z4gcCrGqN1bdHfUOSNgH52WfIOhIqYczcL3PzalQcULUEOV63wvt41wCqeeJg85kHHatkoDVQCF7RmLQsUW8n333PZiGJDYR2IxjxTF7vl7g8KsRm7nwgEYD_GAE5vF2MXVjMNKS3mCodi2k1YC8ZO3LfuS6A-vnhg8fT3T8tgRmS64Zveb_V89l6NwUFdvcn516q8zE4ddyVxbYb8vcTLSK0CAC6BB8wU04NCESQqbbfSM0rUQEZqvIrLn3gTDJBNACIkAhneQnd_h3TkkFDcVJvhugAsIEKc0rq0IsLnJ0rxXZB6NadndNlz3zx-GygFQ5ybxz7OQP4p8mealU0mr3bXUu2rhMWUvamZXbCufNYdoyetn9yJ0ve8XQmFcqqpzmVJ7xGYS9ZF-6eExp8EY82jMpwwnZlykCPtXIcnqwqqHCflsuI8agwJ44Gl1DAnT3N5If4VSpfd7O60YwqcYsLqh8NeLhDoEUfBrJ21MsH1mZRPA4A8Zy2DioMRwQdSoYB8kQUH0K-Db47S2tZ4DGrJfxjHj-rGXLHMDMphEGFzMCntJZ56fCqo5c3Ikz=w592-h118-no" />
+
+</div>
+<p>This example you need to download the entire state. For some of the other geographies though you have the option to choose both the state and the specific county you are interested in. This then downloads a zip file that contains a shapefile of the census geographies.</p>
+<p>In later tutorials I will shown how you can select data, so if you were only interested in blocks in Albany you could select out the ones of interest from the statewide file. Also you will learn how to merge tables together in ArcGIS. So you can construct your table of demographic data, and then merge it to the census shapefile data in ArcGIS.</p>
+<p>Pro-academic-tip: The census changes some of its boundaries for areas, like block groups and tracts, every decennial census. For those working with census estimates over a longer period it is a pain in the butt to normalize the data to the same geographies. To normalize the areas between any two census’s, you need the <a href="https://www.census.gov/geo/maps-data/data/relationship.html">crosswalk files</a>. These files provide the necessary information to use proportional areal allocation (the dasymetric procedure we talked about in class) to make the estimates comparable between census’s.</p>
+<p>There are a few projects though that have done some of this work for you. There is the <a href="http://www.s4.brown.edu/us2010/Researcher/Bridging.htm">Longitudinal Tract database</a> for tract data from 1970 to 2010. There is the <a href="https://nhgis.org/user-resources/data-availability">National Historical Geographic Information System</a> that has census tract geographies going back even further, sometimes to 1910. There is also a paid for product, the <a href="http://www.geolytics.com/USCensus,Neighborhood-Change-Database-1970-2000,Products.asp">Neighborhood Change Database</a>, which for one state is currently sold for $1200. (I saw the latter referred to distinguish between the Latino categories in the 1970 data, as this is not available in the first reference.)</p>
+<h1 id="homework">Homework</h1>
+<p>For your homework I want you to estimate the percentage white population (available in sequence #4) and make a table of a few specific block groups. This table will already include the total population estimates used for both the numerator and the denominator (not the sample size estimates that were drawn earlier). The block groups I want you to place in the table are:</p>
+<pre><code>LOGRECNO       GEOID
+20345   15000US360470576002
+20346   15000US360470578001
+20347   15000US360470578002
+20348   15000US360470579001
+20349   15000US360470579002</code></pre>
+<p>In your table include the total population and the white population estimates. Then calculate the percent white population in an additional column.</p>
+<p>For 5 points extra credit, include the margin of error white population estimates, which can be found by importing the data in the <code>m20125ny0004000.txt</code> text file. Then calculate a range of estimates for the white population (so you will have three extra columns, margin of error, low % and high %).</p>
+<p>Pretend the total population has zero error, but calculate the range of percent white estimates at the low range of white population and the high range. So for example, if the total population was 1,000, the and the white population was 500 with a margin of error of 100, the percent white population ranges would be:</p>
+<pre><code>low  = (500-100)/1000 = 0.4
+high = (500+100)/1000 = 0.6</code></pre>
+<p>So between 40% and 60%. If the percent white happens to be over 100% or under 0%, simply round it to 100 or 0 respectively.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In addition to census geographies, the census also provides water boundaries (for rivers and lakes), as well as roads and railroads.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

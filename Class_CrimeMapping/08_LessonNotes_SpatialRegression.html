@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 8 - Spatial Regression Models</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 8 - Spatial Regression Models</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+<h3 class="date">GIS in Criminal Justice</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-problem-of-spatial-autocorrelation">The problem of spatial autocorrelation</a></li>
+<li><a href="#the-spatial-lag-model">The spatial lag model</a></li>
+<li><a href="#additional-models-that-take-into-account-spatial-autocorrelation">Additional models that take into account spatial autocorrelation</a></li>
+<li><a href="#evaluating-the-residuals-for-a-spatial-model">Evaluating the residuals for a spatial model</a></li>
+<li><a href="#homework-and-for-next-week">Homework and for next week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This weeks class we are going over spatial regression models. These models take into account that spatial units, such as neighborhoods, may influence each other. Most traditional regression techniques assume independence between the units, and in this class we will mainly go over one model, the endogenous spatial lag model, that explicitly estimates how different spatial units influence one another.</p>
+<p>As a reminder, the readings for this week are:</p>
+<ul>
+<li>Bernasco &amp; Elffers (2010) Statistical analysis of spatial crime data. In <em>Handbook of Quantitative Criminology</em>, pgs. 699-724.</li>
+<li>Land &amp; Deane (1992) On the large-sample estimation of regression models with spatial- or network-effects terms: A two-stage least squares approach. <em>Sociological Methodology</em> 22: 221-248.</li>
+<li>Lesage and Pace (2010) <em>The biggest myth in spatial econometrics</em>. SSRN <a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1725503" class="uri">http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1725503</a></li>
+</ul>
+<h1 id="the-problem-of-spatial-autocorrelation">The problem of spatial autocorrelation</h1>
+<p>So why do we care about spatial autocorrelation anyway? When estimating a regression model, say the effect of the numbers of bars in a neighborhood on the number of crimes:</p>
+<p><span class="math display">\[\text{Crime} = \beta_0 + \beta_1(\text{Bars}) + \epsilon\]</span></p>
+<p>To make inferences about the size of the effect of bars on crime, <span class="math inline">\(\beta_1\)</span>, we need to make some assumptions. One of those assumptions are that the errors, <span class="math inline">\(\epsilon\)</span>, are independent of one another. This is a case often violated when you have contiguous data over one city. Other examples you may be familiar with though in social science applications are repeated observations of the same individuals, or a series of the same measurements over time (i.e. a time series).</p>
+<p>In particular, here are the implications of what happens to our inferences about <span class="math inline">\(\beta_1\)</span> when there is residual spatial auto-correlation in the model:</p>
+<ul>
+<li>the standard error around <span class="math inline">\(\beta_1\)</span> is too small. So if you have a p-value of just below 0.05, but there is residual autocorrelation, that effect is probably not statistically significant at the 0.05 level</li>
+<li><span class="math inline">\(\beta_1\)</span> is biased - that means as the sample size grows it does not necessarily get closer to the right value. This is a case though we can have a good guess at the direction of the bias as well. If the residual auto-correlation is positive (which it almost always is)<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, the coefficient will be biased <em>away from zero</em> <span class="citation">(J. P. Lesage and Pace 2009)</span>. What that means is that the absolute size of the coefficient will be too large. (In the rare case of negative spatial autocorrelation the opposite happens, it will be biased towards zero).</li>
+<li>and finally, the model does not represent reality</li>
+</ul>
+<p>For the last point, in general regression models are abstractions of reality. While no model is perfect, we want them to be as close to the actual data generating process as we can be. A model that is closer to that process is surely better than one that is further away. Taking into account spatial autocorrelation tends to make the model closer to how we actual think the process operates. Spatial autocorrelation essentially represents another aspect of the data that we can exploit to better explain the outcome of interest.</p>
+<h1 id="the-spatial-lag-model">The spatial lag model</h1>
+<p>But how do we take spatial autocorrelation into account? To determine nearby in space, we will use the same spatial weights matrix, <span class="math inline">\(W\)</span>, that we discussed in the week 6 lecture. We will also be using the same spatial lag operation, <span class="math inline">\(Wx\)</span>, as we used last week. So if either of those concepts are confusing to you, you should go and re-read some of the last weeks lecture notes. So with that in mind, the workhorse of spatial regression models is the <em>endogenous spatial lag model</em>, which can be written as:</p>
+<p><span class="math display">\[y = \rho Wy + X\beta\]</span></p>
+<p>For this model, the outcome, <span class="math inline">\(y\)</span> is a function of its own spatial lag, <span class="math inline">\(Wy\)</span>, as well as another vector of coefficients, <span class="math inline">\(X \beta\)</span> (that is, they can be more than one independent variable, but you can pretend it is only one independent variable for simplicity if you want). In this equation, <span class="math inline">\(\rho\)</span> is the endogenous effect of <span class="math inline">\(y\)</span> on itself. (Endogenous just means that <span class="math inline">\(y\)</span> is both on the left hand side of the equation and on the right hand side. Variables on the left hand side are endogenous.) You could interpret <span class="math inline">\(\rho\)</span> as crime begets more crime – if an area has higher counts of crime other areas nearby will also have higher counts of crime.</p>
+<p>This model cannot be easily estimated though, see <span class="citation">Land and Deane (1992)</span>. You cannot simply include <span class="math inline">\(Wy\)</span> on the right hand side of the regression equation and estimate the equation with ordinary least squares. (Despite that Land and Dean paper being well cited and over 20 years old, this mistake is still quite regular.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>) The way to estimate the model via maximum likelihood is to rewrite the equation so <span class="math inline">\(y\)</span> is only one the left hand side, where <span class="math inline">\(I\)</span> is the identity matrix:</p>
+<p><span class="math display">\[y - \rho Wy = X\beta\]</span> <span class="math display">\[(I - \rho W)y = X\beta\]</span> <span class="math display">\[y =  (I - \rho W)^{-1} X\beta\]</span></p>
+<p>Now the term <span class="math inline">\((I - \rho W)^{-1}\)</span> may seem pretty mysterious, so how do we interpret it? It is actually not that hard, and implies indirect spillovers of the independent variables. First take note that <span class="math inline">\((I - \rho W)^{-1}\)</span> can be written as an infinite regress:</p>
+<p><span class="math display">\[(I - \rho W)^{-1} = I + \rho W + \rho^2 W^2 + \rho^3 W^3 \dots\]</span></p>
+<p>So for the first iteration, this term is simply <span class="math inline">\(I\)</span> (the identity matrix), multiplied by <span class="math inline">\(X\beta\)</span>. This is just like a normal regression equation. The second term, multiples that normal regression equation by the spatial lag and by rho. Then higher powers take higher terms for the spatial weights and the rho. Higher powers of the spatial weights matrix is basically looking at the neighbors of neighbors. So if <span class="math inline">\(W\)</span> is a binary contiguity matrix, then <span class="math inline">\(W^2\)</span> would be positive for the neighbors of your first order neighbors (i.e. the second order neighbors).</p>
+<p>It may be easier to illustrate with an example, say we estimate our bar equation on crime, and also include an endogenous lag. Lets say that the equation ends up as (where <span class="math inline">\(y\)</span> are the number of crimes, and <span class="math inline">\(x\)</span> is the number of bars:</p>
+<p><span class="math display">\[y = 0.5Wy + 2x\]</span></p>
+<p>So lets say for a location we add one bar. For the first iteration of our infinite series, we then have:</p>
+<p><span class="math display">\[2 = I + 2 \cdot 1\]</span></p>
+<p>So crime at that location we added one bar is predicted to go up by 2, and this is called the <em>local</em> effect of bars on crime. But because places with crime are expected to neighbor places with more crime, this diffuses crime to neighboring areas. So then the spillover effect for the sets of neighbors are:</p>
+<ul>
+<li>first neighbors, <span class="math inline">\(0.5 \cdot W (2 \cdot 1) = 1 \cdot W\)</span></li>
+<li>second neighbors, <span class="math inline">\(0.5^2 \cdot W (2 \cdot 1) = 0.5 \cdot W^2\)</span></li>
+<li>third neighbors, <span class="math inline">\(0.5^3 \cdot W (2 \cdot 1) = 0.25 \cdot W^3\)</span></li>
+<li>etc.</li>
+</ul>
+<p>The series geometrically decays with higher order spatial lags. The diagram below shows this process, with the local effect the square in the middle, the first spatial effect as the area around the initial location, and the second order spatial effect as the area beyond that. So adding one bar diffuses into neighboring areas, but that diffusion effect is smaller the further out in space you go, and the rate of decay is dictated by <span class="math inline">\(\rho\)</span>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/oyTzo95gWazcY84C61HumAq2aUnutgqP8IVLd4ObYJMn--Lfl1aPaSxZPV_dOqR-bJYhzegIwnt2I6pUnW_QCJWUSZKNlZKh7s_jeaoKVAqLWZR2smQeDOhjJ_maXTxXB0ZerkGmlro0QoZW8YtgyO_X2Z04mnYVK5KXnP7Hd3NFgwkZe5C1-U0z6Yu6oCfa1KjOfSCbkXZ5NdSHYxlRgQ4fWnzG9dmH1IooDINkN-tKYtdyAXPBKmegQUlX9C9cVOVMY6nJ78DVaCmhkMorygSOOqeCPVO7rU4Yg1faJygkne3Xc6aX8zd0aqIzM7xNn4qvkzuJbbKlz4JdMqB-fcbLOyOVleWv_615WTD_tat2HlD7bgvrJRmE1KhPuDiRIMAA63q-vxnPOXfnvo7rqxJ1w3kSYr_rcvogO2RFSjTLjL8KtnFOdo-iu7YeAA-X6EO3MepJumSCq2O0IvHmhyXKkLsn__X-QqoLbkI51mR_lOiiFm7NsyFkp3TfRU1V5Fz1yWCfqppVafA6pqY_LV0qisXpho6hw_s8SbX0XKvqgGP5b2N5oaDY7aEQ2lyVBPnvNAXKl3r88gCepUV8X7CiqB0hCDMPoHBCDtTDNgbO6Fqj9Yib=s252-no" />
+
+</div>
+<p>This diagram is not quite right, because the second order neighbors reflects some crime back into the original location, but you should get the idea behind this. The equation for the total spatial impacts (over infinitely many spatial spillovers) is the same as for time series models with one auto-regressive term:</p>
+<p><span class="math display">\[\frac{1}{(1-\rho)}\cdot \beta\]</span></p>
+<p>So for our example equation, with <span class="math inline">\(\beta = 2\)</span> and <span class="math inline">\(\rho=0.5\)</span>, the cumulative total impacts of bars are <span class="math inline">\(\frac{1}{(1-0.5)}\cdot 2 = 4\)</span>, Since the local effect is 2, we then know the total spatial spillover effect is 2 as well. So that is, although the beta estimate for the effect of bars on crime is 2, if you add one bar it will effectively increase crimes by 4 over the entire study area, not just in the place where the bar is added. The idea behind the <span class="citation">J. Lesage and Pace (2010)</span> paper is that even if you use different definitions of <span class="math inline">\(W\)</span>, oftentimes the total effects (local and spatial) end up being very similar. You cannot simply compare the regression coefficients, as they do not speak as to the total diffusion effects though.</p>
+<p>The endogenous spatial lag model can be extended to include spatial lags of independentvariables as well. And this model is referred to as the Spatial Durbin Model:</p>
+<p><span class="math display">\[y = \rho W y + X\beta + W X \lambda\]</span></p>
+<p>Where <span class="math inline">\(WX\)</span> is the vector of spatially lagged coefficients and <span class="math inline">\(\lambda\)</span> are their spatially lagged effects. You can also generally include spatial lags of <em>independent</em> variables in any type of regression equation you want. (If the local values are exogenous the spatially lagged values should be exogenous as well.)</p>
+<p>For some quick additional notes about endogenous spatial lag models:</p>
+<ul>
+<li>To ensure the spatial term is not explosive, <span class="math inline">\(W\)</span> for endogenous spatial lags are almost always row normalized (binary contiguity can be problematic).</li>
+<li><span class="math inline">\((I - \rho W)^{-1}\)</span> is very hard to estimate for large <span class="math inline">\(W\)</span>, hence why two stage least squares is nice sometimes.</li>
+<li>You can estimate the effects of multiple endogenous lags, see <span class="citation">Deane et al. (2008)</span> for one example in which Glenn has two spatial weights matrix, one based on spatial distance and one based on cities being in the same state.</li>
+</ul>
+<p>As a final point, this model is basically limited to linear outcomes. There are extensions for binary (0,1) data, but you cannot estimate an endogenous spatial lag in a Poisson regression model. This last point is a stickler - since estimating crime outcomes at small places one typically is estimating low count data, endogenous spatial lag models are not easily possible. But in the next section I will go over alternative models that take into account spatial autocorrelation for these low count crime models.</p>
+<h1 id="additional-models-that-take-into-account-spatial-autocorrelation">Additional models that take into account spatial autocorrelation</h1>
+<p>There are three additional models that take into account spatial autocorrelation. I will only touch on them briefly, as I prefer the endogenous spatial model due to its spatial diffusion interpretation in most circumstances, but other circumstances may dictate what model you choose.</p>
+<p>The first is the spatial error model. In this model, instead of an endogenous spatial lag, the errors are autocorrelated <span class="citation">(Loftin and Ward 1983)</span>.</p>
+<p><span class="math display">\[y = X\beta + u\]</span> <span class="math display">\[u = \rho Wu + \epsilon\]</span></p>
+<p>So in this notation you can see that <span class="math inline">\(u\)</span> has a spatial lag effect. So the errors are correlated in space. This does not result in spatial diffusion effects though as does the endogenous spatial lag model.</p>
+<p>In comparison to the endogenous spatial lag model, these are equivalent to the difference between auto-regressive and moving average processes in time series models. It is very hard to tell the difference between these two processes in practice, but if you must choose between them Luc Anselin has a model selection procedure outlined in his <a href="http://www.csiss.org/clearinghouse/GeoDa/geodaworkbook.pdf">GeoDa workbook on page 199</a>.</p>
+<p>I have only seen this model estimated for linear outcomes as well, but it is more similar to spatial filtering approaches.</p>
+<p>The simplest spatial filtering approach is to include the spatial coordinates as explanatory variables on the right hand side of the regression equation.</p>
+<p><span class="math display">\[\text{Outcome}_i = X\beta + f(x_i,y_i)\]</span></p>
+<p>Here the <span class="math inline">\(f(x_i,y_i)\)</span> is just generic notation that means the outcome is some function of the x and y spatial coordinates of the units. This has the benefit that you can estimate this using any type of regression model, including Poisson generalized linear models. It simply involves including the non-linear terms on the right hand side of the regression equation.</p>
+<p>This is what I did for my <a href="https://dl.dropboxusercontent.com/u/3385251/AndyW_Dissertation.pdf">dissertation</a> predicting crime at micro places in Washington, D.C. using negative binomial regression equations. Basically you just include the X and Y coordinates on the right hand side of the regression equation, and you can make the effects non-linear by including splines or polynomial terms. Below is an example from my dissertation. The map on the left shows the kernel density estimate of crime, and the map on the right shows how well tensor splines of the XY coordinates of street units replicates those overall hot spots.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/zUxwzQoagPqEejCSFkTS1SpqUT34w5ZFJwKCgRQEdvrtJJqmImJKw8B2wSHx44Qe_1J0dtahHHBXCGa3XzCM32zRzUcKhoaAKNl8_tsPLTCpLNKgj8jneK6DDITQBzr31w62OvcvEQ2pCwMXjlWpYlojx6w40C1ykyxOs3_qm1Mf-LUb1jFsu5n80t5MYfv1VEzEyj4JRlvPxpEQbbYqKYfNoKd3Abn--FPmHfwjXW32Q2ReRD-9hSx5TNToYGhITg4II13U6gUZkHJ04DZRIO8vwpX3pFsts-9gwNBlOJ-wAeptblXuvJ-8XL3804NKEjF-TBDV1Ug-5hwiIaAzTeDXxs-kAxw8t3TJQHYV-tXegnyjRamwfS7ZEa3djpHMQgsA47By3cUrY1vy-UL5RC9CmF3ei4ZbAGjEQzO3WE4UKJDad2TIP4B4oHT52K7Hi3_V-zzm7mCKHgIbgUSz_6cv1XrjNB4N6TS4-00gfj0ZxhLG2yZ3FYlEk4actybB6x81sE3InOTHbbO1_PPza5vzwGUoYN8M6GQ4Z6DuIsquWaW1QuRoJdmOVnitJ4p3ZTZv7if0x5wP6T4gNWFM1MQ19YfCi7zOn6kbhmLi_oZez6uO=w1340-h813-no" />
+
+</div>
+<p>Again this does not result in spatial diffusion effects, but effectively controls for the background rate of crime. I liken it very similar to Shaw and McKay’s zonal model - just estimated based on data instead of arbitrarily drawing circles over the city. There are other ways to do spatial filtering though, see <span class="citation">Patuelli et al. (2011)</span> for an example.</p>
+<p>A final type of model I want to mention are conditional auto-regressive models. (This is frequently abbreviated CAR, whereas the spatial endogenous model is abbreviated SAR for spatial auto-regressive and the spatial error model is abbreviated SER). Instead of estimating the effects of spatial lags, the CAR model is more like estimating the effects of the difference between the local value and the spatial lag. One way to write the model is:</p>
+<p><span class="math display">\[\mathbb{E}[y_i|y_j] = g[\mu_i + \rho \Sigma w_{ij}(y_j - \mu_j)]\]</span></p>
+<p>The last term is the spatial differences term, and the notation <span class="math inline">\(\mathbb{E}[y_i|y_j]\)</span> means the expected value of <span class="math inline">\(y_i\)</span> conditional on the neighboring values of <span class="math inline">\(y_j\)</span>. These models are almost always fit using Bayesian Markov Chain Monte Carlo techniques (and for technical reasons are easier to estimate than SAR models using MCMC). See <span class="citation">Wheeler and Waller (2009)</span> for one example (no relation). CAR models can be fit to Poisson outcomes, and subsequently are more popular among health researchers. (SAR and SER models tend to be more popular among economists, and I prefer them as well because they are much easier to estimate and interpret.)</p>
+<h1 id="evaluating-the-residuals-for-a-spatial-model">Evaluating the residuals for a spatial model</h1>
+<p>As a final note, no matter what spatial model you choose to fit, you need to assess whether there is spatial autocorrelation in the model residuals. If you happen to fit a non-spatial model to spatial data, and there is not any residual spatial autocorrelation, you do not need to worry about fitting any more complicated spatial data model. Some people make the mistake that if the outcome is spatially autocorrelated, you <em>need</em> to fit a spatial model. That is not the case - we only care about the residuals in regression, not the marginal outcome.</p>
+<p>But even if you do fit a spatial model, you still need to then check to see if spatial autocorrelation is still evident in your model. You do this by calculating the residuals from your regression model, and then looking at the global Moran’s I value (see from week 6). I will show an example of this in this weeks tutorial. When looking at regression residuals, Moran’s I does not have a well behaved null distribution, so I suggest to use a permutation approach <span class="citation">(Anselin 1995)</span>. Basically what the permutation approach does is it takes the original data and randomly changes its spatial location. Since the process is random, the end result Moran’s I is what would happen with non-spatially autocorrelated data. You do this permutation approach say 99 times, and if your observed value of Moran’s I for the actual data or residuals is higher than any of the simulations, it is a p-value of less than 0.01, so you would reject the null of no spatial autocorrelation. (You can do the simulation more times if you want a lower or more specific p-value.)</p>
+<p>In most applications I am aware of in criminology, just fitting a regression model will typically take care of the majority of spatial auto-correlation. If Moran’s I gets to lower than 0.05 I am typically pretty happy. With bigger samples I have had Moran’s I values of less than 0.01 be statistically significant, but with that low of residual autocorrelation it is surely not a big problem with bias in the coefficients.</p>
+<h1 id="homework-and-for-next-week">Homework and for next week</h1>
+<p>This weeks homework you will be using the R software to fit the endogenous spatial lag model to a dataset of crime rates in rural Appalachian counties. If you are interested, I also have a an example of fitting the non-linear spatial filtering terms with a Poisson regression model. Each of these models also shows calculating Moran’s I to evaluate the regression residuals. I have you estimate the models and subsequently interpret the rate models in terms of actual crimes increased.</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-PR551">
+<p>Anselin, Luc. 1995. “Local Indicators of Spatial Association- LISA.” <em>Geographical Analysis</em> 27 (2): 93–115.</p>
+</div>
+<div id="ref-PR116">
+<p>Deane, Glenn, Steven F. Messner, Thomas D. Stucky, Kelly McGeever, and Charis Kubrin. 2008. “Not ’Islands, Entire of Themselves’: Exploring the Spatial Context of City-Level Robbery Rates.” <em>Journal of Quantitative Criminology</em> 24 (4): 363–80.</p>
+</div>
+<div id="ref-PR320">
+<p>Land, Kenneth C., and Glenn Deane. 1992. “On the Large-Sample Estimation of Regression Models with Spatial- or Network-Effects Terms: A Two-Stage Least Squares Approach.” <em>Sociological Methodology</em> 22: 221–48.</p>
+</div>
+<div id="ref-B55">
+<p>Lesage, James P., and R. Kelley Pace. 2009. <em>Introduction to Spatial Econometrics</em>. Boca Raton, FL: CRC Press.</p>
+</div>
+<div id="ref-PR926">
+<p>Lesage, James, and R. Kelley Pace. 2010. “The Biggest Myth in Spatial Econometrics.” <em>Available at SSRN 1725503</em>.</p>
+</div>
+<div id="ref-PR1215">
+<p>Loftin, Colin, and Sally K. Ward. 1983. “A Spatial Autocorrelation Model of the Effects of Population Density on Fertility.” <em>American Sociological Review</em> 48 (1): 121–28.</p>
+</div>
+<div id="ref-PR279">
+<p>Patuelli, Roberto, Daniel A. Griffith, Michael Tiefelsdorf, and Peter Nijkamp. 2011. “Spatial Filtering and Eigenvector Stability: Space-Time Models for German Unemployment Data.” <em>International Regional Science Review</em> 34 (2): 253–80.</p>
+</div>
+<div id="ref-PR115">
+<p>Tolnay, Stewart E., Glenn Deane, and E M. Beck. 1996. “Vicarious Violence: Spatial Effects on Southern Lynchings, 1890-1919.” <em>American Journal of Sociology</em> 102 (3): 788–815.</p>
+</div>
+<div id="ref-PR104">
+<p>Wheeler, David C., and Lance A. Waller. 2009. “Comparing Spatially Varying Coefficient Models: A Case Study Examining Violent Crime Rates and Their Relationships to Alcohol Outlets and Illegal Drug Arrests.” <em>Journal of Geographical Systems</em> 11 (1): 1–22.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The only example of negative spatial autocorrelation in a social science application I am familiar with is <span class="citation">Tolnay, Deane, and Beck (1996)</span>. It is possible that negative autocorrelation could happen with competing events or displacement, e.g. if crime goes up in one area it goes down in another. This does not bear out though in most applications.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>When one does this, simply includes <span class="math inline">\(Wy\)</span> on the right hand side and estimates the equation, if there is positive spatial autocorrelation it results in the other coefficients being <em>too small</em> and biased towards zero <span class="citation">(J. P. Lesage and Pace 2009)</span>. In effect, it overestimates the spatial lag effect (that will be elaborated on later) and underestimates the direct effect.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

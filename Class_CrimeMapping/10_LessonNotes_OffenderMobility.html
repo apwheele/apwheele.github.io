@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="By Andrew Wheeler, apwheele@gmail.com" />
+  <title>Week 10 - Offender Mobility and the Journey to Crime</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 10 - Offender Mobility and the Journey to Crime</h1>
+<h2 class="author">By Andrew Wheeler, <a href="mailto:apwheele@gmail.com">apwheele@gmail.com</a></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-journey-to-crime">The Journey to Crime</a></li>
+<li><a href="#geographic-offender-profiling">Geographic Offender Profiling</a></li>
+<li><a href="#offender-mobility">Offender Mobility</a></li>
+<li><a href="#other-related-applications">Other Related Applications</a></li>
+<li><a href="#homework-and-for-next-week">Homework and For Next Week</a></li>
+<li><a href="#references-and-endnotes">References and Endnotes</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>For a reminder, the readings for this week are:</p>
+<ul>
+<li>Bennell et al. (2007) It’s no riddle, choose the middle: The effect of number of crimes and topographical detail on police officer predictions of serial burglars’ home locations. <em>Criminal Justice and Behavior</em> 34(1): 119-132.</li>
+<li>Porter &amp; Reich (2012) Evaluating temporally weighted kernel density methods for predicting the next event location in a series. <em>Annals of GIS</em> 18(3): 225-240.</li>
+<li>Rengert (2004) The journey to crime. In <em>Punishment, places and perpetrators: Developments in Criminology</em>, pgs. 169-181.</li>
+</ul>
+<p>In this weeks lecture notes we will be going over the journey to crime and practical applications of examining where <em>specific</em> offenders commit crime.</p>
+<h1 id="the-journey-to-crime">The Journey to Crime</h1>
+<p>The journey to crime (JTC) is simply the distance between where an offender resides and the location they commit their crime. If you remember the idea of nodes and edges in crime pattern theory <span class="citation">(P. L. Brantingham and Brantingham 1991)</span>, where an offender lives would be considered a node.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/krN90fV5jC_lpeHvtGsXpnyjsNCoLyVC6p9WuCRLRwm9Z01DLCwjUs0hFLnt-xTHfWU8r2OIm3lkOSRVI5E4jDpkKTFHxwwIAqnJ2fxuToKhSJk_UA3nsx3t7kVAjGrSHSFe-ymoQUyr_8IJnx7NqItFlgYyd8wD6GllKws7o-gmmgEunY9LbAdwM2cHJ7i6_SCX-YdjUSq8u6kNw_qnlJ4xLZVp3_Hv638LOh0d6WgxTTD0GxEPyJPEOp9hYWWNnSVJLbBwomMlUrS8JTuUMgK2mMYwdUhn1TTm0crMHeLVIDXqHb4b7zm85_r-Mex2gQFOeIxNTUDxZfvpJiMNC9cDhOdqU3cxjroVVXSerb46h9pzVHfB_t0yBfCBwtyUSUs-TIu-T4GjWKHGviRE4usjuNRLQG07LfC16G4nOjpfAyGTaejdX-TlYvvgaW3m9jByNEkuaaBSXdesw2pz6KCk65rxfh6tatHixX9SI1UN03cba-tLbqpGrngEFTOQUzYzZpFSzlQwE0u5Ld6hc_r7QyaLCqmLGi-P9DztkEShkhznQvnaSJjjpQqHFnGP9XBzFN48Sp3GyNOZH-I495vEz6HRea_GuKZUCzMMkOWmlvbSNajTKqbtav5_0yuSP-n04crduYRC_ISkgQO1xpcWJeuQ35I=w1044-h913-no" />
+
+</div>
+<p>Places such as a favorite bar or where an offender works would be considered other nodes, and offenders become familiar with the places between those nodes from repeated traveling. An offender is more likely to commit crime at places they are familiar with for probably obvious reasons. In the case of expressive crimes (such as assault), this is due to simply their routine activities. Offenders probably do not go and look for a fight at special places beyond their normal hangouts. In the case of instrumental crimes (e.g. robbery, burglary), offenders are most likely to be familiar with potential targets in areas that they frequent. For example <span class="citation">Rengert and Wasilchick (2000)</span> interviewed burglars, and they said they would spot houses on the way to/from work that they would target.</p>
+<p>Some have described the behavior of offenders as animals foraging <span class="citation">(Johnson, Summers, and Pease 2009)</span>. For example, <span class="citation">Jacobs (2010)</span> described how chronic robbers have particular neighborhoods they are familiar with, but would cruise around in a vehicle looking for a particular mark to rob. So it was both partly planned, but subject to random opportunity factors as well. Comparing offender footprints (where offenders have committed crimes over time), tend to look quite similar to people who track animals, hence the relationship to ecology and foraging.</p>
+<p>So there end up being two constraints in offender mobility – where actual opportunities to commit crime exist, and where offenders are familiar with. Even if an offender is familiar with a particular lake, there probably won’t be any opportunities to steal from individuals in the middle of it. It appears that most criminals subsequently use as little effort as possible to find victims, and this results in many short trips for the journey to crime. Here is an example from some of my work, <span class="citation">(Wheeler 2012)</span>, for JTCs in Syracuse. The median crime trip from an offenders home location in this sample is 1.6 kilometers (this includes a sample of over 40,000 trips and all different crime types).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/NPGczMVt0gfRN76E2AU1_K6-8hqSSpIHoo0znuXPrjYe2u01HjMz4_kkGpBHYlrJ5SiPKb63ixQwgOGWJSYCUiGo4Znp3xFT1gnkwX5QfXN5PnF4Z9tNpY-VjcPPv68Ykwz6HxlUUF8FqSbxudX89dtzc5NqUnLHKYCMpmrDgL-rDfmPNlGJDDBAaYF9veWhoIH3gHMh-Sb73KXL43Huy2vhiWzNmRYDnHkGwnNBsQGV7mNoiVXP5E9mJ4qs_WgIFgnSMA6PWxbZLDFBb3VnfYORHsOSBZ1wvYnCv_3eBT6LPvb56kgaLuHHadm4offaEb3TDefgs-6oHWn0M1-bHy8Q9sKIdEDqdICMQDjjAGt5x1ys1pMLX4aMSfRfIhV9o3nSEJguQzNBKwE07lt0pyAhbqz05E9V4RiGu1anXjKYBJ2s7gc3AeXRKWU_wXsSvVLKhJmh-9R8amCbO4H92li32dnTiYefBMjp6qSablfan16eNx_akNlBg2AO524RyXMEkAP4U9hMc6qiuh6N6cd4mJfOXD8274QHvfjVGKB16BJFdF-_Z5x10rtgwo8GKLl8_KJXyYPAWTbw7bh3tU439sIqLnoAJohb4ReCXBcsc0kgTgnGls-Ngd7QR2DHVJpN9YAeBhRecCrz4UfXV-VrjnLKt04=w883-h659-no" />
+
+</div>
+<p>The pattern in this histogram, the heavy right skew, is described as <em>distance decay</em> – an offender is much more likely to commit crime closer to their home than farther away. This is one of the most consistent crime patterns in our field – this holds for pretty much every type of crime, every type of person, and in every city examined. Some crimes, people and places have longer or shorter trips on average, but this distance decay is still the predominate pattern.</p>
+<h1 id="geographic-offender-profiling">Geographic Offender Profiling</h1>
+<p>Using the fact that the majority of journeys to crime tend to be short, Kim Rossmo came up with the idea of geographic offender profiling (GOP) <span class="citation">(D. K. Rossmo 2000)</span>. The idea behind GOP is given a list of offenses you know are likely to be committed by the same offender (such as by a particular modus operandi), can you guess the most likely place for that offender to be living based on where those offenses took place? In practice this works very well for identifying some type of nodal point related to an offender. It may not be the actual home address (e.g. it may be a friends house or where they work), but there is quite a bit of confirmation that this technique works when we have data to verify in many situations. It surprisingly even works quite well with only a few offenses to work with, like around 5 linked offenses.</p>
+<p>How this is useful is simply as a tool for detectives to limit the area where they might investigate possible suspects. Kim has a bit of a complicated formula to figure this out, and takes into account that offenders are likely to commit crime not <em>too close</em> to ones home. But in my opinion, simply just looking at the offense locations and picking the middle <span class="citation">(Bennell et al. 2007)</span> works almost as well (and is much less complicated). Hence why I had you read that Bennell paper. In practice as a crime analyst or detective you probably want to use all the data you have at your disposal. For example if you already have say a dozen suspects, you may want to prioritize those that live nearby the middle of all the crimes.</p>
+<p>As an example of geographic profiling, Kim and company geoprofiled the location of Banksy graffiti locations in England <span class="citation">(Hauge et al. 2016)</span>. For those not familiar, the artist is famous for graffiti paintings in public space that incorporate aspects of the built environment. Below is one example.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/BCPn7INRbGuJia-6maL0ZWyX6_qDb0bD6S49t4BK8ZKtA9818xMLSCFRk1eRh8eQDZ16SeJ5kkHXNUpwc-kPZK1Bqeim1yoNiBt7Aw3yMd77BrF09KsHid7eg3qCMVEYogTHw9XsuKSY-j8rvR45JGFCTCbV15DfFTRiSCwwdKxgP3I402OLP9aW1yilzTMzDO8W_1r0TejtikndQyGGkVTEKP3m-4XbNHtiV0DrKx8uqI1pwEpmPfJLt2Kj270j39OqXzXWgy4ywKMquwDfU-4Z7LCu-84wbanZHHUoYNxxpmw4tElq8iIlPkWKPp6dCihudVbsidw4mDFFNySxktkb_p-zJFXNTAj4NA9juC1b-BxbOmIYQm-sOWb5pB3N42tubVWvEotybNF5tOATRqZIabXndrOW56Tnwcin2OU91P6wljJT1LoqDuQHkjkbfWPephS2Z8e-qvBICH9K-jiy5tqcbI2KVmkeU7Bur-zuhTru0Uf3JS5cm8J-RSkmJZ_U46Ci8wMj2yXr8mj1QqVD1s1LxqmS9qNzZ6ILsjYL5at8FLrs2FafljcacyuZtlqV7XqYI-m2ZQ2JKufkUDumwdYsHPKAmRth-CHuIVXqAPFY2HXp4xoAMqkiPFGkTgCGvLzPq4nlRZSltEvNCGj-f0dPQug=w776-h537-no" />
+
+</div>
+<p>I <a href="https://andrewpwheeler.wordpress.com/2016/03/17/some-gis-data-scraping-adventures-banksy-graffiti-and-gang-locations-in-nyc/">grabbed some data</a> of Banksy graffiti in New York City (via this <a href="http://www.telegraph.co.uk/culture/art/art-news/10353534/Banksy-Better-Out-Than-In-map-see-where-the-street-artist-has-painted.html">Telegraph article</a> for a place more familiar to folks in the class. While it is a bit lighter of a crime than most analysts are interested in, the logic works just the same. Kim subsequently gave his expert prediction using his GOP software.</p>
+<p>First, here are the locations of those graffiti incidents in the city.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/PP1IachtYdnKybM76L6gpR9hDqvcO-v3hUTWGCnNcOcfUfzDUlI7PVHOsTVWBRg3Ti2QWd5MOX13TVaIJG25AVJEQpbPnLKSpIlhKzWtuEiCsag4CSnESyuoJYxoIgRKXXPskQMKrbgqduoKPr3h2x0kzRaJBCYZnc1kbK2JVJFvD8CFzs9VrbkGI1miHvxtflHhNHo_kEPYCGyEfQBMV81laXkHl6V12ANO72DzYUuKo2vXc9E1kw1Qck8W2h6tC_u80evrp7SxnEv7FZZjBXnwPGDmBvKCwLfUUuvCsnctf8PoRYgGXSn5DRfsZGlNW-F4JXCGKQ3KwYR0qCOLGlUHoqtwqxapHn4t2vas-r9zBj63dvoQJtaFJk-2NVWAcqUHprIjCldZgKnjq1BlrMeywm5ymUArCvWtAnrsshqP-dJSBCPWOSNMug6BC9T90494uE-dJdTm2gFML42tREokBlGYfLQLTXvq5Am_llypf9qY61rTUItXy-mv3piSHfFGneUnuXxwKefVOuXu7b4F3-C_H_t7qoveJ4djhAM7MubKE414t8j9fyOeQPCbFRKmQ0D-Ly25VKCroFaBH_YZynvhN04HsjKfQ2C4MPTLPe-X1ozix0M3e0SxfEd5lqT21DPJEiduWewznQV259IzndLoV0A=w539-h574-no" />
+
+</div>
+<p>So we have a cluster in Manhattan, although there are some in each borough. This next image shows Kim’s prediction for the area that is 10% likely to contain the home address of the artist.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/tAg6Xmwlx-0SUz1txN2QkmmeMyPZTAod-TZFqbf67W54SSxxFHwkdEp3Li3LqA72Im8g93j5vlqlL6fRx5OLi1swSr6NNhHvnxexi1z62Xzrj5sTKVt1LJPeBa26sdR9cdBney-Lp7uq2b6Ybb-M_0RKwsp1R3V0PtyjPziew7myVUzgLC2bxx4j5y0NCuureed4Xvg7JJUPThvruzXRRALVsOIYR4S0uJ1H8F47RnH8NQCOWyth4yuF3QixA39jqfaB9yO5IbuAXxLcfic89684tFJ1grfGmpL8ody2RbWvNVQixUcY5oE3CjgUFVgotFz2oU7iG_TMa8E_-CBjfpe-RLfjBF_yUxv3dBqMMRUCTALQP2K0kAhUnOHvrvOmgH84ANc63mir_UrQNt1PAng3OqLjRzMUh6XLrIkeRdxvZpeA8y_DnrkroYXYwBq__7hCiJsArddVK56m68r-F5H0BIdcG0js1FfczxfIzwwnwb1qlZE8hmeQHitUbytDBiGBLbz4Tz97OTXZRBYeCaX3EgHutsWr0ne2P0KmPEo83i0dny4OBVH4hkncFbcEzzETlJ73F1GPjysIYTKUnEYkeIrs6qZws4wCxuXA87HOBgmvC_vd2YBU6Uz2K0kfTvK9qicWNv5svzwig3fkAb-DuSShTr0=w453-h469-no" />
+
+</div>
+<p>This is really too big to be useful, it includes pretty much all of lower Manhattan as well as a bit of Brooklyn, but you can basically see how the model is predicting based on essentially the middle of the incidents. The area in the center, the two darkest orange layers, are the places Kim labels as the top 0.1%. This ends up being pretty much on the border of Greenwich Village and the Chelsea neighborhood in lower Manhattan. While we do not know for sure the identity of the artist, this seems like a pretty reasonable guess. It is an area that has alot of artist type folks and college students with NYU, so there are quite a few apartments in the area.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sNbOiu72ckjfGkzgso1CySGQ3bU-umbEnDQ3Y1TE6AFEFT7FghMlEPuSRSb3ajJTfKPsDzPyQaijLPFsPg6UZ3xmQvFh9l7SAiJxoqWF3d0_Giq4QFvwE8aWzCuLaKn3u43cju7i0lA3yyM73eVGWUYRJbfl2AL8ehBwUKVBhsjapbdbTXKQ6UuF8tlfJvlv5sjtyG3lzSpsmdfD3S51uyDSR2Q3wozfLJF2NrijL2rJqgMVaAgM0hOoP_aDHOk0A6smRpApy4fmAJy_PafWcVH1AjLows3VZeXehAZ80jKCfjUuS4x1n_CtwH8SgRMJp4ImAUjK19OWBcnF0PnP6yWZFTBp9LwNdUfX1DgGLXPlhlekZviPf7a9OXEWBc6WkdVu4tug-m9O56Wp2on_EPzWV-9CXbDyFKMqrw0lqfVVa6k9QPxQg9UuzTJ7qZCIrxFGiwCjAqCFOLr77K6RjW3T4ufDer182ayrBxPkQG54r8rQAiaK6zUKs9ucFRPmusl5qEmn7uSXcGHZ7DtP743TdUjJ5AHqAbxvE_1IMF8CI5llTS8JKkfUDW7yEq1fb7lWevVJ-G6LyHnno0jquOyzdTipsbRMDjUIxGysXEkxhFiejoWE7OojPtUI_DGb0l_QIcQnyVoTeL1Q5mlwlDuqLxkPlLo=w860-h733-no" />
+
+</div>
+<p>So if you had no other information on who the offender was, that is the place you would begin your search.</p>
+<h1 id="offender-mobility">Offender Mobility</h1>
+<p>While the journey to crime tends to be short, chronic offenders over time tend to display quite a bit of mobility. This may seem partly paradoxical, as the journey to crime is short. But what happens are some long journeys interspersed with short ones, as well as the fact that offenders move quite alot, results in chronic offender patterns encompassing large areas.</p>
+<p>My favorite example of this is an offender who I will call Mr. Profilic, that came from my Syracuse project cited earlier. He was the offender that committed the most crime over the time period (he had 45 arrests over a 6 year period). Here are the locations of homes of the offender (in Blue diamonds) and offense locations (in red triangles).</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/rUUEP23u36F2kIib9R2YP46ZYtP5hLXwrpnrMlHm6fI7EoIj9MC3742AFIQvSj89-YVdnjhx5ORAnetY_qbax2Yik4rI3pBx-hdW8hR2-Kdn-zjaUXzC_YPPEd2hZcgrJij9tO9HDBcD6WCwc69qucVWbW1srix0jIsmMmtHrsySONbw9YRLENNA3Vs1pTvTC4aemKeDMDY4CJrovFrG4UYUZ7YfD3SXRRqyuqOxrV6HG806Wfr1XVIRHC65qzbbRSP1iZQ9vIrfkW15t98tWDua7oHQ4ttZRq7AiZkynQtKf-Ey1Bzo1plb7Iopw61U5dzCUmbsn1C66iOsXSj6qN4EdSqYN29GeR1Adf8TM0znkBhxarFN6E8MZcZ-itxnicd3LADdVQVlQupuLNqag86T8wnLT-nNws7Siwz-m3IICizif1skyKczJ9h0ucHqo7tfaVZMb575tcCpJPhLjtl0v7TY5yzfG-er1D1_KcODXWaTCyfyp4wqjbaYHUcOCQwbPLe5EGRGplbWp6qdi9qU8X4ALxLp9VRm9fv_wWISyHTOlUrm3X-Qllwlr9yEC0vaL9xZxuIqpcYZRQeCmzypDGmWI-hyNic4ooQAu9-V-SpqiIReQ5-azy_IBH6L84uM8q3N-OdIC1POzCiTUFOvVGrvXMk=w771-h759-no" />
+
+</div>
+<p>From this you would think that the journey to crime is quite short - but when I draw the actual trips another pattern occurs - the offender commits crimes by previous home addresses.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Fd_KNuRI1rWeldwbUVs-1CjCypaeBIgG-dtLdosCtKdQO43OqNREqHQZGsKZJo1LJZYoTSRhuSnUTS0mdjIuXNy_4PxGG1yD91ZRn1oibdEIeBgersGQSV6JOp4C0bfhEb_Kxf5ImhoWmsbD-yj1lE0W_gnMrbWIb4B0VfUUVBr8VN5U6LDMnlDerGLl23hHpoLC-YaV6tVscCUEk7FgNurCw57a-0R_2VknJn4oXrjbOXZATPaqyq1YoAzbZrf1quuipqMQ1J1K1NW5asUbaKJ0pJXi4eaD8xl8CMDhkDKWk1GaTfJRlsl5h0jo9xnmZl3HQwFui83uISVsyNd8QH0XQOaNfXl_xVzqQepHhWKM4t3xQDNylrNzT_UFc6FWQoOVmr8T1U-qT0u76g9TAzcC96plEi0Jokyd_1HhVlZHUYl4vUCbrWFx5QLQ3FYT1h0c3wQnkBu9N7FMdIbz5sDNJJxzyImJCGnH0HoWArECCRK4-yPaD8_oBbXaZWqpVViYhjIb24gnpppOk9Zj4HwcuV_6XPEdKiyZJ7joMO5GhRjRh2icL5mJrk1DagRHpmMPz61rwvqD2hitaUKco_J77HtwlzTZ1r67jmbhUIXCl-7pqIvSWwcqAQ2_IIyookE7IyQV0GUzSSomSnOAyukTtcoE3z8=w746-h771-no" />
+
+</div>
+<p>What happens over time is that the offender both commits crime at locations before he moves there, as well as re-visits old home locations. When he moves to the eastern part of the city, he ends up offending mostly back towards the central part of the city. The central part of the city is where most crime happens (not much happens in the eastern part, red below). So it is not clear for Mr. Prolific’s crime patterns if he is offending just where he hangs out (in bars in the central part of the city). Here the homes are labeled in their order, so you can see that he offenders nearby 3 when he lives at 1, and offenders nearby 2 when he lives at 3, etc.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/JVB2B_fDpK5HSFQdDFgk-xj4XaZ2p0AjsIdWEyM8RTujqNpXTuBeNoMbvwBLWmpXCj2-SkKP1ZaqZuMuPPoQwpPRc9wtYcl7bYPAWyhVEJldmswI9EEir212MXB8VljD9G4_YdzSgl7yyD2z__TujHc8QNImNonmhFYkr3UzeN-FTnmGXLdDz04RhSyuV2NAb2I40nbbjwiSAUUB1OekotiEmvuY5O-__lx2g0Bos1PsEVEfIqPsnQtrtL7UY4E4_qUMas00aLnZ9Z5dBj21WdLm6aA7rJRYgBRmZjmleS0v61c_2Ed1NO4dk7I5JUqznai4mSeanKEzbrtOWQL1QikiRmQO_Y9prPfyZAVTtZV16StmTK9KF69fnCLq-Gly5zjkbQQQXfX-gDXRhcaAkHwejZv_t-B9bufGhiausgEg08Un0QB3hTlpl-vxnx-X4UG3kvZf2aGiDtyA3HI1Qddh1cQwdyc9lnhWDWY4LMHvSCRmb7Ettov5ir5Dy-oDP8YyWBN-PgGkVRHdd7MoNdfA6o_JMzK2mNheH30KmTbLmzCSpZb_Sfp3KpjprdOlKuR9QXCQC3CmXR7EkCrD65a9gUtX1vr-NptlGUhENY9hvIupDGaQG1XCiAYF7Kd4aN6KukTmvFOJu9I95tntZHw4mMNJTHc=w863-h693-no" />
+
+</div>
+<p>As you can imagine with 45 arrests, they were not for very serious crimes. There are a few arrests for weapon possession and aggravated assault, but most are for nuisance crimes, like drunk in public or exposing himself to passersby. So many of the offense locations are more of the expressive variety.</p>
+<h1 id="other-related-applications">Other Related Applications</h1>
+<p>Geographic offender profiling has the longest history/use in criminal justice, but there are several different types of predictions that crime analysts can use. These applications currently are not as simple as geographic offender profiling, but I think have good potential to expand going forward. Two of those applications are:</p>
+<ul>
+<li>predicting where an offenders next offense will be</li>
+<li>given a set of unsolved cases, identify if they were committed by the same offender (crime linkage)</li>
+</ul>
+<p>The Mike Porter paper I had you read was about predicting the location of the next criminal offense <span class="citation">(Michael D. Porter and Reich 2012)</span>. While GOP tends to work well, this in practice tends to be much harder. Mike’s predictions ended up being on average 2 kilometers away from the previous offense. This matches up pretty well with my Syracuse sample - the inter-offense distance had a mean of nearly 2 kilometers <span class="citation">(Wheeler 2012)</span>. Unlike how repeated offenses can give a clue as to the home offense, it does not appear that repeat offenses give new clues as to the next offense. I think this can be potentially improved though, using things like risk terrain modeling and/or discrete choice modeling (which we will read about next week).<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>The second application is called crime linkage <span class="citation">(Michael D Porter 2016)</span>. The idea behind this is that detectives have many unsolved crimes, each with a particular set of information. This information includes where and when the offense took place, as well as any peculiar modus operandi of the event (such as for a burglary the burglar entering the residence via pushing in a window AC unit). So the prior two applications (GOP and predicting the next crime), by necessity assume a series of crimes are linked to one another, crime linkage tries to identify those cases to begin with.</p>
+<p>There can even be two distinct uses of crime linkage in crime analysis. One is that you have a known serial offender, and you attempt to identify whether cases of unknown origin are close to that specific offender. The other is more general, just in a batch of cases with unknown offender(s), can you identify any linked set of cases that are likely perpetrated by the same offender(s).</p>
+<p>As an analyst, it is not easy to connect a serial offender, especially with fairly generic events for a large city. Even in a city like Troy, NY you will look at over a dozen burglaries per week. It is easy to miss small patterns that can potentially link those offenses together. Crime linkage is a way to identify cases likely to be linked - and being nearby in space and time is often one of the biggest factors in whether two crimes are related to the same offender.</p>
+<h1 id="homework-and-for-next-week">Homework and For Next Week</h1>
+<p>For this weeks homework tutorial, you will be learning how to make multiple maps in ArcGIS, as well as a brief example of digitizing your own spatial data. The application will be mapping those same Banksy locations in NYC, as well as mapping a prolific offender and his journey to crime in Troy, NY.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<p>For next week we will be reading about two additional crime models: discrete choice models and geographically weighted regression. The readings for next week are:</p>
+<ul>
+<li>Bernasco &amp; Nieuwbeerta (2005) How do residential burglars select target areas? A new approach to the analysis of criminal location choice. British Journal of Criminology 44: 296-315.</li>
+<li>Graif &amp; Sampson (2009) Spatial heterogeneity in the effects of immigration and diversity on neighborhood homicide rates. Homicide Studies 13(3): 242-260.</li>
+</ul>
+<p>Good luck on the homework!</p>
+<h1 id="references-and-endnotes" class="unnumbered">References and Endnotes</h1>
+<div id="refs" class="references">
+<div id="ref-bennell2007s">
+<p>Bennell, C, B Snook, PJ Taylor, and S Corey. 2007. “It’s No Riddle, Choose the Middle: The Effect of Number of Crimes and Topographical Detail on Police Officer Predictions of Serial Burglars’ Home Locations.” <em>Criminal Justice and Behavior</em> 34 (1): 119–32.</p>
+</div>
+<div id="ref-BC6">
+<p>Brantingham, Patricia L., and Paul J. Brantingham. 1991. “Notes on the Geometry of Crime.” In <em>Environmental Criminology</em>, edited by Paul J. Brantingham and Patricia L. Brantingham, 27–54. Thousand Oaks, CA: Waveland Press.</p>
+</div>
+<div id="ref-PR1695">
+<p>Hauge, Michelle V., Mark D. Stevenson, D. Kim Rossmo, and Steven C. Le Comber. 2016. “Tagging Banksy: Using Geographic Profiling to Investigate a Modern Art Mystery.” <em>Journal of Spatial Science</em> 61 (6): 185–90.</p>
+</div>
+<div id="ref-PR59">
+<p>Jacobs, Bruce A. 2010. “Serendipity in Robbery Target Selection.” <em>The British Journal of Criminology</em> 50 (3): 514–29.</p>
+</div>
+<div id="ref-PR38">
+<p>Johnson, Shane D., Lucia Summers, and Ken Pease. 2009. “Offender as Forager: A Direct Test of the Boost Account of Victimization.” <em>Journal of Quantitative Criminology</em> 25 (2): 181–200.</p>
+</div>
+<div id="ref-porter2016statistical">
+<p>Porter, Michael D. 2016. “A Statistical Approach to Crime Linkage.” <em>The American Statistician</em> 70 (2). Taylor &amp; Francis: 152–65.</p>
+</div>
+<div id="ref-PR1665">
+<p>Porter, Michael D., and Brian J. Reich. 2012. “Evaluating Temporally Weighted Kernel Density Methods for Predicting the Next Event Location in a Series.” <em>Annals of GIS</em> 18 (3): 225–40.</p>
+</div>
+<div id="ref-B1">
+<p>Rengert, George F., and John Wasilchick. 2000. <em>Suburban Buglary: A Tale of Two Suburbs</em>. New York, NY: Charles C. Thomas.</p>
+</div>
+<div id="ref-B2">
+<p>Rossmo, D Kim. 2000. <em>Geographic Profiling</em>. Boca Raton, FL: CRC Press.</p>
+</div>
+<div id="ref-PR282">
+<p>Wheeler, Andrew Palmer. 2012. “The Moving Home Effect: A Quasi Experiment Assessing Effect of Home Location on the Offence Location.” <em>Journal of Quantitative Criminology</em> 28 (4): 587–606.</p>
+</div>
+<div id="ref-PR1115">
+<p>———. 2015. “Visualization Techniques for Journey to Crime Flow Data.” <em>Cartography and Geographic Information Science</em> 42 (2): 149–61.</p>
+</div>
+<div id="ref-PR1668">
+<p>———. 2016. “Testing Serial Crime Events for Randomness in Day-of-Week Patterns with Small Samples.” <em>Journal of Investigative Psychology and Offender Profiling,</em> 13 (2): 148–65.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>You might also ask <em>when</em> an offender will commit their next crime. I have not seen any work as to this question, but I do have a paper addressing whether repeated offenses are random with respect to the day of the week <span class="citation">(Wheeler 2016)</span>. So this helps you decide if an offender is likely to commit their next crime on a Friday, or a Monday, or if there is no strong tendency to commit crime on any particular day of the week. This test I show in that article also only needs a few offenses, around 8 it is quite well powered.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>I did not discuss cartographic aspects of displaying journey to crime data - but it is difficult. I do have an overview article discussing the challenges and presenting examples though in <span class="citation">Wheeler (2015)</span>.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

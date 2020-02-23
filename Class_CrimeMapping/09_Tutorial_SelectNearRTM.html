@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="GIS in Criminal Justice" />
+  <title>Week 9 Tutorial - Measuring Nearby in ArcGIS</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="https://dl.dropbox.com/s/cw96cyweduagkd6/Blackboard_Style.css?dl=0" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Week 9 Tutorial - Measuring Nearby in ArcGIS</h1>
+<h2 class="author">GIS in Criminal Justice</h2>
+<h3 class="date">By Andrew Wheeler, apwheele@gmail.com</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#selecting-based-on-attributes">Selecting Based on Attributes</a></li>
+<li><a href="#selecting-based-on-distance">Selecting Based on Distance</a></li>
+<li><a href="#spatial-joining-two-point-layers">Spatial Joining Two Point Layers</a></li>
+<li><a href="#buffers-and-counting-points-within-buffers">Buffers and Counting Points within Buffers</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</div>
+<h1 id="overview">Overview</h1>
+<p>This week we will learn different mechanisms for selecting certain locations and measuring nearby in space. For relation to the reading, this is similar logic to that conducted in Risk Terrain Modeling - we will just be working with vector data instead of raster data though. The data can be downloaded from blackboard, or from <a href="https://www.dropbox.com/s/joqvlns9p7fq5kk/9_SelectNear.zip?dl=0" class="uri">https://www.dropbox.com/s/joqvlns9p7fq5kk/9_SelectNear.zip?dl=0</a>.</p>
+<p>For a hypothetical project, say you are a crime analyst and the Chief asked you to identify locations along main arterials in Albany that are at high risk of assault and robbery. You have already identified risk factors you think are pertinent: public housing projects, bars, and ATM locations. So you wish to pick locations that are nearby any of these risk factors. This tutorial will walk you through different ways of doing this.</p>
+<p>Here we will be using a dataset of street units - street midpoints and intersections in Albany (point data). We will also be using a dataset of schools, bars, and ATM locations. The overview of the project will be:</p>
+<ul>
+<li>select out the main arterials and intersections from other street units (selection based on attributes)</li>
+<li>identify locations that are within X distance from a public housing project (selection based on location)</li>
+<li>calculate the spatial distance to the nearest ATM (spatial join)</li>
+<li>count the number of bars that are within X distance from a street unit (buffers and spatial join)</li>
+</ul>
+<h1 id="selecting-based-on-attributes">Selecting Based on Attributes</h1>
+<p>First, I have provided an mxd map document in the data, named “Albany.mxd”, that references data used in week 2 - Albany Streets, On Premise Alcohol locations (i.e. bars), and the border of Albany. When you open up this mxd document though you will see that the layers do not show up, and they are prefixed with a red exclamation point.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wCHwO_TCE22J9KH2TJ9oOkiEFp8IQFC9-6rX4m0otV1ulXhHiODdvIRWCYulsuPc1h7TCWY9Qkd9IOOI_PLEYqdCLPchEnducSqOo3Yzi0Mat2ORh5GYgZ3_6N6it9McDDEb24mTW2zUwErLnuXDujrdqk2vgEOkelJiaWzrvac61TqW1EobUn8Cn8VZq-Tx-syS0pTpNegLsnDi60ex_L_cxobZAaCHt6u6A-b1ltKEqfgXpHotGCFcdfEQHyDpDhl2qzlcvlHISMpWG8pd645UsBYpHe8PbkkeD1n8hVW1EN8Ha5HcN_0-oBWXw4Sutcw0aUwkAfEn6_QNECcGzk3Sht0HR1D8hRENrJH8u1AGhGvZN83CkjNf_FYsLDp6NEGKS7cgw7YraH65lnPO22qkOhbSkljJMzYq_3BIWVRMxNbPtst6SqFMWzwWxFHCT4dtQP7zIa2MKafgrANFcE8526PZWItAjs6iOaL3AkRCgBez5JGcbBuJwA4DDg7d4WiEGlo_yr-2nVX76Q4JKPfGO-TXz4YJJs7rEqv3chUndR0cpRkGpERhDNJ5GkO0msTqTnm9AbtGeogL1ImqXYxb3Qb7s-yibrwadveFnjVhWG38Xoo8=w1062-h624-no" />
+
+</div>
+<p>The mxd document is just a container on how to display spatial information, it does not actually contain the spatial data itself. When you make an mxd document, it contains a link to the original data location. This mxd document still expects the data to be located in the folders on the machine I originally created it in.</p>
+<p>You do have access to these three data layers though - they were in the second weeks tutorial - bars, streets, and the border for Albany. So what we are going to do is tell ArcMap where the data is located on your personal machine. Right click on any of the layers, and then go down to Data -&gt; Repair Data Source</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/btkkl8aQWaEE_tAy-WRdiy_TSgWdZfRZ0E8Ww44UoLwCmInRYPCtM79g3pQkCT9CW8T2j_pValdgjEH3Pdp-XTFbbMptKLcihNktzzrKqP2FX6RoNk7EGzpSYTOE9_TsnoKPRXFujNo2kA1XPdKCsG_2CHrJnvX5QAz9xIf24nY5UKRTyNvauxSgn1eiNGk0kMkSzWcNDK5h6laVRPd-7NozalLswNcO8FmrVy9NezMML2kexqHnBBM-tlsckaiJ4-YTYLPLGCBjU1BD6Kx7euzQpL7lnTI8LOoo2l13N6zi_o0KrxKK_poGvQjJ-Kbxav0cl63lqVo3OvXZboJy8BzPl3Ax46J3BSH8jlJLDL1ydO00AHKtxes8L3uB5CCnCKKKNAbjdmTsrC7KLc-7pmFgx9a62AG8RlhbllSkdAnca_OYZSCawByNsJSuFDcRW-q5XChRCwh8HVoNn3U639DT_Gik9gxhrg8w172PBkC_CHSFUGNEaPs9kea2YNJFRDlMaipt9qfWr6iKW6tzPkKKHaw9zL1PZT5tn0T6RiuzFGMOnbd52p5Yq8p_ra0GyVewESgsX6cNf_Hp4fOHToY_vj-8ZSyS5zXffbD-mk-MtoL9i3mW=w780-h574-no" />
+
+</div>
+<p>Now here I selected the Bars data layer, so I navigate to where I had the data for week 2 located and select the <code>Alb_OnPremise_Liquor</code> shapefile. When I hit add, ArgGIS intelligently updates the location for all of the layers in the data frame. So you should now see the full Albany map.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/IOtfsRFtLrPtGFN_2XHCK9lRSx1cJoEbWs966NHCrDdy6FnRYakmGqm_bYGGF-IXj8BjlB4FmGjXg-MTX3L1ZNgYP3Fp6sxUZGlqAkPYzT03vyU9fse9TKO-XQkg4bCzk6F_5in0cSxzp6xSL8lsGUZfPh1dHtKfLaK8ZX5ZnmCGiMKyhCE04O4l26dy8neBUiILNeN8Pkc1909gAdyuk7Rygu04oGBf57AkGMoxv1FQCVUdC7XXtTrFt3heDn9f0xIWTV40lDgWL4m2jmV91-Le8yDqXHUN9Qs2ASB21d-LOrH6bdrIxxCKAPRjmD_yb4vlUQgD1GdhHlbLqKdHn3VShlnBXbHrc_alLqLQbk9oXX_cuD5BQp4M12Ax7mtDqctcX-2MnCFPOd6KkWD0SsCgghlefw_RCXlhPB0QG2sKoKwZQTQQOik7_v4xoBZiq7BgazVX24wArPRtWI3aSs3bVTB3p_TGa4w2KpBg4yd4vTjP9PDoqOluoqPtvYSiGpaxcdHGbAbGUOeHacD98P1daAv7QsAP1NjX6CuROc418MO1uXF5ZiHyfKa1-OwYmUlR63-kEM4atDxPJPL-EXDK5__eMvkLiof_2B_F8Zg628qWAQ_Z=w497-h330-no" />
+
+</div>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/by55wReS7vFuEwzKaUUGRSKe_EurS2HfST2skQq6z4i8Nq5Y3LhHJSaa_qULQnJ3lk1mCzda0HC9vbCZMdKlYzezNLStWKtCpGQ2XFKmF7moEMp_TKq1Dwkp_qVWKgoTJyY947MzPqCYBzZUro_C0w6d30Lg0hapugGgtvF8Rm2uv602Wj0xvzw0TDV4wLteXG4FQA9c2W6clX5xOzeMpg5ut9Qn7hy9wLy4utnTNre466adS4P96O_V--hfDfRIRDt6pGttkt7JbQhFUYfBRhhQybZH3BLy9Tw74ZFN5J6zh_V5khuZCvJwspYN73ewBJyJ7pnubPy4abVjuVCF3aFFTrjp1xNc6z_W1umVv1__5soWpeAyV3M6KoXTOOV4PuSS79XVz-Sox4t_H6t5j1RAVwJqLB00ZwfVD2yG2zRCVpaJ9vZJXD5hIS14u16ySWELdBViQTWYsDEO8vw71wTHLUxDeBi-LJhHyrla5xfnasg3T_PmgJ4D7Iv30MKN57muq6iKfRVWgis-VfNZV_jDz7APVi33U30hvjnYsKHPaS_8N7W2Vipvi98JAj7kVByZuOgX3pEgkGJLWhbSP7Vozfj4sICtSzgrigmdM5kbAYwLbyL0=w1208-h762-no" />
+
+</div>
+<p>Next we are going to add in the new data layers for this week, a set of street units (street intersections and midpoints), Public Housing locations, and ATM locations in Albany. Click off all of the layers in the table of contents except for the street units (which cover most of the city) and the border.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/osez9BGxdqoFasmFV3pWgrCHSggtcG1-6IJmMyjK8RznVPbWM1qOQtlw0SpWTgKjvyzcBwxUsZ6Wfjc8uuncOgWt_Ct5BNfK92AUtvncM8vRJFiO6g7VvnGviJp34pEIiDByvCrkvtQg8gw5sgcW9sYSSAnU5HmzQgltsvxI9sL8hldL8uLE11KT1XL2ifWeYjs1yHrgPIEB5WJg8JAdjZp0IO-m2MXU7k46icDxUPA1lbbFpUI4DIYDPVE7qPDpfty02TvhEooiRPimahryFChmnRQEOxIEWFakKgM90H65kxPE8FBKKQhEIYycxpc-8ASwdp1Acr3OY-TS5ghVPNu8BPk364Ybl5fP2SxTdlFdcQReCELNBBk-R2Aj2Oj2wJS0_8-P25kANmpKXESLhGMk5MOViW94MTX_FOIpEhIiKG5_x3drUxy6ZnPlokcIIH-dArSibLyA2nEVClYxUIzOkzxoyXKWHSpRBMBn1fJiA1dw_54FV-rS9uYOf4YoLBbNn9aiYcGpLbmbL7T_grCaHt_nv3ZGQUnlDmxCC12kUjZiXR4y7ss2znkdw37s4bJvzR1gvEEwhCF_x4dbVt6PvX8nRq-f60sWtruwgkwvH2Sf1r6O=w1219-h843-no" />
+
+</div>
+<p>Now what we are going to do next is only select intersections of main arterials. Open up the attribute table for the street units layer, and in the top left corner select the dropdown arrow and then Select By Attributes</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/fqXSIYRj97cnYMZFTYsRU6XJoTQLnei4LhWqjDcWUmTOCUJaidUf9LgZ0pxWpPQRLza9XYLnO_NKWc4KKsyUTm-cKmaqYebXFEUv6csLyTq3mbDJPegLpJejAOAOzGcaDT7pyWp8RzD8pXNoRHrKSYUQSvjPas-nCkUxDeNRm5hpELXAf1mc_VAayfjhPJ7m1ElPsY-hiTbGepIxwQ-jskw0IF7w2xC4M2yTfDn6Te2wJbhJ899L5P5nSTWExOMRIWTDXuipsn5nDgr9bsVgsSVdQ5dnOUJtWUBf-96VhYHzgyAEaveKmh-CDV5fmPn7ihMh3w8CyMowXWUXWoMkrr8YP_Ek3eC3QNlY7dFxJZIbYjnXTkp9ScGZ3lsXsxH81YZ8DgfnZgpnbO0-4AwSSpPueh5v3Sy80QjEJrlebtzS6nv80oQJ8n7_RUaxqEJ6SzoQ4MQHCeSWBhIULSZ1cs1dy0b-_JVNs5y021i5oLWmZxnp4NzYKQC0f5StOg5Wz2usjkPI_k1qTJhZAh3jXj38AG7zjvqXxnvb8bRAzRoctlBOBUsjIgaWYB_A0xOCPw98zEAPBd-bkKTO6ZeS9PM0vnyJhchU6UEGBVZYqAyEC_E31oYi=w974-h760-no" />
+
+</div>
+<p>Here we are going to select intersections, and then select places that have a street code of 3 or 4. The field <code>TOTALINT</code> measures the number of separate streets connected to a street unit, so places with a TOTALINT of greater than 1 are intersections. Then the fields ACC_N1 to ACC_N5 measure the types of streets that are part of that street unit. Here main arterials are those with a classification of 3 or 4, so we are going to select street units that are connected to at least one of these ACC codes. You can see the AND/OR statement to select places with these criteria below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/3FlVpjuOxox_qjWTcp28HR4ro2kEGW99CzEEv4mDaowQHQV-l7Fk-EvVO-wYNr0-Jze3nz9Ku3ttjub0Xx_M--Ak-MdwyFg3ye6F2jhBA_YX3OWvXHO8cWF8dA0ur2iKtie2NLb7L8RXH8sVRzaBYZ10zZ0kFA6DryqCxhabT7lBAVz5TY1k6svva73JwvlcrKIem6h5YjoBhcdBRQXVGg6Cks3HWQYL2TqJ5huSrgH7rB6QWXq-m4NN4Oe7TiBFhn1xFcv6USBL4gDztbb1izq6mP2GV-0wTS12GIXmrNsoEWBIArMKmJpljW4_41Vk626ektrGBa7vjXt0_4gMDnPYHFhwfPiG3coWHsTXMA8ig7pQh48ZsvfG7nCWUUtOWtdc4HdkiY8WOagadLqNNULELHpSJeJ4lUuFyQvm3zSiLlLk1wXMNdgh4m2pg_oe66FSlJ4fB2jnXlqPvknKwwuxU3MQUUa3I4hBTdPN7GjPNt221EJ3ALJYpsXPGzTlJ2dwLQ0p4mk5McydR4qSk9rEekv80wa0gwhIifvT78y08IhY3KD-eommEy0EHmcSYPs4mg4Zxl_hGtSorcpy3jd9eE86KF7KhrBdJNzn-I8_VP98-KZl=w381-h499-no" />
+
+</div>
+<p>Now you should see that many points are highlighted in the map along several recognizable main arterials in Albany, such as New Scotland and Western. Now right click on the street units layers and then go down to Selection -&gt; Create Layer from Selected Features.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bnU_KA5Da1QcS0JtlY4znfMPB464MHYE-5P3_p4TIYLesHNMx35baxkkNj5upsSB1G9Fiqi5TGQQVCkuEd_C5vzspD-nyogNMsPVVkQlka75_4-GUovBIvZmEC81BJnZlYHEqZCa_YLK05ataXvbm8PAbV-w-qi93jYBdNrDt9lPhD-UfHdfGeWbXoi5dIufVs6r-fXhNZHHPilCRt-ZqVKPuQGIqpwafcK0Gnx9cvhQtuwNsj5tMdZmSrDcHWfZqIFiapiwM-8XVT6od8dIdTvCJYSfrlwGBrl3AMmPcX5kXJ0oab1-nMZg5S4DJJmxD6x4u6J03BwKMdlGMHvRJL8_AlMwGBcZH3Byw1X0CvWwWbFKfei5iGZIsf-LK6xrx7kJ4vUc5Eg67073gq-Yxwj8nGj2TObQU_sSe2obxiaQQwRng4KTimtIWhdMeR--nhny1wzcU2IDvPCS_N-X8cqkPEunYplOsAQIPnGqSSKw94lXsqR1xPm6pa69orgtY__-XzZaJvNrPkOuge-uCSwxCzRyokvnxbWO_JRGn0padkxS2ZFVqTV1SeBv__scSKilKtOV5Btnz3g8bwgmgbHS6qC8JTOjudFwUM5Zpe_DyKTzmqpA=w1187-h757-no" />
+
+</div>
+<p>This then makes a new layer in the map only showing those intersections. Hit the clear selection button (highlighted in red below), and then turn off the street units layer in the table of contents. If your select by attributes query was correct, this should result in 1,879 points in the new layer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xUb8DgbLWpGuqae7PSK4ubwRgmita1O2zb2dvOCpC-_7aq3jC_UQcWCIo8tJGtVF6jrIRSff5UqnNBPn7C-izDskOUJB9_B-2jG73ZBRQCyJBna7FOwEiPIIZn-ttOavKsrS5TdhFBogoHYpp5iWTMYP3iXXcsfJhHIHI53qp_m05sh2W1AaCoUHWgX4Tgq24ehZbUkO8YaIfCGVhQ2tQdFS23EbLRoJDBp6iS_ltMojbIguy0Mv7L3DdsOcR5gGavK9mQS2KsA5QOzkz9p4v50hx4LN3fZN0varDMno4_oE6Qqrk48v80g-TM1OwRcOFu97dGaV__0zNQrtDiIGGJS74Xz1h3NpknATUOPvJejz4CN0k5uLvRcLEggeV-PyPNOe5b38aHhELH6JG2U-Dj6YbfoCyJXNgtUL3cOwfxwwWxR8usQRKk421sQuGv-Bh71YHbXNWvbt92fyL6UNnTqDk93N2D9CMV9aIzhao0dSx8LDfOr1e4FE_ws6HmJzTqECPV3pVey2Hu-eWV0LMIDSAV-my3zgG16X41pHMg4kZQQwo-s_woGhtmlIHG1JVxwNW9mM8w8Fv6QqA9aiVXpVidoFK5BRatDQXZut7TfXnOE72-4t=w1119-h697-no" />
+
+</div>
+<h1 id="selecting-based-on-distance">Selecting Based on Distance</h1>
+<p>In the prior section I showed you how you can select features based on attributes. You can also select features based on spatial location as well. First turn on the public housing location layer in the table of contents. Then make their icons large and colorful, so you can clearly see them behind the intersections. Here I make them big, green squares. Now in the file menu, go to Selection -&gt; Select by Location</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xhO9plabdO27nDvNdBpuFIVApAKmOT2yKpb8jRkGC_OkE3yZ4NG9Ljf7vA9vHTrA23xNXz7F1t7waxnTM_Dr2eG1OrJgf1wVJFg0gO9opAkxByXMmhi7dNJzLV1n3wLkzKAwELy-2IdqlQkvShWtv2xviX_JtAzeQAVbQ3qbVMwz9ph-83cPkVIR54okS9RE6pR_-ow9py0w0CDeV7DuovWX2mLRuZ5o35B8wd66eMvBgH9n-mTT2ZEcAPPDGCBZWb1b6wO2bcDaXNPO-n8dxrKhz3U99YI_Gun4CVf2xgMa1Y2hCsgNokgoBmR7aCzvDYg0-LdRFlisVWAVZgCQDauouiNAgI3hHQMCf4fircsvzqUIooVbD0Jx3WrMlv5Ew6D9femIln_QKCgFTVG2_qOXGn_hI6cBVOO3pvaAKTsEaSGegKMiGDA3bJQyWXsGNyM0f5uAkxXmv0Mn3yABW75JvRrujH-M2YghgyK-CQI87tNfg5BLyAtuhKxbef_K0POEm_1MbPwBhmPGI2kvYaryuJ3t9bZQ9ByoP9sTCtr0qziFQHUBRVFkdhQzfqgBso8IKe3qJD4x-4mYn9VLL7YDQtsQcMwkp8LUYTqvvCBY_frFm8P7=w1162-h775-no" />
+
+</div>
+<p>Fill out the dialog as shown below. We are going to select points from our selected layer of street units (the target) that are within 300 meters of public housing locations (the source). In the spatial selection method make sure that “are within a distance” is the method of choice. And then hit OK.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sq1yAj1NiSmF9vR5R7i1V59GPmuoRBR7Jd4mRyObwvy4uvddQLs1n9iApxfwSHprYyS1J8rZek-9ZY-YwN-EZA2LxyOyCf38-NY2my7ReQf5Ja1xWTeRCzoJhm4SfCBgl8EbYTBgPmvTSkuKt2EWZ1rw2M8TDsWs00SSTWDzHU8sB1JTG86jhzVGrssJj6A_HPKKILLuTdaDSCDraZ53f4Gq3_hH-lklmRH3ymS2dioV9W8C2mNx0330C0pcqIEiWdMOEgwBPVregWnXi3XsdTJjFytaNqzupcHjRHPIJtHVlysVFboAq0Bdzbl73vRSsiY-HrxOO63MxxUFYlskp52Ul5F9Mb4wrxl2370VPoa3cYm6u44ztkSSk5lRlRNJ9qQeb2_UGEZkLRn-hWYBft1a_GqFaOz1KUZGbLCZqXA64uW1mcNJJvzUyjjbt7LUrseCGYWmVoyqJacOFlQmY3PQWtRrlMOZ5LaHmhhwpm4szbFA_QcAnW2Gw1zLUaF-HY1r9bJWp1pPKuV2ZCOEUssDiSplEERoktUxFRLn_4XFCAsKpWifB18ZaivXM1vIUWcEqRaNPHvHNPvEdYRnm8s_HeJCAGWlLVQzOi0afG_awbgVrv8C=w410-h558-no" />
+
+</div>
+<p>You should now see that only street units nearby the public housing locations are selected. Open up the attribute table for the <code>Albany_StreetUnits selection</code>, and add a field named <code>NearPH</code>. In the lower part of the attribute table, there is an ability to only view selected records. Hit this (circled in red), and then in the field calculator set the field <code>NearPH</code> equal to 1.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/l0gHn2cDM0ejLYNeaBp7dvoiGZsOPqtU1r6bBAJVtqLzWVoPZRtHgnldTlbhPgqK6QWIVBpbIXH_j-zNLbq1ajjHp1ES8m8NWDOwbGN1BxDUjJyvWUAuFpQIpKXtmweW7e4CqrpvoZHA0kjukUovmUvH9riX6XKnqXZiP3TOLdXk8cpTFcr4OIncP7YiGNQ0A8E_EIbzbbIWgeL-r5lrWdLPUo1AWsBcWQPMdxS-v_9Urpg4SpuAv5KQU5gj6zurNNp8RBtysc6XDFr4DSLMbPeFHjnkKLdFcUT6grrHEZrBuyE4mmMJcsjkWrDqAAZLkVJRhyHFz0BPxFDqrm3yPkzYjxj1InYh7nW3jO0qGb69_GNFoM63agchbpya599A7psRiY0Eu6C7v8oA6nOhoB2Y9mLomRef0nelGd8_syPs-F7M7LJD0ZIRjyxWtU_SbhDPzC4ss5l9gxX_eoMiq8Ku7GK3xuzGNzuySojMKkMTgc60aKqYGt2vXd6dLAfca50NvEy_a2s-thY4PMGW23eNxzqjK8yOWIZGFBzMijU17wpkdpBHEtgbBlii467zHNstalgibrY98AFRamdUxPg50GRVBz5nMXq-40UqhxrWVDBH4LWs=w891-h593-no" />
+
+</div>
+<p>If you go back to the full table view (circled in red below), you will now see that only those points that were selected are filled in with a 1, but all other points still have a zero. This is the default behavior for field calculations in ArcGIS - only selected locations are updated based on whatever you put in the field calculator dialog. This is an easy way to mark locations if they are nearby some point of interest.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-t_1jON3Ya9iVOztIajeUyk_ofbtISK4glnW_ELCs8yit3RJ3f8wWa0m7xjQfaswthYXL1UNHkZVFt-h7VAHuY8Jge1QCAx_XlFYdogJ6_YlPqC5U16og-pkLU5rOyKe16t00JFIdHW2CiEWYWveOe_3lhP7yqK-08akLopKNq97c5vlWZcy2h9-908IHPlrSlLEOC74k3cF5ar3FkO_YgxNsC7ytJT0c1VtnZ0zd0xzEWgNabfoyDPt4frfKCYw4MJQtsJrcIILQr0IJnyKZTSX5SEMIB6yz8hICF_NxZFvmIKCEgdENXOE2HNAguZ7Dv80luNKx64xdz78ZvDwynLS0w4WWNgOuMWvZAnU5XZWw89edrwYoqLg97NeBlSk-e4F7hF0GCuY8yYnK313jEZdkv3cPg6Fe1VmlP-HvbMbXmnCbu2pUijPupy328H4cAUjUr-2cGZRDIyZAPBqHCTCYCKCfEZRDb74Mx13w0d4LUMmfuikMNp-rZvOTod8l6l7djzfpUuIVJ2qv_SMHzdToSWv4btlmawghxpdUWz0HwjD8LaJc-sO_s9CieMY-XTX_w7XhKqxJuYOjlkoAaFhLg-9Nsrj70nx6lTbcE0AvjLZ4GSd=w891-h593-no" />
+
+</div>
+<h1 id="spatial-joining-two-point-layers">Spatial Joining Two Point Layers</h1>
+<p>Previously I have shown you how to join a table to a spatial layer based on attributes. Here we are going to do a spatial join, and join the nearest ATM location to the intersections of interest. First turn off the public housing locations, and turn on the ATM locations. Again make them some large and garish color so they are easily spotted. Here I make them big, green circles.</p>
+<p>Now right click on the <code>Albany_StreetUnits selection</code> layer, and then select joins and relates, then select Join. In the menu that comes up, in the top selection select Join data from another layer based on spatial location. Then in the next dropdown select BankOwned_ATMS_Albany. Make sure the bullet next to the operation of joining the closest points is selected. Then in the final box specify where to save the file and name the resulting file <code>Inter_join_ATM</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/8GJ_hmr8EdIAj6awcUKbxPF-DZhPp0jWeDXK4ZjimmvcKDnbZznbwTassYpAffJbgCLFeMsnObUQN2-wB-mcgb4N4g1WX2OcvE9dp8ii1YitKnQRJw0QdT_G61JZtcxiaXu_AYNp9g5iy8tIxna7K70_rJaoWJnKdXARj61CLyQ1IVstJ7GW-ImOiT6dKwA2SXA2kLErDssCDbGE8AJfx85VWOx5Ac6bybMesnOwXEeqmO5NsbrOqxgBpdenLD_mDqrKoN4I5r43dBrBdzW1aH_rrOn7QL1xXKoJhP2sxtbojtYMI4pS7AwqjQue3Jq6CxYc2mZrdIqD75sQBDrV4dR1iF0xWYOR57zjABcZlzqPMgu6mA4U8XYGTBM5ZoEhXXZnDBwUzefCZKWYqi09Y0clJYc-Skvb2YkJmxUMG-AuqGE3wuV0SxQNBRlxfhI_nWPjYI_DngryqyuhJhiTrt8-JfJpEJmdLkRzMP8ZJOb6YSvHJkqQim8XB1OuTyRdEWXD1fq_p6FqvZhkAsgtORsG14nnap5z29qB0YrJ64ownm5EZz5Nzd8i9mGHC1ZcikLOKtiwc2rPqDNKkDap4z_vbfh_mgdWA8J3KCbs5a67e9c7YRKi=w416-h603-no" />
+
+</div>
+<p>Once this is finished, ArcGIS automatically adds the layer in ArcMap. Open up the attribute table for the new <code>Inter_join_ATM</code> layer, and then scroll all the way to the right. You will see that each of the intersections now has the nearest ATM location and a field named Distance. Often it is difficult to know what exact distance this is, so select the first record in the table by clicking on the little square at the leftmost part of the table. Note that for this particular intersection, the distance is alittle over 476. Then right click that same grey square on the first row and select Zoom To. You can see the highlighted location and the dialog in the screenshot below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/bXHzJeTlXmGnFd0mk7OZSOcTndoe1qDFW2m2_sFg2QputOer28iWmSuN3uAfXz4dNXBpjFqKhisD8k80OL7ExX1p7uSqbkQOP49W35ehCjOpFrcEPfGW4AAaOghgfbPobUP2WyJv9QbgN8UhFZPga5qgTYAO3I8xTTuFdV9rC_JpdW6zBFgflMcP7og16UkElTpsO_kJW-Avf5szRHrb74BbrZ6AXutNL0GlbSUQai8_2zefIh2yV89Os9LL8Gm46bYo909MZLPUI1XvnnBxjpbDvQP-EYorDgeQlsT2xNj2yG3pfesrpz0KtxEXwqvXEy8QJ8jKMK1AfxqFhg63-H7Zi5eB498vT5-WZ-gdtzrEQPXfOW7N1ln7skNeimW0siB173wdRn99oIvL3jw9boepD9YuXbliMHgxxxqj5RNfTRU1Du7wQPLvrM5KOc3P3BUpYIDT5CMme0SeEPLVOXia5RF-LLzkrNr7Q9-Y-vJazWGDeEOjEF6RdRmKfiuXl6bLRvTBdyvL3wZQvRLSNkz_1r6DgiIluaioWzgxRM-hWYCnY4VncOqDlDvpf2HVZdOWYKMRW65U11HdWwlZJPM3oPzoUqJ_heTa1tSfFNzVlwl8uj8t=w1125-h950-no" />
+
+</div>
+<p>Now in the toolbars select the tool that looks like alittle ruler. This pops up a box for our ruler tool. Select the dropdown arrow to the right of the sigma symbol, and for distance make sure that meters are selected.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/9fcyGNxyUL1KdPAVdkYRWerMGklhgogpcxoWuPneFQ-7-8rkFMh03jsOHcZRU03BWIZ2KSgnCX1xvUEhXiYTHeEg_cjgwM9ZWJvts3bBEyYl_u7vdzkhIDclRUB7tLkRP9Gnq0RKHHleS0LHFMSipiNnuDUHfkqlToYPszC_mqed2JOwRgrSK9wcSWoI08NY-W1A7vvMhvXwFrXN963edVt5vKAwO_Z7VljsniBF3CVagjpVZ7oIvjj0FrGasMye6drdSjqmOXkCynXUbze77BzXVxdLwTKBVz9WpvIs4QWIWylKXxvSNqMyrKSu3Q6menRS8X2WrIVUWdbgLpKMaejgDozM9kgh2sNqX1jxGkfEOjHdNwyjgmdln-v2Z4gp-bvrIh7JwdnJvIuFWstQWzoBz8IycK0nFwCEy1hv5BxtwZcoG7F0nmpBA77hiKSDmwDsjn2KmigemFMu_rn5janFgiCC8A-M727-_y2pE_3j7pKMMbrpnv2mrgZVzhnbEhJXXrX6hR8CuKeH9dWvzTKmnHQu59tHbCKQHBEJj3qS0dVzKZekXWHq78Y81p7fPw8sBgfJ1va8t1KhlImM8Sw_CR9ip7OOyAeWWhrVF7TwlOGmUfRB=w491-h392-no" />
+
+</div>
+<p>Now you can use the tool by simply clicking on two points. Here We can see that the distance field is in meters, as the distance to the nearest ATM by our ruler tool is also 476 meters.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KS2mJlifhUNrIldfQ0XANmR8v4Z_sefzIuTJZQXdCKlEP4kuSFJ8AMCNJGrtdikfa6HAGQPcUfTQewuMjeQpnoHzQCkMiOQ7sgexQXgISC1Jhoiai7yH_Lz0P2aEqWvOV1WRhdOfiwB-ES1j3pQAIA3N0U5lV3ujO2xVZNe36ryzE85jqDnuFf3nWHUWDDC5LAsu4LTXzxpGI6KYWgZ9oxiWYpSNWy45vNXE-yTWvbdyuex5gaLdT75nDAApu7vNxJAOgHqL9aw7rHIwGZ2tQxan7CenbxkUfDX1PIsR2FzMVO_CsybV0yVhfTDxC7zSKBHxOhfJOqL40CW7egBCHH4x5Mvtx8NOmBkZIEyZIcW-FrtAOsdCDSH5aGInIJvT6bo83sf1TFgmvcqcKDqEJZNxcOpNhqYi595FRU2X7Z5iRboOGvtFptDm9SUxU1u2OmaJIZt6n9OILDsb8HhJ7zWkjAUZPTa8W6493aEiYrZzVthel4XebrLbvwuV0cYeTBkxV0QHwioD6DfWitZQgOndCzT59ViXDeiJnPGJHuR0hCmDFxPdGZcw-efFlxXaXkzBnN4FQt72C3SKsrsW9_o_zRZKHM1qlBfHSTRJGNhnNxioVt4P=w1188-h950-no" />
+
+</div>
+<h1 id="buffers-and-counting-points-within-buffers">Buffers and Counting Points within Buffers</h1>
+<p>The prior two sections how to calculate places nearby other places, and how to estimate exact distances to the nearest location. What if you want to count up the number of points nearby though - given a threshold of nearby? To do that we can make a buffer of the point source, here intersections, that you want to count the total of something nearby. Here we will count the number of bars within 500 meters.</p>
+<p>First in the file menu go to Geoprocessing -&gt; Buffer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/wG12zcfD9_7r8GmtkLOtGbpOPt5yB-SJdRwW-N01Asckx0_fAnVPSfYJoz9VaMpJo-jnYa5scOsDqc6vhRHApFy9XxKQBtMUKB-CjLrxSFbCF4Wf7huO0ePPSW8J1xxyE_GGUYsDho9GmLhXItly3wIA1vSmGf2d1NhZ_OsZVMxsDxiGpZa4DrmFVYJxLeoHSImgSEKl_Ku4t0DF4WDHFYnIkjLbGq0UV4ldsOLZzIZj5dKGFXhh8v_vi1-TcW8BxJVSsJ6h-NGNFqqL5NdmoIX-ZHraf5CPu2cLokRNYzyfzRGfOQaiIjYjWImMtAYwy7hFa7FYlQ67giFFSmDfpOr-ZWGEC7-jDr9C8nkULFoJwpyFKlx5MvWWJ8T0XMnXNJWT0wbvu3adzEnLDV0Dd8aYNa_R7lcVFYbPg4LxoouIAEokVdgmX0Rqm-OLHDlRoshihXXj_Jcn_r8N6Vk-6RtA8B1ktOfRG2iVL-VKpfxPHb1MozNJS7Wy5Cv1sirS0izm4TBIWmh-5bBp_2CIkr2S-DQSQba8nwDH32auPuqJmXma76xudDSEB5cvBxNlQ1DOg4NBelm4qlndXxDBVOvO0DGVplH7pvQX82-7gdTbksQul16J=w655-h396-no" />
+
+</div>
+<p>Next input the <code>Inner_join_ATM</code> layer in the input features, specify where to save the resulting buffered shapefile, and then in the distance value field set the linear unit to 500 meters. Keep the dissolve type as None.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xLXpNImfa9ZpZIWfGN4M3zChqvDaYfwa9aeGygqS9OFeR3dYGYYeSfr7rbeWB2G92nGkAVT5wZoIDWc36OMYqD5uMBx2M3sWSr9l8WXxyH6DiY9FiS7gtSDhjFLNiDCNDYDa42Y2pl1VYuBEv_Dllv9qQailf3ZEwYh-pu8MWhA8OKWPhCya74FIVOD63KwlDFgUHqdzs_Hm7yrWLliE0J_jMNFCGMfqkFj68uYvGPH89wHgsWmucX9uuMYMHvNLZcTCm1jZWS5YA98jThukAT7UtTwSExg0zNwTvSp5-XW8EPvLnEMzDqEWtHeLcsfHkcE9vCgOFUQvw7vn-gZAPmPTXFpTr6XEXEqEbX45q6RPd0zFndy17XoNyLLz3X3_9jGyAjNpcuRY80TTwrcP-gycaAGUqKijXkE1uSNd_kYpDVVDosm6akN1iETPMSK9sIdcwSa67QrRtHluB-41HxbyirFH0Yim7IvHpmjG-GMoBYVHQtsuBRYXZS8rrup6jg-KTPU5cZ5sHSHA4htooeqyH8-JCmnLZEjmDJtBHcV37Ef32_M0RBNFYkG6Whb1qN5HMsGvjN0U3qXI6LFh061ZToq5yJj4nzR_a6tQE6Q2XFV-3P8h=w774-h685-no" />
+
+</div>
+<p>Hit ok, and then this takes a minute to finish, and automatically adds the buffer file to the map. It should look like below - a series of very many overlapping buffers. If you had selected to Dissolve the buffers, the resulting file would merge any two circles that overlapped together, which in this circumstance would just result in one big blob.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/sDpIgkssmutGTUZvBnudwlTT_M3hOPDXAHU3Wv5_rxIWbahRPZKkBYGUnIduofQQW26gOZFjF6QZACLR5_IBBRKJeacVOoClTxLMCOE16ju0oOk-MwsdEPnx-290Gr1fsgb79VXvGQ0AMW4wGoZooOY6A4zgUCsmbcAxRqQmxuqn69A468HtsvBze17AMfMrSoixvyXGVsc0cvPbGRf6d2k_BWwlcRJNq89uzaHMm7Z1h7P0G1EBO1dree98UUhoMKGP9NXBzMMbKKLOAPaWqGE-bc6TLt6ZOSx7DL6zdUewLEc0YKE8KZRD5gOxpkHx5uHs4qBcUiBwsiV8xFw_n--8dk-DBD8c4CPCfUV3k8QwziNdpqsCBZkhwF-QnVumyafvqDl5KM23CSNjxTmzwr9FgU-PU87zd0pkEdeb2Jy-_H8ULH2Vp8dGJaXTpqCPspXyU10xUfrWa4wwN2m4TwEv60k1W3sWtqY0F2eK_LdRXujBJZwjRezSFIWWgneMeZg-ZF39mkQ8TZLKoSlqKcNPmP7uxS__Tewoz1TWQ6vxbM8b2t0lad6EoSoyHZC-InVCbusv5vippzKkF-E959hDzMVDhaNUrHYiFmbunxdCzF3e9fnI=w903-h807-no" />
+
+</div>
+<p>Next we are going to do another spatial join, but instead of joining the nearest location, we are going to count up the number of bars that fall within our buffers. It is the same join dialog as previous, just right click on your buffers, go to join, and then fill in the dialog as below. Make sure to select the <code>Alb_OnPremise_Liquor</code> as the join layer, and select the first bullet option in 2, counting up the number of points that fall inside of it. Here I gave the new file we are making the name <code>Buf_Count_Bar</code>.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-AS0-S-0P01QZRYVHbIl81KX-omZrZLbN6XxwissYKd20yEFHmp4prUU_diSGI4yPWbp3Yzcxh5kDa0OwhHUNgj7zzpRr1QoVel549B-9zFowGufrs6d7hHmYqrwjOhe5TqebCErQ28Azi4I3y_f2PjGW5xWJKortxngqQeM8FVdEwHoCGw7li1bOa9bve7-m1BpP3zCo0kQs8LnPkSNTsbS-8tsieowaVDtA-AHayYUggV-C4fxKDxJa4Q-yLDb82HznRwDfxZ0SYLIBmAi6dYR3Fap3ioOuBvcoFibxZFsyUpnADjJCgBfFyWAEkJm6dRLNMsCJJGNcOr9dwUsA3mnp5EfVnzUywS8QZOwFv38KbOoXeYE9SS_fPxP5kobxH3Ve3kniLcccceQIxNIXFNdEW0yRPpzLBjyQfkpFiJhZ6Q1m9W9x00PxW_JBhr4qwLuNpsn9gvjNu9bqq8Jcpa9RaLt-CHhDE_1PcnNFuzcP_7KD95vutE7gr1lAd8XTtgNCag5JqGdcViF8x4cK4aj8u2fKngmFXyMDSwFF314HEiyPFaMJi_J4xubceO3C5zV79bEv_1fQbeKpK4PmlAptk_vLc4w_j8lMtGF86wUlJEbm1Sb=w416-h603-no" />
+
+</div>
+<p>Again this layer is automatically added to the map. Drag the new buffer layer and the bars to the top of the table of contents, and make sure the orange bars are on top of the Buf_Count_Bar layer. Now open up the attribute table, and again scroll to the right. You will see a field named <code>Count_</code>, along with all the prior data we have added so far, in the buffer. Go down to the 14th row (FID 13, since it starts at 0), and select that row. If you scroll over to the right in the table, you will see that it has a count of 5 bars. You can then see in the map below (I have added the red circle highlight) that you can count up 5 bars within that selected buffer.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/Y-r2YJvlzBSjJrsLhhAGvdas5oKmqoV0GGJbNKe9i8NU2LE43s43O6ExXQ9W_Gd_JZ0MCeAzZYEVdXnELpZxPkbLvyrHvjik9-oKCH1ZXiVhIEqUqEBVReFmB1gT72mHfxO1ShgV3kYhYNaUursjh7mSI28Me1YejXHBZ3882BTrMt7O3vfSS_6YFk0i_eFwbr9UPxYbKeuef6wKB5jR-gV9QT0lEmkiN0rKqXo-7lrX-AMuY27XFcYRoSesB9iA05LoFitD4C74_1b78uwxwXxPHTdlJATOgxGoAdxUpf7QPxlK6DGW1gYtc7UIdXVVPpXIHYhiQRedbXxDEX3SDsSFimKUct6UNnhHf5BzAEeErusFGXRWnwN0GzBRY7GSkSkCFPPccW6EjwK7ZAI7HXbHrtd6EIT4YTr2ntW3oTDjf9iAuF_bH_bcv9DKMkJ1PiGW4qVzHigl1lxbIbu6fle70Ch3T4yCsDN3CEB2HfoXZ5s8tqdFA5ile8-Pr3lVeTP9ai9tJp_zeTMlBgfQy6ldeIYOlIzYUTvDT1bwQHmY-bDdlYXeizTiK-wMzYIIcW4xcxgzQdbsbblNhLiuma4SWzMPbAEBGiVg-MNWKjY607OcdQNV=w1171-h776-no" />
+
+</div>
+<p>Now it is easier to visualize this pattern as a point pattern instead of all these overlapping buffers. Right click on the Buf_Count_Bar layer and select Properties. Then navigate to the Symbology tab. A quick and dirty way to revert the buffers to points is the visualize the Count_ variable as a graduated symbol that places the point symbol at the centroid of the polygon. In the left hand side make sure Quantities -&gt; Graduated Symbols are selected, and in the Fields dropdown select the Count_ variable. Your dialog should now look similar to below.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LrszeH90ePJfR31k502c7MmRwNxo9XUUyjtK15DEU_0vCf11Laapk8u14N3ffaSqPQpbvGm0blvvLiePznclcUoi3DhrTSVmnMJA7mOoE2Cie_J5FW7cfMqM3v8lZft3qhaPAU9Y0kX9jwaItOJHFd9GqdPGoD4pZmthoty3wE5HTysTPADN7s04IQJpI94Ot1mavZNPYqSbCzpOab3EHDwEiRFg6_PWtoaxladPZW3yodUxYu-iacNZkPbBRWpAfI8XBZygj9Z79nfy3Lg1IQte24TuK90Raml43X-P6PWC65_GBFetcQtEfTomxFeiBl0rbN7vwf6HfDyvnRAQY_SNoQOJP6FFGHD66sgEPgOjEkmK6VIWXdAWUb_W5ma0AWx5BD1zJUbJ3AQCTFsa2KpAlVBtl5Tz5wAW5EmIQbs7GLS5GX9TSZtnZ0kIBLLjAaid3L72AloCpkkGohnZbJJ6C1i3Xf0TpojEHfDQrx-vDro49KOaJGl-bW7QoY_kQI4kdClxScEPLb2Jhx2AfXJup0ULCnPoxC5IHxj_vAwqDexoO9nVdb7s_iYtA6cMeiy8UlYlfuQoyelmXJaAl45ErfShtbcdDcW72P41_I8V-EYRi5Sg=w660-h518-no" />
+
+</div>
+<p>Currently this still displays the background of the buffers as blue, here we are going to change the background to be entirely invisible, so only the original midpoint is shown. On the right hand side of the dialog, click the background button (that is a polygon swatch). This brings up the usual polygon symbol selector. For both the fill and the outline color change them to no-color.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/KgfbNMrI-sYftCSjdCQsjhZ6kGTN37gUMKP-wYz44QQPgZSgKEqxJfuNAriGjG4L6qubhn-Gv9mwwho0srZziEdq83t7bkff-IANe3UbpENOZJ4Tllo9t3uyjkEQb2bbZVzoeqZFlSVxQ8Peq-Ru6ufnuMylv1tSDZ4chw3RXvHCdXuou3ThDXyZ89EvMKKcxSkwRD6Q66puvzJg4a8cpc601Cym-sqpVORcCy6wJFMsky3VSvh1iPZLOfTXVe-sBco9_VXn3VdxMqbu3LrMysVCLoaeWBv4RHFnORPSZREOcDw_3pK5UoLQ9bvMjifmKw3abuY8RQD4SrXa56Csof4C5DkTSOgqUfUVogMnzGQT4x7pdeuewW6PxOajoLbxx8siRt6qVynBVs1-obpJeLzFfX_PKQ-XF3odvV4t7o84XxhRlSHi-0zqnfDbOlGIwl1_-0fmEt__LnLqf_4A3Pu2OanZ_TjClNCJQO4i3gLCjRKyTaV3w5_p8syIBBYX1hZW5_fO6olYVqZkKti9iJ7byHuoFnOMoU0sgLUyHpgWeIAd35BW-xK2kZpQbE2TReYVtnPBBPW3Y8gyotUEtOiSL1T3JSa4d-dBillnc7rmtHcqr-mm=w523-h500-no" />
+
+</div>
+<p>Once you hit ok, you map should then look like below. We can see the concentration of the locations with the highest counts of bars are downtown and towards Lark/Delaware.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/-LaFyTDmFp9mlQE39-qZ3N90mDz04jRl3FmoyDCR81yu3kUw-inVfPce1tJfGD7OHMi6iuvORSoLHA6-bKErtIND1DBEcOs7SBcirNFDPLaIoxNNZ5nbUX8JyXB6vDLJp3D2Y-bcf7HuvSYaNJAhZ1TQ6l9H4JjJ-zdQSbndspaEk7UJdp6_rYBHCkK0ljUWSYFxLxROG7Qq3rGMuGlNkqLtSfnjUaDgpxTLMpTv5nZzJhtRtnLyQKVFocIjbOo144sblq9saSrroRQtcZlDJErTwEzOzzmT8JC4cPeZigIt01Ws3QBtSmXt_wpANzGtP9_wdeF2eCk9r4mKyrZcSGeDbKPCwFinCKYcag_a-sgN-uShOtx5ORhaliaXLpyYYMXBcktPZFv3X_AktwzSsXy85Kg9nxMcYBMuHPMCoEYYfwC6H6-g5FBghGOy3xM3O-LPJiXhpM1KO8Az-VMHfmUD72_8XPpv4sFJS2C-UzaZb0InYJqjF4IQIcaZ0Dg4wb6JSMjfN4O0cHvA_94ChmY2Icz1VCsUQFKdJehqixpd9Y1_HCRznhQ_VUSSEZDTtBc8XxuGCeYuusr5WgeW6JUa3baiexExTc1GZd26MiGuVEYVmqND=w1201-h834-no" />
+
+</div>
+<p>This symbology trick for buffers works ok quickly, but a more permanent solution is to export our data, and then add in this new data into our original intersection points. Open the attribute table for Buf_Count_Bar, and select the dropdown in the top left corner, and then select export. This will only export the table - not the geographic data. Specify where you want to save the table, and in the Save as type dropdown make sure to select a dBase Table (it often defaults to save in another database format). Name the table <code>SU_withScores.dbf</code>.</p>
+<p><img src="https://lh3.googleusercontent.com/b6lEqvxfhbqiDnGsXdnumxqXwY0P84tqYtsRp4vU1NyVy4ErYaBlQsuFlTkb2lsFeG-mssq6IgfgaZ2bCy1oXGA8F7gmUALK4DBYN5LFHPfg0pWe8WedHpxuB3g4nxLBC9wX75Y4wyE__QHUwZcqnnAZoSxIf-CxKp2Yz8OFGoDdrwTCCMe_VRz5b1yaIzLOEzNFOMQidXw7bxrckWwN2KU5gT9FWHvslZNvsA9_nlUwprAwQ4L7GNKgPsLPekiTlNZNJcdlZlaD0PpewFbdHmkcKbqJLTAZB8vSY0RIhPYkNPFDej61qii92avVV7YEXaVklJheSVPydra1l4CINQZpeMQJnkSuVDeHOL12gVNJWaWX7-iS6nOgebGShqjRk2_lLJQtjmUAxPWDFrozSF0PLYnk7vQyppY13B5dOXVGy073NWzacH-Xjua2vqeg0WiFmAM4lL1k1-LFz56qFFIb_AQ6mJNMp5h1IEmfG_XEXjgRQb2UC2h3BLWwCLAbEqgMD0HuJ-qZAKz794VMH0TbHcQD2rro_X8ap1mwhjgDfKiBdG_33sKClQEOruZDK3A5KCQ7PyGyOl8uikmeR9EfjaQK-DPC5h2Ls_UfqBD71keGkLku=w1085-h600-no" /> <img src="https://lh3.googleusercontent.com/NSLB2vmJRTD2bQfflDLTIItmfwPgCB9CZDb8IajI_hHElQvsHuOjzCSm2W5u8DEuvuVB6k2tdkUR_lCvLDMiUj_HXGIAiY5k--S0QvFhCpJLlN_o1CU7s3PSWsASfwK9mhJ6RaKpSE1ia91FXmI_gSIGfXXiI9AbQJSpPB1FtTAs_TWk9z_xoSx24Qq0RaNVo6acO7336AdgpJcwP09uMEl35g2plryZg0yWTcjqVvji5Wv6cSfpsfdOW8ltpssynuDKsHBd20Ir6E_FjI2Uj3a9HCVIrixBbfOS9MbE545U_Mx2P7OWnqPKZKATDH6nl7hzD17_kfFT-b_O3vAE9jMJM6rj3LIkkC33RtL3KkBPyrMLTeVDWZI9SIUttJOmrzuv0-4E1lIJTBlrTIBJaKYDZkxukPLRd7Uyk4xF41ma4Ict5DesKjHLLZmLaaCN3bNqf-Lg6X68OoG0krunkCkv97Qc8L_jmtZSblD25sIQrdoCL2lBcPLGqss5N4fbgLbfmysQ4x50fle2Wa4Qn_oJYG-ctGcCiNARvO3y0Gjzy3ZfNMeNYh3Hyx9AGMMwdqUIs9osbLefjMZUUDMgppVJxxp81AS-kkh3DLdtLMYG6Ljehb75=w497-h330-no" /></p>
+<p>Once you hit save, it will ask if you want to import the table into the map. Choose yes to import into the map. Now we are going to join this table based on attributes to our selected intersection layer. Join the new table to the intersection layer by right clicking on the intersection layer and selecting join. In the dialog make sure to change it to join attributes from a table, select SU_withScores in the dropdown, and merge based on SU_ID.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/xQ61juvMPII3tGFHF97HmMHQQOQJbdauQfCl2On1dGDNsyZSKIMFmCXOBFFyC52goGCe8EaBYxKOob_a4iCeiBtIQgBc8-NVGN5IJqMN6X8yWoaFP3La51fiKY7jkVnOo6mhL_H-SilxYrUDMaHASWMAUpR56z2Mzk6mxoDdeSUUwzF69qXcXAYyZXXGFKyo2O2nBJo3VItv6mDUGeT5ORzoEhB65D-pcT31yybfFxjJxFhsf56aDt5I1iy8bVFFSb-PZODm61BMU7D2FXMNcw-oLUwPB5Y43BhGSv6UjdCXdp2p-B04urqtA90ZlK7qALZ7ibADy0TK4KrT9xkWjVi4tBYESVM5BjHOMIJQ-vwJqCIfTPTO3Wm0lv7xJOF7ZIaIPJTTKHJy30TempcxuPuZv5n3-z8yZD1LCn7vNyuQkktdSpmx5qzi3lAGOvS0EpA1qGtGkfuR1BIWPXUmqGU1mTS-SfRA9wauEO1asoa1Sxc_nIjZA8ZYwFnSTr6K0cAXmvnC6Qrpv45opOpVE2QnYOZX20HYJ88_7p28wLkoFt28_NcSuBJB94Y7QLbymnTMHAu5v1o2l6pi7V2sSIVc0SHo85BLUuwCgI8fQe1SzV7Fxni6=w416-h603-no" />
+
+</div>
+<p>Now right click on the intersection layer, and then go to Properties. Navigate to the Definition Query tab, and select Query Builder. This is similar to select by Attributes, but this makes a filter of what to show in the map. In the query builder select only locations that have over 10 bars within 500 meters (text shown below) and hit ok.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/LWMYl_LG823bXvYT1DUQFNJ7YYkmXd3xuHFz3KBWo1us3jhetvfiU0jd2o5iTw2SCu0wCRF5k0IX7lnjZFDPHuH8--IgmIqOzbw8ao9WrNFIfwfueiXXETe38pdUWyX4ML_-fa6mZwDxowRIP72v1Y2OCZmOI6C4ONirgSBof5H7RRxsDgTqPI0R5yv9bLDPNRHAHu0jZjvHd0LxNdNPOqiwrQJO2J_xu8pX0QO7p81PNo2X4AqxvKnnX24u6mNwail5h19DIaozMDf-FCF8zCo_2LNMKVmLEQu-wUXKbzL9PmPNW0_sUbWJ_1ZS0Hsl_278hd3vpU4LF8x6NUUWAShVUhJ_VQEP4V7O89yB7XmjZ_cMLSKVGkJcYD0QJYo0BjBt5uwXlLlOnQUSU0CDWr--ltmUn8fJFBNBwN93I_9jaPl2XV5NenvnYn2YDJyxODk_JMDSTbP-Uih2mTmz_QYYzbpyvQP4g00L1m5K8EzwD9T8ZVH0l-5wY6nkYPoPYSaZPhYzG8OLvtT6Sm9msqjALT7m-Tso8QTlb7wjfEPELPDvlaPvmHf08bevpMBYozYISDv3P8bRyo0tcN6302hyxsvv-dEdKlBsiagFr37wlm_U_UgL=w853-h544-no" />
+
+</div>
+<p>Once you navigate back to the map you will see that only locations in downtown Albany are selected.</p>
+<div class="figure">
+<img src="https://lh3.googleusercontent.com/5dV-Z1YoVEP0naYFS-aUiJpDuFJizv1s9kuVsTlwJuK_YtzNt6fDLUrsYiFK9vKtlrEF5ZBxd0diEzcq_fG1hh33-Vf8vbjZTNoz4-lsAbP-Hs2jzNrRwLRiInRcaMvcYvSc6_cOSAJJQvi97QmnhG5S3jcaIXSQFhNuUKKzSC8IMzFyhICrFCfH5UAuaXMOUjcDZqtgX4ynhioXwaddvNDgmv8rvFAHwl8dObxSpcNK4l6Jh5qUXQxH-bV02wYq2tIibvdclu5Cd5ThuQ_kzRWxJNGJbh6KScDiIe_Xoo1ZgD5BtQQC7svezILgxivN4M9zc35RQqdyLXYIqdnu5v04P1fLHtJ_e5Nwo4bsSq2yzFIl0JG6S5yQXKo20AprFGUlPl8WBJK5ID9WBKxdbMxJKlnus88CzncYiFgWJZrNfkDmZYJHCwkM85NUWWsibSy16pvld0c-W7-_CBATLBblornGFlzzJbSc4-bFLTpk8_V2hSW-m5HIVU4AmKn4GIJxISWXeZnH24EDh0KXwg8YxtVvN4vyP4SLxPZYgYtorwOSZzjvVxomvdpQblv8uqzbAZYekT2Zfz9dustz37FKgPzUaD99Grx2yESJnU-bZ6xv53b5=w877-h776-no" />
+
+</div>
+<h1 id="homework">Homework</h1>
+<p>For your homework, I want you to combine all three metrics into one final risk score, and only map locations above a particular threshold. The formula I want you to use in plain language is:</p>
+<p><code>[Count of Bars divided by 10] + [Near Public Housing multiplied by 3] + [3 + (Distance to nearest ATM divided by 6300)*-3]</code></p>
+<p>In the field calculator in ArcGIS add a new field named <code>RiskScore</code>, and then use the field calculator to calculate the metric. The formula in the field calculator will look like:</p>
+<p><code>[Count_]/10 + [NearPH]*3 + 3 + ( [Distance] /6300)*-3</code></p>
+<p>This basically weights each of the different metrics equally, and for each risk factor it can have a minimum value of zero and a maximum value of 3. Bars divided by 10 and near public housing should be pretty straightforward, but for an explanation of the last term, if the distance is zero, the term gets 3, the further away from an ATM, the score reduces until it is zero for places that are 6300 meters away.</p>
+<p>Use either select by attributes or the definition query to only map locations that have a score above 5 for this metric. Make a nice map of the outline of Albany, the streets, and those intersections that are above the threshold. Export the map to a PDF file, and turn in this file for your homework.</p>
+</body>
+</html>
