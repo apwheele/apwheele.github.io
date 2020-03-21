@@ -1,0 +1,53 @@
+{
+  "type": "network",
+  "version": "1.0",
+  "data": "data.json",
+  "logo": {
+    "file": "",
+    "link": "",
+    "text": "Andrew Wheeler"
+  },
+  "text": {
+    "more": "Questions? Email Andrew Wheeler at apwheele@gmail.com, https://andrewpwheeler.wordpress.com/",
+    "intro": "Co-Author Network for Criminology \u0026 Criminal Justice based on Web of Science Data",
+    "title": "Criminology \u0026 Criminal Justice Co-Author Graph"
+  },
+  "legend": {
+    "edgeLabel": "Co-Authors",
+    "colorLabel": "Louvain Group",
+    "nodeLabel": "Authors"
+  },
+  "features": {
+    "search": true,
+    "groupSelectorAttribute": "leidgroup",
+    "hoverBehavior": "default"
+  },
+  "informationPanel": {
+    "groupByEdgeDirection": false,
+    "imageAttribute": false
+  },
+  "sigma": {
+    "drawingProperties": {
+      "defaultEdgeType": "curve",
+      "defaultHoverLabelBGColor": "#002147",
+      "defaultLabelBGColor": "#ddd",
+      "activeFontStyle": "bold",
+      "defaultLabelColor": "#000",
+      "labelThreshold": 10,
+      "defaultLabelHoverColor": "#fff",
+      "fontStyle": "bold",
+      "hoverFontStyle": "bold",
+      "defaultLabelSize": 14
+    },
+    "graphProperties": {
+      "maxEdgeSize": 0.5,
+      "minEdgeSize": 0.2,
+      "minNodeSize": 1,
+      "maxNodeSize": 7
+    },
+    "mouseProperties": {
+      "maxRatio": 20,
+      "minRatio": 0.75
+    }
+  }
+}
