@@ -1,0 +1,412 @@
+support,itemsets,freq
+0.01697381930382501,frozenset({'ass_Argument'}),88150
+0.006995370181380134,frozenset({'ass_OtherFelony'}),36329
+0.002098668821240939,frozenset({'ass_LoversQuarrelAssault'}),10899
+0.0007777340461503032,frozenset({'ass_LEO_Assault'}),4039
+0.0004051380126517053,frozenset({'ass_DrugGangAssault'}),2104
+0.06182128792295908,frozenset({'rel_Family'}),321056
+0.1239860959098776,frozenset({'rel_Known'}),643896
+0.3421744820048632,frozenset({'ucr_Larceny'}),1777012
+0.07431220890333146,frozenset({'ucr_Fraud_StolenProp'}),385925
+0.1128831192237987,frozenset({'ucr_Burglary'}),586235
+0.033256362245758564,frozenset({'ucr_MVTheft'}),172710
+0.20948138483258788,frozenset({'ucr_Assault'}),1087898
+0.15885781119182207,frozenset({'ucr_Vandalism'}),824995
+0.01872088070534066,frozenset({'ucr_Kidnap_SexOff'}),97223
+0.09763633548816435,frozenset({'ucr_Drug'}),507054
+0.014373541869011025,frozenset({'ucr_Robbery'}),74646
+0.01367379303917438,frozenset({'ucr_WeaponViol'}),71012
+0.003121911881712024,frozenset({'ucr_Arson'}),16213
+0.0007257439019411965,frozenset({'ucr_Homicide'}),3769
+0.0017643914495853498,frozenset({'ucr_Prostitution'}),9163
+0.0010777364338458149,frozenset({'drug_AlcoholUse'}),5597
+0.005394843964098302,frozenset({'drug_ComputerUse'}),28017
+0.13377872840579733,frozenset({'weap_Fists'}),694752
+0.013149847919200383,frozenset({'weap_OtherWeap'}),68291
+0.021771354277787577,frozenset({'weap_Firearm'}),113065
+0.0020934698068200285,frozenset({'weap_MVWeap'}),10872
+0.009972672439754976,frozenset({'weap_Knife'}),51791
+0.019563506153707513,frozenset({'weap_NoWeap'}),101599
+0.005539838699614811,frozenset({'weap_BluntObject'}),28770
+0.00480581488581809,"frozenset({'rel_Family', 'ass_Argument'})",24958
+0.009690577768398156,"frozenset({'rel_Known', 'ass_Argument'})",50326
+0.016841725826315948,"frozenset({'ucr_Assault', 'ass_Argument'})",87464
+0.0009751040380552451,"frozenset({'ass_Argument', 'ucr_Vandalism'})",5064
+0.00023453331720997008,"frozenset({'ucr_Drug', 'ass_Argument'})",1218
+0.00047234008794421725,"frozenset({'ass_Argument', 'ucr_WeaponViol'})",2453
+0.004628085615058811,"frozenset({'ass_Argument', 'weap_Fists'})",24035
+0.0017672797909303,"frozenset({'ass_Argument', 'weap_OtherWeap'})",9178
+0.0028007283241535427,"frozenset({'ass_Argument', 'weap_Firearm'})",14545
+0.0008095058009447572,"frozenset({'weap_MVWeap', 'ass_Argument'})",4204
+0.004077375198621606,"frozenset({'ass_Argument', 'weap_Knife'})",21175
+0.0004948691504348302,"frozenset({'ass_Argument', 'weap_NoWeap'})",2570
+0.0028742847504049456,"frozenset({'ass_Argument', 'weap_BluntObject'})",14927
+0.0012604721629363418,"frozenset({'rel_Family', 'ass_OtherFelony'})",6546
+0.003028907290404622,"frozenset({'rel_Known', 'ass_OtherFelony'})",15730
+0.0002050722354914763,"frozenset({'ucr_Larceny', 'ass_OtherFelony'})",1065
+0.00025109314092101886,"frozenset({'ucr_Burglary', 'ass_OtherFelony'})",1304
+0.006867705493933328,"frozenset({'ucr_Assault', 'ass_OtherFelony'})",35666
+0.00046174950301273255,"frozenset({'ass_OtherFelony', 'ucr_Vandalism'})",2398
+0.00024377600951381128,"frozenset({'ass_OtherFelony', 'ucr_WeaponViol'})",1266
+0.0015754939256255956,"frozenset({'weap_Fists', 'ass_OtherFelony'})",8182
+0.0009700975797239978,"frozenset({'weap_OtherWeap', 'ass_OtherFelony'})",5038
+0.0017771001515031314,"frozenset({'weap_Firearm', 'ass_OtherFelony'})",9229
+0.0006622003923522883,"frozenset({'weap_MVWeap', 'ass_OtherFelony'})",3439
+0.0011004580524260912,"frozenset({'weap_Knife', 'ass_OtherFelony'})",5715
+0.0008374264339459441,"frozenset({'weap_BluntObject', 'ass_OtherFelony'})",4349
+0.0005601456648307086,"frozenset({'rel_Family', 'ass_LoversQuarrelAssault'})",2909
+0.0015231186692371622,"frozenset({'rel_Known', 'ass_LoversQuarrelAssault'})",7910
+0.0020811462170815735,"frozenset({'ucr_Assault', 'ass_LoversQuarrelAssault'})",10808
+0.0006924316984294355,"frozenset({'ass_LoversQuarrelAssault', 'weap_Fists'})",3596
+0.0002587953845075532,"frozenset({'ass_LoversQuarrelAssault', 'weap_OtherWeap'})",1344
+0.00022606084926478235,"frozenset({'weap_Firearm', 'ass_LoversQuarrelAssault'})",1174
+0.00047253264403388065,"frozenset({'ass_LoversQuarrelAssault', 'weap_Knife'})",2454
+0.0002653422915561074,"frozenset({'ass_LoversQuarrelAssault', 'weap_BluntObject'})",1378
+0.0002372291024652571,"frozenset({'rel_Known', 'ass_LEO_Assault'})",1232
+0.0007758084852536695,"frozenset({'ucr_Assault', 'ass_LEO_Assault'})",4029
+0.0003573841024151925,"frozenset({'ass_LEO_Assault', 'weap_Fists'})",1856
+0.00038491962323705274,"frozenset({'ass_DrugGangAssault', 'ucr_Assault'})",1999
+0.00021835860567824802,"frozenset({'ass_DrugGangAssault', 'weap_Firearm'})",1134
+0.006508395830621501,"frozenset({'rel_Known', 'rel_Family'})",33800
+0.0003777950479195085,"frozenset({'rel_Family', 'ucr_Larceny'})",1962
+0.00024108022425852426,"frozenset({'rel_Family', 'ucr_Burglary'})",1252
+0.057598532876641635,"frozenset({'rel_Family', 'ucr_Assault'})",299126
+0.0025182485406173966,"frozenset({'rel_Family', 'ucr_Vandalism'})",13078
+0.0043714083475375545,"frozenset({'rel_Family', 'ucr_Kidnap_SexOff'})",22702
+0.0006003898875703503,"frozenset({'ucr_Drug', 'rel_Family'})",3118
+0.00031367387006161026,"frozenset({'rel_Family', 'ucr_WeaponViol'})",1629
+0.00043613954308750595,"frozenset({'rel_Family', 'drug_ComputerUse'})",2265
+0.041357582050075364,"frozenset({'rel_Family', 'weap_Fists'})",214782
+0.0033377672582246484,"frozenset({'rel_Family', 'weap_OtherWeap'})",17334
+0.0010253611774573815,"frozenset({'rel_Family', 'weap_Firearm'})",5325
+0.0003078971873717095,"frozenset({'rel_Family', 'weap_MVWeap'})",1599
+0.00179308230694519,"frozenset({'rel_Family', 'weap_Knife'})",9312
+0.005024751159765328,"frozenset({'rel_Family', 'weap_NoWeap'})",26095
+0.0012107926918031953,"frozenset({'rel_Family', 'weap_BluntObject'})",6288
+0.0016829402236577492,"frozenset({'rel_Known', 'ucr_Larceny'})",8740
+0.00021142658645036713,"frozenset({'rel_Known', 'ucr_Fraud_StolenProp'})",1098
+0.0013265189016908735,"frozenset({'rel_Known', 'ucr_Burglary'})",6889
+0.11342323905530442,"frozenset({'rel_Known', 'ucr_Assault'})",589040
+0.006013141568007345,"frozenset({'rel_Known', 'ucr_Vandalism'})",31228
+0.00921361633430202,"frozenset({'rel_Known', 'ucr_Kidnap_SexOff'})",47849
+0.001186915736684939,"frozenset({'rel_Known', 'ucr_Drug'})",6164
+0.0022192089333702013,"frozenset({'rel_Known', 'ucr_Robbery'})",11525
+0.0008676577400230913,"frozenset({'rel_Known', 'ucr_WeaponViol'})",4506
+0.0002482047995760685,"frozenset({'rel_Known', 'ucr_Homicide'})",1289
+0.00085783737945026,"frozenset({'rel_Known', 'drug_ComputerUse'})",4455
+0.07276405794243805,"frozenset({'rel_Known', 'weap_Fists'})",377885
+0.005729313891843555,"frozenset({'rel_Known', 'weap_OtherWeap'})",29754
+0.0037794909279123914,"frozenset({'rel_Known', 'weap_Firearm'})",19628
+0.0010367219867475196,"frozenset({'rel_Known', 'weap_MVWeap'})",5384
+0.003873265743578447,"frozenset({'rel_Known', 'weap_Knife'})",20115
+0.008728374988350357,"frozenset({'rel_Known', 'weap_NoWeap'})",45329
+0.002631086409160124,"frozenset({'rel_Known', 'weap_BluntObject'})",13664
+0.007292676783820359,"frozenset({'ucr_Larceny', 'ucr_Fraud_StolenProp'})",37873
+0.008186522152037667,"frozenset({'ucr_Larceny', 'ucr_Burglary'})",42515
+0.0015943644224126045,"frozenset({'ucr_Larceny', 'ucr_MVTheft'})",8280
+0.003213761136481446,"frozenset({'ucr_Larceny', 'ucr_Assault'})",16690
+0.01641636942424959,"frozenset({'ucr_Larceny', 'ucr_Vandalism'})",85255
+0.0027042577232322,"frozenset({'ucr_Drug', 'ucr_Larceny'})",14044
+0.00028402023225345313,"frozenset({'ucr_Larceny', 'ucr_WeaponViol'})",1475
+0.00029441826109527443,"frozenset({'ucr_Larceny', 'drug_ComputerUse'})",1529
+0.002183971168961807,"frozenset({'ucr_Larceny', 'weap_Fists'})",11342
+0.00023029708323737621,"frozenset({'ucr_Larceny', 'weap_Firearm'})",1196
+0.0002106563620917137,"frozenset({'ucr_Larceny', 'weap_Knife'})",1094
+0.00025282614572798913,"frozenset({'ucr_Larceny', 'weap_NoWeap'})",1313
+0.0009558484290889093,"frozenset({'ucr_Burglary', 'ucr_Fraud_StolenProp'})",4964
+0.0003724034774089344,"frozenset({'ucr_MVTheft', 'ucr_Fraud_StolenProp'})",1934
+0.000457128156860812,"frozenset({'ucr_Assault', 'ucr_Fraud_StolenProp'})",2374
+0.00042169783636275413,"frozenset({'ucr_Vandalism', 'ucr_Fraud_StolenProp'})",2190
+0.0016116944704823069,"frozenset({'ucr_Drug', 'ucr_Fraud_StolenProp'})",8370
+0.0003596947754911528,"frozenset({'ucr_WeaponViol', 'ucr_Fraud_StolenProp'})",1868
+0.0002607209454041868,"frozenset({'weap_Fists', 'ucr_Fraud_StolenProp'})",1354
+0.0003388987178075102,"frozenset({'weap_Firearm', 'ucr_Fraud_StolenProp'})",1760
+0.0008433956727255083,"frozenset({'ucr_Burglary', 'ucr_MVTheft'})",4380
+0.0018970625953634035,"frozenset({'ucr_Burglary', 'ucr_Assault'})",9852
+0.0147105150259219,"frozenset({'ucr_Burglary', 'ucr_Vandalism'})",76396
+0.0002453164582311181,"frozenset({'ucr_Burglary', 'ucr_Kidnap_SexOff'})",1274
+0.0004615569469230692,"frozenset({'ucr_Drug', 'ucr_Burglary'})",2397
+0.00023029708323737621,"frozenset({'ucr_Burglary', 'ucr_Robbery'})",1196
+0.0012150289257757893,"frozenset({'ucr_Burglary', 'weap_Fists'})",6310
+0.00037432903830556804,"frozenset({'ucr_Burglary', 'weap_Firearm'})",1944
+0.00028228722744648286,"frozenset({'ucr_Assault', 'ucr_MVTheft'})",1466
+0.0008634215060504975,"frozenset({'ucr_MVTheft', 'ucr_Vandalism'})",4484
+0.009988269483017708,"frozenset({'ucr_Assault', 'ucr_Vandalism'})",51872
+0.001367148236609842,"frozenset({'ucr_Assault', 'ucr_Kidnap_SexOff'})",7100
+0.002299697378849485,"frozenset({'ucr_Drug', 'ucr_Assault'})",11943
+0.0002892192466743638,"frozenset({'ucr_Assault', 'ucr_Robbery'})",1502
+0.001608035904778703,"frozenset({'ucr_Assault', 'ucr_WeaponViol'})",8351
+0.00026226139412149365,"frozenset({'ucr_Assault', 'drug_AlcoholUse'})",1362
+0.001360601329561288,"frozenset({'ucr_Assault', 'drug_ComputerUse'})",7066
+0.1205691880988013,"frozenset({'ucr_Assault', 'weap_Fists'})",626151
+0.011173837327075003,"frozenset({'ucr_Assault', 'weap_OtherWeap'})",58029
+0.007392035726086652,"frozenset({'ucr_Assault', 'weap_Firearm'})",38389
+0.002018950600120309,"frozenset({'ucr_Assault', 'weap_MVWeap'})",10485
+0.006732723675079314,"frozenset({'ucr_Assault', 'weap_Knife'})",34965
+0.013518592830905715,"frozenset({'ucr_Assault', 'weap_NoWeap'})",70206
+0.004747470390650092,"frozenset({'ucr_Assault', 'weap_BluntObject'})",24655
+0.0006080921311568847,"frozenset({'ucr_Drug', 'ucr_Vandalism'})",3158
+0.00019987322107056565,"frozenset({'ucr_Robbery', 'ucr_Vandalism'})",1038
+0.000600197331480687,"frozenset({'ucr_Vandalism', 'ucr_WeaponViol'})",3117
+0.0003015428364128187,"frozenset({'drug_ComputerUse', 'ucr_Vandalism'})",1566
+0.006151396840385636,"frozenset({'weap_Fists', 'ucr_Vandalism'})",31946
+0.0007449995109075323,"frozenset({'weap_OtherWeap', 'ucr_Vandalism'})",3869
+0.0008863356807204371,"frozenset({'weap_Firearm', 'ucr_Vandalism'})",4603
+0.00019833277235325878,"frozenset({'weap_MVWeap', 'ucr_Vandalism'})",1030
+0.0004087965783553091,"frozenset({'weap_Knife', 'ucr_Vandalism'})",2123
+0.0005570647673960948,"frozenset({'weap_NoWeap', 'ucr_Vandalism'})",2893
+0.0004247787337973678,"frozenset({'weap_BluntObject', 'ucr_Vandalism'})",2206
+0.0003032758412197889,"frozenset({'ucr_Kidnap_SexOff', 'ucr_Robbery'})",1575
+0.009703093914226276,"frozenset({'ucr_Kidnap_SexOff', 'weap_Fists'})",50391
+0.0006204157208953397,"frozenset({'ucr_Kidnap_SexOff', 'weap_OtherWeap'})",3222
+0.0004946765943451668,"frozenset({'weap_Firearm', 'ucr_Kidnap_SexOff'})",2569
+0.0002892192466743638,"frozenset({'ucr_Kidnap_SexOff', 'weap_Knife'})",1502
+0.004558380310600675,"frozenset({'ucr_Kidnap_SexOff', 'weap_NoWeap'})",23673
+0.002866389950728748,"frozenset({'ucr_Drug', 'ucr_WeaponViol'})",14886
+0.0007118798634854346,"frozenset({'ucr_Drug', 'drug_AlcoholUse'})",3697
+0.0035553556395442427,"frozenset({'ucr_Drug', 'drug_ComputerUse'})",18464
+0.00142838107312279,"frozenset({'ucr_Drug', 'weap_Fists'})",7418
+0.00032638257197939186,"frozenset({'ucr_Drug', 'weap_OtherWeap'})",1695
+0.0021002092699582463,"frozenset({'ucr_Drug', 'weap_Firearm'})",10907
+0.0006146390382054389,"frozenset({'ucr_Drug', 'weap_Knife'})",3192
+0.0003094376360890164,"frozenset({'ucr_Drug', 'weap_NoWeap'})",1607
+0.0003491041905596681,"frozenset({'ucr_Robbery', 'ucr_WeaponViol'})",1813
+0.004631744180762414,"frozenset({'weap_Fists', 'ucr_Robbery'})",24054
+0.00047137730749590047,"frozenset({'weap_OtherWeap', 'ucr_Robbery'})",2448
+0.006228804388430306,"frozenset({'weap_Firearm', 'ucr_Robbery'})",32348
+0.0010889046870462898,"frozenset({'ucr_Robbery', 'weap_Knife'})",5655
+0.0011106635251782492,"frozenset({'weap_NoWeap', 'ucr_Robbery'})",5768
+0.0003741364822159047,"frozenset({'weap_BluntObject', 'ucr_Robbery'})",1943
+0.0004191946071971305,"frozenset({'weap_Fists', 'ucr_WeaponViol'})",2177
+0.0011031538376813782,"frozenset({'weap_OtherWeap', 'ucr_WeaponViol'})",5729
+0.00907555361801339,"frozenset({'weap_Firearm', 'ucr_WeaponViol'})",47132
+0.0023387862650511466,"frozenset({'weap_Knife', 'ucr_WeaponViol'})",12146
+0.0005301069148432246,"frozenset({'weap_NoWeap', 'ucr_WeaponViol'})",2753
+0.00045289192288821813,"frozenset({'weap_BluntObject', 'ucr_WeaponViol'})",2352
+0.00047426564884085087,"frozenset({'weap_Firearm', 'ucr_Homicide'})",2463
+0.00019948810889123893,"frozenset({'drug_AlcoholUse', 'weap_Fists'})",1036
+0.0008867207928997638,"frozenset({'weap_Fists', 'drug_ComputerUse'})",4605
+0.00022182461529218845,"frozenset({'weap_Fists', 'weap_OtherWeap'})",1152
+0.0003706704726019642,"frozenset({'weap_Firearm', 'weap_Fists'})",1925
+0.0003824163940714291,"frozenset({'weap_Fists', 'weap_Knife'})",1986
+0.00025128569701068226,"frozenset({'weap_Fists', 'weap_BluntObject'})",1305
+0.0006290807449301907,"frozenset({'rel_Known', 'rel_Family', 'ass_Argument'})",3267
+0.004780204925892863,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument'})",24825
+0.0002657274037354341,"frozenset({'rel_Family', 'ass_Argument', 'ucr_Vandalism'})",1380
+0.0014915394705323714,"frozenset({'rel_Family', 'ass_Argument', 'weap_Fists'})",7746
+0.0005341505927261552,"frozenset({'rel_Family', 'ass_Argument', 'weap_OtherWeap'})",2774
+0.0005836375077696382,"frozenset({'rel_Family', 'ass_Argument', 'weap_Firearm'})",3031
+0.0012951322590757462,"frozenset({'rel_Family', 'ass_Argument', 'weap_Knife'})",6726
+0.0008767078762372692,"frozenset({'rel_Family', 'ass_Argument', 'weap_BluntObject'})",4553
+0.009615480893429448,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument'})",49936
+0.0006186827160883693,"frozenset({'rel_Known', 'ass_Argument', 'ucr_Vandalism'})",3213
+0.00027285197905297834,"frozenset({'rel_Known', 'ass_Argument', 'ucr_WeaponViol'})",1417
+0.002742961497254535,"frozenset({'rel_Known', 'ass_Argument', 'weap_Fists'})",14245
+0.001019199382588154,"frozenset({'rel_Known', 'ass_Argument', 'weap_OtherWeap'})",5293
+0.0015568159849282497,"frozenset({'rel_Known', 'ass_Argument', 'weap_Firearm'})",8085
+0.0005087331888905919,"frozenset({'rel_Known', 'weap_MVWeap', 'ass_Argument'})",2642
+0.0023108656320499597,"frozenset({'rel_Known', 'ass_Argument', 'weap_Knife'})",12001
+0.00021470003997464421,"frozenset({'rel_Known', 'ass_Argument', 'weap_NoWeap'})",1115
+0.001647317347070028,"frozenset({'rel_Known', 'ass_Argument', 'weap_BluntObject'})",8555
+0.0009741412576069283,"frozenset({'ucr_Assault', 'ass_Argument', 'ucr_Vandalism'})",5059
+0.00023280031240299987,"frozenset({'ucr_Drug', 'ucr_Assault', 'ass_Argument'})",1209
+0.0004665634052543165,"frozenset({'ucr_Assault', 'ass_Argument', 'ucr_WeaponViol'})",2423
+0.004613451352244395,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Fists'})",23959
+0.001762465888688716,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_OtherWeap'})",9153
+0.002727942122260793,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Firearm'})",14167
+0.000807772796137787,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_MVWeap'})",4195
+0.004049069453441093,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Knife'})",21028
+0.0004946765943451668,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_NoWeap'})",2569
+0.0028671601750874013,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_BluntObject'})",14890
+0.00024030999989987082,"frozenset({'ass_Argument', 'weap_Fists', 'ucr_Vandalism'})",1248
+0.00021277447907801063,"frozenset({'ass_Argument', 'weap_Knife', 'ucr_Vandalism'})",1105
+0.00023376309285131665,"frozenset({'ass_Argument', 'weap_BluntObject', 'ucr_Vandalism'})",1214
+0.0003154068748685805,"frozenset({'ass_Argument', 'weap_Firearm', 'ucr_WeaponViol'})",1638
+0.0012313961933971746,"frozenset({'rel_Family', 'ucr_Assault', 'ass_OtherFelony'})",6395
+0.0004084114661759824,"frozenset({'rel_Family', 'weap_Fists', 'ass_OtherFelony'})",2121
+0.0002514782531003456,"frozenset({'rel_Family', 'weap_OtherWeap', 'ass_OtherFelony'})",1306
+0.0002120042547193572,"frozenset({'rel_Family', 'weap_Knife', 'ass_OtherFelony'})",1101
+0.0029850045019613764,"frozenset({'rel_Known', 'ucr_Assault', 'ass_OtherFelony'})",15502
+0.00020911591337440682,"frozenset({'rel_Known', 'ass_OtherFelony', 'ucr_Vandalism'})",1086
+0.0007842809531988573,"frozenset({'rel_Known', 'weap_Fists', 'ass_OtherFelony'})",4073
+0.00040109433476877477,"frozenset({'rel_Known', 'weap_OtherWeap', 'ass_OtherFelony'})",2083
+0.0006668217385042089,"frozenset({'rel_Known', 'weap_Firearm', 'ass_OtherFelony'})",3463
+0.0002809393348188394,"frozenset({'rel_Known', 'weap_MVWeap', 'ass_OtherFelony'})",1459
+0.0005247153443326506,"frozenset({'rel_Known', 'weap_Knife', 'ass_OtherFelony'})",2725
+0.0003937772033615672,"frozenset({'rel_Known', 'weap_BluntObject', 'ass_OtherFelony'})",2045
+0.00020449456722248624,"frozenset({'ucr_Larceny', 'ucr_Assault', 'ass_OtherFelony'})",1062
+0.00024704946303808834,"frozenset({'ucr_Burglary', 'ucr_Assault', 'ass_OtherFelony'})",1283
+0.00046001649820576234,"frozenset({'ucr_Assault', 'ass_OtherFelony', 'ucr_Vandalism'})",2389
+0.0002385769950929006,"frozenset({'ucr_Assault', 'ass_OtherFelony', 'ucr_WeaponViol'})",1239
+0.0015589341019145468,"frozenset({'ucr_Assault', 'weap_Fists', 'ass_OtherFelony'})",8096
+0.0009596995508821765,"frozenset({'ucr_Assault', 'weap_OtherWeap', 'ass_OtherFelony'})",4984
+0.0017039288374310552,"frozenset({'ucr_Assault', 'weap_Firearm', 'ass_OtherFelony'})",8849
+0.000659889719276328,"frozenset({'ucr_Assault', 'weap_MVWeap', 'ass_OtherFelony'})",3427
+0.0010877493505083095,"frozenset({'ucr_Assault', 'weap_Knife', 'ass_OtherFelony'})",5649
+0.0008312646390767166,"frozenset({'ucr_Assault', 'weap_BluntObject', 'ass_OtherFelony'})",4317
+0.0005532136456028277,"frozenset({'rel_Family', 'ucr_Assault', 'ass_LoversQuarrelAssault'})",2873
+0.0015121429721263507,"frozenset({'rel_Known', 'ucr_Assault', 'ass_LoversQuarrelAssault'})",7853
+0.0005231748956153438,"frozenset({'rel_Known', 'ass_LoversQuarrelAssault', 'weap_Fists'})",2717
+0.0003440977322284208,"frozenset({'rel_Known', 'ass_LoversQuarrelAssault', 'weap_Knife'})",1787
+0.00019294120184268476,"frozenset({'rel_Known', 'ass_LoversQuarrelAssault', 'weap_BluntObject'})",1002
+0.0006899284692638119,"frozenset({'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_Fists'})",3583
+0.00025783260405923644,"frozenset({'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_OtherWeap'})",1339
+0.00021701071305060452,"frozenset({'ucr_Assault', 'weap_Firearm', 'ass_LoversQuarrelAssault'})",1127
+0.00046906663441994016,"frozenset({'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_Knife'})",2436
+0.00026457206719745395,"frozenset({'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_BluntObject'})",1374
+0.00023703654637559373,"frozenset({'rel_Known', 'ucr_Assault', 'ass_LEO_Assault'})",1231
+0.0003573841024151925,"frozenset({'ucr_Assault', 'ass_LEO_Assault', 'weap_Fists'})",1856
+0.00020160622587753587,"frozenset({'ass_DrugGangAssault', 'ucr_Assault', 'weap_Firearm'})",1047
+0.0064254041559765945,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault'})",33369
+0.00036874491170533065,"frozenset({'rel_Known', 'rel_Family', 'ucr_Vandalism'})",1915
+0.004998563531571111,"frozenset({'rel_Known', 'rel_Family', 'weap_Fists'})",25959
+0.00025898794059721656,"frozenset({'rel_Known', 'rel_Family', 'weap_OtherWeap'})",1345
+0.00024955269220371205,"frozenset({'rel_Known', 'rel_Family', 'weap_Knife'})",1296
+0.00030808974346137287,"frozenset({'rel_Known', 'rel_Family', 'weap_NoWeap'})",1600
+0.000371633253050281,"frozenset({'rel_Family', 'ucr_Assault', 'ucr_Larceny'})",1930
+0.00025937305277654325,"frozenset({'rel_Family', 'weap_Fists', 'ucr_Larceny'})",1347
+0.00022548318099579226,"frozenset({'rel_Family', 'ucr_Burglary', 'ucr_Assault'})",1171
+0.002501688716906348,"frozenset({'rel_Family', 'ucr_Assault', 'ucr_Vandalism'})",12992
+0.0003685523556156673,"frozenset({'rel_Family', 'ucr_Assault', 'ucr_Kidnap_SexOff'})",1914
+0.000587296073473242,"frozenset({'ucr_Drug', 'rel_Family', 'ucr_Assault'})",3050
+0.0003061641825647393,"frozenset({'rel_Family', 'ucr_Assault', 'ucr_WeaponViol'})",1590
+0.0004170764902108335,"frozenset({'rel_Family', 'ucr_Assault', 'drug_ComputerUse'})",2166
+0.03910506091319341,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Fists'})",203084
+0.0032116430194951487,"frozenset({'rel_Family', 'ucr_Assault', 'weap_OtherWeap'})",16679
+0.0009390960492881972,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Firearm'})",4877
+0.00030404606557844234,"frozenset({'rel_Family', 'ucr_Assault', 'weap_MVWeap'})",1579
+0.001754956201191845,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Knife'})",9114
+0.003836102418273419,"frozenset({'rel_Family', 'ucr_Assault', 'weap_NoWeap'})",19922
+0.0011932700876438299,"frozenset({'rel_Family', 'ucr_Assault', 'weap_BluntObject'})",6197
+0.0017426326114533903,"frozenset({'rel_Family', 'weap_Fists', 'ucr_Vandalism'})",9050
+0.0024599040454493988,"frozenset({'rel_Family', 'ucr_Kidnap_SexOff', 'weap_Fists'})",12775
+0.0012260046228866007,"frozenset({'rel_Family', 'ucr_Kidnap_SexOff', 'weap_NoWeap'})",6367
+0.00034987441491832156,"frozenset({'ucr_Drug', 'rel_Family', 'weap_Fists'})",1817
+0.0002160479326022877,"frozenset({'rel_Family', 'weap_Firearm', 'ucr_WeaponViol'})",1122
+0.0002657274037354341,"frozenset({'rel_Family', 'weap_Fists', 'drug_ComputerUse'})",1380
+0.001626328733296722,"frozenset({'rel_Known', 'ucr_Larceny', 'ucr_Assault'})",8446
+0.0011459012895866437,"frozenset({'rel_Known', 'ucr_Larceny', 'weap_Fists'})",5951
+0.0011951956485404633,"frozenset({'rel_Known', 'ucr_Burglary', 'ucr_Assault'})",6207
+0.00023799932682391054,"frozenset({'rel_Known', 'ucr_Burglary', 'ucr_Vandalism'})",1236
+0.0008110462496620641,"frozenset({'rel_Known', 'ucr_Burglary', 'weap_Fists'})",4212
+0.005913204957472062,"frozenset({'rel_Known', 'ucr_Assault', 'ucr_Vandalism'})",30709
+0.0009286980204463759,"frozenset({'rel_Known', 'ucr_Assault', 'ucr_Kidnap_SexOff'})",4823
+0.0010873642383289828,"frozenset({'rel_Known', 'ucr_Assault', 'ucr_Drug'})",5647
+0.0007898650797990947,"frozenset({'rel_Known', 'ucr_Assault', 'ucr_WeaponViol'})",4102
+0.0007369121551416713,"frozenset({'rel_Known', 'ucr_Assault', 'drug_ComputerUse'})",3827
+0.06722614480371987,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists'})",349125
+0.005394266295829312,"frozenset({'rel_Known', 'ucr_Assault', 'weap_OtherWeap'})",28014
+0.002964401000367397,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Firearm'})",15395
+0.0010197770508571442,"frozenset({'rel_Known', 'ucr_Assault', 'weap_MVWeap'})",5296
+0.0035852018334420633,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Knife'})",18619
+0.006378227914009072,"frozenset({'rel_Known', 'ucr_Assault', 'weap_NoWeap'})",33124
+0.002523254998948644,"frozenset({'rel_Known', 'ucr_Assault', 'weap_BluntObject'})",13104
+0.0038212755993693405,"frozenset({'rel_Known', 'weap_Fists', 'ucr_Vandalism'})",19845
+0.0003749067065745581,"frozenset({'rel_Known', 'weap_OtherWeap', 'ucr_Vandalism'})",1947
+0.00021681815696094115,"frozenset({'rel_Known', 'weap_Knife', 'ucr_Vandalism'})",1126
+0.00029576615372291795,"frozenset({'rel_Known', 'weap_NoWeap', 'ucr_Vandalism'})",1536
+0.0002395397755412174,"frozenset({'rel_Known', 'weap_BluntObject', 'ucr_Vandalism'})",1244
+0.005277384749403654,"frozenset({'rel_Known', 'ucr_Kidnap_SexOff', 'weap_Fists'})",27407
+0.0003184877723031942,"frozenset({'rel_Known', 'ucr_Kidnap_SexOff', 'weap_OtherWeap'})",1654
+0.0022971941496838615,"frozenset({'rel_Known', 'ucr_Kidnap_SexOff', 'weap_NoWeap'})",11930
+0.0007188118827133156,"frozenset({'rel_Known', 'weap_Fists', 'ucr_Drug'})",3733
+0.0010324857527749258,"frozenset({'rel_Known', 'weap_Fists', 'ucr_Robbery'})",5362
+0.0006433298955652793,"frozenset({'rel_Known', 'weap_Firearm', 'ucr_Robbery'})",3341
+0.00019833277235325878,"frozenset({'rel_Known', 'ucr_Robbery', 'weap_Knife'})",1030
+0.0005761278202727673,"frozenset({'rel_Known', 'weap_Firearm', 'ucr_WeaponViol'})",2992
+0.0001964072114566252,"frozenset({'rel_Known', 'weap_Knife', 'ucr_WeaponViol'})",1020
+0.0005048820670973248,"frozenset({'rel_Known', 'weap_Fists', 'drug_ComputerUse'})",2622
+0.00022317250791983198,"frozenset({'rel_Known', 'weap_Fists', 'weap_Knife'})",1159
+0.001426840624405483,"frozenset({'ucr_Larceny', 'ucr_Burglary', 'ucr_Vandalism'})",7410
+0.00029345548064695765,"frozenset({'ucr_Larceny', 'ucr_Assault', 'ucr_Vandalism'})",1524
+0.0020842271145161875,"frozenset({'ucr_Larceny', 'ucr_Assault', 'weap_Fists'})",10824
+0.000197369991904942,"frozenset({'ucr_Larceny', 'ucr_Assault', 'weap_NoWeap'})",1025
+0.00019351887011167482,"frozenset({'ucr_Larceny', 'weap_Fists', 'ucr_Vandalism'})",1005
+0.00027728076911523556,"frozenset({'ucr_WeaponViol', 'weap_Firearm', 'ucr_Fraud_StolenProp'})",1440
+0.00034082427870414374,"frozenset({'ucr_Burglary', 'ucr_Assault', 'ucr_Vandalism'})",1770
+0.0010750406485905278,"frozenset({'ucr_Burglary', 'ucr_Assault', 'weap_Fists'})",5583
+0.00020141366978787252,"frozenset({'ucr_Burglary', 'weap_Fists', 'ucr_Vandalism'})",1046
+0.0060270056064631065,"frozenset({'ucr_Assault', 'weap_Fists', 'ucr_Vandalism'})",31300
+0.0006826113378566042,"frozenset({'ucr_Assault', 'weap_OtherWeap', 'ucr_Vandalism'})",3545
+0.00048293067287570195,"frozenset({'ucr_Assault', 'weap_Firearm', 'ucr_Vandalism'})",2508
+0.00019621465536696185,"frozenset({'ucr_Assault', 'weap_MVWeap', 'ucr_Vandalism'})",1019
+0.0003516074197252918,"frozenset({'ucr_Assault', 'weap_Knife', 'ucr_Vandalism'})",1826
+0.0005256781247809675,"frozenset({'ucr_Assault', 'weap_NoWeap', 'ucr_Vandalism'})",2730
+0.0004037901200240618,"frozenset({'ucr_Assault', 'weap_BluntObject', 'ucr_Vandalism'})",2097
+0.0010251686213677183,"frozenset({'ucr_Assault', 'ucr_Kidnap_SexOff', 'weap_Fists'})",5324
+0.00022606084926478235,"frozenset({'ucr_Drug', 'ucr_Assault', 'drug_ComputerUse'})",1174
+0.0013186241020146758,"frozenset({'ucr_Drug', 'ucr_Assault', 'weap_Fists'})",6848
+0.00036200544856711313,"frozenset({'ucr_Assault', 'weap_Fists', 'ucr_WeaponViol'})",1880
+0.0010919855844809035,"frozenset({'ucr_Assault', 'weap_Firearm', 'ucr_WeaponViol'})",5671
+0.00033581782037289643,"frozenset({'ucr_Assault', 'weap_Knife', 'ucr_WeaponViol'})",1744
+0.0007964119868476489,"frozenset({'ucr_Assault', 'weap_Fists', 'drug_ComputerUse'})",4136
+0.0002079605768364267,"frozenset({'ucr_Assault', 'weap_Fists', 'weap_OtherWeap'})",1080
+0.0003460232931250544,"frozenset({'ucr_Assault', 'weap_Firearm', 'weap_Fists'})",1797
+0.00036970769215364743,"frozenset({'ucr_Assault', 'weap_Fists', 'weap_Knife'})",1920
+0.000246856906948425,"frozenset({'ucr_Assault', 'weap_Fists', 'weap_BluntObject'})",1282
+0.0004336363139218823,"frozenset({'weap_Firearm', 'ucr_Vandalism', 'ucr_WeaponViol'})",2252
+0.0019294120184268476,"frozenset({'ucr_Drug', 'weap_Firearm', 'ucr_WeaponViol'})",10020
+0.0004942914821658401,"frozenset({'ucr_Drug', 'weap_Knife', 'ucr_WeaponViol'})",2567
+0.0003032758412197889,"frozenset({'weap_Firearm', 'ucr_Robbery', 'ucr_WeaponViol'})",1575
+0.00022336506400949532,"frozenset({'weap_Firearm', 'weap_Fists', 'ucr_WeaponViol'})",1160
+0.0006283105205715372,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'ass_Argument'})",3263
+0.0002564847114315929,"frozenset({'rel_Known', 'rel_Family', 'ass_Argument', 'weap_Fists'})",1332
+0.0002657274037354341,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'ucr_Vandalism'})",1380
+0.0014884585730977576,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'weap_Fists'})",7730
+0.0005335729244571652,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'weap_OtherWeap'})",2771
+0.0005691958010448863,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'weap_Firearm'})",2956
+0.001290125800744499,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'weap_Knife'})",6700
+0.0008751674275199623,"frozenset({'rel_Family', 'ucr_Assault', 'ass_Argument', 'weap_BluntObject'})",4545
+0.0006182976039090426,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'ucr_Vandalism'})",3211
+0.0002691934133493745,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'ucr_WeaponViol'})",1398
+0.0027341039171300207,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_Fists'})",14199
+0.0010155408168845503,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_OtherWeap'})",5274
+0.0015184973230852414,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_Firearm'})",7886
+0.0005075778523526118,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_MVWeap'})",2636
+0.0022935355839802576,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_Knife'})",11911
+0.00021450748388498087,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_NoWeap'})",1114
+0.0016430811130974342,"frozenset({'rel_Known', 'ucr_Assault', 'ass_Argument', 'weap_BluntObject'})",8533
+0.00024011744381020748,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Fists', 'ucr_Vandalism'})",1247
+0.00021277447907801063,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Knife', 'ucr_Vandalism'})",1105
+0.0002335705367616533,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_BluntObject', 'ucr_Vandalism'})",1213
+0.00031020786044766983,"frozenset({'ucr_Assault', 'ass_Argument', 'weap_Firearm', 'ucr_WeaponViol'})",1611
+0.00040032411041012134,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Fists', 'ass_OtherFelony'})",2079
+0.00024724201912775174,"frozenset({'rel_Family', 'ucr_Assault', 'weap_OtherWeap', 'ass_OtherFelony'})",1284
+0.00020853824510541676,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Knife', 'ass_OtherFelony'})",1083
+0.00020853824510541676,"frozenset({'rel_Known', 'ucr_Assault', 'ass_OtherFelony', 'ucr_Vandalism'})",1083
+0.0007781191583296299,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists', 'ass_OtherFelony'})",4041
+0.0003964729886168542,"frozenset({'rel_Known', 'ucr_Assault', 'weap_OtherWeap', 'ass_OtherFelony'})",2059
+0.0006456405686412395,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Firearm', 'ass_OtherFelony'})",3353
+0.0002803616665498493,"frozenset({'rel_Known', 'ucr_Assault', 'weap_MVWeap', 'ass_OtherFelony'})",1456
+0.0005185535494634232,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Knife', 'ass_OtherFelony'})",2693
+0.0003912739741959435,"frozenset({'rel_Known', 'ucr_Assault', 'weap_BluntObject', 'ass_OtherFelony'})",2032
+0.0005218270029877002,"frozenset({'rel_Known', 'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_Fists'})",2710
+0.00034159450306279717,"frozenset({'rel_Known', 'ucr_Assault', 'ass_LoversQuarrelAssault', 'weap_Knife'})",1774
+0.00036778213125701387,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'ucr_Vandalism'})",1910
+0.004957549084472816,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'weap_Fists'})",25746
+0.0002559070431626028,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'weap_OtherWeap'})",1329
+0.00024704946303808834,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'weap_Knife'})",1283
+0.00028806391013638365,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'weap_NoWeap'})",1496
+0.0002730445351426417,"frozenset({'rel_Known', 'rel_Family', 'weap_Fists', 'ucr_Vandalism'})",1418
+0.00025629215534192956,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Fists', 'ucr_Larceny'})",1331
+0.0017312718021632522,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Fists', 'ucr_Vandalism'})",8991
+0.00028844902231571034,"frozenset({'rel_Family', 'ucr_Assault', 'ucr_Kidnap_SexOff', 'weap_Fists'})",1498
+0.0003433275078697674,"frozenset({'ucr_Drug', 'rel_Family', 'ucr_Assault', 'weap_Fists'})",1783
+0.00020950102555373354,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Firearm', 'ucr_WeaponViol'})",1088
+0.00025667726752125626,"frozenset({'rel_Family', 'ucr_Assault', 'weap_Fists', 'drug_ComputerUse'})",1333
+0.0011125890860748827,"frozenset({'rel_Known', 'ucr_Larceny', 'ucr_Assault', 'weap_Fists'})",5778
+0.00022740874189242584,"frozenset({'rel_Known', 'ucr_Burglary', 'ucr_Assault', 'ucr_Vandalism'})",1181
+0.0007419186134729186,"frozenset({'rel_Known', 'ucr_Burglary', 'ucr_Assault', 'weap_Fists'})",3853
+0.003757539533690769,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists', 'ucr_Vandalism'})",19514
+0.000371633253050281,"frozenset({'rel_Known', 'ucr_Assault', 'weap_OtherWeap', 'ucr_Vandalism'})",1930
+0.0002093084694640702,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Knife', 'ucr_Vandalism'})",1087
+0.0002849830127017699,"frozenset({'rel_Known', 'ucr_Assault', 'weap_NoWeap', 'ucr_Vandalism'})",1480
+0.00023626632201694033,"frozenset({'rel_Known', 'ucr_Assault', 'weap_BluntObject', 'ucr_Vandalism'})",1227
+0.0007178491022649988,"frozenset({'rel_Known', 'ucr_Assault', 'ucr_Kidnap_SexOff', 'weap_Fists'})",3728
+0.0006756793186287233,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists', 'ucr_Drug'})",3509
+0.0005121991985045324,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Firearm', 'ucr_WeaponViol'})",2660
+0.000446922684108654,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists', 'drug_ComputerUse'})",2321
+0.0002179734934989213,"frozenset({'rel_Known', 'ucr_Assault', 'weap_Fists', 'weap_Knife'})",1132
+0.00021701071305060452,"frozenset({'ucr_Assault', 'weap_Firearm', 'weap_Fists', 'ucr_WeaponViol'})",1127
+0.0002564847114315929,"frozenset({'rel_Known', 'ass_Argument', 'rel_Family', 'ucr_Assault', 'weap_Fists'})",1332
+0.000272659422963315,"frozenset({'rel_Known', 'rel_Family', 'ucr_Assault', 'weap_Fists', 'ucr_Vandalism'})",1416
