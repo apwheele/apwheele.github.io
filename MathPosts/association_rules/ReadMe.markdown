@@ -5,4 +5,4 @@ This code set conducts some association rules analysis using NIBRS data. The dat
  - `00_AssocRules.py` preps the original NIBRS data, and has some functions to do one-hot encoding of repeated columns
  - `01_AssocRules.py` has a function to find the frequent itemsets (the `apriori` function in mlextend always ran out of memory for me, although my function maybe is slower and I don't know how well it will work with a very large number of columns either.
  
-Link to ???blog post for further notes????
+Link to blog post for further description, [*Using Association Rules to Conduct Conjunctive Analysis*](https://andrewpwheeler.com/2020/06/12/using-association-rules-to-conduct-conjunctive-analysis/).
