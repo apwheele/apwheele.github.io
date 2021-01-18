@@ -1,0 +1,74 @@
+<h1 id="making-a-seasonal-chart-in-tableau">Making a Seasonal Chart in Tableau</h1>
+<p>By <a href="mailto:apwheele@gmail.com">Andrew Wheeler</a></p>
+<p>This is an example of making a seasonal chart in Tableau. I have prior examples in <a href="https://apwheele.github.io/Class_CrimeAnalysis/Lab03_TemporalAnalysis.html">Excel</a>. And that provides the source for the data I will be using as well (Calls for Service in Burlington, Vermont). I am using the free version, <a href="https://public.tableau.com/en-us/s/">Tableau Public</a>.</p>
+<h1 id="part-1-making-a-basic-seasonal-chart">Part 1: Making a basic seasonal chart</h1>
+<p>So first, open up your Tableau App. Then on the Connect screen select Microsoft Excel. The data we will be using can be downloaded from <a href="https://github.com/apwheele/apwheele.github.io/tree/master/Tableau_Examples/SeaonalChart">here</a> to your local computer, <code>OriginalData.xlsx</code>.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/01_TBSeas.PNG?raw=true" /></p>
+<p>Then it is just a normal dialogue to navigate to the file and select it. Note in a real application, this would be a good use case to connect to a database, so the chart gets auto-updated to the most recent data.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/02_TBSeas.PNG?raw=true" /></p>
+<p>This file only has one Sheet, <code>OriginalData</code>, and that is imported in Tableau. And you can see the table with the column names. If you zoom in you can see that Call Time was not formatted correctly for example, but we do not need to worry about that for now.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/03_TBSeas.PNG?raw=true" /></p>
+<p>In the bottom tabs select a New Sheet, and then you will see this page below. Drag the <code>CallDate</code> field from the left hand side to the Columns area of the chart to begin making our graph. By default Tableau aggregates to the yearly level.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/04_TBSeas.PNG?raw=true" /></p>
+<p>We can change the temporal aggregation though. Here <em>right click</em> on the <code>YEAR(Call Date)</code> field, and select Month in the menu.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/05_TBSeas.PNG?raw=true" /></p>
+<p>Next, drag the Call Type field into the rows. Then <em>right click</em> on the Blue Call Type button, and select Measure -&gt; Count.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/06_TBSeas.PNG?raw=true" /></p>
+<p>At first this will aggregate the monthly counts across each year, but we want to split the lines for each year. So to do that, we again drag the Call Date field from the left, but this time drag it to the Marks area on the left hand side of the graph. This will make the chart have unique lines for each year.</p>
+<p>Then select the little icon to the left of <code>YEAR(Call Date)</code> in the marks section, and then select Color. After that, each year will have a unique color.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/07_TBSeas.PNG?raw=true" /></p>
+<p>Now we are going to make a filter that allows us to generate a Seasonal chart for various aggregations of different call types. So drag the <code>Call Type</code> field into the Filter area. Once you do that, you get the below pop-up. Go ahead and select the All button, and click OK.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/08_TBSeas.PNG?raw=true" /></p>
+<p>Nothing will happen in the chart yet. You need to right click on the Call Type button in the filter area, and then select <em>Show Filter</em>.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/09_TBSeas.PNG?raw=true" /></p>
+<p>Now we have our basic Seasonal chart, with the default set to looking at all calls for service aggregated together. We can see the seasonal effect, with a peak in September, and no uber obvious increases/decreases over the years.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/10_TBSeas.PNG?raw=true" /></p>
+<h1 id="part-2-formatting-and-zero-values">Part 2: Formatting and Zero Values</h1>
+<p>So this is not a bad start, but there are a few aesthetics I like to make the chart look alittle nicer (although some are somewhat arbitrary). Another issue is that if you select certain rare Call Types, you can get a discontinous chart, because it results in some missing data in the Count aggregation (but should just be recoded as 0 values).</p>
+<p>So first we will edit the colors for each of the lines. So in the Legend portion in the bottom right of the chart, select the <em>left click</em> to select the dropdown, and then pick Edit Colors.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/11_TBSeas.PNG?raw=true" /></p>
+<p>On Windows, you can hold the <code>Ctrl</code> button and left click to select multiple years. Selects the years 12-16, and then select the greyish color.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/12_TBSeas.PNG?raw=true" /></p>
+<p>If you <em>double click</em> on the yellow 2017 swatch, it will bring up a more detailed color picker. Here I just select Red for 2017 (the last year in the data, in real life up-to-date calls for service you would use the current year for your data).</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/13_TBSeas.PNG?raw=true" /></p>
+<p>Now the lines will be colored so the older years are grey and the current year stands out. But, the 2017 line is drawn in the back. To make it so the Red 2017 line is in the front, we will sort our legend by left clicking on the Legend portion again:</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/14_TBSeas.PNG?raw=true" /></p>
+<p>Then choose Descending order (default as Ascending) and the most recent year will be at the top.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/15_TBSeas.PNG?raw=true" /></p>
+<p>Next I like to add a point to the final observation in the data. So in the Marks section on the left hand side of the chart, click Label, then check on Show Mark Labels, select Most Recent, and for the scope select Pane.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/16_TBSeas.PNG?raw=true" /></p>
+<p>Now if we go back to the big chart, click off the All call-type on the left, and only select Aggravated Assaults. When you do this, you can see we have missing data/discontinuous lines. The next part shows how to fix this.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/17_TBSeas.PNG?raw=true" /></p>
+<p>For the green <code>CNT(Call Type)</code> button, right click and select Edit in Shelf.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/18_TBSeas.PNG?raw=true" /></p>
+<p>Now for the formula type in <code>IFNULL(LOOKUP(COUNT([Call Type]),0),0)</code>. Then hit enter.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/19_TBSeas.PNG?raw=true" /></p>
+<p>And now you should see some zero observations in the line chart.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/20_TBSeas.PNG?raw=true" /></p>
+<p>Now we are going to save this calculated field, in case we want to use it in other charts. Now drag the green field from the Rows pane over to the Measures pane on the left hand side. This will then let you edit the Measure name. Here I name it <code>Crime Count (with 0s)</code>.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/21_TBSeas.PNG?raw=true" /></p>
+<p>Now the final parts we are just going to clean up some of the axis labels and header info. First, for the Y axis, right click and select Edit Axis.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/22_TBSeas.PNG?raw=true" /></p>
+<p>Then in the Title portion at the bottom, just leave this blank. We will give the chart a title that is informative enough to understand what the Y axis shows.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/23_TBSeas.PNG?raw=true" /></p>
+<p>Next, at the top of the chart, we have <code>Call Type</code> in smaller letters. Right click that, and select Hide Field.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/24_TBSeas.PNG?raw=true" /></p>
+<p>Then finally, we will edit the chart title (in bigger font, above and to the left where the Call Type text was). Right click and select Edit Title.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/25_TBSeas.PNG?raw=true" /></p>
+<p>Delete the text that default pulls from the sheet name. Go ahead and type in <code>Crime counts by month per year ()</code>, and place the cursor inside of the parenthesis. Then select Insert on the top tool bar, and select <code>Call Type</code>.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/26_TBSeas.PNG?raw=true" /></p>
+<p>When you update the call type filter, it will propogate to the chart title now, including multiple selections.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/27_TBSeas.PNG?raw=true" /></p>
+<p>Here is a screenshot showing what the title looks like when selecting both of the assault (aggravated and simple) categories.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/28_TBSeas.PNG?raw=true" /></p>
+<p>As a final touch, I double click on the sheet name in the lower left, and rename it to <code>Seasonal Chart</code>. Then I go to save the workbook, the floppy disc icon on the toolbar towards the top left of the app.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/29_TBSeas.PNG?raw=true" /></p>
+<p>Here I just name it <code>Example Crime Analysis Charts</code>.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/30_TBSeas.PNG?raw=true" /></p>
+<p>And you can see the interactive version online <a href="https://public.tableau.com/views/ExampleCrimeAnalysisCharts/SeasonalChart?:language=en&amp;:display_count=y&amp;publish=yes&amp;:origin=viz_share_link">here</a>, but here is a screenshot of the app. You can go ahead and click different crime combinations, as well as highlight particular years by selecting them in the legend on the right.</p>
+<p><img src="https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/ScreenShots/31_TBSeas.PNG?raw=true" /></p>
+<h1 id="some-notes-for-real-life-applications">Some Notes for Real Life Applications</h1>
+<p>So that was alot of work! A total of 30 screenshots. But, one of the nice things about Tableau is that you can point the workbook to a live data source, such as an Access database table or view, and then it will just auto-update.</p>
+<p>But, if you do that a few caveats. First, you will likely want to filter out the data so it does not show partial months. It will make it seem like crime is going down in the latest month.</p>
+<p>Since this is old data, it is a bit hard to show. But you can either use filters in Tableau, or do it in the database via a view, and point Tableau to a view.</p>
+<p>A nice part though of doing all the calculations in Tableau is you can add on more filters. So say you wanted both Call Types and Geographic regions, that is as simple as placing a second Filter for area in the Tableau chart.</p>
