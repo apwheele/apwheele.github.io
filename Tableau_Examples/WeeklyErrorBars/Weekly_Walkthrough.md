@@ -4,7 +4,7 @@ By [Andrew Wheeler](mailto:apwheele@gmail.com)
 
 So this is the second Tableau walkthrough I have created. It is an attempt to replicate the materials in the weekly chart section for my [crime analysis tutorials](https://apwheele.github.io/Class_CrimeAnalysis/Lab03_TemporalAnalysis.html) in Excel. 
 
-We will be using the prior example, to start with, see [*Making a Seasonal Chart in Tableau*](https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/Seasonal_Walkthrough.md) for part 1. 
+We will be using the prior example, to start with, see [*Making a Seasonal Chart in Tableau*](https://github.com/apwheele/apwheele.github.io/blob/master/Tableau_Examples/SeaonalChart/Seasonal_Walkthrough.md) for part 1. This folder also contains the final TBX file with the finished version of the chart for reference.
 
 At a high level, the idea is to make a chart that shows both current trends (by showing a moving average of the prior 8 weeks), as well as show error bars around that prior moving average. This then lets you see both long term trends, as well as local outliers (if above the error bars, it signifies that recent week is anomalous compared to the recent 8 week trend). 
 
