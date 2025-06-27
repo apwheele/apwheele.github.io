@@ -1,0 +1,17 @@
+/* Custom table styles */
+.table {
+    font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+}
+
+.table thead th {
+    background-color: #e9ecef; /* Slightly darker grey for header */
+}
+
+/* Bootstrap's table-striped class already provides alternating row colors. */
+/* If you want to customize the stripe color, you can override it here. */
+/* For example: */
+/*
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa; 
+}
+*/
